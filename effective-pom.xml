@@ -8321,7 +8321,7 @@
           </dependencies>
           <configuration>
             <changeLogFile>config/liquibase/master.xml</changeLogFile>
-            <diffChangeLogFile>d:\Hamza\Learn\my-projects\jhipster-projects\data-run\dataRun-API/src/main/resources/config/liquibase/changelog/20240518023229_changelog.xml</diffChangeLogFile>
+            <diffChangeLogFile>d:\Hamza\Learn\my-projects\jhipster-projects\data-run\dataRun-API/src/main/resources/config/liquibase/changelog/20240518024000_changelog.xml</diffChangeLogFile>
             <driver>org.postgresql.Driver</driver>
             <url>jdbc:postgresql://localhost:5431/dataRunApi</url>
             <defaultSchemaName />

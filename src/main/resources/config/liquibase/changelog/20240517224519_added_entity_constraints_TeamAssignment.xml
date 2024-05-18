@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd
+                        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+    <!--
+        Added the constraints for entity TeamAssignment.
+    -->
+    <changeSet id="20240517224519-2" author="jhipster">
+
+        <addForeignKeyConstraint baseColumnNames="campaign_id"
+                                 baseTableName="team_assignment"
+                                 constraintName="fk_team_assignment__campaign_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="campaign"
+                                 />
+
+        <addForeignKeyConstraint baseColumnNames="location_id"
+                                 baseTableName="team_assignment"
+                                 constraintName="fk_team_assignment__location_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="m_villages_locations"
+                                 />
+
+        <addForeignKeyConstraint baseColumnNames="team_id"
+                                 baseTableName="team_assignment"
+                                 constraintName="fk_team_assignment__team_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="team"
+                                 />
+
+        <addForeignKeyConstraint baseColumnNames="warehouse_id"
+                                 baseTableName="team_assignment"
+                                 constraintName="fk_team_assignment__warehouse_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="warehouse"
+                                 />
+    </changeSet>
+</databaseChangeLog>
