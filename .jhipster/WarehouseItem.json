@@ -1,0 +1,20 @@
+{
+  "annotations": {
+    "changelogDate": "20240517224526"
+  },
+  "applications": "*",
+  "fields": [
+    {
+      "fieldName": "itemName",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "itemDescription",
+      "fieldType": "String"
+    }
+  ],
+  "name": "WarehouseItem",
+  "relationships": [],
+  "searchEngine": "no",
+  "service": "serviceImpl"
+}

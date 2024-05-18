@@ -1,0 +1,20 @@
+{
+  "annotations": {
+    "changelogDate": "20240517224523"
+  },
+  "applications": "*",
+  "fields": [
+    {
+      "fieldName": "progressOrname",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "progressOrUser",
+      "fieldType": "String"
+    }
+  ],
+  "name": "ReviewTeam",
+  "relationships": [],
+  "searchEngine": "no",
+  "service": "serviceImpl"
+}

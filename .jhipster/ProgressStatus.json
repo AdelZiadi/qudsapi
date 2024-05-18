@@ -1,0 +1,16 @@
+{
+  "annotations": {
+    "changelogDate": "20240517224522"
+  },
+  "applications": "*",
+  "fields": [
+    {
+      "fieldName": "progressStatusLabel",
+      "fieldType": "String"
+    }
+  ],
+  "name": "ProgressStatus",
+  "relationships": [],
+  "searchEngine": "no",
+  "service": "serviceImpl"
+}

@@ -797,9 +797,9 @@
                 <!-- default Spring profiles -->
                 <spring.profiles.active>dev${profile.tls}${profile.no-liquibase}</spring.profiles.active>
                 <profile.test>testdev</profile.test>
-                <liquibase-plugin.url>jdbc:postgresql://localhost:5432/dataRunApi</liquibase-plugin.url>
+                <liquibase-plugin.url>jdbc:postgresql://localhost:5431/dataRunApi</liquibase-plugin.url>
                 <liquibase-plugin.username>dataRunApi</liquibase-plugin.username>
-                <liquibase-plugin.password/>
+                <liquibase-plugin.password>dataRunApi</liquibase-plugin.password>
             </properties>
             <dependencies>
                 <dependency>
@@ -891,9 +891,9 @@
                 <!-- default Spring profiles -->
                 <spring.profiles.active>prod${profile.api-docs}${profile.tls}${profile.e2e}${profile.no-liquibase}</spring.profiles.active>
                 <profile.test>testprod</profile.test>
-                <liquibase-plugin.url>jdbc:postgresql://localhost:5432/dataRunApi</liquibase-plugin.url>
+                <liquibase-plugin.url>jdbc:postgresql://localhost:5431/dataRunApi</liquibase-plugin.url>
                 <liquibase-plugin.username>dataRunApi</liquibase-plugin.username>
-                <liquibase-plugin.password/>
+                <liquibase-plugin.password>dataRunApi</liquibase-plugin.password>
             </properties>
             <build>
                 <plugins>
