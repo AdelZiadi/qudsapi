@@ -35,6 +35,7 @@ public class AssignmentServiceImpl implements AssignmentService {
     @Override
     public Assignment update(Assignment assignment) {
         log.debug("Request to update Assignment : {}", assignment);
+        assignment.setIsPersisted();
         return assignmentRepository.save(assignment);
     }
 
@@ -95,6 +96,18 @@ public class AssignmentServiceImpl implements AssignmentService {
                 }
                 if (assignment.getStartDayDate() != null) {
                     existingAssignment.setStartDayDate(assignment.getStartDayDate());
+                }
+                if (assignment.getCreatedBy() != null) {
+                    existingAssignment.setCreatedBy(assignment.getCreatedBy());
+                }
+                if (assignment.getCreatedDate() != null) {
+                    existingAssignment.setCreatedDate(assignment.getCreatedDate());
+                }
+                if (assignment.getLastModifiedBy() != null) {
+                    existingAssignment.setLastModifiedBy(assignment.getLastModifiedBy());
+                }
+                if (assignment.getLastModifiedDate() != null) {
+                    existingAssignment.setLastModifiedDate(assignment.getLastModifiedDate());
                 }
 
                 return existingAssignment;

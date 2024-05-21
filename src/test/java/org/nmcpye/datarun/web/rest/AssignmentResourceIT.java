@@ -411,14 +411,15 @@ class AssignmentResourceIT {
         partialUpdatedAssignment.setId(assignment.getId());
 
         partialUpdatedAssignment
-            .code(UPDATED_CODE)
             .districtCode(UPDATED_DISTRICT_CODE)
             .gov(UPDATED_GOV)
-            .subdistrict(UPDATED_SUBDISTRICT)
             .village(UPDATED_VILLAGE)
-            .dayId(UPDATED_DAY_ID)
+            .ppdName(UPDATED_PPD_NAME)
+            .population(UPDATED_POPULATION)
             .targetType(UPDATED_TARGET_TYPE)
-            .longitude(UPDATED_LONGITUDE);
+            .longitude(UPDATED_LONGITUDE)
+            .latitude(UPDATED_LATITUDE)
+            .startDayDate(UPDATED_START_DAY_DATE);
 
         restAssignmentMockMvc
             .perform(

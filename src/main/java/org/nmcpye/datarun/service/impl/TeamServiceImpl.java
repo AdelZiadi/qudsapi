@@ -36,6 +36,7 @@ public class TeamServiceImpl implements TeamService {
     @Override
     public Team update(Team team) {
         log.debug("Request to update Team : {}", team);
+        team.setIsPersisted();
         return teamRepository.save(team);
     }
 
@@ -66,6 +67,18 @@ public class TeamServiceImpl implements TeamService {
                 }
                 if (team.getMobility() != null) {
                     existingTeam.setMobility(team.getMobility());
+                }
+                if (team.getCreatedBy() != null) {
+                    existingTeam.setCreatedBy(team.getCreatedBy());
+                }
+                if (team.getCreatedDate() != null) {
+                    existingTeam.setCreatedDate(team.getCreatedDate());
+                }
+                if (team.getLastModifiedBy() != null) {
+                    existingTeam.setLastModifiedBy(team.getLastModifiedBy());
+                }
+                if (team.getLastModifiedDate() != null) {
+                    existingTeam.setLastModifiedDate(team.getLastModifiedDate());
                 }
 
                 return existingTeam;

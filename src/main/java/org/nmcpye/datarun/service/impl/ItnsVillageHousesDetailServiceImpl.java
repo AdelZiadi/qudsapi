@@ -35,6 +35,7 @@ public class ItnsVillageHousesDetailServiceImpl implements ItnsVillageHousesDeta
     @Override
     public ItnsVillageHousesDetail update(ItnsVillageHousesDetail itnsVillageHousesDetail) {
         log.debug("Request to update ItnsVillageHousesDetail : {}", itnsVillageHousesDetail);
+        itnsVillageHousesDetail.setIsPersisted();
         return itnsVillageHousesDetailRepository.save(itnsVillageHousesDetail);
     }
 
@@ -86,6 +87,18 @@ public class ItnsVillageHousesDetailServiceImpl implements ItnsVillageHousesDeta
                 }
                 if (itnsVillageHousesDetail.getComment() != null) {
                     existingItnsVillageHousesDetail.setComment(itnsVillageHousesDetail.getComment());
+                }
+                if (itnsVillageHousesDetail.getCreatedBy() != null) {
+                    existingItnsVillageHousesDetail.setCreatedBy(itnsVillageHousesDetail.getCreatedBy());
+                }
+                if (itnsVillageHousesDetail.getCreatedDate() != null) {
+                    existingItnsVillageHousesDetail.setCreatedDate(itnsVillageHousesDetail.getCreatedDate());
+                }
+                if (itnsVillageHousesDetail.getLastModifiedBy() != null) {
+                    existingItnsVillageHousesDetail.setLastModifiedBy(itnsVillageHousesDetail.getLastModifiedBy());
+                }
+                if (itnsVillageHousesDetail.getLastModifiedDate() != null) {
+                    existingItnsVillageHousesDetail.setLastModifiedDate(itnsVillageHousesDetail.getLastModifiedDate());
                 }
 
                 return existingItnsVillageHousesDetail;

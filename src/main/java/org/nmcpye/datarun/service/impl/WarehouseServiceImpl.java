@@ -36,6 +36,7 @@ public class WarehouseServiceImpl implements WarehouseService {
     @Override
     public Warehouse update(Warehouse warehouse) {
         log.debug("Request to update Warehouse : {}", warehouse);
+        warehouse.setIsPersisted();
         return warehouseRepository.save(warehouse);
     }
 
@@ -66,6 +67,18 @@ public class WarehouseServiceImpl implements WarehouseService {
                 }
                 if (warehouse.getSupervisorMobile() != null) {
                     existingWarehouse.setSupervisorMobile(warehouse.getSupervisorMobile());
+                }
+                if (warehouse.getCreatedBy() != null) {
+                    existingWarehouse.setCreatedBy(warehouse.getCreatedBy());
+                }
+                if (warehouse.getCreatedDate() != null) {
+                    existingWarehouse.setCreatedDate(warehouse.getCreatedDate());
+                }
+                if (warehouse.getLastModifiedBy() != null) {
+                    existingWarehouse.setLastModifiedBy(warehouse.getLastModifiedBy());
+                }
+                if (warehouse.getLastModifiedDate() != null) {
+                    existingWarehouse.setLastModifiedDate(warehouse.getLastModifiedDate());
                 }
 
                 return existingWarehouse;

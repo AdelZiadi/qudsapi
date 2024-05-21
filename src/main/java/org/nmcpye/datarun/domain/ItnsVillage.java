@@ -11,6 +11,7 @@ import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.nmcpye.datarun.domain.enumeration.SettlementEnum;
 import org.nmcpye.datarun.domain.enumeration.SurveyTypeEnum;
+import org.springframework.data.domain.Persistable;
 
 /**
  * A ItnsVillage.
@@ -18,8 +19,9 @@ import org.nmcpye.datarun.domain.enumeration.SurveyTypeEnum;
 @Entity
 @Table(name = "itns_village")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+@JsonIgnoreProperties(value = { "new" })
 @SuppressWarnings("common-java:DuplicatedBlocks")
-public class ItnsVillage implements Serializable {
+public class ItnsVillage extends AbstractAuditingEntity<Long> implements Serializable, Persistable<Long> {
 
     private static final long serialVersionUID = 1L;
 
@@ -118,6 +120,13 @@ public class ItnsVillage implements Serializable {
 
     @Column(name = "other_team_no")
     private Long otherTeamNo;
+
+    // Inherited createdBy definition
+    // Inherited createdDate definition
+    // Inherited lastModifiedBy definition
+    // Inherited lastModifiedDate definition
+    @Transient
+    private boolean isPersisted;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private ProgressStatus progressStatus;
@@ -494,6 +503,47 @@ public class ItnsVillage implements Serializable {
         this.otherTeamNo = otherTeamNo;
     }
 
+    // Inherited createdBy methods
+    public ItnsVillage createdBy(String createdBy) {
+        this.setCreatedBy(createdBy);
+        return this;
+    }
+
+    // Inherited createdDate methods
+    public ItnsVillage createdDate(Instant createdDate) {
+        this.setCreatedDate(createdDate);
+        return this;
+    }
+
+    // Inherited lastModifiedBy methods
+    public ItnsVillage lastModifiedBy(String lastModifiedBy) {
+        this.setLastModifiedBy(lastModifiedBy);
+        return this;
+    }
+
+    // Inherited lastModifiedDate methods
+    public ItnsVillage lastModifiedDate(Instant lastModifiedDate) {
+        this.setLastModifiedDate(lastModifiedDate);
+        return this;
+    }
+
+    @PostLoad
+    @PostPersist
+    public void updateEntityState() {
+        this.setIsPersisted();
+    }
+
+    @Transient
+    @Override
+    public boolean isNew() {
+        return !this.isPersisted;
+    }
+
+    public ItnsVillage setIsPersisted() {
+        this.isPersisted = true;
+        return this;
+    }
+
     public ProgressStatus getProgressStatus() {
         return this.progressStatus;
     }
@@ -627,6 +677,10 @@ public class ItnsVillage implements Serializable {
             ", otherVillageName='" + getOtherVillageName() + "'" +
             ", otherVillageCode='" + getOtherVillageCode() + "'" +
             ", otherTeamNo=" + getOtherTeamNo() +
+            ", createdBy='" + getCreatedBy() + "'" +
+            ", createdDate='" + getCreatedDate() + "'" +
+            ", lastModifiedBy='" + getLastModifiedBy() + "'" +
+            ", lastModifiedDate='" + getLastModifiedDate() + "'" +
             "}";
     }
 }

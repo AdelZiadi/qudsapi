@@ -35,6 +35,7 @@ public class MVillagesLocationsServiceImpl implements MVillagesLocationsService 
     @Override
     public MVillagesLocations update(MVillagesLocations mVillagesLocations) {
         log.debug("Request to update MVillagesLocations : {}", mVillagesLocations);
+        mVillagesLocations.setIsPersisted();
         return mVillagesLocationsRepository.save(mVillagesLocations);
     }
 
@@ -98,6 +99,18 @@ public class MVillagesLocationsServiceImpl implements MVillagesLocationsService 
                 }
                 if (mVillagesLocations.getLevel() != null) {
                     existingMVillagesLocations.setLevel(mVillagesLocations.getLevel());
+                }
+                if (mVillagesLocations.getCreatedBy() != null) {
+                    existingMVillagesLocations.setCreatedBy(mVillagesLocations.getCreatedBy());
+                }
+                if (mVillagesLocations.getCreatedDate() != null) {
+                    existingMVillagesLocations.setCreatedDate(mVillagesLocations.getCreatedDate());
+                }
+                if (mVillagesLocations.getLastModifiedBy() != null) {
+                    existingMVillagesLocations.setLastModifiedBy(mVillagesLocations.getLastModifiedBy());
+                }
+                if (mVillagesLocations.getLastModifiedDate() != null) {
+                    existingMVillagesLocations.setLastModifiedDate(mVillagesLocations.getLastModifiedDate());
                 }
 
                 return existingMVillagesLocations;

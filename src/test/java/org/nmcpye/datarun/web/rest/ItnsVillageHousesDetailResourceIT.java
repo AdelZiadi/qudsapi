@@ -399,10 +399,10 @@ class ItnsVillageHousesDetailResourceIT {
         partialUpdatedItnsVillageHousesDetail.setId(itnsVillageHousesDetail.getId());
 
         partialUpdatedItnsVillageHousesDetail
-            .male(UPDATED_MALE)
-            .population(UPDATED_POPULATION)
+            .submissionUuid(UPDATED_SUBMISSION_UUID)
+            .female(UPDATED_FEMALE)
             .femaleChild(UPDATED_FEMALE_CHILD)
-            .itns(UPDATED_ITNS);
+            .comment(UPDATED_COMMENT);
 
         restItnsVillageHousesDetailMockMvc
             .perform(

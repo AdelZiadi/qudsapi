@@ -35,6 +35,7 @@ public class ItnsVillageServiceImpl implements ItnsVillageService {
     @Override
     public ItnsVillage update(ItnsVillage itnsVillage) {
         log.debug("Request to update ItnsVillage : {}", itnsVillage);
+        itnsVillage.setIsPersisted();
         return itnsVillageRepository.save(itnsVillage);
     }
 
@@ -122,6 +123,18 @@ public class ItnsVillageServiceImpl implements ItnsVillageService {
                 }
                 if (itnsVillage.getOtherTeamNo() != null) {
                     existingItnsVillage.setOtherTeamNo(itnsVillage.getOtherTeamNo());
+                }
+                if (itnsVillage.getCreatedBy() != null) {
+                    existingItnsVillage.setCreatedBy(itnsVillage.getCreatedBy());
+                }
+                if (itnsVillage.getCreatedDate() != null) {
+                    existingItnsVillage.setCreatedDate(itnsVillage.getCreatedDate());
+                }
+                if (itnsVillage.getLastModifiedBy() != null) {
+                    existingItnsVillage.setLastModifiedBy(itnsVillage.getLastModifiedBy());
+                }
+                if (itnsVillage.getLastModifiedDate() != null) {
+                    existingItnsVillage.setLastModifiedDate(itnsVillage.getLastModifiedDate());
                 }
 
                 return existingItnsVillage;

@@ -56,11 +56,25 @@
             <column name="comment" type="varchar(2000)">
                 <constraints nullable="true" />
             </column>
+            <column name="created_by" type="varchar(50)">
+                <constraints nullable="false" />
+            </column>
+            <column name="created_date" type="${datetimeType}">
+                <constraints nullable="false" />
+            </column>
+            <column name="last_modified_by" type="varchar(50)">
+                <constraints nullable="false" />
+            </column>
+            <column name="last_modified_date" type="${datetimeType}">
+                <constraints nullable="false" />
+            </column>
             <column name="village_data_id" type="bigint">
                 <constraints nullable="false" />
             </column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->
         </createTable>
+        <dropDefaultValue tableName="itns_village_houses_detail" columnName="created_date" columnDataType="${datetimeType}"/>
+        <dropDefaultValue tableName="itns_village_houses_detail" columnName="last_modified_date" columnDataType="${datetimeType}"/>
     </changeSet>
 
     <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here -->

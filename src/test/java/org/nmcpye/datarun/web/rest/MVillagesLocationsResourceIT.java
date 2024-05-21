@@ -423,16 +423,14 @@ class MVillagesLocationsResourceIT {
         partialUpdatedMVillagesLocations.setId(mVillagesLocations.getId());
 
         partialUpdatedMVillagesLocations
+            .uid(UPDATED_UID)
             .code(UPDATED_CODE)
-            .mappingStatus(UPDATED_MAPPING_STATUS)
             .districtCode(UPDATED_DISTRICT_CODE)
-            .villageName(UPDATED_VILLAGE_NAME)
-            .name(UPDATED_NAME)
-            .urbanRural(UPDATED_URBAN_RURAL)
-            .pop2022(UPDATED_POP_2022)
+            .villageUid(UPDATED_VILLAGE_UID)
+            .subdistrictName(UPDATED_SUBDISTRICT_NAME)
+            .subvillageName(UPDATED_SUBVILLAGE_NAME)
             .longitude(UPDATED_LONGITUDE)
-            .ppcCodeGis(UPDATED_PPC_CODE_GIS)
-            .level(UPDATED_LEVEL);
+            .latitude(UPDATED_LATITUDE);
 
         restMVillagesLocationsMockMvc
             .perform(

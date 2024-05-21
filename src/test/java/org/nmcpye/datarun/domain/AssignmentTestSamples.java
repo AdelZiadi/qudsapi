@@ -26,7 +26,9 @@ public class AssignmentTestSamples {
             .ppdName("ppdName1")
             .dayId(1)
             .itnsPlanned(1)
-            .targetType(1);
+            .targetType(1)
+            .createdBy("createdBy1")
+            .lastModifiedBy("lastModifiedBy1");
     }
 
     public static Assignment getAssignmentSample2() {
@@ -44,7 +46,9 @@ public class AssignmentTestSamples {
             .ppdName("ppdName2")
             .dayId(2)
             .itnsPlanned(2)
-            .targetType(2);
+            .targetType(2)
+            .createdBy("createdBy2")
+            .lastModifiedBy("lastModifiedBy2");
     }
 
     public static Assignment getAssignmentRandomSampleGenerator() {
@@ -62,6 +66,8 @@ public class AssignmentTestSamples {
             .ppdName(UUID.randomUUID().toString())
             .dayId(intCount.incrementAndGet())
             .itnsPlanned(intCount.incrementAndGet())
-            .targetType(intCount.incrementAndGet());
+            .targetType(intCount.incrementAndGet())
+            .createdBy(UUID.randomUUID().toString())
+            .lastModifiedBy(UUID.randomUUID().toString());
     }
 }

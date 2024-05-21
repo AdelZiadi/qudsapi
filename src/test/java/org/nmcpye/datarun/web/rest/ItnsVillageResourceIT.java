@@ -563,16 +563,13 @@ class ItnsVillageResourceIT {
         partialUpdatedItnsVillage
             .submissionId(UPDATED_SUBMISSION_ID)
             .deleted(UPDATED_DELETED)
-            .surveytype(UPDATED_SURVEYTYPE)
-            .otherReasonComment(UPDATED_OTHER_REASON_COMMENT)
             .reasonNotcomplete(UPDATED_REASON_NOTCOMPLETE)
-            .timeSpentHours(UPDATED_TIME_SPENT_HOURS)
-            .timeSpentMinutes(UPDATED_TIME_SPENT_MINUTES)
-            .difficulties(UPDATED_DIFFICULTIES)
+            .tlCommenet(UPDATED_TL_COMMENET)
+            .hoProof(UPDATED_HO_PROOF)
             .startEntryTime(UPDATED_START_ENTRY_TIME)
             .hoProofUrl(UPDATED_HO_PROOF_URL)
-            .otherVillageName(UPDATED_OTHER_VILLAGE_NAME)
-            .otherTeamNo(UPDATED_OTHER_TEAM_NO);
+            .untargetingOtherSpecify(UPDATED_UNTARGETING_OTHER_SPECIFY)
+            .otherVillageName(UPDATED_OTHER_VILLAGE_NAME);
 
         restItnsVillageMockMvc
             .perform(

@@ -463,15 +463,12 @@ class WarehouseTransactionResourceIT {
         partialUpdatedWarehouseTransaction.setId(warehouseTransaction.getId());
 
         partialUpdatedWarehouseTransaction
-            .imovUid(UPDATED_IMOV_UID)
             .phaseNo(UPDATED_PHASE_NO)
             .entryType(UPDATED_ENTRY_TYPE)
             .quantity(UPDATED_QUANTITY)
             .notes(UPDATED_NOTES)
-            .submissionTime(UPDATED_SUBMISSION_TIME)
-            .submissionId(UPDATED_SUBMISSION_ID)
-            .deleted(UPDATED_DELETED)
-            .submissionUuid(UPDATED_SUBMISSION_UUID);
+            .personName(UPDATED_PERSON_NAME)
+            .submissionTime(UPDATED_SUBMISSION_TIME);
 
         restWarehouseTransactionMockMvc
             .perform(

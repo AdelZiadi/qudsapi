@@ -41,7 +41,9 @@ public class ItnsVillageHousesDetailAsserts {
     ) {
         assertThat(expected)
             .as("Verify ItnsVillageHousesDetail auto generated properties")
-            .satisfies(e -> assertThat(e.getId()).as("check id").isEqualTo(actual.getId()));
+            .satisfies(e -> assertThat(e.getId()).as("check id").isEqualTo(actual.getId()))
+            .satisfies(e -> assertThat(e.getCreatedBy()).as("check createdBy").isEqualTo(actual.getCreatedBy()))
+            .satisfies(e -> assertThat(e.getCreatedDate()).as("check createdDate").isEqualTo(actual.getCreatedDate()));
     }
 
     /**

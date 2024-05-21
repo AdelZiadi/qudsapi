@@ -20,7 +20,9 @@ public class TeamTestSamples {
             .description("description1")
             .mobile("mobile1")
             .workers(1)
-            .mobility("mobility1");
+            .mobility("mobility1")
+            .createdBy("createdBy1")
+            .lastModifiedBy("lastModifiedBy1");
     }
 
     public static Team getTeamSample2() {
@@ -32,7 +34,9 @@ public class TeamTestSamples {
             .description("description2")
             .mobile("mobile2")
             .workers(2)
-            .mobility("mobility2");
+            .mobility("mobility2")
+            .createdBy("createdBy2")
+            .lastModifiedBy("lastModifiedBy2");
     }
 
     public static Team getTeamRandomSampleGenerator() {
@@ -44,6 +48,8 @@ public class TeamTestSamples {
             .description(UUID.randomUUID().toString())
             .mobile(UUID.randomUUID().toString())
             .workers(intCount.incrementAndGet())
-            .mobility(UUID.randomUUID().toString());
+            .mobility(UUID.randomUUID().toString())
+            .createdBy(UUID.randomUUID().toString())
+            .lastModifiedBy(UUID.randomUUID().toString());
     }
 }

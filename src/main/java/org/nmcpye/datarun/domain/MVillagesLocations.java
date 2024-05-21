@@ -1,11 +1,14 @@
 package org.nmcpye.datarun.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import java.io.Serializable;
+import java.time.Instant;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.nmcpye.datarun.domain.enumeration.PublicLocationType;
+import org.springframework.data.domain.Persistable;
 
 /**
  * A MVillagesLocations.
@@ -13,8 +16,9 @@ import org.nmcpye.datarun.domain.enumeration.PublicLocationType;
 @Entity
 @Table(name = "m_villages_locations")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+@JsonIgnoreProperties(value = { "new" })
 @SuppressWarnings("common-java:DuplicatedBlocks")
-public class MVillagesLocations implements Serializable {
+public class MVillagesLocations extends AbstractAuditingEntity<Long> implements Serializable, Persistable<Long> {
 
     private static final long serialVersionUID = 1L;
 
@@ -81,6 +85,13 @@ public class MVillagesLocations implements Serializable {
     @Enumerated(EnumType.STRING)
     @Column(name = "level")
     private PublicLocationType level;
+
+    // Inherited createdBy definition
+    // Inherited createdDate definition
+    // Inherited lastModifiedBy definition
+    // Inherited lastModifiedDate definition
+    @Transient
+    private boolean isPersisted;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -331,6 +342,47 @@ public class MVillagesLocations implements Serializable {
         this.level = level;
     }
 
+    // Inherited createdBy methods
+    public MVillagesLocations createdBy(String createdBy) {
+        this.setCreatedBy(createdBy);
+        return this;
+    }
+
+    // Inherited createdDate methods
+    public MVillagesLocations createdDate(Instant createdDate) {
+        this.setCreatedDate(createdDate);
+        return this;
+    }
+
+    // Inherited lastModifiedBy methods
+    public MVillagesLocations lastModifiedBy(String lastModifiedBy) {
+        this.setLastModifiedBy(lastModifiedBy);
+        return this;
+    }
+
+    // Inherited lastModifiedDate methods
+    public MVillagesLocations lastModifiedDate(Instant lastModifiedDate) {
+        this.setLastModifiedDate(lastModifiedDate);
+        return this;
+    }
+
+    @PostLoad
+    @PostPersist
+    public void updateEntityState() {
+        this.setIsPersisted();
+    }
+
+    @Transient
+    @Override
+    public boolean isNew() {
+        return !this.isPersisted;
+    }
+
+    public MVillagesLocations setIsPersisted() {
+        this.isPersisted = true;
+        return this;
+    }
+
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
 
     @Override
@@ -373,6 +425,10 @@ public class MVillagesLocations implements Serializable {
             ", latitude=" + getLatitude() +
             ", ppcCodeGis='" + getPpcCodeGis() + "'" +
             ", level='" + getLevel() + "'" +
+            ", createdBy='" + getCreatedBy() + "'" +
+            ", createdDate='" + getCreatedDate() + "'" +
+            ", lastModifiedBy='" + getLastModifiedBy() + "'" +
+            ", lastModifiedDate='" + getLastModifiedDate() + "'" +
             "}";
     }
 }

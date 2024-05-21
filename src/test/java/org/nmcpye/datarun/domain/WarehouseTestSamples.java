@@ -18,7 +18,9 @@ public class WarehouseTestSamples {
             .gpsCoordinate("gpsCoordinate1")
             .supervisor("supervisor1")
             .code("code1")
-            .supervisorMobile("supervisorMobile1");
+            .supervisorMobile("supervisorMobile1")
+            .createdBy("createdBy1")
+            .lastModifiedBy("lastModifiedBy1");
     }
 
     public static Warehouse getWarehouseSample2() {
@@ -30,7 +32,9 @@ public class WarehouseTestSamples {
             .gpsCoordinate("gpsCoordinate2")
             .supervisor("supervisor2")
             .code("code2")
-            .supervisorMobile("supervisorMobile2");
+            .supervisorMobile("supervisorMobile2")
+            .createdBy("createdBy2")
+            .lastModifiedBy("lastModifiedBy2");
     }
 
     public static Warehouse getWarehouseRandomSampleGenerator() {
@@ -42,6 +46,8 @@ public class WarehouseTestSamples {
             .gpsCoordinate(UUID.randomUUID().toString())
             .supervisor(UUID.randomUUID().toString())
             .code(UUID.randomUUID().toString())
-            .supervisorMobile(UUID.randomUUID().toString());
+            .supervisorMobile(UUID.randomUUID().toString())
+            .createdBy(UUID.randomUUID().toString())
+            .lastModifiedBy(UUID.randomUUID().toString());
     }
 }

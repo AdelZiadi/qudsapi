@@ -26,7 +26,9 @@ public class MVillagesLocationsTestSamples {
             .urbanRuralId(1)
             .urbanRural("urbanRural1")
             .settlement("settlement1")
-            .ppcCodeGis("ppcCodeGis1");
+            .ppcCodeGis("ppcCodeGis1")
+            .createdBy("createdBy1")
+            .lastModifiedBy("lastModifiedBy1");
     }
 
     public static MVillagesLocations getMVillagesLocationsSample2() {
@@ -44,7 +46,9 @@ public class MVillagesLocationsTestSamples {
             .urbanRuralId(2)
             .urbanRural("urbanRural2")
             .settlement("settlement2")
-            .ppcCodeGis("ppcCodeGis2");
+            .ppcCodeGis("ppcCodeGis2")
+            .createdBy("createdBy2")
+            .lastModifiedBy("lastModifiedBy2");
     }
 
     public static MVillagesLocations getMVillagesLocationsRandomSampleGenerator() {
@@ -62,6 +66,8 @@ public class MVillagesLocationsTestSamples {
             .urbanRuralId(intCount.incrementAndGet())
             .urbanRural(UUID.randomUUID().toString())
             .settlement(UUID.randomUUID().toString())
-            .ppcCodeGis(UUID.randomUUID().toString());
+            .ppcCodeGis(UUID.randomUUID().toString())
+            .createdBy(UUID.randomUUID().toString())
+            .lastModifiedBy(UUID.randomUUID().toString());
     }
 }

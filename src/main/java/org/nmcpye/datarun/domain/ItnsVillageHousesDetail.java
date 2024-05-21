@@ -4,8 +4,10 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import java.io.Serializable;
+import java.time.Instant;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.springframework.data.domain.Persistable;
 
 /**
  * A ItnsVillageHousesDetail.
@@ -13,8 +15,9 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 @Entity
 @Table(name = "itns_village_houses_detail")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+@JsonIgnoreProperties(value = { "new" })
 @SuppressWarnings("common-java:DuplicatedBlocks")
-public class ItnsVillageHousesDetail implements Serializable {
+public class ItnsVillageHousesDetail extends AbstractAuditingEntity<Long> implements Serializable, Persistable<Long> {
 
     private static final long serialVersionUID = 1L;
 
@@ -75,6 +78,13 @@ public class ItnsVillageHousesDetail implements Serializable {
     @Size(max = 2000)
     @Column(name = "comment", length = 2000)
     private String comment;
+
+    // Inherited createdBy definition
+    // Inherited createdDate definition
+    // Inherited lastModifiedBy definition
+    // Inherited lastModifiedDate definition
+    @Transient
+    private boolean isPersisted;
 
     @ManyToOne(optional = false)
     @NotNull
@@ -278,6 +288,47 @@ public class ItnsVillageHousesDetail implements Serializable {
         this.comment = comment;
     }
 
+    // Inherited createdBy methods
+    public ItnsVillageHousesDetail createdBy(String createdBy) {
+        this.setCreatedBy(createdBy);
+        return this;
+    }
+
+    // Inherited createdDate methods
+    public ItnsVillageHousesDetail createdDate(Instant createdDate) {
+        this.setCreatedDate(createdDate);
+        return this;
+    }
+
+    // Inherited lastModifiedBy methods
+    public ItnsVillageHousesDetail lastModifiedBy(String lastModifiedBy) {
+        this.setLastModifiedBy(lastModifiedBy);
+        return this;
+    }
+
+    // Inherited lastModifiedDate methods
+    public ItnsVillageHousesDetail lastModifiedDate(Instant lastModifiedDate) {
+        this.setLastModifiedDate(lastModifiedDate);
+        return this;
+    }
+
+    @PostLoad
+    @PostPersist
+    public void updateEntityState() {
+        this.setIsPersisted();
+    }
+
+    @Transient
+    @Override
+    public boolean isNew() {
+        return !this.isPersisted;
+    }
+
+    public ItnsVillageHousesDetail setIsPersisted() {
+        this.isPersisted = true;
+        return this;
+    }
+
     public ItnsVillage getVillageData() {
         return this.villageData;
     }
@@ -329,6 +380,10 @@ public class ItnsVillageHousesDetail implements Serializable {
             ", displaced=" + getDisplaced() +
             ", itns=" + getItns() +
             ", comment='" + getComment() + "'" +
+            ", createdBy='" + getCreatedBy() + "'" +
+            ", createdDate='" + getCreatedDate() + "'" +
+            ", lastModifiedBy='" + getLastModifiedBy() + "'" +
+            ", lastModifiedDate='" + getLastModifiedDate() + "'" +
             "}";
     }
 }

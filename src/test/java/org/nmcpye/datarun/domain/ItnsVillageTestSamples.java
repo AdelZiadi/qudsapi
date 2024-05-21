@@ -30,7 +30,9 @@ public class ItnsVillageTestSamples {
             .untargetingOtherSpecify("untargetingOtherSpecify1")
             .otherVillageName("otherVillageName1")
             .otherVillageCode("otherVillageCode1")
-            .otherTeamNo(1L);
+            .otherTeamNo(1L)
+            .createdBy("createdBy1")
+            .lastModifiedBy("lastModifiedBy1");
     }
 
     public static ItnsVillage getItnsVillageSample2() {
@@ -52,7 +54,9 @@ public class ItnsVillageTestSamples {
             .untargetingOtherSpecify("untargetingOtherSpecify2")
             .otherVillageName("otherVillageName2")
             .otherVillageCode("otherVillageCode2")
-            .otherTeamNo(2L);
+            .otherTeamNo(2L)
+            .createdBy("createdBy2")
+            .lastModifiedBy("lastModifiedBy2");
     }
 
     public static ItnsVillage getItnsVillageRandomSampleGenerator() {
@@ -74,6 +78,8 @@ public class ItnsVillageTestSamples {
             .untargetingOtherSpecify(UUID.randomUUID().toString())
             .otherVillageName(UUID.randomUUID().toString())
             .otherVillageCode(UUID.randomUUID().toString())
-            .otherTeamNo(longCount.incrementAndGet());
+            .otherTeamNo(longCount.incrementAndGet())
+            .createdBy(UUID.randomUUID().toString())
+            .lastModifiedBy(UUID.randomUUID().toString());
     }
 }

@@ -23,7 +23,9 @@ public class WarehouseTransactionTestSamples {
             .personName("personName1")
             .workDayId(1)
             .submissionId(1L)
-            .submissionUuid("submissionUuid1");
+            .submissionUuid("submissionUuid1")
+            .createdBy("createdBy1")
+            .lastModifiedBy("lastModifiedBy1");
     }
 
     public static WarehouseTransaction getWarehouseTransactionSample2() {
@@ -38,7 +40,9 @@ public class WarehouseTransactionTestSamples {
             .personName("personName2")
             .workDayId(2)
             .submissionId(2L)
-            .submissionUuid("submissionUuid2");
+            .submissionUuid("submissionUuid2")
+            .createdBy("createdBy2")
+            .lastModifiedBy("lastModifiedBy2");
     }
 
     public static WarehouseTransaction getWarehouseTransactionRandomSampleGenerator() {
@@ -53,6 +57,8 @@ public class WarehouseTransactionTestSamples {
             .personName(UUID.randomUUID().toString())
             .workDayId(intCount.incrementAndGet())
             .submissionId(longCount.incrementAndGet())
-            .submissionUuid(UUID.randomUUID().toString());
+            .submissionUuid(UUID.randomUUID().toString())
+            .createdBy(UUID.randomUUID().toString())
+            .lastModifiedBy(UUID.randomUUID().toString());
     }
 }

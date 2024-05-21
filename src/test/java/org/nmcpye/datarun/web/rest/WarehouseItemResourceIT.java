@@ -270,6 +270,8 @@ class WarehouseItemResourceIT {
         WarehouseItem partialUpdatedWarehouseItem = new WarehouseItem();
         partialUpdatedWarehouseItem.setId(warehouseItem.getId());
 
+        partialUpdatedWarehouseItem.code(UPDATED_CODE).description(UPDATED_DESCRIPTION);
+
         restWarehouseItemMockMvc
             .perform(
                 patch(ENTITY_API_URL_ID, partialUpdatedWarehouseItem.getId())

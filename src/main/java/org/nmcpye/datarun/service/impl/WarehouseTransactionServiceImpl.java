@@ -35,6 +35,7 @@ public class WarehouseTransactionServiceImpl implements WarehouseTransactionServ
     @Override
     public WarehouseTransaction update(WarehouseTransaction warehouseTransaction) {
         log.debug("Request to update WarehouseTransaction : {}", warehouseTransaction);
+        warehouseTransaction.setIsPersisted();
         return warehouseTransactionRepository.save(warehouseTransaction);
     }
 
@@ -80,6 +81,18 @@ public class WarehouseTransactionServiceImpl implements WarehouseTransactionServ
                 }
                 if (warehouseTransaction.getSubmissionUuid() != null) {
                     existingWarehouseTransaction.setSubmissionUuid(warehouseTransaction.getSubmissionUuid());
+                }
+                if (warehouseTransaction.getCreatedBy() != null) {
+                    existingWarehouseTransaction.setCreatedBy(warehouseTransaction.getCreatedBy());
+                }
+                if (warehouseTransaction.getCreatedDate() != null) {
+                    existingWarehouseTransaction.setCreatedDate(warehouseTransaction.getCreatedDate());
+                }
+                if (warehouseTransaction.getLastModifiedBy() != null) {
+                    existingWarehouseTransaction.setLastModifiedBy(warehouseTransaction.getLastModifiedBy());
+                }
+                if (warehouseTransaction.getLastModifiedDate() != null) {
+                    existingWarehouseTransaction.setLastModifiedDate(warehouseTransaction.getLastModifiedDate());
                 }
 
                 return existingWarehouseTransaction;

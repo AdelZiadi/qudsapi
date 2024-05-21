@@ -26,7 +26,9 @@ public class ItnsVillageHousesDetailTestSamples {
             .femaleChild(1)
             .displaced(1)
             .itns(1)
-            .comment("comment1");
+            .comment("comment1")
+            .createdBy("createdBy1")
+            .lastModifiedBy("lastModifiedBy1");
     }
 
     public static ItnsVillageHousesDetail getItnsVillageHousesDetailSample2() {
@@ -44,7 +46,9 @@ public class ItnsVillageHousesDetailTestSamples {
             .femaleChild(2)
             .displaced(2)
             .itns(2)
-            .comment("comment2");
+            .comment("comment2")
+            .createdBy("createdBy2")
+            .lastModifiedBy("lastModifiedBy2");
     }
 
     public static ItnsVillageHousesDetail getItnsVillageHousesDetailRandomSampleGenerator() {
@@ -62,6 +66,8 @@ public class ItnsVillageHousesDetailTestSamples {
             .femaleChild(intCount.incrementAndGet())
             .displaced(intCount.incrementAndGet())
             .itns(intCount.incrementAndGet())
-            .comment(UUID.randomUUID().toString());
+            .comment(UUID.randomUUID().toString())
+            .createdBy(UUID.randomUUID().toString())
+            .lastModifiedBy(UUID.randomUUID().toString());
     }
 }

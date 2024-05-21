@@ -7,6 +7,7 @@ import java.io.Serializable;
 import java.time.Instant;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.springframework.data.domain.Persistable;
 
 /**
  * A WarehouseTransaction.
@@ -14,8 +15,9 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 @Entity
 @Table(name = "warehouse_transaction")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+@JsonIgnoreProperties(value = { "new" })
 @SuppressWarnings("common-java:DuplicatedBlocks")
-public class WarehouseTransaction implements Serializable {
+public class WarehouseTransaction extends AbstractAuditingEntity<Long> implements Serializable, Persistable<Long> {
 
     private static final long serialVersionUID = 1L;
 
@@ -67,6 +69,13 @@ public class WarehouseTransaction implements Serializable {
 
     @Column(name = "submission_uuid")
     private String submissionUuid;
+
+    // Inherited createdBy definition
+    // Inherited createdDate definition
+    // Inherited lastModifiedBy definition
+    // Inherited lastModifiedDate definition
+    @Transient
+    private boolean isPersisted;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private WarehouseItem item;
@@ -259,6 +268,47 @@ public class WarehouseTransaction implements Serializable {
         this.submissionUuid = submissionUuid;
     }
 
+    // Inherited createdBy methods
+    public WarehouseTransaction createdBy(String createdBy) {
+        this.setCreatedBy(createdBy);
+        return this;
+    }
+
+    // Inherited createdDate methods
+    public WarehouseTransaction createdDate(Instant createdDate) {
+        this.setCreatedDate(createdDate);
+        return this;
+    }
+
+    // Inherited lastModifiedBy methods
+    public WarehouseTransaction lastModifiedBy(String lastModifiedBy) {
+        this.setLastModifiedBy(lastModifiedBy);
+        return this;
+    }
+
+    // Inherited lastModifiedDate methods
+    public WarehouseTransaction lastModifiedDate(Instant lastModifiedDate) {
+        this.setLastModifiedDate(lastModifiedDate);
+        return this;
+    }
+
+    @PostLoad
+    @PostPersist
+    public void updateEntityState() {
+        this.setIsPersisted();
+    }
+
+    @Transient
+    @Override
+    public boolean isNew() {
+        return !this.isPersisted;
+    }
+
+    public WarehouseTransaction setIsPersisted() {
+        this.isPersisted = true;
+        return this;
+    }
+
     public WarehouseItem getItem() {
         return this.item;
     }
@@ -360,6 +410,10 @@ public class WarehouseTransaction implements Serializable {
             ", submissionId=" + getSubmissionId() +
             ", deleted='" + getDeleted() + "'" +
             ", submissionUuid='" + getSubmissionUuid() + "'" +
+            ", createdBy='" + getCreatedBy() + "'" +
+            ", createdDate='" + getCreatedDate() + "'" +
+            ", lastModifiedBy='" + getLastModifiedBy() + "'" +
+            ", lastModifiedDate='" + getLastModifiedDate() + "'" +
             "}";
     }
 }
