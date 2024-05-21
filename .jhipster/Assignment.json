@@ -3,6 +3,7 @@
     "changelogDate": "20240521125525"
   },
   "applications": "*",
+  "enableAudit": true,
   "fields": [
     {
       "fieldName": "uid",

@@ -3,6 +3,7 @@
     "changelogDate": "20240521125524"
   },
   "applications": "*",
+  "enableAudit": true,
   "entityTableName": "m_villages_locations",
   "fields": [
     {

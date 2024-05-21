@@ -3,6 +3,7 @@
     "changelogDate": "20240521125533"
   },
   "applications": "*",
+  "enableAudit": true,
   "fields": [
     {
       "fieldName": "imovUid",
