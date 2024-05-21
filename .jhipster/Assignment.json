@@ -72,7 +72,7 @@
       "fieldType": "Double"
     },
     {
-      "fieldName": "startDayDate",
+      "fieldName": "startDate",
       "fieldType": "Instant"
     },
     {
@@ -123,7 +123,7 @@
     {
       "otherEntityField": "code",
       "otherEntityName": "mVillagesLocations",
-      "relationshipName": "location",
+      "relationshipName": "organisationUnit",
       "relationshipSide": "left",
       "relationshipType": "many-to-one"
     },

@@ -27,18 +27,18 @@ public interface AssignmentRepository extends JpaRepository<Assignment, Long> {
     }
 
     @Query(
-        value = "select assignment from Assignment assignment left join fetch assignment.activity left join fetch assignment.location left join fetch assignment.team left join fetch assignment.warehouse",
+        value = "select assignment from Assignment assignment left join fetch assignment.activity left join fetch assignment.organisationUnit left join fetch assignment.team left join fetch assignment.warehouse",
         countQuery = "select count(assignment) from Assignment assignment"
     )
     Page<Assignment> findAllWithToOneRelationships(Pageable pageable);
 
     @Query(
-        "select assignment from Assignment assignment left join fetch assignment.activity left join fetch assignment.location left join fetch assignment.team left join fetch assignment.warehouse"
+        "select assignment from Assignment assignment left join fetch assignment.activity left join fetch assignment.organisationUnit left join fetch assignment.team left join fetch assignment.warehouse"
     )
     List<Assignment> findAllWithToOneRelationships();
 
     @Query(
-        "select assignment from Assignment assignment left join fetch assignment.activity left join fetch assignment.location left join fetch assignment.team left join fetch assignment.warehouse where assignment.id =:id"
+        "select assignment from Assignment assignment left join fetch assignment.activity left join fetch assignment.organisationUnit left join fetch assignment.team left join fetch assignment.warehouse where assignment.id =:id"
     )
     Optional<Assignment> findOneWithToOneRelationships(@Param("id") Long id);
 }

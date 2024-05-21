@@ -65,7 +65,7 @@ public class AssignmentAsserts {
             .satisfies(e -> assertThat(e.getTargetType()).as("check targetType").isEqualTo(actual.getTargetType()))
             .satisfies(e -> assertThat(e.getLongitude()).as("check longitude").isEqualTo(actual.getLongitude()))
             .satisfies(e -> assertThat(e.getLatitude()).as("check latitude").isEqualTo(actual.getLatitude()))
-            .satisfies(e -> assertThat(e.getStartDayDate()).as("check startDayDate").isEqualTo(actual.getStartDayDate()));
+            .satisfies(e -> assertThat(e.getStartDate()).as("check startDate").isEqualTo(actual.getStartDate()));
     }
 
     /**
@@ -78,7 +78,7 @@ public class AssignmentAsserts {
         assertThat(expected)
             .as("Verify Assignment relationships")
             .satisfies(e -> assertThat(e.getActivity()).as("check activity").isEqualTo(actual.getActivity()))
-            .satisfies(e -> assertThat(e.getLocation()).as("check location").isEqualTo(actual.getLocation()))
+            .satisfies(e -> assertThat(e.getOrganisationUnit()).as("check organisationUnit").isEqualTo(actual.getOrganisationUnit()))
             .satisfies(e -> assertThat(e.getTeam()).as("check team").isEqualTo(actual.getTeam()))
             .satisfies(e -> assertThat(e.getWarehouse()).as("check warehouse").isEqualTo(actual.getWarehouse()));
     }

@@ -39,15 +39,15 @@ class AssignmentTest {
     }
 
     @Test
-    void locationTest() throws Exception {
+    void organisationUnitTest() throws Exception {
         Assignment assignment = getAssignmentRandomSampleGenerator();
         MVillagesLocations mVillagesLocationsBack = getMVillagesLocationsRandomSampleGenerator();
 
-        assignment.setLocation(mVillagesLocationsBack);
-        assertThat(assignment.getLocation()).isEqualTo(mVillagesLocationsBack);
+        assignment.setOrganisationUnit(mVillagesLocationsBack);
+        assertThat(assignment.getOrganisationUnit()).isEqualTo(mVillagesLocationsBack);
 
-        assignment.location(null);
-        assertThat(assignment.getLocation()).isNull();
+        assignment.organisationUnit(null);
+        assertThat(assignment.getOrganisationUnit()).isNull();
     }
 
     @Test

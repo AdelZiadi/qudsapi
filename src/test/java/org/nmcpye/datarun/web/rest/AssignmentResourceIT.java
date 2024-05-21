@@ -90,8 +90,8 @@ class AssignmentResourceIT {
     private static final Double DEFAULT_LATITUDE = 1D;
     private static final Double UPDATED_LATITUDE = 2D;
 
-    private static final Instant DEFAULT_START_DAY_DATE = Instant.ofEpochMilli(0L);
-    private static final Instant UPDATED_START_DAY_DATE = Instant.now().truncatedTo(ChronoUnit.MILLIS);
+    private static final Instant DEFAULT_START_DATE = Instant.ofEpochMilli(0L);
+    private static final Instant UPDATED_START_DATE = Instant.now().truncatedTo(ChronoUnit.MILLIS);
 
     private static final String ENTITY_API_URL = "/api/assignments";
     private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";
@@ -143,7 +143,7 @@ class AssignmentResourceIT {
             .targetType(DEFAULT_TARGET_TYPE)
             .longitude(DEFAULT_LONGITUDE)
             .latitude(DEFAULT_LATITUDE)
-            .startDayDate(DEFAULT_START_DAY_DATE);
+            .startDate(DEFAULT_START_DATE);
         return assignment;
     }
 
@@ -171,7 +171,7 @@ class AssignmentResourceIT {
             .targetType(UPDATED_TARGET_TYPE)
             .longitude(UPDATED_LONGITUDE)
             .latitude(UPDATED_LATITUDE)
-            .startDayDate(UPDATED_START_DAY_DATE);
+            .startDate(UPDATED_START_DATE);
         return assignment;
     }
 
@@ -245,7 +245,7 @@ class AssignmentResourceIT {
             .andExpect(jsonPath("$.[*].targetType").value(hasItem(DEFAULT_TARGET_TYPE)))
             .andExpect(jsonPath("$.[*].longitude").value(hasItem(DEFAULT_LONGITUDE.doubleValue())))
             .andExpect(jsonPath("$.[*].latitude").value(hasItem(DEFAULT_LATITUDE.doubleValue())))
-            .andExpect(jsonPath("$.[*].startDayDate").value(hasItem(DEFAULT_START_DAY_DATE.toString())));
+            .andExpect(jsonPath("$.[*].startDate").value(hasItem(DEFAULT_START_DATE.toString())));
     }
 
     @SuppressWarnings({ "unchecked" })
@@ -293,7 +293,7 @@ class AssignmentResourceIT {
             .andExpect(jsonPath("$.targetType").value(DEFAULT_TARGET_TYPE))
             .andExpect(jsonPath("$.longitude").value(DEFAULT_LONGITUDE.doubleValue()))
             .andExpect(jsonPath("$.latitude").value(DEFAULT_LATITUDE.doubleValue()))
-            .andExpect(jsonPath("$.startDayDate").value(DEFAULT_START_DAY_DATE.toString()));
+            .andExpect(jsonPath("$.startDate").value(DEFAULT_START_DATE.toString()));
     }
 
     @Test
@@ -332,7 +332,7 @@ class AssignmentResourceIT {
             .targetType(UPDATED_TARGET_TYPE)
             .longitude(UPDATED_LONGITUDE)
             .latitude(UPDATED_LATITUDE)
-            .startDayDate(UPDATED_START_DAY_DATE);
+            .startDate(UPDATED_START_DATE);
 
         restAssignmentMockMvc
             .perform(
@@ -419,7 +419,7 @@ class AssignmentResourceIT {
             .targetType(UPDATED_TARGET_TYPE)
             .longitude(UPDATED_LONGITUDE)
             .latitude(UPDATED_LATITUDE)
-            .startDayDate(UPDATED_START_DAY_DATE);
+            .startDate(UPDATED_START_DATE);
 
         restAssignmentMockMvc
             .perform(
@@ -467,7 +467,7 @@ class AssignmentResourceIT {
             .targetType(UPDATED_TARGET_TYPE)
             .longitude(UPDATED_LONGITUDE)
             .latitude(UPDATED_LATITUDE)
-            .startDayDate(UPDATED_START_DAY_DATE);
+            .startDate(UPDATED_START_DATE);
 
         restAssignmentMockMvc
             .perform(

@@ -100,7 +100,7 @@ entity Assignment {
   targetType Integer
   longitude Double
   latitude Double
-  startDayDate Instant
+  startDate Instant
 }
 
 entity ItnsVillage {
@@ -273,7 +273,7 @@ relationship ManyToOne {
 }
 
 relationship ManyToOne {
-  Assignment { location (code)} to MVillagesLocations
+  Assignment { organisationUnit (code)} to MVillagesLocations
 }
 
 relationship ManyToOne {

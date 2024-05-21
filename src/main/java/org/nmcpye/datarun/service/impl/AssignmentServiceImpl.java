@@ -94,8 +94,8 @@ public class AssignmentServiceImpl implements AssignmentService {
                 if (assignment.getLatitude() != null) {
                     existingAssignment.setLatitude(assignment.getLatitude());
                 }
-                if (assignment.getStartDayDate() != null) {
-                    existingAssignment.setStartDayDate(assignment.getStartDayDate());
+                if (assignment.getStartDate() != null) {
+                    existingAssignment.setStartDate(assignment.getStartDate());
                 }
                 if (assignment.getCreatedBy() != null) {
                     existingAssignment.setCreatedBy(assignment.getCreatedBy());

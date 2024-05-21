@@ -76,8 +76,8 @@ public class Assignment extends AbstractAuditingEntity<Long> implements Serializ
     @Column(name = "latitude")
     private Double latitude;
 
-    @Column(name = "start_day_date")
-    private Instant startDayDate;
+    @Column(name = "start_date")
+    private Instant startDate;
 
     // Inherited createdBy definition
     // Inherited createdDate definition
@@ -91,7 +91,7 @@ public class Assignment extends AbstractAuditingEntity<Long> implements Serializ
     private Activity activity;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    private MVillagesLocations location;
+    private MVillagesLocations organisationUnit;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JsonIgnoreProperties(value = { "activity", "operationRoom", "warehouse", "userInfo" }, allowSetters = true)
@@ -324,17 +324,17 @@ public class Assignment extends AbstractAuditingEntity<Long> implements Serializ
         this.latitude = latitude;
     }
 
-    public Instant getStartDayDate() {
-        return this.startDayDate;
+    public Instant getStartDate() {
+        return this.startDate;
     }
 
-    public Assignment startDayDate(Instant startDayDate) {
-        this.setStartDayDate(startDayDate);
+    public Assignment startDate(Instant startDate) {
+        this.setStartDate(startDate);
         return this;
     }
 
-    public void setStartDayDate(Instant startDayDate) {
-        this.startDayDate = startDayDate;
+    public void setStartDate(Instant startDate) {
+        this.startDate = startDate;
     }
 
     // Inherited createdBy methods
@@ -391,16 +391,16 @@ public class Assignment extends AbstractAuditingEntity<Long> implements Serializ
         return this;
     }
 
-    public MVillagesLocations getLocation() {
-        return this.location;
+    public MVillagesLocations getOrganisationUnit() {
+        return this.organisationUnit;
     }
 
-    public void setLocation(MVillagesLocations mVillagesLocations) {
-        this.location = mVillagesLocations;
+    public void setOrganisationUnit(MVillagesLocations mVillagesLocations) {
+        this.organisationUnit = mVillagesLocations;
     }
 
-    public Assignment location(MVillagesLocations mVillagesLocations) {
-        this.setLocation(mVillagesLocations);
+    public Assignment organisationUnit(MVillagesLocations mVillagesLocations) {
+        this.setOrganisationUnit(mVillagesLocations);
         return this;
     }
 
@@ -470,7 +470,7 @@ public class Assignment extends AbstractAuditingEntity<Long> implements Serializ
             ", targetType=" + getTargetType() +
             ", longitude=" + getLongitude() +
             ", latitude=" + getLatitude() +
-            ", startDayDate='" + getStartDayDate() + "'" +
+            ", startDate='" + getStartDate() + "'" +
             ", createdBy='" + getCreatedBy() + "'" +
             ", createdDate='" + getCreatedDate() + "'" +
             ", lastModifiedBy='" + getLastModifiedBy() + "'" +

@@ -17,9 +17,9 @@
                                  referencedTableName="activity"
                                  />
 
-        <addForeignKeyConstraint baseColumnNames="location_id"
+        <addForeignKeyConstraint baseColumnNames="organisation_unit_id"
                                  baseTableName="assignment"
-                                 constraintName="fk_assignment__location_id"
+                                 constraintName="fk_assignment__organisation_unit_id"
                                  referencedColumnNames="id"
                                  referencedTableName="m_villages_locations"
                                  />

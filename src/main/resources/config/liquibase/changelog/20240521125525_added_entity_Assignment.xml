@@ -62,7 +62,7 @@
             <column name="latitude" type="double">
                 <constraints nullable="true" />
             </column>
-            <column name="start_day_date" type="${datetimeType}">
+            <column name="start_date" type="${datetimeType}">
                 <constraints nullable="true" />
             </column>
             <column name="created_by" type="varchar(50)">
@@ -80,7 +80,7 @@
             <column name="activity_id" type="bigint">
                 <constraints nullable="true" />
             </column>
-            <column name="location_id" type="bigint">
+            <column name="organisation_unit_id" type="bigint">
                 <constraints nullable="true" />
             </column>
             <column name="team_id" type="bigint">
@@ -91,7 +91,7 @@
             </column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->
         </createTable>
-        <dropDefaultValue tableName="assignment" columnName="start_day_date" columnDataType="${datetimeType}"/>
+        <dropDefaultValue tableName="assignment" columnName="start_date" columnDataType="${datetimeType}"/>
         <dropDefaultValue tableName="assignment" columnName="created_date" columnDataType="${datetimeType}"/>
         <dropDefaultValue tableName="assignment" columnName="last_modified_date" columnDataType="${datetimeType}"/>
     </changeSet>
