@@ -799,7 +799,7 @@
                 <profile.test>testdev</profile.test>
                 <liquibase-plugin.url>jdbc:postgresql://localhost:5432/dataRunApi</liquibase-plugin.url>
                 <liquibase-plugin.username>dataRunApi</liquibase-plugin.username>
-                <liquibase-plugin.password/>
+                <liquibase-plugin.password>dataRunApi</liquibase-plugin.password>
             </properties>
             <dependencies>
                 <dependency>
@@ -893,7 +893,7 @@
                 <profile.test>testprod</profile.test>
                 <liquibase-plugin.url>jdbc:postgresql://localhost:5432/dataRunApi</liquibase-plugin.url>
                 <liquibase-plugin.username>dataRunApi</liquibase-plugin.username>
-                <liquibase-plugin.password/>
+                <liquibase-plugin.password>dataRunApi</liquibase-plugin.password>
             </properties>
             <build>
                 <plugins>
