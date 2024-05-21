@@ -1,0 +1,51 @@
+{
+  "annotations": {
+    "changelogDate": "20240521125531"
+  },
+  "applications": "*",
+  "fields": [
+    {
+      "fieldName": "uid",
+      "fieldType": "String",
+      "fieldValidateRules": ["unique", "maxlength"],
+      "fieldValidateRulesMaxlength": "11"
+    },
+    {
+      "fieldName": "name",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "description",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "gpsCoordinate",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "supervisor",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "code",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "supervisorMobile",
+      "fieldType": "String"
+    }
+  ],
+  "name": "Warehouse",
+  "relationships": [
+    {
+      "otherEntityField": "code",
+      "otherEntityName": "activity",
+      "relationshipName": "activity",
+      "relationshipSide": "left",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "searchEngine": "no",
+  "service": "serviceImpl"
+}

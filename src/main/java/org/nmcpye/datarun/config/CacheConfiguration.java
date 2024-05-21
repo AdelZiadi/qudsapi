@@ -51,6 +51,20 @@ public class CacheConfiguration {
             createCache(cm, org.nmcpye.datarun.domain.Authority.class.getName());
             createCache(cm, org.nmcpye.datarun.domain.User.class.getName() + ".authorities");
             createCache(cm, org.nmcpye.datarun.domain.EntityAuditEvent.class.getName());
+            createCache(cm, org.nmcpye.datarun.domain.Project.class.getName());
+            createCache(cm, org.nmcpye.datarun.domain.Project.class.getName() + ".activities");
+            createCache(cm, org.nmcpye.datarun.domain.Activity.class.getName());
+            createCache(cm, org.nmcpye.datarun.domain.MVillagesLocations.class.getName());
+            createCache(cm, org.nmcpye.datarun.domain.Assignment.class.getName());
+            createCache(cm, org.nmcpye.datarun.domain.ItnsVillage.class.getName());
+            createCache(cm, org.nmcpye.datarun.domain.ItnsVillage.class.getName() + ".houseDetails");
+            createCache(cm, org.nmcpye.datarun.domain.ItnsVillageHousesDetail.class.getName());
+            createCache(cm, org.nmcpye.datarun.domain.ProgressStatus.class.getName());
+            createCache(cm, org.nmcpye.datarun.domain.ReviewTeam.class.getName());
+            createCache(cm, org.nmcpye.datarun.domain.Team.class.getName());
+            createCache(cm, org.nmcpye.datarun.domain.Warehouse.class.getName());
+            createCache(cm, org.nmcpye.datarun.domain.WarehouseItem.class.getName());
+            createCache(cm, org.nmcpye.datarun.domain.WarehouseTransaction.class.getName());
             // jhipster-needle-ehcache-add-entry
         };
     }

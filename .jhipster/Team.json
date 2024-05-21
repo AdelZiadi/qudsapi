@@ -1,0 +1,73 @@
+{
+  "annotations": {
+    "changelogDate": "20240521125530"
+  },
+  "applications": "*",
+  "fields": [
+    {
+      "fieldName": "uid",
+      "fieldType": "String",
+      "fieldValidateRules": ["unique", "maxlength"],
+      "fieldValidateRulesMaxlength": "11"
+    },
+    {
+      "fieldName": "name",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "code",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "description",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "mobile",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "workers",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "mobility",
+      "fieldType": "String"
+    }
+  ],
+  "name": "Team",
+  "relationships": [
+    {
+      "otherEntityField": "code",
+      "otherEntityName": "activity",
+      "relationshipName": "activity",
+      "relationshipSide": "left",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityField": "name",
+      "otherEntityName": "reviewTeam",
+      "relationshipName": "operationRoom",
+      "relationshipSide": "left",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityField": "name",
+      "otherEntityName": "warehouse",
+      "relationshipName": "warehouse",
+      "relationshipSide": "left",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityField": "login",
+      "otherEntityName": "user",
+      "relationshipName": "userInfo",
+      "relationshipSide": "left",
+      "relationshipType": "many-to-one",
+      "relationshipWithBuiltInEntity": true
+    }
+  ],
+  "searchEngine": "no",
+  "service": "serviceImpl"
+}

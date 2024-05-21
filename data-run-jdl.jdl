@@ -23,30 +23,54 @@ enum PublicLocationType {
   SUBVILLAGE
 }
 
-// Define Entities
-entity Campaign {
-  campaignCode String required 
-  campaignStartedDate Instant required
-  campaignDays Integer min(0)
-  campaignYear Integer min(0)
-  campaignNote String 
-  enabled Boolean required
+entity Project(project) {
+ uid String unique maxlength(11)
+ code String unique
+ name String
+ created Instant
+ lastUpdated Instant
+ displayed Boolean 
+ order Integer
+} 
+
+entity Activity(activity) {
+ uid String unique maxlength(11)
+ code String unique
+ name String
+ startDate Instant required
+ endDate Instant
+ active Boolean
+ displayed Boolean
+ order Integer
 }
 
-entity CampaignType {
-  campaignType String required unique
-  description String
-}
+// Define Entities
+//entity Campaign {
+//  uid String unique maxlength(11)
+//  code String unique required 
+//  campaignStartedDate Instant required
+//  campaignDays Integer min(0)
+//  campaignYear Integer min(0)
+//  campaignNote String 
+//  enabled Boolean
+//}
+
+//entity CampaignType {
+//  uid String unique maxlength(11)
+//  name String unique
+//  description String
+//}
 
 entity MVillagesLocations {
-  ppcCode Long required
+  uid String unique maxlength(11)
+  code String unique required
   mappingStatus Integer
-  districtCode Integer required
+  districtCode Integer
   villageUid String
   subdistrictName String
   villageName String
   subvillageName String
-  ppdName String
+  name String
   urbanRuralId Integer
   urbanRural String
   settlement String
@@ -54,13 +78,15 @@ entity MVillagesLocations {
   pop2022 Double
   longitude Double
   latitude Double
-  ppcCodeGis Long required
+  ppcCodeGis String required
   level PublicLocationType
 }
 
-entity TeamAssignment {
+entity Assignment {
+  uid String unique maxlength(11)
   phaseNo Integer
-  fieldCode Long
+  // fieldCode
+  code String
   districtCode Integer
   gov String
   district String
@@ -78,7 +104,8 @@ entity TeamAssignment {
 }
 
 entity ItnsVillage {
-  submissionUuid String required
+  uid String unique maxlength(11)
+  submissionUuid String unique required
   submissionId Long required
   deleted Boolean
   workDayDate Instant
@@ -108,7 +135,7 @@ entity ItnsVillage {
 entity ItnsVillageHousesDetail {
   submissionUuid String
   deleted Boolean
-  houseUuid String required
+  houseUuid String unique required
   couponid Long
   hname String
   male Integer min(0)
@@ -123,39 +150,46 @@ entity ItnsVillageHousesDetail {
 }
 
 entity ProgressStatus {
-  progressStatusLabel String
+  uid String unique maxlength(11)
+  name String
+  name String
 }
 
 entity ReviewTeam {
-  progressOrname String
-  progressOrUser String
+  uid String unique maxlength(11)
+  name String
+  user String
 }
 
 entity Team {
-  teamLeader String
-  teamNo Long required
-  teamNote String
-  teamMobile String
-  teamNoOfTeamWorkers Integer
+  uid String unique maxlength(11)
+  name String
+  code String required
+  description String
+  mobile String
+  workers Integer
   mobility String
 }
 
 entity Warehouse {
-  whName String
+  uid String unique maxlength(11)
+  name String
   description String
   gpsCoordinate String
-  supervisorName String
-  whNo Long required
+  supervisor String
+  code String required
   supervisorMobile String
 }
 
 entity WarehouseItem {
-  itemName String
-  itemDescription String
+  uid String unique maxlength(11)
+  name String
+  code String
+  description String
 }
 
 entity WarehouseTransaction {
-  imovUid String
+  imovUid String unique required
   transactionDate Integer required
   phaseNo Integer
   entryType String required
@@ -171,19 +205,19 @@ entity WarehouseTransaction {
 
 // Define Relationships
 relationship ManyToOne {
-  Campaign { campaignType (campaignType)} to CampaignType
+  Activity{project(name)} to Project{activity}
 }
 
 relationship ManyToOne {
-  ItnsVillage { progressStatus (progressStatusLabel)} to ProgressStatus
+  ItnsVillage { progressStatus (name)} to ProgressStatus
 }
 
 relationship ManyToOne {
-  ItnsVillage { team (teamNo) required} to Team
+  ItnsVillage { team (code) required} to Team
 }
 
 relationship ManyToOne {
-  ItnsVillage { assignment(fieldCode) required} to TeamAssignment
+  ItnsVillage { assignment(code) required} to Assignment
 }
 
 //relationship ManyToOne {
@@ -191,7 +225,7 @@ relationship ManyToOne {
 //}
 
 relationship ManyToOne {
-  ItnsVillage { campaign (campaignCode)} to Campaign 
+  ItnsVillage { activity (code)} to Activity 
 }
 
 relationship ManyToOne {
@@ -199,55 +233,55 @@ relationship ManyToOne {
 }
 
 relationship ManyToOne {
-  Team { campaign (campaignCode)} to Campaign 
+  Team { activity (code)} to Activity 
 }
 
 relationship ManyToOne {
-  Team { operationRoom (progressOrname)} to ReviewTeam 
+  Team { operationRoom (name)} to ReviewTeam 
 }
 
 relationship ManyToOne {
-  Team { warehouse (whName)} to Warehouse 
+  Team { warehouse (name)} to Warehouse 
 }
 
 relationship ManyToOne {
-  Warehouse { campaign (campaignCode)} to Campaign 
+  Warehouse { activity (code)} to Activity 
 }
 
 relationship ManyToOne {
-  WarehouseTransaction { item (itemName)} to WarehouseItem 
+  WarehouseTransaction { item (name)} to WarehouseItem 
 }
 
 relationship ManyToOne {
-  WarehouseTransaction { sourceWarehouse (whName)} to Warehouse 
+  WarehouseTransaction { sourceWarehouse (name)} to Warehouse 
 }
 
 relationship ManyToOne {
-  WarehouseTransaction { team (teamNo)} to Team 
+  WarehouseTransaction { team (code)} to Team 
 }
 
 relationship ManyToOne {
-  WarehouseTransaction { warehouse (whName) required} to Warehouse 
+  WarehouseTransaction { warehouse (name) required} to Warehouse 
 }
 
 relationship ManyToOne {
-  WarehouseTransaction { campaign (campaignCode)} to Campaign
+  WarehouseTransaction { activity (code)} to Activity
 }
 
 relationship ManyToOne {
-  TeamAssignment { campaign (campaignCode)} to Campaign
+  Assignment { activity (code)} to Activity
 }
 
 relationship ManyToOne {
-  TeamAssignment { location (ppcCode)} to MVillagesLocations
+  Assignment { location (code)} to MVillagesLocations
 }
 
 relationship ManyToOne {
-  TeamAssignment { team (teamNo)} to Team
+  Assignment { team (code)} to Team
 }
 
 relationship ManyToOne {
-  TeamAssignment { warehouse (whName) } to Warehouse
+  Assignment { warehouse (name) } to Warehouse
 }
 
 relationship ManyToOne {
@@ -256,4 +290,4 @@ relationship ManyToOne {
 
 
 service * with serviceImpl
-paginate TeamAssignment, WarehouseTransaction, ItnsVillageHousesDetail, ItnsVillage, MVillagesLocations with pagination
+paginate Assignment, WarehouseTransaction, ItnsVillageHousesDetail, ItnsVillage, MVillagesLocations with pagination

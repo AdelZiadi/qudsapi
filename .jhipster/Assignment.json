@@ -1,0 +1,112 @@
+{
+  "annotations": {
+    "changelogDate": "20240521125525"
+  },
+  "applications": "*",
+  "fields": [
+    {
+      "fieldName": "uid",
+      "fieldType": "String",
+      "fieldValidateRules": ["unique", "maxlength"],
+      "fieldValidateRulesMaxlength": "11"
+    },
+    {
+      "fieldName": "phaseNo",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "code",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "districtCode",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "gov",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "district",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "subdistrict",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "village",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "subvillage",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "ppdName",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "dayId",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "population",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "itnsPlanned",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "targetType",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "longitude",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "latitude",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "startDayDate",
+      "fieldType": "Instant"
+    }
+  ],
+  "name": "Assignment",
+  "pagination": "pagination",
+  "relationships": [
+    {
+      "otherEntityField": "code",
+      "otherEntityName": "activity",
+      "relationshipName": "activity",
+      "relationshipSide": "left",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityField": "code",
+      "otherEntityName": "mVillagesLocations",
+      "relationshipName": "location",
+      "relationshipSide": "left",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityField": "code",
+      "otherEntityName": "team",
+      "relationshipName": "team",
+      "relationshipSide": "left",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityField": "name",
+      "otherEntityName": "warehouse",
+      "relationshipName": "warehouse",
+      "relationshipSide": "left",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "searchEngine": "no",
+  "service": "serviceImpl"
+}

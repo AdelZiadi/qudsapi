@@ -1,0 +1,30 @@
+{
+  "annotations": {
+    "changelogDate": "20240521125532"
+  },
+  "applications": "*",
+  "fields": [
+    {
+      "fieldName": "uid",
+      "fieldType": "String",
+      "fieldValidateRules": ["unique", "maxlength"],
+      "fieldValidateRulesMaxlength": "11"
+    },
+    {
+      "fieldName": "name",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "code",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "description",
+      "fieldType": "String"
+    }
+  ],
+  "name": "WarehouseItem",
+  "relationships": [],
+  "searchEngine": "no",
+  "service": "serviceImpl"
+}

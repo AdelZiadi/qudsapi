@@ -1,0 +1,26 @@
+{
+  "annotations": {
+    "changelogDate": "20240521125529"
+  },
+  "applications": "*",
+  "fields": [
+    {
+      "fieldName": "uid",
+      "fieldType": "String",
+      "fieldValidateRules": ["unique", "maxlength"],
+      "fieldValidateRulesMaxlength": "11"
+    },
+    {
+      "fieldName": "name",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "user",
+      "fieldType": "String"
+    }
+  ],
+  "name": "ReviewTeam",
+  "relationships": [],
+  "searchEngine": "no",
+  "service": "serviceImpl"
+}
