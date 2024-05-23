@@ -49,11 +49,12 @@ public class WarehouseAsserts {
     public static void assertWarehouseUpdatableFieldsEquals(Warehouse expected, Warehouse actual) {
         assertThat(expected)
             .as("Verify Warehouse relevant properties")
-            .satisfies(e -> assertThat(e.getWhName()).as("check whName").isEqualTo(actual.getWhName()))
+            .satisfies(e -> assertThat(e.getUid()).as("check uid").isEqualTo(actual.getUid()))
+            .satisfies(e -> assertThat(e.getName()).as("check name").isEqualTo(actual.getName()))
             .satisfies(e -> assertThat(e.getDescription()).as("check description").isEqualTo(actual.getDescription()))
             .satisfies(e -> assertThat(e.getGpsCoordinate()).as("check gpsCoordinate").isEqualTo(actual.getGpsCoordinate()))
-            .satisfies(e -> assertThat(e.getSupervisorName()).as("check supervisorName").isEqualTo(actual.getSupervisorName()))
-            .satisfies(e -> assertThat(e.getWhNo()).as("check whNo").isEqualTo(actual.getWhNo()))
+            .satisfies(e -> assertThat(e.getSupervisor()).as("check supervisor").isEqualTo(actual.getSupervisor()))
+            .satisfies(e -> assertThat(e.getCode()).as("check code").isEqualTo(actual.getCode()))
             .satisfies(e -> assertThat(e.getSupervisorMobile()).as("check supervisorMobile").isEqualTo(actual.getSupervisorMobile()));
     }
 
@@ -66,6 +67,6 @@ public class WarehouseAsserts {
     public static void assertWarehouseUpdatableRelationshipsEquals(Warehouse expected, Warehouse actual) {
         assertThat(expected)
             .as("Verify Warehouse relationships")
-            .satisfies(e -> assertThat(e.getCampaign()).as("check campaign").isEqualTo(actual.getCampaign()));
+            .satisfies(e -> assertThat(e.getActivity()).as("check activity").isEqualTo(actual.getActivity()));
     }
 }

@@ -12,11 +12,12 @@ public class WarehouseTestSamples {
     public static Warehouse getWarehouseSample1() {
         return new Warehouse()
             .id(1L)
-            .whName("whName1")
+            .uid("uid1")
+            .name("name1")
             .description("description1")
             .gpsCoordinate("gpsCoordinate1")
-            .supervisorName("supervisorName1")
-            .whNo(1L)
+            .supervisor("supervisor1")
+            .code("code1")
             .supervisorMobile("supervisorMobile1")
             .createdBy("createdBy1")
             .lastModifiedBy("lastModifiedBy1");
@@ -25,11 +26,12 @@ public class WarehouseTestSamples {
     public static Warehouse getWarehouseSample2() {
         return new Warehouse()
             .id(2L)
-            .whName("whName2")
+            .uid("uid2")
+            .name("name2")
             .description("description2")
             .gpsCoordinate("gpsCoordinate2")
-            .supervisorName("supervisorName2")
-            .whNo(2L)
+            .supervisor("supervisor2")
+            .code("code2")
             .supervisorMobile("supervisorMobile2")
             .createdBy("createdBy2")
             .lastModifiedBy("lastModifiedBy2");
@@ -38,11 +40,12 @@ public class WarehouseTestSamples {
     public static Warehouse getWarehouseRandomSampleGenerator() {
         return new Warehouse()
             .id(longCount.incrementAndGet())
-            .whName(UUID.randomUUID().toString())
+            .uid(UUID.randomUUID().toString())
+            .name(UUID.randomUUID().toString())
             .description(UUID.randomUUID().toString())
             .gpsCoordinate(UUID.randomUUID().toString())
-            .supervisorName(UUID.randomUUID().toString())
-            .whNo(longCount.incrementAndGet())
+            .supervisor(UUID.randomUUID().toString())
+            .code(UUID.randomUUID().toString())
             .supervisorMobile(UUID.randomUUID().toString())
             .createdBy(UUID.randomUUID().toString())
             .lastModifiedBy(UUID.randomUUID().toString());

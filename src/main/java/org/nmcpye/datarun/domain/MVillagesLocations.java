@@ -1,11 +1,14 @@
 package org.nmcpye.datarun.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import java.io.Serializable;
+import java.time.Instant;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.nmcpye.datarun.domain.enumeration.PublicLocationType;
+import org.springframework.data.domain.Persistable;
 
 /**
  * A MVillagesLocations.
@@ -13,8 +16,9 @@ import org.nmcpye.datarun.domain.enumeration.PublicLocationType;
 @Entity
 @Table(name = "m_villages_locations")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+@JsonIgnoreProperties(value = { "new" })
 @SuppressWarnings("common-java:DuplicatedBlocks")
-public class MVillagesLocations implements Serializable {
+public class MVillagesLocations extends AbstractAuditingEntity<Long> implements Serializable, Persistable<Long> {
 
     private static final long serialVersionUID = 1L;
 
@@ -24,15 +28,18 @@ public class MVillagesLocations implements Serializable {
     @Column(name = "id")
     private Long id;
 
+    @Size(max = 11)
+    @Column(name = "uid", length = 11, unique = true)
+    private String uid;
+
     @NotNull
-    @Column(name = "ppc_code", nullable = false)
-    private Long ppcCode;
+    @Column(name = "code", nullable = false, unique = true)
+    private String code;
 
     @Column(name = "mapping_status")
     private Integer mappingStatus;
 
-    @NotNull
-    @Column(name = "district_code", nullable = false)
+    @Column(name = "district_code")
     private Integer districtCode;
 
     @Column(name = "village_uid")
@@ -47,8 +54,8 @@ public class MVillagesLocations implements Serializable {
     @Column(name = "subvillage_name")
     private String subvillageName;
 
-    @Column(name = "ppd_name")
-    private String ppdName;
+    @Column(name = "name")
+    private String name;
 
     @Column(name = "urban_rural_id")
     private Integer urbanRuralId;
@@ -73,11 +80,18 @@ public class MVillagesLocations implements Serializable {
 
     @NotNull
     @Column(name = "ppc_code_gis", nullable = false)
-    private Long ppcCodeGis;
+    private String ppcCodeGis;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "level")
     private PublicLocationType level;
+
+    // Inherited createdBy definition
+    // Inherited createdDate definition
+    // Inherited lastModifiedBy definition
+    // Inherited lastModifiedDate definition
+    @Transient
+    private boolean isPersisted;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -94,17 +108,30 @@ public class MVillagesLocations implements Serializable {
         this.id = id;
     }
 
-    public Long getPpcCode() {
-        return this.ppcCode;
+    public String getUid() {
+        return this.uid;
     }
 
-    public MVillagesLocations ppcCode(Long ppcCode) {
-        this.setPpcCode(ppcCode);
+    public MVillagesLocations uid(String uid) {
+        this.setUid(uid);
         return this;
     }
 
-    public void setPpcCode(Long ppcCode) {
-        this.ppcCode = ppcCode;
+    public void setUid(String uid) {
+        this.uid = uid;
+    }
+
+    public String getCode() {
+        return this.code;
+    }
+
+    public MVillagesLocations code(String code) {
+        this.setCode(code);
+        return this;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
     }
 
     public Integer getMappingStatus() {
@@ -185,17 +212,17 @@ public class MVillagesLocations implements Serializable {
         this.subvillageName = subvillageName;
     }
 
-    public String getPpdName() {
-        return this.ppdName;
+    public String getName() {
+        return this.name;
     }
 
-    public MVillagesLocations ppdName(String ppdName) {
-        this.setPpdName(ppdName);
+    public MVillagesLocations name(String name) {
+        this.setName(name);
         return this;
     }
 
-    public void setPpdName(String ppdName) {
-        this.ppdName = ppdName;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public Integer getUrbanRuralId() {
@@ -289,16 +316,16 @@ public class MVillagesLocations implements Serializable {
         this.latitude = latitude;
     }
 
-    public Long getPpcCodeGis() {
+    public String getPpcCodeGis() {
         return this.ppcCodeGis;
     }
 
-    public MVillagesLocations ppcCodeGis(Long ppcCodeGis) {
+    public MVillagesLocations ppcCodeGis(String ppcCodeGis) {
         this.setPpcCodeGis(ppcCodeGis);
         return this;
     }
 
-    public void setPpcCodeGis(Long ppcCodeGis) {
+    public void setPpcCodeGis(String ppcCodeGis) {
         this.ppcCodeGis = ppcCodeGis;
     }
 
@@ -313,6 +340,47 @@ public class MVillagesLocations implements Serializable {
 
     public void setLevel(PublicLocationType level) {
         this.level = level;
+    }
+
+    // Inherited createdBy methods
+    public MVillagesLocations createdBy(String createdBy) {
+        this.setCreatedBy(createdBy);
+        return this;
+    }
+
+    // Inherited createdDate methods
+    public MVillagesLocations createdDate(Instant createdDate) {
+        this.setCreatedDate(createdDate);
+        return this;
+    }
+
+    // Inherited lastModifiedBy methods
+    public MVillagesLocations lastModifiedBy(String lastModifiedBy) {
+        this.setLastModifiedBy(lastModifiedBy);
+        return this;
+    }
+
+    // Inherited lastModifiedDate methods
+    public MVillagesLocations lastModifiedDate(Instant lastModifiedDate) {
+        this.setLastModifiedDate(lastModifiedDate);
+        return this;
+    }
+
+    @PostLoad
+    @PostPersist
+    public void updateEntityState() {
+        this.setIsPersisted();
+    }
+
+    @Transient
+    @Override
+    public boolean isNew() {
+        return !this.isPersisted;
+    }
+
+    public MVillagesLocations setIsPersisted() {
+        this.isPersisted = true;
+        return this;
     }
 
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
@@ -339,14 +407,15 @@ public class MVillagesLocations implements Serializable {
     public String toString() {
         return "MVillagesLocations{" +
             "id=" + getId() +
-            ", ppcCode=" + getPpcCode() +
+            ", uid='" + getUid() + "'" +
+            ", code='" + getCode() + "'" +
             ", mappingStatus=" + getMappingStatus() +
             ", districtCode=" + getDistrictCode() +
             ", villageUid='" + getVillageUid() + "'" +
             ", subdistrictName='" + getSubdistrictName() + "'" +
             ", villageName='" + getVillageName() + "'" +
             ", subvillageName='" + getSubvillageName() + "'" +
-            ", ppdName='" + getPpdName() + "'" +
+            ", name='" + getName() + "'" +
             ", urbanRuralId=" + getUrbanRuralId() +
             ", urbanRural='" + getUrbanRural() + "'" +
             ", settlement='" + getSettlement() + "'" +
@@ -354,8 +423,12 @@ public class MVillagesLocations implements Serializable {
             ", pop2022=" + getPop2022() +
             ", longitude=" + getLongitude() +
             ", latitude=" + getLatitude() +
-            ", ppcCodeGis=" + getPpcCodeGis() +
+            ", ppcCodeGis='" + getPpcCodeGis() + "'" +
             ", level='" + getLevel() + "'" +
+            ", createdBy='" + getCreatedBy() + "'" +
+            ", createdDate='" + getCreatedDate() + "'" +
+            ", lastModifiedBy='" + getLastModifiedBy() + "'" +
+            ", lastModifiedDate='" + getLastModifiedDate() + "'" +
             "}";
     }
 }

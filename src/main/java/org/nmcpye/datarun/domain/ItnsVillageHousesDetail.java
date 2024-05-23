@@ -27,6 +27,10 @@ public class ItnsVillageHousesDetail extends AbstractAuditingEntity<Long> implem
     @Column(name = "id")
     private Long id;
 
+    @Size(max = 11)
+    @Column(name = "uid", length = 11, unique = true)
+    private String uid;
+
     @Column(name = "submission_uuid")
     private String submissionUuid;
 
@@ -34,14 +38,14 @@ public class ItnsVillageHousesDetail extends AbstractAuditingEntity<Long> implem
     private Boolean deleted;
 
     @NotNull
-    @Column(name = "house_uuid", nullable = false)
+    @Column(name = "house_uuid", nullable = false, unique = true)
     private String houseUuid;
 
-    @Column(name = "couponid")
-    private Long couponid;
+    @Column(name = "coupon_id")
+    private Long couponId;
 
-    @Column(name = "hname")
-    private String hname;
+    @Column(name = "name")
+    private String name;
 
     @Min(value = 0)
     @Column(name = "male")
@@ -88,7 +92,7 @@ public class ItnsVillageHousesDetail extends AbstractAuditingEntity<Long> implem
 
     @ManyToOne(optional = false)
     @NotNull
-    @JsonIgnoreProperties(value = { "progressStatus", "team", "assignment", "campaign", "houseDetails" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "progressStatus", "team", "assignment", "activity", "houseDetails" }, allowSetters = true)
     private ItnsVillage villageData;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
@@ -104,6 +108,19 @@ public class ItnsVillageHousesDetail extends AbstractAuditingEntity<Long> implem
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getUid() {
+        return this.uid;
+    }
+
+    public ItnsVillageHousesDetail uid(String uid) {
+        this.setUid(uid);
+        return this;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
     }
 
     public String getSubmissionUuid() {
@@ -145,30 +162,30 @@ public class ItnsVillageHousesDetail extends AbstractAuditingEntity<Long> implem
         this.houseUuid = houseUuid;
     }
 
-    public Long getCouponid() {
-        return this.couponid;
+    public Long getCouponId() {
+        return this.couponId;
     }
 
-    public ItnsVillageHousesDetail couponid(Long couponid) {
-        this.setCouponid(couponid);
+    public ItnsVillageHousesDetail couponId(Long couponId) {
+        this.setCouponId(couponId);
         return this;
     }
 
-    public void setCouponid(Long couponid) {
-        this.couponid = couponid;
+    public void setCouponId(Long couponId) {
+        this.couponId = couponId;
     }
 
-    public String getHname() {
-        return this.hname;
+    public String getName() {
+        return this.name;
     }
 
-    public ItnsVillageHousesDetail hname(String hname) {
-        this.setHname(hname);
+    public ItnsVillageHousesDetail name(String name) {
+        this.setName(name);
         return this;
     }
 
-    public void setHname(String hname) {
-        this.hname = hname;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public Integer getMale() {
@@ -366,11 +383,12 @@ public class ItnsVillageHousesDetail extends AbstractAuditingEntity<Long> implem
     public String toString() {
         return "ItnsVillageHousesDetail{" +
             "id=" + getId() +
+            ", uid='" + getUid() + "'" +
             ", submissionUuid='" + getSubmissionUuid() + "'" +
             ", deleted='" + getDeleted() + "'" +
             ", houseUuid='" + getHouseUuid() + "'" +
-            ", couponid=" + getCouponid() +
-            ", hname='" + getHname() + "'" +
+            ", couponId=" + getCouponId() +
+            ", name='" + getName() + "'" +
             ", male=" + getMale() +
             ", female=" + getFemale() +
             ", pregnant=" + getPregnant() +

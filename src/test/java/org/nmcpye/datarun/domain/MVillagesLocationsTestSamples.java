@@ -14,51 +14,60 @@ public class MVillagesLocationsTestSamples {
     public static MVillagesLocations getMVillagesLocationsSample1() {
         return new MVillagesLocations()
             .id(1L)
-            .ppcCode(1L)
+            .uid("uid1")
+            .code("code1")
             .mappingStatus(1)
             .districtCode(1)
             .villageUid("villageUid1")
             .subdistrictName("subdistrictName1")
             .villageName("villageName1")
             .subvillageName("subvillageName1")
-            .ppdName("ppdName1")
+            .name("name1")
             .urbanRuralId(1)
             .urbanRural("urbanRural1")
             .settlement("settlement1")
-            .ppcCodeGis(1L);
+            .ppcCodeGis("ppcCodeGis1")
+            .createdBy("createdBy1")
+            .lastModifiedBy("lastModifiedBy1");
     }
 
     public static MVillagesLocations getMVillagesLocationsSample2() {
         return new MVillagesLocations()
             .id(2L)
-            .ppcCode(2L)
+            .uid("uid2")
+            .code("code2")
             .mappingStatus(2)
             .districtCode(2)
             .villageUid("villageUid2")
             .subdistrictName("subdistrictName2")
             .villageName("villageName2")
             .subvillageName("subvillageName2")
-            .ppdName("ppdName2")
+            .name("name2")
             .urbanRuralId(2)
             .urbanRural("urbanRural2")
             .settlement("settlement2")
-            .ppcCodeGis(2L);
+            .ppcCodeGis("ppcCodeGis2")
+            .createdBy("createdBy2")
+            .lastModifiedBy("lastModifiedBy2");
     }
 
     public static MVillagesLocations getMVillagesLocationsRandomSampleGenerator() {
         return new MVillagesLocations()
             .id(longCount.incrementAndGet())
-            .ppcCode(longCount.incrementAndGet())
+            .uid(UUID.randomUUID().toString())
+            .code(UUID.randomUUID().toString())
             .mappingStatus(intCount.incrementAndGet())
             .districtCode(intCount.incrementAndGet())
             .villageUid(UUID.randomUUID().toString())
             .subdistrictName(UUID.randomUUID().toString())
             .villageName(UUID.randomUUID().toString())
             .subvillageName(UUID.randomUUID().toString())
-            .ppdName(UUID.randomUUID().toString())
+            .name(UUID.randomUUID().toString())
             .urbanRuralId(intCount.incrementAndGet())
             .urbanRural(UUID.randomUUID().toString())
             .settlement(UUID.randomUUID().toString())
-            .ppcCodeGis(longCount.incrementAndGet());
+            .ppcCodeGis(UUID.randomUUID().toString())
+            .createdBy(UUID.randomUUID().toString())
+            .lastModifiedBy(UUID.randomUUID().toString());
     }
 }

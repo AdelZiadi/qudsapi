@@ -1,11 +1,11 @@
 package org.nmcpye.datarun.domain;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.nmcpye.datarun.domain.CampaignTestSamples.*;
+import static org.nmcpye.datarun.domain.ActivityTestSamples.*;
+import static org.nmcpye.datarun.domain.AssignmentTestSamples.*;
 import static org.nmcpye.datarun.domain.ItnsVillageHousesDetailTestSamples.*;
 import static org.nmcpye.datarun.domain.ItnsVillageTestSamples.*;
 import static org.nmcpye.datarun.domain.ProgressStatusTestSamples.*;
-import static org.nmcpye.datarun.domain.TeamAssignmentTestSamples.*;
 import static org.nmcpye.datarun.domain.TeamTestSamples.*;
 
 import java.util.HashSet;
@@ -56,25 +56,25 @@ class ItnsVillageTest {
     @Test
     void assignmentTest() throws Exception {
         ItnsVillage itnsVillage = getItnsVillageRandomSampleGenerator();
-        TeamAssignment teamAssignmentBack = getTeamAssignmentRandomSampleGenerator();
+        Assignment assignmentBack = getAssignmentRandomSampleGenerator();
 
-        itnsVillage.setAssignment(teamAssignmentBack);
-        assertThat(itnsVillage.getAssignment()).isEqualTo(teamAssignmentBack);
+        itnsVillage.setAssignment(assignmentBack);
+        assertThat(itnsVillage.getAssignment()).isEqualTo(assignmentBack);
 
         itnsVillage.assignment(null);
         assertThat(itnsVillage.getAssignment()).isNull();
     }
 
     @Test
-    void campaignTest() throws Exception {
+    void activityTest() throws Exception {
         ItnsVillage itnsVillage = getItnsVillageRandomSampleGenerator();
-        Campaign campaignBack = getCampaignRandomSampleGenerator();
+        Activity activityBack = getActivityRandomSampleGenerator();
 
-        itnsVillage.setCampaign(campaignBack);
-        assertThat(itnsVillage.getCampaign()).isEqualTo(campaignBack);
+        itnsVillage.setActivity(activityBack);
+        assertThat(itnsVillage.getActivity()).isEqualTo(activityBack);
 
-        itnsVillage.campaign(null);
-        assertThat(itnsVillage.getCampaign()).isNull();
+        itnsVillage.activity(null);
+        assertThat(itnsVillage.getActivity()).isNull();
     }
 
     @Test

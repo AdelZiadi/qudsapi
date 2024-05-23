@@ -55,7 +55,7 @@ To package your application as a war in order to deploy it to an application ser
 
 ### JHipster Control Center
 
-JHipster Control Center can help you manage and control your application(s). You can start a local control center server (accessible on <http://localhost:7419>) with:
+JHipster Control Center can help you manage and control your application(s). You can start a local control center server (accessible on http://localhost:7419) with:
 
 ```
 docker compose -f src/main/docker/jhipster-control-center.yml up
@@ -75,7 +75,7 @@ To launch your application's tests, run:
 
 ### Code quality using Sonar
 
-Sonar is used to analyse code quality. You can start a local Sonar server (accessible on <http://localhost:9001>) with:
+Sonar is used to analyse code quality. You can start a local Sonar server (accessible on http://localhost:9001) with:
 
 ```
 docker compose -f src/main/docker/sonar.yml up -d
@@ -148,3 +148,14 @@ For more information refer to [Using Docker and Docker-Compose][], this page als
 ## Continuous Integration (optional)
 
 To configure CI for your project, run the ci-cd sub-generator (`jhipster ci-cd`), this will let you generate configuration files for a number of Continuous Integration systems. Consult the [Setting up Continuous Integration][] page for more information.
+
+[JHipster Homepage and latest documentation]: https://www.jhipster.tech
+[JHipster 8.4.0 archive]: https://www.jhipster.tech/documentation-archive/v8.4.0
+[Using JHipster in development]: https://www.jhipster.tech/documentation-archive/v8.4.0/development/
+[Using Docker and Docker-Compose]: https://www.jhipster.tech/documentation-archive/v8.4.0/docker-compose
+[Using JHipster in production]: https://www.jhipster.tech/documentation-archive/v8.4.0/production/
+[Running tests page]: https://www.jhipster.tech/documentation-archive/v8.4.0/running-tests/
+[Code quality page]: https://www.jhipster.tech/documentation-archive/v8.4.0/code-quality/
+[Setting up Continuous Integration]: https://www.jhipster.tech/documentation-archive/v8.4.0/setting-up-ci/
+[Node.js]: https://nodejs.org/
+[NPM]: https://www.npmjs.com/

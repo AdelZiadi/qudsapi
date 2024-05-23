@@ -50,8 +50,8 @@ public class TeamAssignment extends AbstractAuditingEntity<Long> implements Seri
     @Column(name = "subvillage")
     private String subvillage;
 
-    @Column(name = "ppd_name")
-    private String ppdName;
+    @Column(name = "name")
+    private String name;
 
     @Column(name = "day_id")
     private Integer dayId;
@@ -215,17 +215,17 @@ public class TeamAssignment extends AbstractAuditingEntity<Long> implements Seri
         this.subvillage = subvillage;
     }
 
-    public String getPpdName() {
-        return this.ppdName;
+    public String getName() {
+        return this.name;
     }
 
-    public TeamAssignment ppdName(String ppdName) {
-        this.setPpdName(ppdName);
+    public TeamAssignment name(String name) {
+        this.setName(name);
         return this;
     }
 
-    public void setPpdName(String ppdName) {
-        this.ppdName = ppdName;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public Integer getDayId() {
@@ -444,7 +444,7 @@ public class TeamAssignment extends AbstractAuditingEntity<Long> implements Seri
             ", subdistrict='" + getSubdistrict() + "'" +
             ", village='" + getVillage() + "'" +
             ", subvillage='" + getSubvillage() + "'" +
-            ", ppdName='" + getPpdName() + "'" +
+            ", name='" + getName() + "'" +
             ", dayId=" + getDayId() +
             ", population=" + getPopulation() +
             ", itnsPlanned=" + getItnsPlanned() +

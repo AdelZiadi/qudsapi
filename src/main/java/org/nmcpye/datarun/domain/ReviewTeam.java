@@ -1,9 +1,13 @@
 package org.nmcpye.datarun.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
 import java.io.Serializable;
+import java.time.Instant;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.springframework.data.domain.Persistable;
 
 /**
  * A ReviewTeam.
@@ -11,8 +15,9 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 @Entity
 @Table(name = "review_team")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+@JsonIgnoreProperties(value = { "new" })
 @SuppressWarnings("common-java:DuplicatedBlocks")
-public class ReviewTeam implements Serializable {
+public class ReviewTeam extends AbstractAuditingEntity<Long> implements Serializable, Persistable<Long> {
 
     private static final long serialVersionUID = 1L;
 
@@ -22,11 +27,22 @@ public class ReviewTeam implements Serializable {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "progress_orname")
-    private String progressOrname;
+    @Size(max = 11)
+    @Column(name = "uid", length = 11, unique = true)
+    private String uid;
 
-    @Column(name = "progress_or_user")
-    private String progressOrUser;
+    @Column(name = "name")
+    private String name;
+
+    @Column(name = "app_user")
+    private String user;
+
+    // Inherited createdBy definition
+    // Inherited createdDate definition
+    // Inherited lastModifiedBy definition
+    // Inherited lastModifiedDate definition
+    @Transient
+    private boolean isPersisted;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -43,30 +59,84 @@ public class ReviewTeam implements Serializable {
         this.id = id;
     }
 
-    public String getProgressOrname() {
-        return this.progressOrname;
+    public String getUid() {
+        return this.uid;
     }
 
-    public ReviewTeam progressOrname(String progressOrname) {
-        this.setProgressOrname(progressOrname);
+    public ReviewTeam uid(String uid) {
+        this.setUid(uid);
         return this;
     }
 
-    public void setProgressOrname(String progressOrname) {
-        this.progressOrname = progressOrname;
+    public void setUid(String uid) {
+        this.uid = uid;
     }
 
-    public String getProgressOrUser() {
-        return this.progressOrUser;
+    public String getName() {
+        return this.name;
     }
 
-    public ReviewTeam progressOrUser(String progressOrUser) {
-        this.setProgressOrUser(progressOrUser);
+    public ReviewTeam name(String name) {
+        this.setName(name);
         return this;
     }
 
-    public void setProgressOrUser(String progressOrUser) {
-        this.progressOrUser = progressOrUser;
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getUser() {
+        return this.user;
+    }
+
+    public ReviewTeam user(String user) {
+        this.setUser(user);
+        return this;
+    }
+
+    public void setUser(String user) {
+        this.user = user;
+    }
+
+    // Inherited createdBy methods
+    public ReviewTeam createdBy(String createdBy) {
+        this.setCreatedBy(createdBy);
+        return this;
+    }
+
+    // Inherited createdDate methods
+    public ReviewTeam createdDate(Instant createdDate) {
+        this.setCreatedDate(createdDate);
+        return this;
+    }
+
+    // Inherited lastModifiedBy methods
+    public ReviewTeam lastModifiedBy(String lastModifiedBy) {
+        this.setLastModifiedBy(lastModifiedBy);
+        return this;
+    }
+
+    // Inherited lastModifiedDate methods
+    public ReviewTeam lastModifiedDate(Instant lastModifiedDate) {
+        this.setLastModifiedDate(lastModifiedDate);
+        return this;
+    }
+
+    @PostLoad
+    @PostPersist
+    public void updateEntityState() {
+        this.setIsPersisted();
+    }
+
+    @Transient
+    @Override
+    public boolean isNew() {
+        return !this.isPersisted;
+    }
+
+    public ReviewTeam setIsPersisted() {
+        this.isPersisted = true;
+        return this;
     }
 
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
@@ -93,8 +163,13 @@ public class ReviewTeam implements Serializable {
     public String toString() {
         return "ReviewTeam{" +
             "id=" + getId() +
-            ", progressOrname='" + getProgressOrname() + "'" +
-            ", progressOrUser='" + getProgressOrUser() + "'" +
+            ", uid='" + getUid() + "'" +
+            ", name='" + getName() + "'" +
+            ", user='" + getUser() + "'" +
+            ", createdBy='" + getCreatedBy() + "'" +
+            ", createdDate='" + getCreatedDate() + "'" +
+            ", lastModifiedBy='" + getLastModifiedBy() + "'" +
+            ", lastModifiedDate='" + getLastModifiedDate() + "'" +
             "}";
     }
 }

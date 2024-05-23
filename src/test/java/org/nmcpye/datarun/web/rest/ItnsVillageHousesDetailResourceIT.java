@@ -32,6 +32,9 @@ import org.springframework.transaction.annotation.Transactional;
 @WithMockUser
 class ItnsVillageHousesDetailResourceIT {
 
+    private static final String DEFAULT_UID = "AAAAAAAAAA";
+    private static final String UPDATED_UID = "BBBBBBBBBB";
+
     private static final String DEFAULT_SUBMISSION_UUID = "AAAAAAAAAA";
     private static final String UPDATED_SUBMISSION_UUID = "BBBBBBBBBB";
 
@@ -41,11 +44,11 @@ class ItnsVillageHousesDetailResourceIT {
     private static final String DEFAULT_HOUSE_UUID = "AAAAAAAAAA";
     private static final String UPDATED_HOUSE_UUID = "BBBBBBBBBB";
 
-    private static final Long DEFAULT_COUPONID = 1L;
-    private static final Long UPDATED_COUPONID = 2L;
+    private static final Long DEFAULT_COUPON_ID = 1L;
+    private static final Long UPDATED_COUPON_ID = 2L;
 
-    private static final String DEFAULT_HNAME = "AAAAAAAAAA";
-    private static final String UPDATED_HNAME = "BBBBBBBBBB";
+    private static final String DEFAULT_NAME = "AAAAAAAAAA";
+    private static final String UPDATED_NAME = "BBBBBBBBBB";
 
     private static final Integer DEFAULT_MALE = 0;
     private static final Integer UPDATED_MALE = 1;
@@ -102,11 +105,12 @@ class ItnsVillageHousesDetailResourceIT {
      */
     public static ItnsVillageHousesDetail createEntity(EntityManager em) {
         ItnsVillageHousesDetail itnsVillageHousesDetail = new ItnsVillageHousesDetail()
+            .uid(DEFAULT_UID)
             .submissionUuid(DEFAULT_SUBMISSION_UUID)
             .deleted(DEFAULT_DELETED)
             .houseUuid(DEFAULT_HOUSE_UUID)
-            .couponid(DEFAULT_COUPONID)
-            .hname(DEFAULT_HNAME)
+            .couponId(DEFAULT_COUPON_ID)
+            .name(DEFAULT_NAME)
             .male(DEFAULT_MALE)
             .female(DEFAULT_FEMALE)
             .pregnant(DEFAULT_PREGNANT)
@@ -137,11 +141,12 @@ class ItnsVillageHousesDetailResourceIT {
      */
     public static ItnsVillageHousesDetail createUpdatedEntity(EntityManager em) {
         ItnsVillageHousesDetail itnsVillageHousesDetail = new ItnsVillageHousesDetail()
+            .uid(UPDATED_UID)
             .submissionUuid(UPDATED_SUBMISSION_UUID)
             .deleted(UPDATED_DELETED)
             .houseUuid(UPDATED_HOUSE_UUID)
-            .couponid(UPDATED_COUPONID)
-            .hname(UPDATED_HNAME)
+            .couponId(UPDATED_COUPON_ID)
+            .name(UPDATED_NAME)
             .male(UPDATED_MALE)
             .female(UPDATED_FEMALE)
             .pregnant(UPDATED_PREGNANT)
@@ -239,11 +244,12 @@ class ItnsVillageHousesDetailResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(itnsVillageHousesDetail.getId().intValue())))
+            .andExpect(jsonPath("$.[*].uid").value(hasItem(DEFAULT_UID)))
             .andExpect(jsonPath("$.[*].submissionUuid").value(hasItem(DEFAULT_SUBMISSION_UUID)))
             .andExpect(jsonPath("$.[*].deleted").value(hasItem(DEFAULT_DELETED.booleanValue())))
             .andExpect(jsonPath("$.[*].houseUuid").value(hasItem(DEFAULT_HOUSE_UUID)))
-            .andExpect(jsonPath("$.[*].couponid").value(hasItem(DEFAULT_COUPONID.intValue())))
-            .andExpect(jsonPath("$.[*].hname").value(hasItem(DEFAULT_HNAME)))
+            .andExpect(jsonPath("$.[*].couponId").value(hasItem(DEFAULT_COUPON_ID.intValue())))
+            .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)))
             .andExpect(jsonPath("$.[*].male").value(hasItem(DEFAULT_MALE)))
             .andExpect(jsonPath("$.[*].female").value(hasItem(DEFAULT_FEMALE)))
             .andExpect(jsonPath("$.[*].pregnant").value(hasItem(DEFAULT_PREGNANT)))
@@ -267,11 +273,12 @@ class ItnsVillageHousesDetailResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(itnsVillageHousesDetail.getId().intValue()))
+            .andExpect(jsonPath("$.uid").value(DEFAULT_UID))
             .andExpect(jsonPath("$.submissionUuid").value(DEFAULT_SUBMISSION_UUID))
             .andExpect(jsonPath("$.deleted").value(DEFAULT_DELETED.booleanValue()))
             .andExpect(jsonPath("$.houseUuid").value(DEFAULT_HOUSE_UUID))
-            .andExpect(jsonPath("$.couponid").value(DEFAULT_COUPONID.intValue()))
-            .andExpect(jsonPath("$.hname").value(DEFAULT_HNAME))
+            .andExpect(jsonPath("$.couponId").value(DEFAULT_COUPON_ID.intValue()))
+            .andExpect(jsonPath("$.name").value(DEFAULT_NAME))
             .andExpect(jsonPath("$.male").value(DEFAULT_MALE))
             .andExpect(jsonPath("$.female").value(DEFAULT_FEMALE))
             .andExpect(jsonPath("$.pregnant").value(DEFAULT_PREGNANT))
@@ -305,11 +312,12 @@ class ItnsVillageHousesDetailResourceIT {
         // Disconnect from session so that the updates on updatedItnsVillageHousesDetail are not directly saved in db
         em.detach(updatedItnsVillageHousesDetail);
         updatedItnsVillageHousesDetail
+            .uid(UPDATED_UID)
             .submissionUuid(UPDATED_SUBMISSION_UUID)
             .deleted(UPDATED_DELETED)
             .houseUuid(UPDATED_HOUSE_UUID)
-            .couponid(UPDATED_COUPONID)
-            .hname(UPDATED_HNAME)
+            .couponId(UPDATED_COUPON_ID)
+            .name(UPDATED_NAME)
             .male(UPDATED_MALE)
             .female(UPDATED_FEMALE)
             .pregnant(UPDATED_PREGNANT)
@@ -398,11 +406,7 @@ class ItnsVillageHousesDetailResourceIT {
         ItnsVillageHousesDetail partialUpdatedItnsVillageHousesDetail = new ItnsVillageHousesDetail();
         partialUpdatedItnsVillageHousesDetail.setId(itnsVillageHousesDetail.getId());
 
-        partialUpdatedItnsVillageHousesDetail
-            .submissionUuid(UPDATED_SUBMISSION_UUID)
-            .female(UPDATED_FEMALE)
-            .femaleChild(UPDATED_FEMALE_CHILD)
-            .comment(UPDATED_COMMENT);
+        partialUpdatedItnsVillageHousesDetail.uid(UPDATED_UID).male(UPDATED_MALE).maleChild(UPDATED_MALE_CHILD).itns(UPDATED_ITNS);
 
         restItnsVillageHousesDetailMockMvc
             .perform(
@@ -434,11 +438,12 @@ class ItnsVillageHousesDetailResourceIT {
         partialUpdatedItnsVillageHousesDetail.setId(itnsVillageHousesDetail.getId());
 
         partialUpdatedItnsVillageHousesDetail
+            .uid(UPDATED_UID)
             .submissionUuid(UPDATED_SUBMISSION_UUID)
             .deleted(UPDATED_DELETED)
             .houseUuid(UPDATED_HOUSE_UUID)
-            .couponid(UPDATED_COUPONID)
-            .hname(UPDATED_HNAME)
+            .couponId(UPDATED_COUPON_ID)
+            .name(UPDATED_NAME)
             .male(UPDATED_MALE)
             .female(UPDATED_FEMALE)
             .pregnant(UPDATED_PREGNANT)

@@ -34,6 +34,7 @@ public class ReviewTeamServiceImpl implements ReviewTeamService {
     @Override
     public ReviewTeam update(ReviewTeam reviewTeam) {
         log.debug("Request to update ReviewTeam : {}", reviewTeam);
+        reviewTeam.setIsPersisted();
         return reviewTeamRepository.save(reviewTeam);
     }
 
@@ -44,11 +45,26 @@ public class ReviewTeamServiceImpl implements ReviewTeamService {
         return reviewTeamRepository
             .findById(reviewTeam.getId())
             .map(existingReviewTeam -> {
-                if (reviewTeam.getProgressOrname() != null) {
-                    existingReviewTeam.setProgressOrname(reviewTeam.getProgressOrname());
+                if (reviewTeam.getUid() != null) {
+                    existingReviewTeam.setUid(reviewTeam.getUid());
                 }
-                if (reviewTeam.getProgressOrUser() != null) {
-                    existingReviewTeam.setProgressOrUser(reviewTeam.getProgressOrUser());
+                if (reviewTeam.getName() != null) {
+                    existingReviewTeam.setName(reviewTeam.getName());
+                }
+                if (reviewTeam.getUser() != null) {
+                    existingReviewTeam.setUser(reviewTeam.getUser());
+                }
+                if (reviewTeam.getCreatedBy() != null) {
+                    existingReviewTeam.setCreatedBy(reviewTeam.getCreatedBy());
+                }
+                if (reviewTeam.getCreatedDate() != null) {
+                    existingReviewTeam.setCreatedDate(reviewTeam.getCreatedDate());
+                }
+                if (reviewTeam.getLastModifiedBy() != null) {
+                    existingReviewTeam.setLastModifiedBy(reviewTeam.getLastModifiedBy());
+                }
+                if (reviewTeam.getLastModifiedDate() != null) {
+                    existingReviewTeam.setLastModifiedDate(reviewTeam.getLastModifiedDate());
                 }
 
                 return existingReviewTeam;

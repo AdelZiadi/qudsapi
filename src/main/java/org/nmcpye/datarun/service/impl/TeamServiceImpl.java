@@ -1,6 +1,5 @@
 package org.nmcpye.datarun.service.impl;
 
-import java.util.List;
 import java.util.Optional;
 import org.nmcpye.datarun.domain.Team;
 import org.nmcpye.datarun.repository.TeamRepository;
@@ -47,20 +46,23 @@ public class TeamServiceImpl implements TeamService {
         return teamRepository
             .findById(team.getId())
             .map(existingTeam -> {
-                if (team.getTeamLeader() != null) {
-                    existingTeam.setTeamLeader(team.getTeamLeader());
+                if (team.getUid() != null) {
+                    existingTeam.setUid(team.getUid());
                 }
-                if (team.getTeamNo() != null) {
-                    existingTeam.setTeamNo(team.getTeamNo());
+                if (team.getName() != null) {
+                    existingTeam.setName(team.getName());
                 }
-                if (team.getTeamNote() != null) {
-                    existingTeam.setTeamNote(team.getTeamNote());
+                if (team.getCode() != null) {
+                    existingTeam.setCode(team.getCode());
                 }
-                if (team.getTeamMobile() != null) {
-                    existingTeam.setTeamMobile(team.getTeamMobile());
+                if (team.getDescription() != null) {
+                    existingTeam.setDescription(team.getDescription());
                 }
-                if (team.getTeamNoOfTeamWorkers() != null) {
-                    existingTeam.setTeamNoOfTeamWorkers(team.getTeamNoOfTeamWorkers());
+                if (team.getMobile() != null) {
+                    existingTeam.setMobile(team.getMobile());
+                }
+                if (team.getWorkers() != null) {
+                    existingTeam.setWorkers(team.getWorkers());
                 }
                 if (team.getMobility() != null) {
                     existingTeam.setMobility(team.getMobility());
@@ -85,9 +87,9 @@ public class TeamServiceImpl implements TeamService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<Team> findAll() {
+    public Page<Team> findAll(Pageable pageable) {
         log.debug("Request to get all Teams");
-        return teamRepository.findAll();
+        return teamRepository.findAll(pageable);
     }
 
     public Page<Team> findAllWithEagerRelationships(Pageable pageable) {

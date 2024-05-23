@@ -1,14 +1,20 @@
 {
   "annotations": {
-    "changelogDate": "20240517224520"
+    "changelogDate": "20240522234854"
   },
   "applications": "*",
   "enableAudit": true,
   "fields": [
     {
+      "fieldName": "uid",
+      "fieldType": "String",
+      "fieldValidateRules": ["unique", "maxlength"],
+      "fieldValidateRulesMaxlength": "11"
+    },
+    {
       "fieldName": "submissionUuid",
       "fieldType": "String",
-      "fieldValidateRules": ["required"]
+      "fieldValidateRules": ["unique", "required"]
     },
     {
       "fieldName": "submissionId",
@@ -162,14 +168,14 @@
   "pagination": "pagination",
   "relationships": [
     {
-      "otherEntityField": "progressStatusLabel",
+      "otherEntityField": "name",
       "otherEntityName": "progressStatus",
       "relationshipName": "progressStatus",
       "relationshipSide": "left",
       "relationshipType": "many-to-one"
     },
     {
-      "otherEntityField": "teamNo",
+      "otherEntityField": "code",
       "otherEntityName": "team",
       "relationshipName": "team",
       "relationshipSide": "left",
@@ -177,17 +183,17 @@
       "relationshipValidateRules": "required"
     },
     {
-      "otherEntityField": "fieldCode",
-      "otherEntityName": "teamAssignment",
+      "otherEntityField": "code",
+      "otherEntityName": "assignment",
       "relationshipName": "assignment",
       "relationshipSide": "left",
       "relationshipType": "many-to-one",
       "relationshipValidateRules": "required"
     },
     {
-      "otherEntityField": "campaignCode",
-      "otherEntityName": "campaign",
-      "relationshipName": "campaign",
+      "otherEntityField": "code",
+      "otherEntityName": "activity",
+      "relationshipName": "activity",
       "relationshipSide": "left",
       "relationshipType": "many-to-one"
     },

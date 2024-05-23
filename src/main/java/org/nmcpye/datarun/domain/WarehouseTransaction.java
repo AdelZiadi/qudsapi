@@ -27,12 +27,13 @@ public class WarehouseTransaction extends AbstractAuditingEntity<Long> implement
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "imov_uid")
+    @NotNull
+    @Column(name = "imov_uid", nullable = false, unique = true)
     private String imovUid;
 
     @NotNull
     @Column(name = "transaction_date", nullable = false)
-    private Integer transactionDate;
+    private Instant transactionDate;
 
     @Column(name = "phase_no")
     private Integer phaseNo;
@@ -80,21 +81,21 @@ public class WarehouseTransaction extends AbstractAuditingEntity<Long> implement
     private WarehouseItem item;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JsonIgnoreProperties(value = { "campaign" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "activity" }, allowSetters = true)
     private Warehouse sourceWarehouse;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JsonIgnoreProperties(value = { "campaign", "operationRoom", "warehouse", "userInfo" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "activity", "operationRoom", "warehouse", "userInfo", "assignments" }, allowSetters = true)
     private Team team;
 
     @ManyToOne(optional = false)
     @NotNull
-    @JsonIgnoreProperties(value = { "campaign" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "activity" }, allowSetters = true)
     private Warehouse warehouse;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JsonIgnoreProperties(value = { "campaignType" }, allowSetters = true)
-    private Campaign campaign;
+    @JsonIgnoreProperties(value = { "project" }, allowSetters = true)
+    private Activity activity;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -124,16 +125,16 @@ public class WarehouseTransaction extends AbstractAuditingEntity<Long> implement
         this.imovUid = imovUid;
     }
 
-    public Integer getTransactionDate() {
+    public Instant getTransactionDate() {
         return this.transactionDate;
     }
 
-    public WarehouseTransaction transactionDate(Integer transactionDate) {
+    public WarehouseTransaction transactionDate(Instant transactionDate) {
         this.setTransactionDate(transactionDate);
         return this;
     }
 
-    public void setTransactionDate(Integer transactionDate) {
+    public void setTransactionDate(Instant transactionDate) {
         this.transactionDate = transactionDate;
     }
 
@@ -360,16 +361,16 @@ public class WarehouseTransaction extends AbstractAuditingEntity<Long> implement
         return this;
     }
 
-    public Campaign getCampaign() {
-        return this.campaign;
+    public Activity getActivity() {
+        return this.activity;
     }
 
-    public void setCampaign(Campaign campaign) {
-        this.campaign = campaign;
+    public void setActivity(Activity activity) {
+        this.activity = activity;
     }
 
-    public WarehouseTransaction campaign(Campaign campaign) {
-        this.setCampaign(campaign);
+    public WarehouseTransaction activity(Activity activity) {
+        this.setActivity(activity);
         return this;
     }
 
@@ -398,7 +399,7 @@ public class WarehouseTransaction extends AbstractAuditingEntity<Long> implement
         return "WarehouseTransaction{" +
             "id=" + getId() +
             ", imovUid='" + getImovUid() + "'" +
-            ", transactionDate=" + getTransactionDate() +
+            ", transactionDate='" + getTransactionDate() + "'" +
             ", phaseNo=" + getPhaseNo() +
             ", entryType='" + getEntryType() + "'" +
             ", quantity=" + getQuantity() +

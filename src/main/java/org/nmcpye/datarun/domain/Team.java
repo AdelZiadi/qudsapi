@@ -5,6 +5,8 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import java.io.Serializable;
 import java.time.Instant;
+import java.util.HashSet;
+import java.util.Set;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.springframework.data.domain.Persistable;
@@ -27,21 +29,25 @@ public class Team extends AbstractAuditingEntity<Long> implements Serializable, 
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "team_leader")
-    private String teamLeader;
+    @Size(max = 11)
+    @Column(name = "uid", length = 11, unique = true)
+    private String uid;
+
+    @Column(name = "name")
+    private String name;
 
     @NotNull
-    @Column(name = "team_no", nullable = false)
-    private Long teamNo;
+    @Column(name = "code", nullable = false)
+    private String code;
 
-    @Column(name = "team_note")
-    private String teamNote;
+    @Column(name = "description")
+    private String description;
 
-    @Column(name = "team_mobile")
-    private String teamMobile;
+    @Column(name = "mobile")
+    private String mobile;
 
-    @Column(name = "team_no_of_team_workers")
-    private Integer teamNoOfTeamWorkers;
+    @Column(name = "workers")
+    private Integer workers;
 
     @Column(name = "mobility")
     private String mobility;
@@ -54,18 +60,23 @@ public class Team extends AbstractAuditingEntity<Long> implements Serializable, 
     private boolean isPersisted;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JsonIgnoreProperties(value = { "campaignType" }, allowSetters = true)
-    private Campaign campaign;
+    @JsonIgnoreProperties(value = { "project" }, allowSetters = true)
+    private Activity activity;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private ReviewTeam operationRoom;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JsonIgnoreProperties(value = { "campaign" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "activity" }, allowSetters = true)
     private Warehouse warehouse;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private User userInfo;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "team")
+    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+    @JsonIgnoreProperties(value = { "activity", "organisationUnit", "team", "warehouse" }, allowSetters = true)
+    private Set<Assignment> assignments = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -82,69 +93,82 @@ public class Team extends AbstractAuditingEntity<Long> implements Serializable, 
         this.id = id;
     }
 
-    public String getTeamLeader() {
-        return this.teamLeader;
+    public String getUid() {
+        return this.uid;
     }
 
-    public Team teamLeader(String teamLeader) {
-        this.setTeamLeader(teamLeader);
+    public Team uid(String uid) {
+        this.setUid(uid);
         return this;
     }
 
-    public void setTeamLeader(String teamLeader) {
-        this.teamLeader = teamLeader;
+    public void setUid(String uid) {
+        this.uid = uid;
     }
 
-    public Long getTeamNo() {
-        return this.teamNo;
+    public String getName() {
+        return this.name;
     }
 
-    public Team teamNo(Long teamNo) {
-        this.setTeamNo(teamNo);
+    public Team name(String name) {
+        this.setName(name);
         return this;
     }
 
-    public void setTeamNo(Long teamNo) {
-        this.teamNo = teamNo;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getTeamNote() {
-        return this.teamNote;
+    public String getCode() {
+        return this.code;
     }
 
-    public Team teamNote(String teamNote) {
-        this.setTeamNote(teamNote);
+    public Team code(String code) {
+        this.setCode(code);
         return this;
     }
 
-    public void setTeamNote(String teamNote) {
-        this.teamNote = teamNote;
+    public void setCode(String code) {
+        this.code = code;
     }
 
-    public String getTeamMobile() {
-        return this.teamMobile;
+    public String getDescription() {
+        return this.description;
     }
 
-    public Team teamMobile(String teamMobile) {
-        this.setTeamMobile(teamMobile);
+    public Team description(String description) {
+        this.setDescription(description);
         return this;
     }
 
-    public void setTeamMobile(String teamMobile) {
-        this.teamMobile = teamMobile;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
-    public Integer getTeamNoOfTeamWorkers() {
-        return this.teamNoOfTeamWorkers;
+    public String getMobile() {
+        return this.mobile;
     }
 
-    public Team teamNoOfTeamWorkers(Integer teamNoOfTeamWorkers) {
-        this.setTeamNoOfTeamWorkers(teamNoOfTeamWorkers);
+    public Team mobile(String mobile) {
+        this.setMobile(mobile);
         return this;
     }
 
-    public void setTeamNoOfTeamWorkers(Integer teamNoOfTeamWorkers) {
-        this.teamNoOfTeamWorkers = teamNoOfTeamWorkers;
+    public void setMobile(String mobile) {
+        this.mobile = mobile;
+    }
+
+    public Integer getWorkers() {
+        return this.workers;
+    }
+
+    public Team workers(Integer workers) {
+        this.setWorkers(workers);
+        return this;
+    }
+
+    public void setWorkers(Integer workers) {
+        this.workers = workers;
     }
 
     public String getMobility() {
@@ -201,16 +225,16 @@ public class Team extends AbstractAuditingEntity<Long> implements Serializable, 
         return this;
     }
 
-    public Campaign getCampaign() {
-        return this.campaign;
+    public Activity getActivity() {
+        return this.activity;
     }
 
-    public void setCampaign(Campaign campaign) {
-        this.campaign = campaign;
+    public void setActivity(Activity activity) {
+        this.activity = activity;
     }
 
-    public Team campaign(Campaign campaign) {
-        this.setCampaign(campaign);
+    public Team activity(Activity activity) {
+        this.setActivity(activity);
         return this;
     }
 
@@ -253,6 +277,37 @@ public class Team extends AbstractAuditingEntity<Long> implements Serializable, 
         return this;
     }
 
+    public Set<Assignment> getAssignments() {
+        return this.assignments;
+    }
+
+    public void setAssignments(Set<Assignment> assignments) {
+        if (this.assignments != null) {
+            this.assignments.forEach(i -> i.setTeam(null));
+        }
+        if (assignments != null) {
+            assignments.forEach(i -> i.setTeam(this));
+        }
+        this.assignments = assignments;
+    }
+
+    public Team assignments(Set<Assignment> assignments) {
+        this.setAssignments(assignments);
+        return this;
+    }
+
+    public Team addAssignment(Assignment assignment) {
+        this.assignments.add(assignment);
+        assignment.setTeam(this);
+        return this;
+    }
+
+    public Team removeAssignment(Assignment assignment) {
+        this.assignments.remove(assignment);
+        assignment.setTeam(null);
+        return this;
+    }
+
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
 
     @Override
@@ -277,11 +332,12 @@ public class Team extends AbstractAuditingEntity<Long> implements Serializable, 
     public String toString() {
         return "Team{" +
             "id=" + getId() +
-            ", teamLeader='" + getTeamLeader() + "'" +
-            ", teamNo=" + getTeamNo() +
-            ", teamNote='" + getTeamNote() + "'" +
-            ", teamMobile='" + getTeamMobile() + "'" +
-            ", teamNoOfTeamWorkers=" + getTeamNoOfTeamWorkers() +
+            ", uid='" + getUid() + "'" +
+            ", name='" + getName() + "'" +
+            ", code='" + getCode() + "'" +
+            ", description='" + getDescription() + "'" +
+            ", mobile='" + getMobile() + "'" +
+            ", workers=" + getWorkers() +
             ", mobility='" + getMobility() + "'" +
             ", createdBy='" + getCreatedBy() + "'" +
             ", createdDate='" + getCreatedDate() + "'" +

@@ -76,6 +76,6 @@ public class WarehouseTransactionAsserts {
             .satisfies(e -> assertThat(e.getSourceWarehouse()).as("check sourceWarehouse").isEqualTo(actual.getSourceWarehouse()))
             .satisfies(e -> assertThat(e.getTeam()).as("check team").isEqualTo(actual.getTeam()))
             .satisfies(e -> assertThat(e.getWarehouse()).as("check warehouse").isEqualTo(actual.getWarehouse()))
-            .satisfies(e -> assertThat(e.getCampaign()).as("check campaign").isEqualTo(actual.getCampaign()));
+            .satisfies(e -> assertThat(e.getActivity()).as("check activity").isEqualTo(actual.getActivity()));
     }
 }

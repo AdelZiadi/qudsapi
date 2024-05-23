@@ -46,6 +46,9 @@ public class ItnsVillageHousesDetailServiceImpl implements ItnsVillageHousesDeta
         return itnsVillageHousesDetailRepository
             .findById(itnsVillageHousesDetail.getId())
             .map(existingItnsVillageHousesDetail -> {
+                if (itnsVillageHousesDetail.getUid() != null) {
+                    existingItnsVillageHousesDetail.setUid(itnsVillageHousesDetail.getUid());
+                }
                 if (itnsVillageHousesDetail.getSubmissionUuid() != null) {
                     existingItnsVillageHousesDetail.setSubmissionUuid(itnsVillageHousesDetail.getSubmissionUuid());
                 }
@@ -55,11 +58,11 @@ public class ItnsVillageHousesDetailServiceImpl implements ItnsVillageHousesDeta
                 if (itnsVillageHousesDetail.getHouseUuid() != null) {
                     existingItnsVillageHousesDetail.setHouseUuid(itnsVillageHousesDetail.getHouseUuid());
                 }
-                if (itnsVillageHousesDetail.getCouponid() != null) {
-                    existingItnsVillageHousesDetail.setCouponid(itnsVillageHousesDetail.getCouponid());
+                if (itnsVillageHousesDetail.getCouponId() != null) {
+                    existingItnsVillageHousesDetail.setCouponId(itnsVillageHousesDetail.getCouponId());
                 }
-                if (itnsVillageHousesDetail.getHname() != null) {
-                    existingItnsVillageHousesDetail.setHname(itnsVillageHousesDetail.getHname());
+                if (itnsVillageHousesDetail.getName() != null) {
+                    existingItnsVillageHousesDetail.setName(itnsVillageHousesDetail.getName());
                 }
                 if (itnsVillageHousesDetail.getMale() != null) {
                     existingItnsVillageHousesDetail.setMale(itnsVillageHousesDetail.getMale());

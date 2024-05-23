@@ -27,14 +27,14 @@ public interface WarehouseRepository extends JpaRepository<Warehouse, Long> {
     }
 
     @Query(
-        value = "select warehouse from Warehouse warehouse left join fetch warehouse.campaign",
+        value = "select warehouse from Warehouse warehouse left join fetch warehouse.activity",
         countQuery = "select count(warehouse) from Warehouse warehouse"
     )
     Page<Warehouse> findAllWithToOneRelationships(Pageable pageable);
 
-    @Query("select warehouse from Warehouse warehouse left join fetch warehouse.campaign")
+    @Query("select warehouse from Warehouse warehouse left join fetch warehouse.activity")
     List<Warehouse> findAllWithToOneRelationships();
 
-    @Query("select warehouse from Warehouse warehouse left join fetch warehouse.campaign where warehouse.id =:id")
+    @Query("select warehouse from Warehouse warehouse left join fetch warehouse.activity where warehouse.id =:id")
     Optional<Warehouse> findOneWithToOneRelationships(@Param("id") Long id);
 }

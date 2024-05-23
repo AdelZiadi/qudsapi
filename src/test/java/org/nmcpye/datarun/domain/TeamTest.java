@@ -1,11 +1,14 @@
 package org.nmcpye.datarun.domain;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.nmcpye.datarun.domain.CampaignTestSamples.*;
+import static org.nmcpye.datarun.domain.ActivityTestSamples.*;
+import static org.nmcpye.datarun.domain.AssignmentTestSamples.*;
 import static org.nmcpye.datarun.domain.ReviewTeamTestSamples.*;
 import static org.nmcpye.datarun.domain.TeamTestSamples.*;
 import static org.nmcpye.datarun.domain.WarehouseTestSamples.*;
 
+import java.util.HashSet;
+import java.util.Set;
 import org.junit.jupiter.api.Test;
 import org.nmcpye.datarun.web.rest.TestUtil;
 
@@ -26,15 +29,15 @@ class TeamTest {
     }
 
     @Test
-    void campaignTest() throws Exception {
+    void activityTest() throws Exception {
         Team team = getTeamRandomSampleGenerator();
-        Campaign campaignBack = getCampaignRandomSampleGenerator();
+        Activity activityBack = getActivityRandomSampleGenerator();
 
-        team.setCampaign(campaignBack);
-        assertThat(team.getCampaign()).isEqualTo(campaignBack);
+        team.setActivity(activityBack);
+        assertThat(team.getActivity()).isEqualTo(activityBack);
 
-        team.campaign(null);
-        assertThat(team.getCampaign()).isNull();
+        team.activity(null);
+        assertThat(team.getActivity()).isNull();
     }
 
     @Test
@@ -59,5 +62,27 @@ class TeamTest {
 
         team.warehouse(null);
         assertThat(team.getWarehouse()).isNull();
+    }
+
+    @Test
+    void assignmentTest() throws Exception {
+        Team team = getTeamRandomSampleGenerator();
+        Assignment assignmentBack = getAssignmentRandomSampleGenerator();
+
+        team.addAssignment(assignmentBack);
+        assertThat(team.getAssignments()).containsOnly(assignmentBack);
+        assertThat(assignmentBack.getTeam()).isEqualTo(team);
+
+        team.removeAssignment(assignmentBack);
+        assertThat(team.getAssignments()).doesNotContain(assignmentBack);
+        assertThat(assignmentBack.getTeam()).isNull();
+
+        team.assignments(new HashSet<>(Set.of(assignmentBack)));
+        assertThat(team.getAssignments()).containsOnly(assignmentBack);
+        assertThat(assignmentBack.getTeam()).isEqualTo(team);
+
+        team.setAssignments(new HashSet<>());
+        assertThat(team.getAssignments()).doesNotContain(assignmentBack);
+        assertThat(assignmentBack.getTeam()).isNull();
     }
 }

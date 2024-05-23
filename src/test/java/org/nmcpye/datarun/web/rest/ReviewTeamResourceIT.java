@@ -31,11 +31,14 @@ import org.springframework.transaction.annotation.Transactional;
 @WithMockUser
 class ReviewTeamResourceIT {
 
-    private static final String DEFAULT_PROGRESS_ORNAME = "AAAAAAAAAA";
-    private static final String UPDATED_PROGRESS_ORNAME = "BBBBBBBBBB";
+    private static final String DEFAULT_UID = "AAAAAAAAAA";
+    private static final String UPDATED_UID = "BBBBBBBBBB";
 
-    private static final String DEFAULT_PROGRESS_OR_USER = "AAAAAAAAAA";
-    private static final String UPDATED_PROGRESS_OR_USER = "BBBBBBBBBB";
+    private static final String DEFAULT_NAME = "AAAAAAAAAA";
+    private static final String UPDATED_NAME = "BBBBBBBBBB";
+
+    private static final String DEFAULT_USER = "AAAAAAAAAA";
+    private static final String UPDATED_USER = "BBBBBBBBBB";
 
     private static final String ENTITY_API_URL = "/api/review-teams";
     private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";
@@ -64,7 +67,7 @@ class ReviewTeamResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static ReviewTeam createEntity(EntityManager em) {
-        ReviewTeam reviewTeam = new ReviewTeam().progressOrname(DEFAULT_PROGRESS_ORNAME).progressOrUser(DEFAULT_PROGRESS_OR_USER);
+        ReviewTeam reviewTeam = new ReviewTeam().uid(DEFAULT_UID).name(DEFAULT_NAME).user(DEFAULT_USER);
         return reviewTeam;
     }
 
@@ -75,7 +78,7 @@ class ReviewTeamResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static ReviewTeam createUpdatedEntity(EntityManager em) {
-        ReviewTeam reviewTeam = new ReviewTeam().progressOrname(UPDATED_PROGRESS_ORNAME).progressOrUser(UPDATED_PROGRESS_OR_USER);
+        ReviewTeam reviewTeam = new ReviewTeam().uid(UPDATED_UID).name(UPDATED_NAME).user(UPDATED_USER);
         return reviewTeam;
     }
 
@@ -133,8 +136,9 @@ class ReviewTeamResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(reviewTeam.getId().intValue())))
-            .andExpect(jsonPath("$.[*].progressOrname").value(hasItem(DEFAULT_PROGRESS_ORNAME)))
-            .andExpect(jsonPath("$.[*].progressOrUser").value(hasItem(DEFAULT_PROGRESS_OR_USER)));
+            .andExpect(jsonPath("$.[*].uid").value(hasItem(DEFAULT_UID)))
+            .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)))
+            .andExpect(jsonPath("$.[*].user").value(hasItem(DEFAULT_USER)));
     }
 
     @Test
@@ -149,8 +153,9 @@ class ReviewTeamResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(reviewTeam.getId().intValue()))
-            .andExpect(jsonPath("$.progressOrname").value(DEFAULT_PROGRESS_ORNAME))
-            .andExpect(jsonPath("$.progressOrUser").value(DEFAULT_PROGRESS_OR_USER));
+            .andExpect(jsonPath("$.uid").value(DEFAULT_UID))
+            .andExpect(jsonPath("$.name").value(DEFAULT_NAME))
+            .andExpect(jsonPath("$.user").value(DEFAULT_USER));
     }
 
     @Test
@@ -172,7 +177,7 @@ class ReviewTeamResourceIT {
         ReviewTeam updatedReviewTeam = reviewTeamRepository.findById(reviewTeam.getId()).orElseThrow();
         // Disconnect from session so that the updates on updatedReviewTeam are not directly saved in db
         em.detach(updatedReviewTeam);
-        updatedReviewTeam.progressOrname(UPDATED_PROGRESS_ORNAME).progressOrUser(UPDATED_PROGRESS_OR_USER);
+        updatedReviewTeam.uid(UPDATED_UID).name(UPDATED_NAME).user(UPDATED_USER);
 
         restReviewTeamMockMvc
             .perform(
@@ -279,7 +284,7 @@ class ReviewTeamResourceIT {
         ReviewTeam partialUpdatedReviewTeam = new ReviewTeam();
         partialUpdatedReviewTeam.setId(reviewTeam.getId());
 
-        partialUpdatedReviewTeam.progressOrname(UPDATED_PROGRESS_ORNAME).progressOrUser(UPDATED_PROGRESS_OR_USER);
+        partialUpdatedReviewTeam.uid(UPDATED_UID).name(UPDATED_NAME).user(UPDATED_USER);
 
         restReviewTeamMockMvc
             .perform(

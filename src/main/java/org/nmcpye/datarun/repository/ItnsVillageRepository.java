@@ -27,18 +27,18 @@ public interface ItnsVillageRepository extends JpaRepository<ItnsVillage, Long> 
     }
 
     @Query(
-        value = "select itnsVillage from ItnsVillage itnsVillage left join fetch itnsVillage.progressStatus left join fetch itnsVillage.team left join fetch itnsVillage.assignment left join fetch itnsVillage.campaign",
+        value = "select itnsVillage from ItnsVillage itnsVillage left join fetch itnsVillage.progressStatus left join fetch itnsVillage.team left join fetch itnsVillage.assignment left join fetch itnsVillage.activity",
         countQuery = "select count(itnsVillage) from ItnsVillage itnsVillage"
     )
     Page<ItnsVillage> findAllWithToOneRelationships(Pageable pageable);
 
     @Query(
-        "select itnsVillage from ItnsVillage itnsVillage left join fetch itnsVillage.progressStatus left join fetch itnsVillage.team left join fetch itnsVillage.assignment left join fetch itnsVillage.campaign"
+        "select itnsVillage from ItnsVillage itnsVillage left join fetch itnsVillage.progressStatus left join fetch itnsVillage.team left join fetch itnsVillage.assignment left join fetch itnsVillage.activity"
     )
     List<ItnsVillage> findAllWithToOneRelationships();
 
     @Query(
-        "select itnsVillage from ItnsVillage itnsVillage left join fetch itnsVillage.progressStatus left join fetch itnsVillage.team left join fetch itnsVillage.assignment left join fetch itnsVillage.campaign where itnsVillage.id =:id"
+        "select itnsVillage from ItnsVillage itnsVillage left join fetch itnsVillage.progressStatus left join fetch itnsVillage.team left join fetch itnsVillage.assignment left join fetch itnsVillage.activity where itnsVillage.id =:id"
     )
     Optional<ItnsVillage> findOneWithToOneRelationships(@Param("id") Long id);
 }

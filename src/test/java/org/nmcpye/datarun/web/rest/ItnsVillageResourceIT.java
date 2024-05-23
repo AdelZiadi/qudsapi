@@ -21,9 +21,9 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.nmcpye.datarun.IntegrationTest;
+import org.nmcpye.datarun.domain.Assignment;
 import org.nmcpye.datarun.domain.ItnsVillage;
 import org.nmcpye.datarun.domain.Team;
-import org.nmcpye.datarun.domain.TeamAssignment;
 import org.nmcpye.datarun.domain.enumeration.SettlementEnum;
 import org.nmcpye.datarun.domain.enumeration.SurveyTypeEnum;
 import org.nmcpye.datarun.repository.ItnsVillageRepository;
@@ -45,6 +45,9 @@ import org.springframework.transaction.annotation.Transactional;
 @AutoConfigureMockMvc
 @WithMockUser
 class ItnsVillageResourceIT {
+
+    private static final String DEFAULT_UID = "AAAAAAAAAA";
+    private static final String UPDATED_UID = "BBBBBBBBBB";
 
     private static final String DEFAULT_SUBMISSION_UUID = "AAAAAAAAAA";
     private static final String UPDATED_SUBMISSION_UUID = "BBBBBBBBBB";
@@ -155,6 +158,7 @@ class ItnsVillageResourceIT {
      */
     public static ItnsVillage createEntity(EntityManager em) {
         ItnsVillage itnsVillage = new ItnsVillage()
+            .uid(DEFAULT_UID)
             .submissionUuid(DEFAULT_SUBMISSION_UUID)
             .submissionId(DEFAULT_SUBMISSION_ID)
             .deleted(DEFAULT_DELETED)
@@ -191,15 +195,15 @@ class ItnsVillageResourceIT {
         }
         itnsVillage.setTeam(team);
         // Add required entity
-        TeamAssignment teamAssignment;
-        if (TestUtil.findAll(em, TeamAssignment.class).isEmpty()) {
-            teamAssignment = TeamAssignmentResourceIT.createEntity(em);
-            em.persist(teamAssignment);
+        Assignment assignment;
+        if (TestUtil.findAll(em, Assignment.class).isEmpty()) {
+            assignment = AssignmentResourceIT.createEntity(em);
+            em.persist(assignment);
             em.flush();
         } else {
-            teamAssignment = TestUtil.findAll(em, TeamAssignment.class).get(0);
+            assignment = TestUtil.findAll(em, Assignment.class).get(0);
         }
-        itnsVillage.setAssignment(teamAssignment);
+        itnsVillage.setAssignment(assignment);
         return itnsVillage;
     }
 
@@ -211,6 +215,7 @@ class ItnsVillageResourceIT {
      */
     public static ItnsVillage createUpdatedEntity(EntityManager em) {
         ItnsVillage itnsVillage = new ItnsVillage()
+            .uid(UPDATED_UID)
             .submissionUuid(UPDATED_SUBMISSION_UUID)
             .submissionId(UPDATED_SUBMISSION_ID)
             .deleted(UPDATED_DELETED)
@@ -247,15 +252,15 @@ class ItnsVillageResourceIT {
         }
         itnsVillage.setTeam(team);
         // Add required entity
-        TeamAssignment teamAssignment;
-        if (TestUtil.findAll(em, TeamAssignment.class).isEmpty()) {
-            teamAssignment = TeamAssignmentResourceIT.createUpdatedEntity(em);
-            em.persist(teamAssignment);
+        Assignment assignment;
+        if (TestUtil.findAll(em, Assignment.class).isEmpty()) {
+            assignment = AssignmentResourceIT.createUpdatedEntity(em);
+            em.persist(assignment);
             em.flush();
         } else {
-            teamAssignment = TestUtil.findAll(em, TeamAssignment.class).get(0);
+            assignment = TestUtil.findAll(em, Assignment.class).get(0);
         }
-        itnsVillage.setAssignment(teamAssignment);
+        itnsVillage.setAssignment(assignment);
         return itnsVillage;
     }
 
@@ -345,6 +350,7 @@ class ItnsVillageResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(itnsVillage.getId().intValue())))
+            .andExpect(jsonPath("$.[*].uid").value(hasItem(DEFAULT_UID)))
             .andExpect(jsonPath("$.[*].submissionUuid").value(hasItem(DEFAULT_SUBMISSION_UUID)))
             .andExpect(jsonPath("$.[*].submissionId").value(hasItem(DEFAULT_SUBMISSION_ID.intValue())))
             .andExpect(jsonPath("$.[*].deleted").value(hasItem(DEFAULT_DELETED.booleanValue())))
@@ -401,6 +407,7 @@ class ItnsVillageResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(itnsVillage.getId().intValue()))
+            .andExpect(jsonPath("$.uid").value(DEFAULT_UID))
             .andExpect(jsonPath("$.submissionUuid").value(DEFAULT_SUBMISSION_UUID))
             .andExpect(jsonPath("$.submissionId").value(DEFAULT_SUBMISSION_ID.intValue()))
             .andExpect(jsonPath("$.deleted").value(DEFAULT_DELETED.booleanValue()))
@@ -448,6 +455,7 @@ class ItnsVillageResourceIT {
         // Disconnect from session so that the updates on updatedItnsVillage are not directly saved in db
         em.detach(updatedItnsVillage);
         updatedItnsVillage
+            .uid(UPDATED_UID)
             .submissionUuid(UPDATED_SUBMISSION_UUID)
             .submissionId(UPDATED_SUBMISSION_ID)
             .deleted(UPDATED_DELETED)
@@ -553,15 +561,15 @@ class ItnsVillageResourceIT {
         partialUpdatedItnsVillage.setId(itnsVillage.getId());
 
         partialUpdatedItnsVillage
+            .submissionId(UPDATED_SUBMISSION_ID)
             .deleted(UPDATED_DELETED)
-            .workDayDate(UPDATED_WORK_DAY_DATE)
-            .settlement(UPDATED_SETTLEMENT)
-            .timeSpentHours(UPDATED_TIME_SPENT_HOURS)
+            .reasonNotcomplete(UPDATED_REASON_NOTCOMPLETE)
+            .tlCommenet(UPDATED_TL_COMMENET)
+            .hoProof(UPDATED_HO_PROOF)
             .startEntryTime(UPDATED_START_ENTRY_TIME)
-            .endEntryTime(UPDATED_END_ENTRY_TIME)
-            .submissionTime(UPDATED_SUBMISSION_TIME)
-            .otherVillageName(UPDATED_OTHER_VILLAGE_NAME)
-            .otherVillageCode(UPDATED_OTHER_VILLAGE_CODE);
+            .hoProofUrl(UPDATED_HO_PROOF_URL)
+            .untargetingOtherSpecify(UPDATED_UNTARGETING_OTHER_SPECIFY)
+            .otherVillageName(UPDATED_OTHER_VILLAGE_NAME);
 
         restItnsVillageMockMvc
             .perform(
@@ -593,6 +601,7 @@ class ItnsVillageResourceIT {
         partialUpdatedItnsVillage.setId(itnsVillage.getId());
 
         partialUpdatedItnsVillage
+            .uid(UPDATED_UID)
             .submissionUuid(UPDATED_SUBMISSION_UUID)
             .submissionId(UPDATED_SUBMISSION_ID)
             .deleted(UPDATED_DELETED)

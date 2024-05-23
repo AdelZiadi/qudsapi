@@ -40,20 +40,23 @@ import org.springframework.transaction.annotation.Transactional;
 @WithMockUser
 class TeamResourceIT {
 
-    private static final String DEFAULT_TEAM_LEADER = "AAAAAAAAAA";
-    private static final String UPDATED_TEAM_LEADER = "BBBBBBBBBB";
+    private static final String DEFAULT_UID = "AAAAAAAAAA";
+    private static final String UPDATED_UID = "BBBBBBBBBB";
 
-    private static final Long DEFAULT_TEAM_NO = 1L;
-    private static final Long UPDATED_TEAM_NO = 2L;
+    private static final String DEFAULT_NAME = "AAAAAAAAAA";
+    private static final String UPDATED_NAME = "BBBBBBBBBB";
 
-    private static final String DEFAULT_TEAM_NOTE = "AAAAAAAAAA";
-    private static final String UPDATED_TEAM_NOTE = "BBBBBBBBBB";
+    private static final String DEFAULT_CODE = "AAAAAAAAAA";
+    private static final String UPDATED_CODE = "BBBBBBBBBB";
 
-    private static final String DEFAULT_TEAM_MOBILE = "AAAAAAAAAA";
-    private static final String UPDATED_TEAM_MOBILE = "BBBBBBBBBB";
+    private static final String DEFAULT_DESCRIPTION = "AAAAAAAAAA";
+    private static final String UPDATED_DESCRIPTION = "BBBBBBBBBB";
 
-    private static final Integer DEFAULT_TEAM_NO_OF_TEAM_WORKERS = 1;
-    private static final Integer UPDATED_TEAM_NO_OF_TEAM_WORKERS = 2;
+    private static final String DEFAULT_MOBILE = "AAAAAAAAAA";
+    private static final String UPDATED_MOBILE = "BBBBBBBBBB";
+
+    private static final Integer DEFAULT_WORKERS = 1;
+    private static final Integer UPDATED_WORKERS = 2;
 
     private static final String DEFAULT_MOBILITY = "AAAAAAAAAA";
     private static final String UPDATED_MOBILITY = "BBBBBBBBBB";
@@ -92,11 +95,12 @@ class TeamResourceIT {
      */
     public static Team createEntity(EntityManager em) {
         Team team = new Team()
-            .teamLeader(DEFAULT_TEAM_LEADER)
-            .teamNo(DEFAULT_TEAM_NO)
-            .teamNote(DEFAULT_TEAM_NOTE)
-            .teamMobile(DEFAULT_TEAM_MOBILE)
-            .teamNoOfTeamWorkers(DEFAULT_TEAM_NO_OF_TEAM_WORKERS)
+            .uid(DEFAULT_UID)
+            .name(DEFAULT_NAME)
+            .code(DEFAULT_CODE)
+            .description(DEFAULT_DESCRIPTION)
+            .mobile(DEFAULT_MOBILE)
+            .workers(DEFAULT_WORKERS)
             .mobility(DEFAULT_MOBILITY);
         return team;
     }
@@ -109,11 +113,12 @@ class TeamResourceIT {
      */
     public static Team createUpdatedEntity(EntityManager em) {
         Team team = new Team()
-            .teamLeader(UPDATED_TEAM_LEADER)
-            .teamNo(UPDATED_TEAM_NO)
-            .teamNote(UPDATED_TEAM_NOTE)
-            .teamMobile(UPDATED_TEAM_MOBILE)
-            .teamNoOfTeamWorkers(UPDATED_TEAM_NO_OF_TEAM_WORKERS)
+            .uid(UPDATED_UID)
+            .name(UPDATED_NAME)
+            .code(UPDATED_CODE)
+            .description(UPDATED_DESCRIPTION)
+            .mobile(UPDATED_MOBILE)
+            .workers(UPDATED_WORKERS)
             .mobility(UPDATED_MOBILITY);
         return team;
     }
@@ -162,10 +167,10 @@ class TeamResourceIT {
 
     @Test
     @Transactional
-    void checkTeamNoIsRequired() throws Exception {
+    void checkCodeIsRequired() throws Exception {
         long databaseSizeBeforeTest = getRepositoryCount();
         // set the field null
-        team.setTeamNo(null);
+        team.setCode(null);
 
         // Create the Team, which fails.
 
@@ -188,11 +193,12 @@ class TeamResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(team.getId().intValue())))
-            .andExpect(jsonPath("$.[*].teamLeader").value(hasItem(DEFAULT_TEAM_LEADER)))
-            .andExpect(jsonPath("$.[*].teamNo").value(hasItem(DEFAULT_TEAM_NO.intValue())))
-            .andExpect(jsonPath("$.[*].teamNote").value(hasItem(DEFAULT_TEAM_NOTE)))
-            .andExpect(jsonPath("$.[*].teamMobile").value(hasItem(DEFAULT_TEAM_MOBILE)))
-            .andExpect(jsonPath("$.[*].teamNoOfTeamWorkers").value(hasItem(DEFAULT_TEAM_NO_OF_TEAM_WORKERS)))
+            .andExpect(jsonPath("$.[*].uid").value(hasItem(DEFAULT_UID)))
+            .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)))
+            .andExpect(jsonPath("$.[*].code").value(hasItem(DEFAULT_CODE)))
+            .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION)))
+            .andExpect(jsonPath("$.[*].mobile").value(hasItem(DEFAULT_MOBILE)))
+            .andExpect(jsonPath("$.[*].workers").value(hasItem(DEFAULT_WORKERS)))
             .andExpect(jsonPath("$.[*].mobility").value(hasItem(DEFAULT_MOBILITY)));
     }
 
@@ -225,11 +231,12 @@ class TeamResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(team.getId().intValue()))
-            .andExpect(jsonPath("$.teamLeader").value(DEFAULT_TEAM_LEADER))
-            .andExpect(jsonPath("$.teamNo").value(DEFAULT_TEAM_NO.intValue()))
-            .andExpect(jsonPath("$.teamNote").value(DEFAULT_TEAM_NOTE))
-            .andExpect(jsonPath("$.teamMobile").value(DEFAULT_TEAM_MOBILE))
-            .andExpect(jsonPath("$.teamNoOfTeamWorkers").value(DEFAULT_TEAM_NO_OF_TEAM_WORKERS))
+            .andExpect(jsonPath("$.uid").value(DEFAULT_UID))
+            .andExpect(jsonPath("$.name").value(DEFAULT_NAME))
+            .andExpect(jsonPath("$.code").value(DEFAULT_CODE))
+            .andExpect(jsonPath("$.description").value(DEFAULT_DESCRIPTION))
+            .andExpect(jsonPath("$.mobile").value(DEFAULT_MOBILE))
+            .andExpect(jsonPath("$.workers").value(DEFAULT_WORKERS))
             .andExpect(jsonPath("$.mobility").value(DEFAULT_MOBILITY));
     }
 
@@ -253,11 +260,12 @@ class TeamResourceIT {
         // Disconnect from session so that the updates on updatedTeam are not directly saved in db
         em.detach(updatedTeam);
         updatedTeam
-            .teamLeader(UPDATED_TEAM_LEADER)
-            .teamNo(UPDATED_TEAM_NO)
-            .teamNote(UPDATED_TEAM_NOTE)
-            .teamMobile(UPDATED_TEAM_MOBILE)
-            .teamNoOfTeamWorkers(UPDATED_TEAM_NO_OF_TEAM_WORKERS)
+            .uid(UPDATED_UID)
+            .name(UPDATED_NAME)
+            .code(UPDATED_CODE)
+            .description(UPDATED_DESCRIPTION)
+            .mobile(UPDATED_MOBILE)
+            .workers(UPDATED_WORKERS)
             .mobility(UPDATED_MOBILITY);
 
         restTeamMockMvc
@@ -334,7 +342,7 @@ class TeamResourceIT {
         Team partialUpdatedTeam = new Team();
         partialUpdatedTeam.setId(team.getId());
 
-        partialUpdatedTeam.teamNo(UPDATED_TEAM_NO).teamNoOfTeamWorkers(UPDATED_TEAM_NO_OF_TEAM_WORKERS);
+        partialUpdatedTeam.name(UPDATED_NAME).mobile(UPDATED_MOBILE).mobility(UPDATED_MOBILITY);
 
         restTeamMockMvc
             .perform(
@@ -363,11 +371,12 @@ class TeamResourceIT {
         partialUpdatedTeam.setId(team.getId());
 
         partialUpdatedTeam
-            .teamLeader(UPDATED_TEAM_LEADER)
-            .teamNo(UPDATED_TEAM_NO)
-            .teamNote(UPDATED_TEAM_NOTE)
-            .teamMobile(UPDATED_TEAM_MOBILE)
-            .teamNoOfTeamWorkers(UPDATED_TEAM_NO_OF_TEAM_WORKERS)
+            .uid(UPDATED_UID)
+            .name(UPDATED_NAME)
+            .code(UPDATED_CODE)
+            .description(UPDATED_DESCRIPTION)
+            .mobile(UPDATED_MOBILE)
+            .workers(UPDATED_WORKERS)
             .mobility(UPDATED_MOBILITY);
 
         restTeamMockMvc

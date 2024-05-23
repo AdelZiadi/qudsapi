@@ -49,6 +49,7 @@ public class ItnsVillageAsserts {
     public static void assertItnsVillageUpdatableFieldsEquals(ItnsVillage expected, ItnsVillage actual) {
         assertThat(expected)
             .as("Verify ItnsVillage relevant properties")
+            .satisfies(e -> assertThat(e.getUid()).as("check uid").isEqualTo(actual.getUid()))
             .satisfies(e -> assertThat(e.getSubmissionUuid()).as("check submissionUuid").isEqualTo(actual.getSubmissionUuid()))
             .satisfies(e -> assertThat(e.getSubmissionId()).as("check submissionId").isEqualTo(actual.getSubmissionId()))
             .satisfies(e -> assertThat(e.getDeleted()).as("check deleted").isEqualTo(actual.getDeleted()))
@@ -95,6 +96,6 @@ public class ItnsVillageAsserts {
             .satisfies(e -> assertThat(e.getProgressStatus()).as("check progressStatus").isEqualTo(actual.getProgressStatus()))
             .satisfies(e -> assertThat(e.getTeam()).as("check team").isEqualTo(actual.getTeam()))
             .satisfies(e -> assertThat(e.getAssignment()).as("check assignment").isEqualTo(actual.getAssignment()))
-            .satisfies(e -> assertThat(e.getCampaign()).as("check campaign").isEqualTo(actual.getCampaign()));
+            .satisfies(e -> assertThat(e.getActivity()).as("check activity").isEqualTo(actual.getActivity()));
     }
 }

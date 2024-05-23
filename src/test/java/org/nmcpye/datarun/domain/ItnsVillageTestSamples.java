@@ -14,6 +14,7 @@ public class ItnsVillageTestSamples {
     public static ItnsVillage getItnsVillageSample1() {
         return new ItnsVillage()
             .id(1L)
+            .uid("uid1")
             .submissionUuid("submissionUuid1")
             .submissionId(1L)
             .otherReasonComment("otherReasonComment1")
@@ -37,6 +38,7 @@ public class ItnsVillageTestSamples {
     public static ItnsVillage getItnsVillageSample2() {
         return new ItnsVillage()
             .id(2L)
+            .uid("uid2")
             .submissionUuid("submissionUuid2")
             .submissionId(2L)
             .otherReasonComment("otherReasonComment2")
@@ -60,6 +62,7 @@ public class ItnsVillageTestSamples {
     public static ItnsVillage getItnsVillageRandomSampleGenerator() {
         return new ItnsVillage()
             .id(longCount.incrementAndGet())
+            .uid(UUID.randomUUID().toString())
             .submissionUuid(UUID.randomUUID().toString())
             .submissionId(longCount.incrementAndGet())
             .otherReasonComment(UUID.randomUUID().toString())

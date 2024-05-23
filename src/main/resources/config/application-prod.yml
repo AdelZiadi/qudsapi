@@ -33,7 +33,7 @@ spring:
       enabled: false
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
-    url: jdbc:postgresql://localhost:5431/dataRunApi
+    url: jdbc:postgresql://localhost:5432/dataRunApi
     username: dataRunApi
     password:
     hikari:

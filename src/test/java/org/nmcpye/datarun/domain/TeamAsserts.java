@@ -49,13 +49,12 @@ public class TeamAsserts {
     public static void assertTeamUpdatableFieldsEquals(Team expected, Team actual) {
         assertThat(expected)
             .as("Verify Team relevant properties")
-            .satisfies(e -> assertThat(e.getTeamLeader()).as("check teamLeader").isEqualTo(actual.getTeamLeader()))
-            .satisfies(e -> assertThat(e.getTeamNo()).as("check teamNo").isEqualTo(actual.getTeamNo()))
-            .satisfies(e -> assertThat(e.getTeamNote()).as("check teamNote").isEqualTo(actual.getTeamNote()))
-            .satisfies(e -> assertThat(e.getTeamMobile()).as("check teamMobile").isEqualTo(actual.getTeamMobile()))
-            .satisfies(
-                e -> assertThat(e.getTeamNoOfTeamWorkers()).as("check teamNoOfTeamWorkers").isEqualTo(actual.getTeamNoOfTeamWorkers())
-            )
+            .satisfies(e -> assertThat(e.getUid()).as("check uid").isEqualTo(actual.getUid()))
+            .satisfies(e -> assertThat(e.getName()).as("check name").isEqualTo(actual.getName()))
+            .satisfies(e -> assertThat(e.getCode()).as("check code").isEqualTo(actual.getCode()))
+            .satisfies(e -> assertThat(e.getDescription()).as("check description").isEqualTo(actual.getDescription()))
+            .satisfies(e -> assertThat(e.getMobile()).as("check mobile").isEqualTo(actual.getMobile()))
+            .satisfies(e -> assertThat(e.getWorkers()).as("check workers").isEqualTo(actual.getWorkers()))
             .satisfies(e -> assertThat(e.getMobility()).as("check mobility").isEqualTo(actual.getMobility()));
     }
 
@@ -68,7 +67,7 @@ public class TeamAsserts {
     public static void assertTeamUpdatableRelationshipsEquals(Team expected, Team actual) {
         assertThat(expected)
             .as("Verify Team relationships")
-            .satisfies(e -> assertThat(e.getCampaign()).as("check campaign").isEqualTo(actual.getCampaign()))
+            .satisfies(e -> assertThat(e.getActivity()).as("check activity").isEqualTo(actual.getActivity()))
             .satisfies(e -> assertThat(e.getOperationRoom()).as("check operationRoom").isEqualTo(actual.getOperationRoom()))
             .satisfies(e -> assertThat(e.getWarehouse()).as("check warehouse").isEqualTo(actual.getWarehouse()));
     }

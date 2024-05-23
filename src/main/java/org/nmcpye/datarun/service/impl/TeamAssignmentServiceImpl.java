@@ -70,8 +70,8 @@ public class TeamAssignmentServiceImpl implements TeamAssignmentService {
                 if (teamAssignment.getSubvillage() != null) {
                     existingTeamAssignment.setSubvillage(teamAssignment.getSubvillage());
                 }
-                if (teamAssignment.getPpdName() != null) {
-                    existingTeamAssignment.setPpdName(teamAssignment.getPpdName());
+                if (teamAssignment.getName() != null) {
+                    existingTeamAssignment.setName(teamAssignment.getName());
                 }
                 if (teamAssignment.getDayId() != null) {
                     existingTeamAssignment.setDayId(teamAssignment.getDayId());

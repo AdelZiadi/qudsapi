@@ -1,17 +1,18 @@
 {
   "annotations": {
-    "changelogDate": "20240517224527"
+    "changelogDate": "20240522234901"
   },
   "applications": "*",
   "enableAudit": true,
   "fields": [
     {
       "fieldName": "imovUid",
-      "fieldType": "String"
+      "fieldType": "String",
+      "fieldValidateRules": ["unique", "required"]
     },
     {
       "fieldName": "transactionDate",
-      "fieldType": "Integer",
+      "fieldType": "Instant",
       "fieldValidateRules": ["required"]
     },
     {
@@ -100,28 +101,28 @@
   "pagination": "pagination",
   "relationships": [
     {
-      "otherEntityField": "itemName",
+      "otherEntityField": "name",
       "otherEntityName": "warehouseItem",
       "relationshipName": "item",
       "relationshipSide": "left",
       "relationshipType": "many-to-one"
     },
     {
-      "otherEntityField": "whName",
+      "otherEntityField": "name",
       "otherEntityName": "warehouse",
       "relationshipName": "sourceWarehouse",
       "relationshipSide": "left",
       "relationshipType": "many-to-one"
     },
     {
-      "otherEntityField": "teamNo",
+      "otherEntityField": "code",
       "otherEntityName": "team",
       "relationshipName": "team",
       "relationshipSide": "left",
       "relationshipType": "many-to-one"
     },
     {
-      "otherEntityField": "whName",
+      "otherEntityField": "name",
       "otherEntityName": "warehouse",
       "relationshipName": "warehouse",
       "relationshipSide": "left",
@@ -129,9 +130,9 @@
       "relationshipValidateRules": "required"
     },
     {
-      "otherEntityField": "campaignCode",
-      "otherEntityName": "campaign",
-      "relationshipName": "campaign",
+      "otherEntityField": "code",
+      "otherEntityName": "activity",
+      "relationshipName": "activity",
       "relationshipSide": "left",
       "relationshipType": "many-to-one"
     }

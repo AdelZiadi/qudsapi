@@ -1,12 +1,18 @@
 {
   "annotations": {
-    "changelogDate": "20240517224525"
+    "changelogDate": "20240522234859"
   },
   "applications": "*",
   "enableAudit": true,
   "fields": [
     {
-      "fieldName": "whName",
+      "fieldName": "uid",
+      "fieldType": "String",
+      "fieldValidateRules": ["unique", "maxlength"],
+      "fieldValidateRulesMaxlength": "11"
+    },
+    {
+      "fieldName": "name",
       "fieldType": "String"
     },
     {
@@ -18,12 +24,12 @@
       "fieldType": "String"
     },
     {
-      "fieldName": "supervisorName",
+      "fieldName": "supervisor",
       "fieldType": "String"
     },
     {
-      "fieldName": "whNo",
-      "fieldType": "Long",
+      "fieldName": "code",
+      "fieldType": "String",
       "fieldValidateRules": ["required"]
     },
     {
@@ -66,11 +72,12 @@
     }
   ],
   "name": "Warehouse",
+  "pagination": "pagination",
   "relationships": [
     {
-      "otherEntityField": "campaignCode",
-      "otherEntityName": "campaign",
-      "relationshipName": "campaign",
+      "otherEntityField": "code",
+      "otherEntityName": "activity",
+      "relationshipName": "activity",
       "relationshipSide": "left",
       "relationshipType": "many-to-one"
     }

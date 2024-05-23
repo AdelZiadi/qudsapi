@@ -31,11 +31,17 @@ import org.springframework.transaction.annotation.Transactional;
 @WithMockUser
 class WarehouseItemResourceIT {
 
-    private static final String DEFAULT_ITEM_NAME = "AAAAAAAAAA";
-    private static final String UPDATED_ITEM_NAME = "BBBBBBBBBB";
+    private static final String DEFAULT_UID = "AAAAAAAAAA";
+    private static final String UPDATED_UID = "BBBBBBBBBB";
 
-    private static final String DEFAULT_ITEM_DESCRIPTION = "AAAAAAAAAA";
-    private static final String UPDATED_ITEM_DESCRIPTION = "BBBBBBBBBB";
+    private static final String DEFAULT_NAME = "AAAAAAAAAA";
+    private static final String UPDATED_NAME = "BBBBBBBBBB";
+
+    private static final String DEFAULT_CODE = "AAAAAAAAAA";
+    private static final String UPDATED_CODE = "BBBBBBBBBB";
+
+    private static final String DEFAULT_DESCRIPTION = "AAAAAAAAAA";
+    private static final String UPDATED_DESCRIPTION = "BBBBBBBBBB";
 
     private static final String ENTITY_API_URL = "/api/warehouse-items";
     private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";
@@ -64,7 +70,11 @@ class WarehouseItemResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static WarehouseItem createEntity(EntityManager em) {
-        WarehouseItem warehouseItem = new WarehouseItem().itemName(DEFAULT_ITEM_NAME).itemDescription(DEFAULT_ITEM_DESCRIPTION);
+        WarehouseItem warehouseItem = new WarehouseItem()
+            .uid(DEFAULT_UID)
+            .name(DEFAULT_NAME)
+            .code(DEFAULT_CODE)
+            .description(DEFAULT_DESCRIPTION);
         return warehouseItem;
     }
 
@@ -75,7 +85,11 @@ class WarehouseItemResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static WarehouseItem createUpdatedEntity(EntityManager em) {
-        WarehouseItem warehouseItem = new WarehouseItem().itemName(UPDATED_ITEM_NAME).itemDescription(UPDATED_ITEM_DESCRIPTION);
+        WarehouseItem warehouseItem = new WarehouseItem()
+            .uid(UPDATED_UID)
+            .name(UPDATED_NAME)
+            .code(UPDATED_CODE)
+            .description(UPDATED_DESCRIPTION);
         return warehouseItem;
     }
 
@@ -133,8 +147,10 @@ class WarehouseItemResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(warehouseItem.getId().intValue())))
-            .andExpect(jsonPath("$.[*].itemName").value(hasItem(DEFAULT_ITEM_NAME)))
-            .andExpect(jsonPath("$.[*].itemDescription").value(hasItem(DEFAULT_ITEM_DESCRIPTION)));
+            .andExpect(jsonPath("$.[*].uid").value(hasItem(DEFAULT_UID)))
+            .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)))
+            .andExpect(jsonPath("$.[*].code").value(hasItem(DEFAULT_CODE)))
+            .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION)));
     }
 
     @Test
@@ -149,8 +165,10 @@ class WarehouseItemResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(warehouseItem.getId().intValue()))
-            .andExpect(jsonPath("$.itemName").value(DEFAULT_ITEM_NAME))
-            .andExpect(jsonPath("$.itemDescription").value(DEFAULT_ITEM_DESCRIPTION));
+            .andExpect(jsonPath("$.uid").value(DEFAULT_UID))
+            .andExpect(jsonPath("$.name").value(DEFAULT_NAME))
+            .andExpect(jsonPath("$.code").value(DEFAULT_CODE))
+            .andExpect(jsonPath("$.description").value(DEFAULT_DESCRIPTION));
     }
 
     @Test
@@ -172,7 +190,7 @@ class WarehouseItemResourceIT {
         WarehouseItem updatedWarehouseItem = warehouseItemRepository.findById(warehouseItem.getId()).orElseThrow();
         // Disconnect from session so that the updates on updatedWarehouseItem are not directly saved in db
         em.detach(updatedWarehouseItem);
-        updatedWarehouseItem.itemName(UPDATED_ITEM_NAME).itemDescription(UPDATED_ITEM_DESCRIPTION);
+        updatedWarehouseItem.uid(UPDATED_UID).name(UPDATED_NAME).code(UPDATED_CODE).description(UPDATED_DESCRIPTION);
 
         restWarehouseItemMockMvc
             .perform(
@@ -252,6 +270,8 @@ class WarehouseItemResourceIT {
         WarehouseItem partialUpdatedWarehouseItem = new WarehouseItem();
         partialUpdatedWarehouseItem.setId(warehouseItem.getId());
 
+        partialUpdatedWarehouseItem.code(UPDATED_CODE).description(UPDATED_DESCRIPTION);
+
         restWarehouseItemMockMvc
             .perform(
                 patch(ENTITY_API_URL_ID, partialUpdatedWarehouseItem.getId())
@@ -281,7 +301,7 @@ class WarehouseItemResourceIT {
         WarehouseItem partialUpdatedWarehouseItem = new WarehouseItem();
         partialUpdatedWarehouseItem.setId(warehouseItem.getId());
 
-        partialUpdatedWarehouseItem.itemName(UPDATED_ITEM_NAME).itemDescription(UPDATED_ITEM_DESCRIPTION);
+        partialUpdatedWarehouseItem.uid(UPDATED_UID).name(UPDATED_NAME).code(UPDATED_CODE).description(UPDATED_DESCRIPTION);
 
         restWarehouseItemMockMvc
             .perform(

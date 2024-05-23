@@ -1,5 +1,7 @@
 package org.nmcpye.datarun.web.rest;
 
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
@@ -48,7 +50,7 @@ public class WarehouseItemResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("")
-    public ResponseEntity<WarehouseItem> createWarehouseItem(@RequestBody WarehouseItem warehouseItem) throws URISyntaxException {
+    public ResponseEntity<WarehouseItem> createWarehouseItem(@Valid @RequestBody WarehouseItem warehouseItem) throws URISyntaxException {
         log.debug("REST request to save WarehouseItem : {}", warehouseItem);
         if (warehouseItem.getId() != null) {
             throw new BadRequestAlertException("A new warehouseItem cannot already have an ID", ENTITY_NAME, "idexists");
@@ -72,7 +74,7 @@ public class WarehouseItemResource {
     @PutMapping("/{id}")
     public ResponseEntity<WarehouseItem> updateWarehouseItem(
         @PathVariable(value = "id", required = false) final Long id,
-        @RequestBody WarehouseItem warehouseItem
+        @Valid @RequestBody WarehouseItem warehouseItem
     ) throws URISyntaxException {
         log.debug("REST request to update WarehouseItem : {}, {}", id, warehouseItem);
         if (warehouseItem.getId() == null) {
@@ -106,7 +108,7 @@ public class WarehouseItemResource {
     @PatchMapping(value = "/{id}", consumes = { "application/json", "application/merge-patch+json" })
     public ResponseEntity<WarehouseItem> partialUpdateWarehouseItem(
         @PathVariable(value = "id", required = false) final Long id,
-        @RequestBody WarehouseItem warehouseItem
+        @NotNull @RequestBody WarehouseItem warehouseItem
     ) throws URISyntaxException {
         log.debug("REST request to partial update WarehouseItem partially : {}, {}", id, warehouseItem);
         if (warehouseItem.getId() == null) {

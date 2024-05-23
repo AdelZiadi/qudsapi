@@ -1,5 +1,7 @@
 package org.nmcpye.datarun.web.rest;
 
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
@@ -48,7 +50,8 @@ public class ProgressStatusResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("")
-    public ResponseEntity<ProgressStatus> createProgressStatus(@RequestBody ProgressStatus progressStatus) throws URISyntaxException {
+    public ResponseEntity<ProgressStatus> createProgressStatus(@Valid @RequestBody ProgressStatus progressStatus)
+        throws URISyntaxException {
         log.debug("REST request to save ProgressStatus : {}", progressStatus);
         if (progressStatus.getId() != null) {
             throw new BadRequestAlertException("A new progressStatus cannot already have an ID", ENTITY_NAME, "idexists");
@@ -72,7 +75,7 @@ public class ProgressStatusResource {
     @PutMapping("/{id}")
     public ResponseEntity<ProgressStatus> updateProgressStatus(
         @PathVariable(value = "id", required = false) final Long id,
-        @RequestBody ProgressStatus progressStatus
+        @Valid @RequestBody ProgressStatus progressStatus
     ) throws URISyntaxException {
         log.debug("REST request to update ProgressStatus : {}, {}", id, progressStatus);
         if (progressStatus.getId() == null) {
@@ -106,7 +109,7 @@ public class ProgressStatusResource {
     @PatchMapping(value = "/{id}", consumes = { "application/json", "application/merge-patch+json" })
     public ResponseEntity<ProgressStatus> partialUpdateProgressStatus(
         @PathVariable(value = "id", required = false) final Long id,
-        @RequestBody ProgressStatus progressStatus
+        @NotNull @RequestBody ProgressStatus progressStatus
     ) throws URISyntaxException {
         log.debug("REST request to partial update ProgressStatus partially : {}, {}", id, progressStatus);
         if (progressStatus.getId() == null) {

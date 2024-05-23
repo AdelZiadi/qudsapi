@@ -1,10 +1,16 @@
 {
   "annotations": {
-    "changelogDate": "20240517224521"
+    "changelogDate": "20240522234855"
   },
   "applications": "*",
   "enableAudit": true,
   "fields": [
+    {
+      "fieldName": "uid",
+      "fieldType": "String",
+      "fieldValidateRules": ["unique", "maxlength"],
+      "fieldValidateRulesMaxlength": "11"
+    },
     {
       "fieldName": "submissionUuid",
       "fieldType": "String"
@@ -16,14 +22,14 @@
     {
       "fieldName": "houseUuid",
       "fieldType": "String",
-      "fieldValidateRules": ["required"]
+      "fieldValidateRules": ["unique", "required"]
     },
     {
-      "fieldName": "couponid",
+      "fieldName": "couponId",
       "fieldType": "Long"
     },
     {
-      "fieldName": "hname",
+      "fieldName": "name",
       "fieldType": "String"
     },
     {

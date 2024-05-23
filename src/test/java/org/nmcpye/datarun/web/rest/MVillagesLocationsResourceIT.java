@@ -32,8 +32,11 @@ import org.springframework.transaction.annotation.Transactional;
 @WithMockUser
 class MVillagesLocationsResourceIT {
 
-    private static final Long DEFAULT_PPC_CODE = 1L;
-    private static final Long UPDATED_PPC_CODE = 2L;
+    private static final String DEFAULT_UID = "AAAAAAAAAA";
+    private static final String UPDATED_UID = "BBBBBBBBBB";
+
+    private static final String DEFAULT_CODE = "AAAAAAAAAA";
+    private static final String UPDATED_CODE = "BBBBBBBBBB";
 
     private static final Integer DEFAULT_MAPPING_STATUS = 1;
     private static final Integer UPDATED_MAPPING_STATUS = 2;
@@ -53,8 +56,8 @@ class MVillagesLocationsResourceIT {
     private static final String DEFAULT_SUBVILLAGE_NAME = "AAAAAAAAAA";
     private static final String UPDATED_SUBVILLAGE_NAME = "BBBBBBBBBB";
 
-    private static final String DEFAULT_PPD_NAME = "AAAAAAAAAA";
-    private static final String UPDATED_PPD_NAME = "BBBBBBBBBB";
+    private static final String DEFAULT_NAME = "AAAAAAAAAA";
+    private static final String UPDATED_NAME = "BBBBBBBBBB";
 
     private static final Integer DEFAULT_URBAN_RURAL_ID = 1;
     private static final Integer UPDATED_URBAN_RURAL_ID = 2;
@@ -77,8 +80,8 @@ class MVillagesLocationsResourceIT {
     private static final Double DEFAULT_LATITUDE = 1D;
     private static final Double UPDATED_LATITUDE = 2D;
 
-    private static final Long DEFAULT_PPC_CODE_GIS = 1L;
-    private static final Long UPDATED_PPC_CODE_GIS = 2L;
+    private static final String DEFAULT_PPC_CODE_GIS = "AAAAAAAAAA";
+    private static final String UPDATED_PPC_CODE_GIS = "BBBBBBBBBB";
 
     private static final PublicLocationType DEFAULT_LEVEL = PublicLocationType.DISTRICT;
     private static final PublicLocationType UPDATED_LEVEL = PublicLocationType.SUBDISTRICT;
@@ -111,14 +114,15 @@ class MVillagesLocationsResourceIT {
      */
     public static MVillagesLocations createEntity(EntityManager em) {
         MVillagesLocations mVillagesLocations = new MVillagesLocations()
-            .ppcCode(DEFAULT_PPC_CODE)
+            .uid(DEFAULT_UID)
+            .code(DEFAULT_CODE)
             .mappingStatus(DEFAULT_MAPPING_STATUS)
             .districtCode(DEFAULT_DISTRICT_CODE)
             .villageUid(DEFAULT_VILLAGE_UID)
             .subdistrictName(DEFAULT_SUBDISTRICT_NAME)
             .villageName(DEFAULT_VILLAGE_NAME)
             .subvillageName(DEFAULT_SUBVILLAGE_NAME)
-            .ppdName(DEFAULT_PPD_NAME)
+            .name(DEFAULT_NAME)
             .urbanRuralId(DEFAULT_URBAN_RURAL_ID)
             .urbanRural(DEFAULT_URBAN_RURAL)
             .settlement(DEFAULT_SETTLEMENT)
@@ -139,14 +143,15 @@ class MVillagesLocationsResourceIT {
      */
     public static MVillagesLocations createUpdatedEntity(EntityManager em) {
         MVillagesLocations mVillagesLocations = new MVillagesLocations()
-            .ppcCode(UPDATED_PPC_CODE)
+            .uid(UPDATED_UID)
+            .code(UPDATED_CODE)
             .mappingStatus(UPDATED_MAPPING_STATUS)
             .districtCode(UPDATED_DISTRICT_CODE)
             .villageUid(UPDATED_VILLAGE_UID)
             .subdistrictName(UPDATED_SUBDISTRICT_NAME)
             .villageName(UPDATED_VILLAGE_NAME)
             .subvillageName(UPDATED_SUBVILLAGE_NAME)
-            .ppdName(UPDATED_PPD_NAME)
+            .name(UPDATED_NAME)
             .urbanRuralId(UPDATED_URBAN_RURAL_ID)
             .urbanRural(UPDATED_URBAN_RURAL)
             .settlement(UPDATED_SETTLEMENT)
@@ -206,26 +211,10 @@ class MVillagesLocationsResourceIT {
 
     @Test
     @Transactional
-    void checkPpcCodeIsRequired() throws Exception {
+    void checkCodeIsRequired() throws Exception {
         long databaseSizeBeforeTest = getRepositoryCount();
         // set the field null
-        mVillagesLocations.setPpcCode(null);
-
-        // Create the MVillagesLocations, which fails.
-
-        restMVillagesLocationsMockMvc
-            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(om.writeValueAsBytes(mVillagesLocations)))
-            .andExpect(status().isBadRequest());
-
-        assertSameRepositoryCount(databaseSizeBeforeTest);
-    }
-
-    @Test
-    @Transactional
-    void checkDistrictCodeIsRequired() throws Exception {
-        long databaseSizeBeforeTest = getRepositoryCount();
-        // set the field null
-        mVillagesLocations.setDistrictCode(null);
+        mVillagesLocations.setCode(null);
 
         // Create the MVillagesLocations, which fails.
 
@@ -264,14 +253,15 @@ class MVillagesLocationsResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(mVillagesLocations.getId().intValue())))
-            .andExpect(jsonPath("$.[*].ppcCode").value(hasItem(DEFAULT_PPC_CODE.intValue())))
+            .andExpect(jsonPath("$.[*].uid").value(hasItem(DEFAULT_UID)))
+            .andExpect(jsonPath("$.[*].code").value(hasItem(DEFAULT_CODE)))
             .andExpect(jsonPath("$.[*].mappingStatus").value(hasItem(DEFAULT_MAPPING_STATUS)))
             .andExpect(jsonPath("$.[*].districtCode").value(hasItem(DEFAULT_DISTRICT_CODE)))
             .andExpect(jsonPath("$.[*].villageUid").value(hasItem(DEFAULT_VILLAGE_UID)))
             .andExpect(jsonPath("$.[*].subdistrictName").value(hasItem(DEFAULT_SUBDISTRICT_NAME)))
             .andExpect(jsonPath("$.[*].villageName").value(hasItem(DEFAULT_VILLAGE_NAME)))
             .andExpect(jsonPath("$.[*].subvillageName").value(hasItem(DEFAULT_SUBVILLAGE_NAME)))
-            .andExpect(jsonPath("$.[*].ppdName").value(hasItem(DEFAULT_PPD_NAME)))
+            .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)))
             .andExpect(jsonPath("$.[*].urbanRuralId").value(hasItem(DEFAULT_URBAN_RURAL_ID)))
             .andExpect(jsonPath("$.[*].urbanRural").value(hasItem(DEFAULT_URBAN_RURAL)))
             .andExpect(jsonPath("$.[*].settlement").value(hasItem(DEFAULT_SETTLEMENT)))
@@ -279,7 +269,7 @@ class MVillagesLocationsResourceIT {
             .andExpect(jsonPath("$.[*].pop2022").value(hasItem(DEFAULT_POP_2022.doubleValue())))
             .andExpect(jsonPath("$.[*].longitude").value(hasItem(DEFAULT_LONGITUDE.doubleValue())))
             .andExpect(jsonPath("$.[*].latitude").value(hasItem(DEFAULT_LATITUDE.doubleValue())))
-            .andExpect(jsonPath("$.[*].ppcCodeGis").value(hasItem(DEFAULT_PPC_CODE_GIS.intValue())))
+            .andExpect(jsonPath("$.[*].ppcCodeGis").value(hasItem(DEFAULT_PPC_CODE_GIS)))
             .andExpect(jsonPath("$.[*].level").value(hasItem(DEFAULT_LEVEL.toString())));
     }
 
@@ -295,14 +285,15 @@ class MVillagesLocationsResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(mVillagesLocations.getId().intValue()))
-            .andExpect(jsonPath("$.ppcCode").value(DEFAULT_PPC_CODE.intValue()))
+            .andExpect(jsonPath("$.uid").value(DEFAULT_UID))
+            .andExpect(jsonPath("$.code").value(DEFAULT_CODE))
             .andExpect(jsonPath("$.mappingStatus").value(DEFAULT_MAPPING_STATUS))
             .andExpect(jsonPath("$.districtCode").value(DEFAULT_DISTRICT_CODE))
             .andExpect(jsonPath("$.villageUid").value(DEFAULT_VILLAGE_UID))
             .andExpect(jsonPath("$.subdistrictName").value(DEFAULT_SUBDISTRICT_NAME))
             .andExpect(jsonPath("$.villageName").value(DEFAULT_VILLAGE_NAME))
             .andExpect(jsonPath("$.subvillageName").value(DEFAULT_SUBVILLAGE_NAME))
-            .andExpect(jsonPath("$.ppdName").value(DEFAULT_PPD_NAME))
+            .andExpect(jsonPath("$.name").value(DEFAULT_NAME))
             .andExpect(jsonPath("$.urbanRuralId").value(DEFAULT_URBAN_RURAL_ID))
             .andExpect(jsonPath("$.urbanRural").value(DEFAULT_URBAN_RURAL))
             .andExpect(jsonPath("$.settlement").value(DEFAULT_SETTLEMENT))
@@ -310,7 +301,7 @@ class MVillagesLocationsResourceIT {
             .andExpect(jsonPath("$.pop2022").value(DEFAULT_POP_2022.doubleValue()))
             .andExpect(jsonPath("$.longitude").value(DEFAULT_LONGITUDE.doubleValue()))
             .andExpect(jsonPath("$.latitude").value(DEFAULT_LATITUDE.doubleValue()))
-            .andExpect(jsonPath("$.ppcCodeGis").value(DEFAULT_PPC_CODE_GIS.intValue()))
+            .andExpect(jsonPath("$.ppcCodeGis").value(DEFAULT_PPC_CODE_GIS))
             .andExpect(jsonPath("$.level").value(DEFAULT_LEVEL.toString()));
     }
 
@@ -334,14 +325,15 @@ class MVillagesLocationsResourceIT {
         // Disconnect from session so that the updates on updatedMVillagesLocations are not directly saved in db
         em.detach(updatedMVillagesLocations);
         updatedMVillagesLocations
-            .ppcCode(UPDATED_PPC_CODE)
+            .uid(UPDATED_UID)
+            .code(UPDATED_CODE)
             .mappingStatus(UPDATED_MAPPING_STATUS)
             .districtCode(UPDATED_DISTRICT_CODE)
             .villageUid(UPDATED_VILLAGE_UID)
             .subdistrictName(UPDATED_SUBDISTRICT_NAME)
             .villageName(UPDATED_VILLAGE_NAME)
             .subvillageName(UPDATED_SUBVILLAGE_NAME)
-            .ppdName(UPDATED_PPD_NAME)
+            .name(UPDATED_NAME)
             .urbanRuralId(UPDATED_URBAN_RURAL_ID)
             .urbanRural(UPDATED_URBAN_RURAL)
             .settlement(UPDATED_SETTLEMENT)
@@ -431,14 +423,16 @@ class MVillagesLocationsResourceIT {
         partialUpdatedMVillagesLocations.setId(mVillagesLocations.getId());
 
         partialUpdatedMVillagesLocations
-            .ppcCode(UPDATED_PPC_CODE)
+            .code(UPDATED_CODE)
             .mappingStatus(UPDATED_MAPPING_STATUS)
-            .villageUid(UPDATED_VILLAGE_UID)
-            .subdistrictName(UPDATED_SUBDISTRICT_NAME)
+            .districtCode(UPDATED_DISTRICT_CODE)
             .villageName(UPDATED_VILLAGE_NAME)
-            .ppdName(UPDATED_PPD_NAME)
-            .latitude(UPDATED_LATITUDE)
-            .ppcCodeGis(UPDATED_PPC_CODE_GIS);
+            .name(UPDATED_NAME)
+            .urbanRural(UPDATED_URBAN_RURAL)
+            .pop2022(UPDATED_POP_2022)
+            .longitude(UPDATED_LONGITUDE)
+            .ppcCodeGis(UPDATED_PPC_CODE_GIS)
+            .level(UPDATED_LEVEL);
 
         restMVillagesLocationsMockMvc
             .perform(
@@ -470,14 +464,15 @@ class MVillagesLocationsResourceIT {
         partialUpdatedMVillagesLocations.setId(mVillagesLocations.getId());
 
         partialUpdatedMVillagesLocations
-            .ppcCode(UPDATED_PPC_CODE)
+            .uid(UPDATED_UID)
+            .code(UPDATED_CODE)
             .mappingStatus(UPDATED_MAPPING_STATUS)
             .districtCode(UPDATED_DISTRICT_CODE)
             .villageUid(UPDATED_VILLAGE_UID)
             .subdistrictName(UPDATED_SUBDISTRICT_NAME)
             .villageName(UPDATED_VILLAGE_NAME)
             .subvillageName(UPDATED_SUBVILLAGE_NAME)
-            .ppdName(UPDATED_PPD_NAME)
+            .name(UPDATED_NAME)
             .urbanRuralId(UPDATED_URBAN_RURAL_ID)
             .urbanRural(UPDATED_URBAN_RURAL)
             .settlement(UPDATED_SETTLEMENT)

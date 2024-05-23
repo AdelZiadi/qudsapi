@@ -27,8 +27,12 @@ public class Warehouse extends AbstractAuditingEntity<Long> implements Serializa
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "wh_name")
-    private String whName;
+    @Size(max = 11)
+    @Column(name = "uid", length = 11, unique = true)
+    private String uid;
+
+    @Column(name = "name")
+    private String name;
 
     @Column(name = "description")
     private String description;
@@ -36,12 +40,12 @@ public class Warehouse extends AbstractAuditingEntity<Long> implements Serializa
     @Column(name = "gps_coordinate")
     private String gpsCoordinate;
 
-    @Column(name = "supervisor_name")
-    private String supervisorName;
+    @Column(name = "supervisor")
+    private String supervisor;
 
     @NotNull
-    @Column(name = "wh_no", nullable = false)
-    private Long whNo;
+    @Column(name = "code", nullable = false)
+    private String code;
 
     @Column(name = "supervisor_mobile")
     private String supervisorMobile;
@@ -54,8 +58,8 @@ public class Warehouse extends AbstractAuditingEntity<Long> implements Serializa
     private boolean isPersisted;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JsonIgnoreProperties(value = { "campaignType" }, allowSetters = true)
-    private Campaign campaign;
+    @JsonIgnoreProperties(value = { "project" }, allowSetters = true)
+    private Activity activity;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -72,17 +76,30 @@ public class Warehouse extends AbstractAuditingEntity<Long> implements Serializa
         this.id = id;
     }
 
-    public String getWhName() {
-        return this.whName;
+    public String getUid() {
+        return this.uid;
     }
 
-    public Warehouse whName(String whName) {
-        this.setWhName(whName);
+    public Warehouse uid(String uid) {
+        this.setUid(uid);
         return this;
     }
 
-    public void setWhName(String whName) {
-        this.whName = whName;
+    public void setUid(String uid) {
+        this.uid = uid;
+    }
+
+    public String getName() {
+        return this.name;
+    }
+
+    public Warehouse name(String name) {
+        this.setName(name);
+        return this;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getDescription() {
@@ -111,30 +128,30 @@ public class Warehouse extends AbstractAuditingEntity<Long> implements Serializa
         this.gpsCoordinate = gpsCoordinate;
     }
 
-    public String getSupervisorName() {
-        return this.supervisorName;
+    public String getSupervisor() {
+        return this.supervisor;
     }
 
-    public Warehouse supervisorName(String supervisorName) {
-        this.setSupervisorName(supervisorName);
+    public Warehouse supervisor(String supervisor) {
+        this.setSupervisor(supervisor);
         return this;
     }
 
-    public void setSupervisorName(String supervisorName) {
-        this.supervisorName = supervisorName;
+    public void setSupervisor(String supervisor) {
+        this.supervisor = supervisor;
     }
 
-    public Long getWhNo() {
-        return this.whNo;
+    public String getCode() {
+        return this.code;
     }
 
-    public Warehouse whNo(Long whNo) {
-        this.setWhNo(whNo);
+    public Warehouse code(String code) {
+        this.setCode(code);
         return this;
     }
 
-    public void setWhNo(Long whNo) {
-        this.whNo = whNo;
+    public void setCode(String code) {
+        this.code = code;
     }
 
     public String getSupervisorMobile() {
@@ -191,16 +208,16 @@ public class Warehouse extends AbstractAuditingEntity<Long> implements Serializa
         return this;
     }
 
-    public Campaign getCampaign() {
-        return this.campaign;
+    public Activity getActivity() {
+        return this.activity;
     }
 
-    public void setCampaign(Campaign campaign) {
-        this.campaign = campaign;
+    public void setActivity(Activity activity) {
+        this.activity = activity;
     }
 
-    public Warehouse campaign(Campaign campaign) {
-        this.setCampaign(campaign);
+    public Warehouse activity(Activity activity) {
+        this.setActivity(activity);
         return this;
     }
 
@@ -228,11 +245,12 @@ public class Warehouse extends AbstractAuditingEntity<Long> implements Serializa
     public String toString() {
         return "Warehouse{" +
             "id=" + getId() +
-            ", whName='" + getWhName() + "'" +
+            ", uid='" + getUid() + "'" +
+            ", name='" + getName() + "'" +
             ", description='" + getDescription() + "'" +
             ", gpsCoordinate='" + getGpsCoordinate() + "'" +
-            ", supervisorName='" + getSupervisorName() + "'" +
-            ", whNo=" + getWhNo() +
+            ", supervisor='" + getSupervisor() + "'" +
+            ", code='" + getCode() + "'" +
             ", supervisorMobile='" + getSupervisorMobile() + "'" +
             ", createdBy='" + getCreatedBy() + "'" +
             ", createdDate='" + getCreatedDate() + "'" +

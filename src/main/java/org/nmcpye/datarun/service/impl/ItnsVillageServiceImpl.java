@@ -46,6 +46,9 @@ public class ItnsVillageServiceImpl implements ItnsVillageService {
         return itnsVillageRepository
             .findById(itnsVillage.getId())
             .map(existingItnsVillage -> {
+                if (itnsVillage.getUid() != null) {
+                    existingItnsVillage.setUid(itnsVillage.getUid());
+                }
                 if (itnsVillage.getSubmissionUuid() != null) {
                     existingItnsVillage.setSubmissionUuid(itnsVillage.getSubmissionUuid());
                 }

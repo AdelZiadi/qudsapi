@@ -1,7 +1,7 @@
 package org.nmcpye.datarun.domain;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.nmcpye.datarun.domain.CampaignTestSamples.*;
+import static org.nmcpye.datarun.domain.ActivityTestSamples.*;
 import static org.nmcpye.datarun.domain.WarehouseTestSamples.*;
 
 import org.junit.jupiter.api.Test;
@@ -24,14 +24,14 @@ class WarehouseTest {
     }
 
     @Test
-    void campaignTest() throws Exception {
+    void activityTest() throws Exception {
         Warehouse warehouse = getWarehouseRandomSampleGenerator();
-        Campaign campaignBack = getCampaignRandomSampleGenerator();
+        Activity activityBack = getActivityRandomSampleGenerator();
 
-        warehouse.setCampaign(campaignBack);
-        assertThat(warehouse.getCampaign()).isEqualTo(campaignBack);
+        warehouse.setActivity(activityBack);
+        assertThat(warehouse.getActivity()).isEqualTo(activityBack);
 
-        warehouse.campaign(null);
-        assertThat(warehouse.getCampaign()).isNull();
+        warehouse.activity(null);
+        assertThat(warehouse.getActivity()).isNull();
     }
 }

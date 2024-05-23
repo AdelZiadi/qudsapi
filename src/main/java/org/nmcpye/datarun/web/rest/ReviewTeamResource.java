@@ -1,5 +1,7 @@
 package org.nmcpye.datarun.web.rest;
 
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
@@ -48,7 +50,7 @@ public class ReviewTeamResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("")
-    public ResponseEntity<ReviewTeam> createReviewTeam(@RequestBody ReviewTeam reviewTeam) throws URISyntaxException {
+    public ResponseEntity<ReviewTeam> createReviewTeam(@Valid @RequestBody ReviewTeam reviewTeam) throws URISyntaxException {
         log.debug("REST request to save ReviewTeam : {}", reviewTeam);
         if (reviewTeam.getId() != null) {
             throw new BadRequestAlertException("A new reviewTeam cannot already have an ID", ENTITY_NAME, "idexists");
@@ -72,7 +74,7 @@ public class ReviewTeamResource {
     @PutMapping("/{id}")
     public ResponseEntity<ReviewTeam> updateReviewTeam(
         @PathVariable(value = "id", required = false) final Long id,
-        @RequestBody ReviewTeam reviewTeam
+        @Valid @RequestBody ReviewTeam reviewTeam
     ) throws URISyntaxException {
         log.debug("REST request to update ReviewTeam : {}, {}", id, reviewTeam);
         if (reviewTeam.getId() == null) {
@@ -106,7 +108,7 @@ public class ReviewTeamResource {
     @PatchMapping(value = "/{id}", consumes = { "application/json", "application/merge-patch+json" })
     public ResponseEntity<ReviewTeam> partialUpdateReviewTeam(
         @PathVariable(value = "id", required = false) final Long id,
-        @RequestBody ReviewTeam reviewTeam
+        @NotNull @RequestBody ReviewTeam reviewTeam
     ) throws URISyntaxException {
         log.debug("REST request to partial update ReviewTeam partially : {}, {}", id, reviewTeam);
         if (reviewTeam.getId() == null) {

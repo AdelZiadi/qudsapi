@@ -35,6 +35,7 @@ public class MVillagesLocationsServiceImpl implements MVillagesLocationsService 
     @Override
     public MVillagesLocations update(MVillagesLocations mVillagesLocations) {
         log.debug("Request to update MVillagesLocations : {}", mVillagesLocations);
+        mVillagesLocations.setIsPersisted();
         return mVillagesLocationsRepository.save(mVillagesLocations);
     }
 
@@ -45,8 +46,11 @@ public class MVillagesLocationsServiceImpl implements MVillagesLocationsService 
         return mVillagesLocationsRepository
             .findById(mVillagesLocations.getId())
             .map(existingMVillagesLocations -> {
-                if (mVillagesLocations.getPpcCode() != null) {
-                    existingMVillagesLocations.setPpcCode(mVillagesLocations.getPpcCode());
+                if (mVillagesLocations.getUid() != null) {
+                    existingMVillagesLocations.setUid(mVillagesLocations.getUid());
+                }
+                if (mVillagesLocations.getCode() != null) {
+                    existingMVillagesLocations.setCode(mVillagesLocations.getCode());
                 }
                 if (mVillagesLocations.getMappingStatus() != null) {
                     existingMVillagesLocations.setMappingStatus(mVillagesLocations.getMappingStatus());
@@ -66,8 +70,8 @@ public class MVillagesLocationsServiceImpl implements MVillagesLocationsService 
                 if (mVillagesLocations.getSubvillageName() != null) {
                     existingMVillagesLocations.setSubvillageName(mVillagesLocations.getSubvillageName());
                 }
-                if (mVillagesLocations.getPpdName() != null) {
-                    existingMVillagesLocations.setPpdName(mVillagesLocations.getPpdName());
+                if (mVillagesLocations.getName() != null) {
+                    existingMVillagesLocations.setName(mVillagesLocations.getName());
                 }
                 if (mVillagesLocations.getUrbanRuralId() != null) {
                     existingMVillagesLocations.setUrbanRuralId(mVillagesLocations.getUrbanRuralId());
@@ -95,6 +99,18 @@ public class MVillagesLocationsServiceImpl implements MVillagesLocationsService 
                 }
                 if (mVillagesLocations.getLevel() != null) {
                     existingMVillagesLocations.setLevel(mVillagesLocations.getLevel());
+                }
+                if (mVillagesLocations.getCreatedBy() != null) {
+                    existingMVillagesLocations.setCreatedBy(mVillagesLocations.getCreatedBy());
+                }
+                if (mVillagesLocations.getCreatedDate() != null) {
+                    existingMVillagesLocations.setCreatedDate(mVillagesLocations.getCreatedDate());
+                }
+                if (mVillagesLocations.getLastModifiedBy() != null) {
+                    existingMVillagesLocations.setLastModifiedBy(mVillagesLocations.getLastModifiedBy());
+                }
+                if (mVillagesLocations.getLastModifiedDate() != null) {
+                    existingMVillagesLocations.setLastModifiedDate(mVillagesLocations.getLastModifiedDate());
                 }
 
                 return existingMVillagesLocations;

@@ -27,18 +27,18 @@ public interface WarehouseTransactionRepository extends JpaRepository<WarehouseT
     }
 
     @Query(
-        value = "select warehouseTransaction from WarehouseTransaction warehouseTransaction left join fetch warehouseTransaction.item left join fetch warehouseTransaction.sourceWarehouse left join fetch warehouseTransaction.team left join fetch warehouseTransaction.warehouse left join fetch warehouseTransaction.campaign",
+        value = "select warehouseTransaction from WarehouseTransaction warehouseTransaction left join fetch warehouseTransaction.item left join fetch warehouseTransaction.sourceWarehouse left join fetch warehouseTransaction.team left join fetch warehouseTransaction.warehouse left join fetch warehouseTransaction.activity",
         countQuery = "select count(warehouseTransaction) from WarehouseTransaction warehouseTransaction"
     )
     Page<WarehouseTransaction> findAllWithToOneRelationships(Pageable pageable);
 
     @Query(
-        "select warehouseTransaction from WarehouseTransaction warehouseTransaction left join fetch warehouseTransaction.item left join fetch warehouseTransaction.sourceWarehouse left join fetch warehouseTransaction.team left join fetch warehouseTransaction.warehouse left join fetch warehouseTransaction.campaign"
+        "select warehouseTransaction from WarehouseTransaction warehouseTransaction left join fetch warehouseTransaction.item left join fetch warehouseTransaction.sourceWarehouse left join fetch warehouseTransaction.team left join fetch warehouseTransaction.warehouse left join fetch warehouseTransaction.activity"
     )
     List<WarehouseTransaction> findAllWithToOneRelationships();
 
     @Query(
-        "select warehouseTransaction from WarehouseTransaction warehouseTransaction left join fetch warehouseTransaction.item left join fetch warehouseTransaction.sourceWarehouse left join fetch warehouseTransaction.team left join fetch warehouseTransaction.warehouse left join fetch warehouseTransaction.campaign where warehouseTransaction.id =:id"
+        "select warehouseTransaction from WarehouseTransaction warehouseTransaction left join fetch warehouseTransaction.item left join fetch warehouseTransaction.sourceWarehouse left join fetch warehouseTransaction.team left join fetch warehouseTransaction.warehouse left join fetch warehouseTransaction.activity where warehouseTransaction.id =:id"
     )
     Optional<WarehouseTransaction> findOneWithToOneRelationships(@Param("id") Long id);
 }

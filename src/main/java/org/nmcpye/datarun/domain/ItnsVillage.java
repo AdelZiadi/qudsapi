@@ -31,8 +31,12 @@ public class ItnsVillage extends AbstractAuditingEntity<Long> implements Seriali
     @Column(name = "id")
     private Long id;
 
+    @Size(max = 11)
+    @Column(name = "uid", length = 11, unique = true)
+    private String uid;
+
     @NotNull
-    @Column(name = "submission_uuid", nullable = false)
+    @Column(name = "submission_uuid", nullable = false, unique = true)
     private String submissionUuid;
 
     @NotNull
@@ -129,17 +133,17 @@ public class ItnsVillage extends AbstractAuditingEntity<Long> implements Seriali
 
     @ManyToOne(optional = false)
     @NotNull
-    @JsonIgnoreProperties(value = { "campaign", "operationRoom", "warehouse", "userInfo" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "activity", "operationRoom", "warehouse", "userInfo", "assignments" }, allowSetters = true)
     private Team team;
 
     @ManyToOne(optional = false)
     @NotNull
-    @JsonIgnoreProperties(value = { "campaign", "location", "team", "warehouse" }, allowSetters = true)
-    private TeamAssignment assignment;
+    @JsonIgnoreProperties(value = { "activity", "organisationUnit", "team", "warehouse" }, allowSetters = true)
+    private Assignment assignment;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JsonIgnoreProperties(value = { "campaignType" }, allowSetters = true)
-    private Campaign campaign;
+    @JsonIgnoreProperties(value = { "project" }, allowSetters = true)
+    private Activity activity;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "villageData")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
@@ -159,6 +163,19 @@ public class ItnsVillage extends AbstractAuditingEntity<Long> implements Seriali
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getUid() {
+        return this.uid;
+    }
+
+    public ItnsVillage uid(String uid) {
+        this.setUid(uid);
+        return this;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
     }
 
     public String getSubmissionUuid() {
@@ -553,29 +570,29 @@ public class ItnsVillage extends AbstractAuditingEntity<Long> implements Seriali
         return this;
     }
 
-    public TeamAssignment getAssignment() {
+    public Assignment getAssignment() {
         return this.assignment;
     }
 
-    public void setAssignment(TeamAssignment teamAssignment) {
-        this.assignment = teamAssignment;
+    public void setAssignment(Assignment assignment) {
+        this.assignment = assignment;
     }
 
-    public ItnsVillage assignment(TeamAssignment teamAssignment) {
-        this.setAssignment(teamAssignment);
+    public ItnsVillage assignment(Assignment assignment) {
+        this.setAssignment(assignment);
         return this;
     }
 
-    public Campaign getCampaign() {
-        return this.campaign;
+    public Activity getActivity() {
+        return this.activity;
     }
 
-    public void setCampaign(Campaign campaign) {
-        this.campaign = campaign;
+    public void setActivity(Activity activity) {
+        this.activity = activity;
     }
 
-    public ItnsVillage campaign(Campaign campaign) {
-        this.setCampaign(campaign);
+    public ItnsVillage activity(Activity activity) {
+        this.setActivity(activity);
         return this;
     }
 
@@ -634,6 +651,7 @@ public class ItnsVillage extends AbstractAuditingEntity<Long> implements Seriali
     public String toString() {
         return "ItnsVillage{" +
             "id=" + getId() +
+            ", uid='" + getUid() + "'" +
             ", submissionUuid='" + getSubmissionUuid() + "'" +
             ", submissionId=" + getSubmissionId() +
             ", deleted='" + getDeleted() + "'" +
