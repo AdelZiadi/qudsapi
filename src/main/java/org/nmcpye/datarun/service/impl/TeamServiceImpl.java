@@ -1,6 +1,5 @@
 package org.nmcpye.datarun.service.impl;
 
-import java.util.List;
 import java.util.Optional;
 import org.nmcpye.datarun.domain.Team;
 import org.nmcpye.datarun.repository.TeamRepository;
@@ -88,9 +87,9 @@ public class TeamServiceImpl implements TeamService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<Team> findAll() {
+    public Page<Team> findAll(Pageable pageable) {
         log.debug("Request to get all Teams");
-        return teamRepository.findAll();
+        return teamRepository.findAll(pageable);
     }
 
     public Page<Team> findAllWithEagerRelationships(Pageable pageable) {

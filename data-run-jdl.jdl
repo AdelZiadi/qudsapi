@@ -30,7 +30,6 @@ entity Project(project) {
  created Instant
  lastUpdated Instant
  displayed Boolean 
- order Integer
 } 
 
 entity Activity(activity) {
@@ -40,28 +39,9 @@ entity Activity(activity) {
  startDate Instant required
  endDate Instant
  active Boolean
- displayed Boolean
- order Integer
 }
 
-// Define Entities
-//entity Campaign {
-//  uid String unique maxlength(11)
-//  code String unique required 
-//  campaignStartedDate Instant required
-//  campaignDays Integer min(0)
-//  campaignYear Integer min(0)
-//  campaignNote String 
-//  enabled Boolean
-//}
-
-//entity CampaignType {
-//  uid String unique maxlength(11)
-//  name String unique
-//  description String
-//}
-
-entity MVillagesLocations {
+entity VillageLocation {
   uid String unique maxlength(11)
   code String unique required
   mappingStatus Integer
@@ -93,7 +73,7 @@ entity Assignment {
   subdistrict String
   village String
   subvillage String
-  ppdName String
+  name String
   dayId Integer
   population Double
   itnsPlanned Integer
@@ -133,11 +113,12 @@ entity ItnsVillage {
 }
 
 entity ItnsVillageHousesDetail {
+  uid String unique maxlength(11)
   submissionUuid String
   deleted Boolean
   houseUuid String unique required
-  couponid Long
-  hname String
+  couponId Long
+  name String
   male Integer min(0)
   female Integer min(0)
   pregnant Integer min(0)
@@ -190,7 +171,7 @@ entity WarehouseItem {
 
 entity WarehouseTransaction {
   imovUid String unique required
-  transactionDate Integer required
+  transactionDate Instant required
   phaseNo Integer
   entryType String required
   quantity Integer required min(0)
@@ -219,10 +200,6 @@ relationship ManyToOne {
 relationship ManyToOne {
   ItnsVillage { assignment(code) required} to Assignment
 }
-
-//relationship ManyToOne {
-//  ItnsVillage { otherTeam (teamNo)} to Team
-//}
 
 relationship ManyToOne {
   ItnsVillage { activity (code)} to Activity 
@@ -273,11 +250,11 @@ relationship ManyToOne {
 }
 
 relationship ManyToOne {
-  Assignment { organisationUnit (code)} to MVillagesLocations
+  Assignment { organisationUnit (code)} to VillageLocation
 }
 
 relationship ManyToOne {
-  Assignment { team (code)} to Team
+  Assignment { team (code)} to Team {assignment}
 }
 
 relationship ManyToOne {
@@ -285,9 +262,10 @@ relationship ManyToOne {
 }
 
 relationship ManyToOne {
-  Team{userInfo(login)} to User with builtInEntity
+  Team{userInfo(login)} to User {team} with builtInEntity
 }
 
 
 service * with serviceImpl
-paginate Assignment, WarehouseTransaction, ItnsVillageHousesDetail, ItnsVillage, MVillagesLocations with pagination
+paginate Assignment, Activity, Team, Warehouse, WarehouseTransaction, 
+	ItnsVillageHousesDetail, ItnsVillage, VillageLocation with pagination

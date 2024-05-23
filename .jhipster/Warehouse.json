@@ -1,6 +1,6 @@
 {
   "annotations": {
-    "changelogDate": "20240521125531"
+    "changelogDate": "20240522234859"
   },
   "applications": "*",
   "enableAudit": true,
@@ -72,6 +72,7 @@
     }
   ],
   "name": "Warehouse",
+  "pagination": "pagination",
   "relationships": [
     {
       "otherEntityField": "code",

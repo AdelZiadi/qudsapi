@@ -10,11 +10,25 @@ public class WarehouseItemTestSamples {
     private static final AtomicLong longCount = new AtomicLong(random.nextInt() + (2 * Integer.MAX_VALUE));
 
     public static WarehouseItem getWarehouseItemSample1() {
-        return new WarehouseItem().id(1L).uid("uid1").name("name1").code("code1").description("description1");
+        return new WarehouseItem()
+            .id(1L)
+            .uid("uid1")
+            .name("name1")
+            .code("code1")
+            .description("description1")
+            .createdBy("createdBy1")
+            .lastModifiedBy("lastModifiedBy1");
     }
 
     public static WarehouseItem getWarehouseItemSample2() {
-        return new WarehouseItem().id(2L).uid("uid2").name("name2").code("code2").description("description2");
+        return new WarehouseItem()
+            .id(2L)
+            .uid("uid2")
+            .name("name2")
+            .code("code2")
+            .description("description2")
+            .createdBy("createdBy2")
+            .lastModifiedBy("lastModifiedBy2");
     }
 
     public static WarehouseItem getWarehouseItemRandomSampleGenerator() {
@@ -23,6 +37,8 @@ public class WarehouseItemTestSamples {
             .uid(UUID.randomUUID().toString())
             .name(UUID.randomUUID().toString())
             .code(UUID.randomUUID().toString())
-            .description(UUID.randomUUID().toString());
+            .description(UUID.randomUUID().toString())
+            .createdBy(UUID.randomUUID().toString())
+            .lastModifiedBy(UUID.randomUUID().toString());
     }
 }

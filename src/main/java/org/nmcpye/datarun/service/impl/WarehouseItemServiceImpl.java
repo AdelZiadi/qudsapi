@@ -34,6 +34,7 @@ public class WarehouseItemServiceImpl implements WarehouseItemService {
     @Override
     public WarehouseItem update(WarehouseItem warehouseItem) {
         log.debug("Request to update WarehouseItem : {}", warehouseItem);
+        warehouseItem.setIsPersisted();
         return warehouseItemRepository.save(warehouseItem);
     }
 
@@ -55,6 +56,18 @@ public class WarehouseItemServiceImpl implements WarehouseItemService {
                 }
                 if (warehouseItem.getDescription() != null) {
                     existingWarehouseItem.setDescription(warehouseItem.getDescription());
+                }
+                if (warehouseItem.getCreatedBy() != null) {
+                    existingWarehouseItem.setCreatedBy(warehouseItem.getCreatedBy());
+                }
+                if (warehouseItem.getCreatedDate() != null) {
+                    existingWarehouseItem.setCreatedDate(warehouseItem.getCreatedDate());
+                }
+                if (warehouseItem.getLastModifiedBy() != null) {
+                    existingWarehouseItem.setLastModifiedBy(warehouseItem.getLastModifiedBy());
+                }
+                if (warehouseItem.getLastModifiedDate() != null) {
+                    existingWarehouseItem.setLastModifiedDate(warehouseItem.getLastModifiedDate());
                 }
 
                 return existingWarehouseItem;

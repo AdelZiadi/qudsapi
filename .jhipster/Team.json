@@ -1,6 +1,6 @@
 {
   "annotations": {
-    "changelogDate": "20240521125530"
+    "changelogDate": "20240522234858"
   },
   "applications": "*",
   "enableAudit": true,
@@ -72,6 +72,7 @@
     }
   ],
   "name": "Team",
+  "pagination": "pagination",
   "relationships": [
     {
       "otherEntityField": "code",
@@ -97,10 +98,18 @@
     {
       "otherEntityField": "login",
       "otherEntityName": "user",
+      "otherEntityRelationshipName": "team",
       "relationshipName": "userInfo",
       "relationshipSide": "left",
       "relationshipType": "many-to-one",
       "relationshipWithBuiltInEntity": true
+    },
+    {
+      "otherEntityName": "assignment",
+      "otherEntityRelationshipName": "team",
+      "relationshipName": "assignment",
+      "relationshipSide": "right",
+      "relationshipType": "one-to-many"
     }
   ],
   "searchEngine": "no",

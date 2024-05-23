@@ -133,7 +133,7 @@ public class ItnsVillage extends AbstractAuditingEntity<Long> implements Seriali
 
     @ManyToOne(optional = false)
     @NotNull
-    @JsonIgnoreProperties(value = { "activity", "operationRoom", "warehouse", "userInfo" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "activity", "operationRoom", "warehouse", "userInfo", "assignments" }, allowSetters = true)
     private Team team;
 
     @ManyToOne(optional = false)

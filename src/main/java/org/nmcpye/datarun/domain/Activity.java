@@ -7,6 +7,7 @@ import java.io.Serializable;
 import java.time.Instant;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.springframework.data.domain.Persistable;
 
 /**
  * A Activity.
@@ -14,8 +15,9 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 @Entity
 @Table(name = "activity")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+@JsonIgnoreProperties(value = { "new" })
 @SuppressWarnings("common-java:DuplicatedBlocks")
-public class Activity implements Serializable {
+public class Activity extends AbstractAuditingEntity<Long> implements Serializable, Persistable<Long> {
 
     private static final long serialVersionUID = 1L;
 
@@ -45,11 +47,12 @@ public class Activity implements Serializable {
     @Column(name = "active")
     private Boolean active;
 
-    @Column(name = "displayed")
-    private Boolean displayed;
-
-    @Column(name = "app_order")
-    private Integer order;
+    // Inherited createdBy definition
+    // Inherited createdDate definition
+    // Inherited lastModifiedBy definition
+    // Inherited lastModifiedDate definition
+    @Transient
+    private boolean isPersisted;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JsonIgnoreProperties(value = { "activities" }, allowSetters = true)
@@ -148,30 +151,45 @@ public class Activity implements Serializable {
         this.active = active;
     }
 
-    public Boolean getDisplayed() {
-        return this.displayed;
-    }
-
-    public Activity displayed(Boolean displayed) {
-        this.setDisplayed(displayed);
+    // Inherited createdBy methods
+    public Activity createdBy(String createdBy) {
+        this.setCreatedBy(createdBy);
         return this;
     }
 
-    public void setDisplayed(Boolean displayed) {
-        this.displayed = displayed;
-    }
-
-    public Integer getOrder() {
-        return this.order;
-    }
-
-    public Activity order(Integer order) {
-        this.setOrder(order);
+    // Inherited createdDate methods
+    public Activity createdDate(Instant createdDate) {
+        this.setCreatedDate(createdDate);
         return this;
     }
 
-    public void setOrder(Integer order) {
-        this.order = order;
+    // Inherited lastModifiedBy methods
+    public Activity lastModifiedBy(String lastModifiedBy) {
+        this.setLastModifiedBy(lastModifiedBy);
+        return this;
+    }
+
+    // Inherited lastModifiedDate methods
+    public Activity lastModifiedDate(Instant lastModifiedDate) {
+        this.setLastModifiedDate(lastModifiedDate);
+        return this;
+    }
+
+    @PostLoad
+    @PostPersist
+    public void updateEntityState() {
+        this.setIsPersisted();
+    }
+
+    @Transient
+    @Override
+    public boolean isNew() {
+        return !this.isPersisted;
+    }
+
+    public Activity setIsPersisted() {
+        this.isPersisted = true;
+        return this;
     }
 
     public Project getProject() {
@@ -217,8 +235,10 @@ public class Activity implements Serializable {
             ", startDate='" + getStartDate() + "'" +
             ", endDate='" + getEndDate() + "'" +
             ", active='" + getActive() + "'" +
-            ", displayed='" + getDisplayed() + "'" +
-            ", order=" + getOrder() +
+            ", createdBy='" + getCreatedBy() + "'" +
+            ", createdDate='" + getCreatedDate() + "'" +
+            ", lastModifiedBy='" + getLastModifiedBy() + "'" +
+            ", lastModifiedDate='" + getLastModifiedDate() + "'" +
             "}";
     }
 }

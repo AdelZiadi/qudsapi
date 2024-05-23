@@ -1,8 +1,9 @@
 {
   "annotations": {
-    "changelogDate": "20240521125522"
+    "changelogDate": "20240522234850"
   },
   "applications": "*",
+  "enableAudit": true,
   "entityTableName": "project",
   "fields": [
     {
@@ -33,8 +34,38 @@
       "fieldType": "Boolean"
     },
     {
-      "fieldName": "order",
-      "fieldType": "Integer"
+      "auditField": true,
+      "autoGenerate": true,
+      "columnType": "varchar(50)",
+      "fieldName": "createdBy",
+      "fieldType": "String",
+      "nullable": false,
+      "readonly": true
+    },
+    {
+      "auditField": true,
+      "autoGenerate": true,
+      "fieldName": "createdDate",
+      "fieldType": "Instant",
+      "nullable": false,
+      "readonly": true
+    },
+    {
+      "auditField": true,
+      "autoGenerate": true,
+      "columnType": "varchar(50)",
+      "fieldName": "lastModifiedBy",
+      "fieldType": "String",
+      "nullable": false,
+      "readonly": true
+    },
+    {
+      "auditField": true,
+      "autoGenerate": true,
+      "fieldName": "lastModifiedDate",
+      "fieldType": "Instant",
+      "nullable": false,
+      "readonly": true
     }
   ],
   "name": "Project",

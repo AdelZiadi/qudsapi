@@ -34,6 +34,7 @@ public class ProgressStatusServiceImpl implements ProgressStatusService {
     @Override
     public ProgressStatus update(ProgressStatus progressStatus) {
         log.debug("Request to update ProgressStatus : {}", progressStatus);
+        progressStatus.setIsPersisted();
         return progressStatusRepository.save(progressStatus);
     }
 
@@ -49,6 +50,18 @@ public class ProgressStatusServiceImpl implements ProgressStatusService {
                 }
                 if (progressStatus.getName() != null) {
                     existingProgressStatus.setName(progressStatus.getName());
+                }
+                if (progressStatus.getCreatedBy() != null) {
+                    existingProgressStatus.setCreatedBy(progressStatus.getCreatedBy());
+                }
+                if (progressStatus.getCreatedDate() != null) {
+                    existingProgressStatus.setCreatedDate(progressStatus.getCreatedDate());
+                }
+                if (progressStatus.getLastModifiedBy() != null) {
+                    existingProgressStatus.setLastModifiedBy(progressStatus.getLastModifiedBy());
+                }
+                if (progressStatus.getLastModifiedDate() != null) {
+                    existingProgressStatus.setLastModifiedDate(progressStatus.getLastModifiedDate());
                 }
 
                 return existingProgressStatus;

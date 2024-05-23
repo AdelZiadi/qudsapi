@@ -10,14 +10,19 @@ public class ProgressStatusTestSamples {
     private static final AtomicLong longCount = new AtomicLong(random.nextInt() + (2 * Integer.MAX_VALUE));
 
     public static ProgressStatus getProgressStatusSample1() {
-        return new ProgressStatus().id(1L).uid("uid1").name("name1");
+        return new ProgressStatus().id(1L).uid("uid1").name("name1").createdBy("createdBy1").lastModifiedBy("lastModifiedBy1");
     }
 
     public static ProgressStatus getProgressStatusSample2() {
-        return new ProgressStatus().id(2L).uid("uid2").name("name2");
+        return new ProgressStatus().id(2L).uid("uid2").name("name2").createdBy("createdBy2").lastModifiedBy("lastModifiedBy2");
     }
 
     public static ProgressStatus getProgressStatusRandomSampleGenerator() {
-        return new ProgressStatus().id(longCount.incrementAndGet()).uid(UUID.randomUUID().toString()).name(UUID.randomUUID().toString());
+        return new ProgressStatus()
+            .id(longCount.incrementAndGet())
+            .uid(UUID.randomUUID().toString())
+            .name(UUID.randomUUID().toString())
+            .createdBy(UUID.randomUUID().toString())
+            .lastModifiedBy(UUID.randomUUID().toString());
     }
 }

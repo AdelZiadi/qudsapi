@@ -1,6 +1,5 @@
 package org.nmcpye.datarun.service;
 
-import java.util.List;
 import java.util.Optional;
 import org.nmcpye.datarun.domain.Warehouse;
 import org.springframework.data.domain.Page;
@@ -37,9 +36,10 @@ public interface WarehouseService {
     /**
      * Get all the warehouses.
      *
+     * @param pageable the pagination information.
      * @return the list of entities.
      */
-    List<Warehouse> findAll();
+    Page<Warehouse> findAll(Pageable pageable);
 
     /**
      * Get all the warehouses with eager load of many-to-many relationships.

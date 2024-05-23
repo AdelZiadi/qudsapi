@@ -34,6 +34,7 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public Project update(Project project) {
         log.debug("Request to update Project : {}", project);
+        project.setIsPersisted();
         return projectRepository.save(project);
     }
 
@@ -62,8 +63,17 @@ public class ProjectServiceImpl implements ProjectService {
                 if (project.getDisplayed() != null) {
                     existingProject.setDisplayed(project.getDisplayed());
                 }
-                if (project.getOrder() != null) {
-                    existingProject.setOrder(project.getOrder());
+                if (project.getCreatedBy() != null) {
+                    existingProject.setCreatedBy(project.getCreatedBy());
+                }
+                if (project.getCreatedDate() != null) {
+                    existingProject.setCreatedDate(project.getCreatedDate());
+                }
+                if (project.getLastModifiedBy() != null) {
+                    existingProject.setLastModifiedBy(project.getLastModifiedBy());
+                }
+                if (project.getLastModifiedDate() != null) {
+                    existingProject.setLastModifiedDate(project.getLastModifiedDate());
                 }
 
                 return existingProject;

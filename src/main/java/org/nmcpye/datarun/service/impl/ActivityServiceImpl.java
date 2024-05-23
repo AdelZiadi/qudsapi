@@ -1,6 +1,5 @@
 package org.nmcpye.datarun.service.impl;
 
-import java.util.List;
 import java.util.Optional;
 import org.nmcpye.datarun.domain.Activity;
 import org.nmcpye.datarun.repository.ActivityRepository;
@@ -36,6 +35,7 @@ public class ActivityServiceImpl implements ActivityService {
     @Override
     public Activity update(Activity activity) {
         log.debug("Request to update Activity : {}", activity);
+        activity.setIsPersisted();
         return activityRepository.save(activity);
     }
 
@@ -64,11 +64,17 @@ public class ActivityServiceImpl implements ActivityService {
                 if (activity.getActive() != null) {
                     existingActivity.setActive(activity.getActive());
                 }
-                if (activity.getDisplayed() != null) {
-                    existingActivity.setDisplayed(activity.getDisplayed());
+                if (activity.getCreatedBy() != null) {
+                    existingActivity.setCreatedBy(activity.getCreatedBy());
                 }
-                if (activity.getOrder() != null) {
-                    existingActivity.setOrder(activity.getOrder());
+                if (activity.getCreatedDate() != null) {
+                    existingActivity.setCreatedDate(activity.getCreatedDate());
+                }
+                if (activity.getLastModifiedBy() != null) {
+                    existingActivity.setLastModifiedBy(activity.getLastModifiedBy());
+                }
+                if (activity.getLastModifiedDate() != null) {
+                    existingActivity.setLastModifiedDate(activity.getLastModifiedDate());
                 }
 
                 return existingActivity;
@@ -78,9 +84,9 @@ public class ActivityServiceImpl implements ActivityService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<Activity> findAll() {
+    public Page<Activity> findAll(Pageable pageable) {
         log.debug("Request to get all Activities");
-        return activityRepository.findAll();
+        return activityRepository.findAll(pageable);
     }
 
     public Page<Activity> findAllWithEagerRelationships(Pageable pageable) {

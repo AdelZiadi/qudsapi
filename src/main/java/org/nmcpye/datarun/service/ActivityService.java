@@ -1,6 +1,5 @@
 package org.nmcpye.datarun.service;
 
-import java.util.List;
 import java.util.Optional;
 import org.nmcpye.datarun.domain.Activity;
 import org.springframework.data.domain.Page;
@@ -37,9 +36,10 @@ public interface ActivityService {
     /**
      * Get all the activities.
      *
+     * @param pageable the pagination information.
      * @return the list of entities.
      */
-    List<Activity> findAll();
+    Page<Activity> findAll(Pageable pageable);
 
     /**
      * Get all the activities with eager load of many-to-many relationships.

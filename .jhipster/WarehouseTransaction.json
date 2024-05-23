@@ -1,6 +1,6 @@
 {
   "annotations": {
-    "changelogDate": "20240521125533"
+    "changelogDate": "20240522234901"
   },
   "applications": "*",
   "enableAudit": true,
@@ -12,7 +12,7 @@
     },
     {
       "fieldName": "transactionDate",
-      "fieldType": "Integer",
+      "fieldType": "Instant",
       "fieldValidateRules": ["required"]
     },
     {

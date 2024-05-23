@@ -1,6 +1,5 @@
 package org.nmcpye.datarun.service.impl;
 
-import java.util.List;
 import java.util.Optional;
 import org.nmcpye.datarun.domain.Warehouse;
 import org.nmcpye.datarun.repository.WarehouseRepository;
@@ -88,9 +87,9 @@ public class WarehouseServiceImpl implements WarehouseService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<Warehouse> findAll() {
+    public Page<Warehouse> findAll(Pageable pageable) {
         log.debug("Request to get all Warehouses");
-        return warehouseRepository.findAll();
+        return warehouseRepository.findAll(pageable);
     }
 
     public Page<Warehouse> findAllWithEagerRelationships(Pageable pageable) {

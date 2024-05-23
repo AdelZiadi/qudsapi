@@ -69,8 +69,8 @@ class AssignmentResourceIT {
     private static final String DEFAULT_SUBVILLAGE = "AAAAAAAAAA";
     private static final String UPDATED_SUBVILLAGE = "BBBBBBBBBB";
 
-    private static final String DEFAULT_PPD_NAME = "AAAAAAAAAA";
-    private static final String UPDATED_PPD_NAME = "BBBBBBBBBB";
+    private static final String DEFAULT_NAME = "AAAAAAAAAA";
+    private static final String UPDATED_NAME = "BBBBBBBBBB";
 
     private static final Integer DEFAULT_DAY_ID = 1;
     private static final Integer UPDATED_DAY_ID = 2;
@@ -136,7 +136,7 @@ class AssignmentResourceIT {
             .subdistrict(DEFAULT_SUBDISTRICT)
             .village(DEFAULT_VILLAGE)
             .subvillage(DEFAULT_SUBVILLAGE)
-            .ppdName(DEFAULT_PPD_NAME)
+            .name(DEFAULT_NAME)
             .dayId(DEFAULT_DAY_ID)
             .population(DEFAULT_POPULATION)
             .itnsPlanned(DEFAULT_ITNS_PLANNED)
@@ -164,7 +164,7 @@ class AssignmentResourceIT {
             .subdistrict(UPDATED_SUBDISTRICT)
             .village(UPDATED_VILLAGE)
             .subvillage(UPDATED_SUBVILLAGE)
-            .ppdName(UPDATED_PPD_NAME)
+            .name(UPDATED_NAME)
             .dayId(UPDATED_DAY_ID)
             .population(UPDATED_POPULATION)
             .itnsPlanned(UPDATED_ITNS_PLANNED)
@@ -238,7 +238,7 @@ class AssignmentResourceIT {
             .andExpect(jsonPath("$.[*].subdistrict").value(hasItem(DEFAULT_SUBDISTRICT)))
             .andExpect(jsonPath("$.[*].village").value(hasItem(DEFAULT_VILLAGE)))
             .andExpect(jsonPath("$.[*].subvillage").value(hasItem(DEFAULT_SUBVILLAGE)))
-            .andExpect(jsonPath("$.[*].ppdName").value(hasItem(DEFAULT_PPD_NAME)))
+            .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)))
             .andExpect(jsonPath("$.[*].dayId").value(hasItem(DEFAULT_DAY_ID)))
             .andExpect(jsonPath("$.[*].population").value(hasItem(DEFAULT_POPULATION.doubleValue())))
             .andExpect(jsonPath("$.[*].itnsPlanned").value(hasItem(DEFAULT_ITNS_PLANNED)))
@@ -286,7 +286,7 @@ class AssignmentResourceIT {
             .andExpect(jsonPath("$.subdistrict").value(DEFAULT_SUBDISTRICT))
             .andExpect(jsonPath("$.village").value(DEFAULT_VILLAGE))
             .andExpect(jsonPath("$.subvillage").value(DEFAULT_SUBVILLAGE))
-            .andExpect(jsonPath("$.ppdName").value(DEFAULT_PPD_NAME))
+            .andExpect(jsonPath("$.name").value(DEFAULT_NAME))
             .andExpect(jsonPath("$.dayId").value(DEFAULT_DAY_ID))
             .andExpect(jsonPath("$.population").value(DEFAULT_POPULATION.doubleValue()))
             .andExpect(jsonPath("$.itnsPlanned").value(DEFAULT_ITNS_PLANNED))
@@ -325,7 +325,7 @@ class AssignmentResourceIT {
             .subdistrict(UPDATED_SUBDISTRICT)
             .village(UPDATED_VILLAGE)
             .subvillage(UPDATED_SUBVILLAGE)
-            .ppdName(UPDATED_PPD_NAME)
+            .name(UPDATED_NAME)
             .dayId(UPDATED_DAY_ID)
             .population(UPDATED_POPULATION)
             .itnsPlanned(UPDATED_ITNS_PLANNED)
@@ -414,7 +414,7 @@ class AssignmentResourceIT {
             .districtCode(UPDATED_DISTRICT_CODE)
             .gov(UPDATED_GOV)
             .village(UPDATED_VILLAGE)
-            .ppdName(UPDATED_PPD_NAME)
+            .name(UPDATED_NAME)
             .population(UPDATED_POPULATION)
             .targetType(UPDATED_TARGET_TYPE)
             .longitude(UPDATED_LONGITUDE)
@@ -460,7 +460,7 @@ class AssignmentResourceIT {
             .subdistrict(UPDATED_SUBDISTRICT)
             .village(UPDATED_VILLAGE)
             .subvillage(UPDATED_SUBVILLAGE)
-            .ppdName(UPDATED_PPD_NAME)
+            .name(UPDATED_NAME)
             .dayId(UPDATED_DAY_ID)
             .population(UPDATED_POPULATION)
             .itnsPlanned(UPDATED_ITNS_PLANNED)

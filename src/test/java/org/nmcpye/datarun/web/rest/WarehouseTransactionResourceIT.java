@@ -46,8 +46,8 @@ class WarehouseTransactionResourceIT {
     private static final String DEFAULT_IMOV_UID = "AAAAAAAAAA";
     private static final String UPDATED_IMOV_UID = "BBBBBBBBBB";
 
-    private static final Integer DEFAULT_TRANSACTION_DATE = 1;
-    private static final Integer UPDATED_TRANSACTION_DATE = 2;
+    private static final Instant DEFAULT_TRANSACTION_DATE = Instant.ofEpochMilli(0L);
+    private static final Instant UPDATED_TRANSACTION_DATE = Instant.now().truncatedTo(ChronoUnit.MILLIS);
 
     private static final Integer DEFAULT_PHASE_NO = 1;
     private static final Integer UPDATED_PHASE_NO = 2;
@@ -293,7 +293,7 @@ class WarehouseTransactionResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(warehouseTransaction.getId().intValue())))
             .andExpect(jsonPath("$.[*].imovUid").value(hasItem(DEFAULT_IMOV_UID)))
-            .andExpect(jsonPath("$.[*].transactionDate").value(hasItem(DEFAULT_TRANSACTION_DATE)))
+            .andExpect(jsonPath("$.[*].transactionDate").value(hasItem(DEFAULT_TRANSACTION_DATE.toString())))
             .andExpect(jsonPath("$.[*].phaseNo").value(hasItem(DEFAULT_PHASE_NO)))
             .andExpect(jsonPath("$.[*].entryType").value(hasItem(DEFAULT_ENTRY_TYPE)))
             .andExpect(jsonPath("$.[*].quantity").value(hasItem(DEFAULT_QUANTITY)))
@@ -336,7 +336,7 @@ class WarehouseTransactionResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(warehouseTransaction.getId().intValue()))
             .andExpect(jsonPath("$.imovUid").value(DEFAULT_IMOV_UID))
-            .andExpect(jsonPath("$.transactionDate").value(DEFAULT_TRANSACTION_DATE))
+            .andExpect(jsonPath("$.transactionDate").value(DEFAULT_TRANSACTION_DATE.toString()))
             .andExpect(jsonPath("$.phaseNo").value(DEFAULT_PHASE_NO))
             .andExpect(jsonPath("$.entryType").value(DEFAULT_ENTRY_TYPE))
             .andExpect(jsonPath("$.quantity").value(DEFAULT_QUANTITY))

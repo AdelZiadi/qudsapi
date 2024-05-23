@@ -60,12 +60,6 @@ class ActivityResourceIT {
     private static final Boolean DEFAULT_ACTIVE = false;
     private static final Boolean UPDATED_ACTIVE = true;
 
-    private static final Boolean DEFAULT_DISPLAYED = false;
-    private static final Boolean UPDATED_DISPLAYED = true;
-
-    private static final Integer DEFAULT_ORDER = 1;
-    private static final Integer UPDATED_ORDER = 2;
-
     private static final String ENTITY_API_URL = "/api/activities";
     private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";
 
@@ -105,9 +99,7 @@ class ActivityResourceIT {
             .name(DEFAULT_NAME)
             .startDate(DEFAULT_START_DATE)
             .endDate(DEFAULT_END_DATE)
-            .active(DEFAULT_ACTIVE)
-            .displayed(DEFAULT_DISPLAYED)
-            .order(DEFAULT_ORDER);
+            .active(DEFAULT_ACTIVE);
         return activity;
     }
 
@@ -124,9 +116,7 @@ class ActivityResourceIT {
             .name(UPDATED_NAME)
             .startDate(UPDATED_START_DATE)
             .endDate(UPDATED_END_DATE)
-            .active(UPDATED_ACTIVE)
-            .displayed(UPDATED_DISPLAYED)
-            .order(UPDATED_ORDER);
+            .active(UPDATED_ACTIVE);
         return activity;
     }
 
@@ -205,9 +195,7 @@ class ActivityResourceIT {
             .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)))
             .andExpect(jsonPath("$.[*].startDate").value(hasItem(DEFAULT_START_DATE.toString())))
             .andExpect(jsonPath("$.[*].endDate").value(hasItem(DEFAULT_END_DATE.toString())))
-            .andExpect(jsonPath("$.[*].active").value(hasItem(DEFAULT_ACTIVE.booleanValue())))
-            .andExpect(jsonPath("$.[*].displayed").value(hasItem(DEFAULT_DISPLAYED.booleanValue())))
-            .andExpect(jsonPath("$.[*].order").value(hasItem(DEFAULT_ORDER)));
+            .andExpect(jsonPath("$.[*].active").value(hasItem(DEFAULT_ACTIVE.booleanValue())));
     }
 
     @SuppressWarnings({ "unchecked" })
@@ -244,9 +232,7 @@ class ActivityResourceIT {
             .andExpect(jsonPath("$.name").value(DEFAULT_NAME))
             .andExpect(jsonPath("$.startDate").value(DEFAULT_START_DATE.toString()))
             .andExpect(jsonPath("$.endDate").value(DEFAULT_END_DATE.toString()))
-            .andExpect(jsonPath("$.active").value(DEFAULT_ACTIVE.booleanValue()))
-            .andExpect(jsonPath("$.displayed").value(DEFAULT_DISPLAYED.booleanValue()))
-            .andExpect(jsonPath("$.order").value(DEFAULT_ORDER));
+            .andExpect(jsonPath("$.active").value(DEFAULT_ACTIVE.booleanValue()));
     }
 
     @Test
@@ -274,9 +260,7 @@ class ActivityResourceIT {
             .name(UPDATED_NAME)
             .startDate(UPDATED_START_DATE)
             .endDate(UPDATED_END_DATE)
-            .active(UPDATED_ACTIVE)
-            .displayed(UPDATED_DISPLAYED)
-            .order(UPDATED_ORDER);
+            .active(UPDATED_ACTIVE);
 
         restActivityMockMvc
             .perform(
@@ -360,8 +344,7 @@ class ActivityResourceIT {
             .name(UPDATED_NAME)
             .startDate(UPDATED_START_DATE)
             .endDate(UPDATED_END_DATE)
-            .active(UPDATED_ACTIVE)
-            .order(UPDATED_ORDER);
+            .active(UPDATED_ACTIVE);
 
         restActivityMockMvc
             .perform(
@@ -395,9 +378,7 @@ class ActivityResourceIT {
             .name(UPDATED_NAME)
             .startDate(UPDATED_START_DATE)
             .endDate(UPDATED_END_DATE)
-            .active(UPDATED_ACTIVE)
-            .displayed(UPDATED_DISPLAYED)
-            .order(UPDATED_ORDER);
+            .active(UPDATED_ACTIVE);
 
         restActivityMockMvc
             .perform(

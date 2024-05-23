@@ -55,8 +55,8 @@ public class Assignment extends AbstractAuditingEntity<Long> implements Serializ
     @Column(name = "subvillage")
     private String subvillage;
 
-    @Column(name = "ppd_name")
-    private String ppdName;
+    @Column(name = "name")
+    private String name;
 
     @Column(name = "day_id")
     private Integer dayId;
@@ -91,10 +91,10 @@ public class Assignment extends AbstractAuditingEntity<Long> implements Serializ
     private Activity activity;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    private MVillagesLocations organisationUnit;
+    private VillageLocation organisationUnit;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JsonIgnoreProperties(value = { "activity", "operationRoom", "warehouse", "userInfo" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "activity", "operationRoom", "warehouse", "userInfo", "assignments" }, allowSetters = true)
     private Team team;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -233,17 +233,17 @@ public class Assignment extends AbstractAuditingEntity<Long> implements Serializ
         this.subvillage = subvillage;
     }
 
-    public String getPpdName() {
-        return this.ppdName;
+    public String getName() {
+        return this.name;
     }
 
-    public Assignment ppdName(String ppdName) {
-        this.setPpdName(ppdName);
+    public Assignment name(String name) {
+        this.setName(name);
         return this;
     }
 
-    public void setPpdName(String ppdName) {
-        this.ppdName = ppdName;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public Integer getDayId() {
@@ -391,16 +391,16 @@ public class Assignment extends AbstractAuditingEntity<Long> implements Serializ
         return this;
     }
 
-    public MVillagesLocations getOrganisationUnit() {
+    public VillageLocation getOrganisationUnit() {
         return this.organisationUnit;
     }
 
-    public void setOrganisationUnit(MVillagesLocations mVillagesLocations) {
-        this.organisationUnit = mVillagesLocations;
+    public void setOrganisationUnit(VillageLocation villageLocation) {
+        this.organisationUnit = villageLocation;
     }
 
-    public Assignment organisationUnit(MVillagesLocations mVillagesLocations) {
-        this.setOrganisationUnit(mVillagesLocations);
+    public Assignment organisationUnit(VillageLocation villageLocation) {
+        this.setOrganisationUnit(villageLocation);
         return this;
     }
 
@@ -463,7 +463,7 @@ public class Assignment extends AbstractAuditingEntity<Long> implements Serializ
             ", subdistrict='" + getSubdistrict() + "'" +
             ", village='" + getVillage() + "'" +
             ", subvillage='" + getSubvillage() + "'" +
-            ", ppdName='" + getPpdName() + "'" +
+            ", name='" + getName() + "'" +
             ", dayId=" + getDayId() +
             ", population=" + getPopulation() +
             ", itnsPlanned=" + getItnsPlanned() +

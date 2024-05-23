@@ -3,8 +3,8 @@ package org.nmcpye.datarun.domain;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.nmcpye.datarun.domain.ActivityTestSamples.*;
 import static org.nmcpye.datarun.domain.AssignmentTestSamples.*;
-import static org.nmcpye.datarun.domain.MVillagesLocationsTestSamples.*;
 import static org.nmcpye.datarun.domain.TeamTestSamples.*;
+import static org.nmcpye.datarun.domain.VillageLocationTestSamples.*;
 import static org.nmcpye.datarun.domain.WarehouseTestSamples.*;
 
 import org.junit.jupiter.api.Test;
@@ -41,10 +41,10 @@ class AssignmentTest {
     @Test
     void organisationUnitTest() throws Exception {
         Assignment assignment = getAssignmentRandomSampleGenerator();
-        MVillagesLocations mVillagesLocationsBack = getMVillagesLocationsRandomSampleGenerator();
+        VillageLocation villageLocationBack = getVillageLocationRandomSampleGenerator();
 
-        assignment.setOrganisationUnit(mVillagesLocationsBack);
-        assertThat(assignment.getOrganisationUnit()).isEqualTo(mVillagesLocationsBack);
+        assignment.setOrganisationUnit(villageLocationBack);
+        assertThat(assignment.getOrganisationUnit()).isEqualTo(villageLocationBack);
 
         assignment.organisationUnit(null);
         assertThat(assignment.getOrganisationUnit()).isNull();

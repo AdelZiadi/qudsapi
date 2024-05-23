@@ -1,6 +1,6 @@
 {
   "annotations": {
-    "changelogDate": "20240521125525"
+    "changelogDate": "20240522234853"
   },
   "applications": "*",
   "enableAudit": true,
@@ -44,7 +44,7 @@
       "fieldType": "String"
     },
     {
-      "fieldName": "ppdName",
+      "fieldName": "name",
       "fieldType": "String"
     },
     {
@@ -122,7 +122,7 @@
     },
     {
       "otherEntityField": "code",
-      "otherEntityName": "mVillagesLocations",
+      "otherEntityName": "villageLocation",
       "relationshipName": "organisationUnit",
       "relationshipSide": "left",
       "relationshipType": "many-to-one"
@@ -130,6 +130,7 @@
     {
       "otherEntityField": "code",
       "otherEntityName": "team",
+      "otherEntityRelationshipName": "assignment",
       "relationshipName": "team",
       "relationshipSide": "left",
       "relationshipType": "many-to-one"

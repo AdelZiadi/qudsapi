@@ -51,9 +51,6 @@ class ProjectResourceIT {
     private static final Boolean DEFAULT_DISPLAYED = false;
     private static final Boolean UPDATED_DISPLAYED = true;
 
-    private static final Integer DEFAULT_ORDER = 1;
-    private static final Integer UPDATED_ORDER = 2;
-
     private static final String ENTITY_API_URL = "/api/projects";
     private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";
 
@@ -87,8 +84,7 @@ class ProjectResourceIT {
             .name(DEFAULT_NAME)
             .created(DEFAULT_CREATED)
             .lastUpdated(DEFAULT_LAST_UPDATED)
-            .displayed(DEFAULT_DISPLAYED)
-            .order(DEFAULT_ORDER);
+            .displayed(DEFAULT_DISPLAYED);
         return project;
     }
 
@@ -105,8 +101,7 @@ class ProjectResourceIT {
             .name(UPDATED_NAME)
             .created(UPDATED_CREATED)
             .lastUpdated(UPDATED_LAST_UPDATED)
-            .displayed(UPDATED_DISPLAYED)
-            .order(UPDATED_ORDER);
+            .displayed(UPDATED_DISPLAYED);
         return project;
     }
 
@@ -169,8 +164,7 @@ class ProjectResourceIT {
             .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)))
             .andExpect(jsonPath("$.[*].created").value(hasItem(DEFAULT_CREATED.toString())))
             .andExpect(jsonPath("$.[*].lastUpdated").value(hasItem(DEFAULT_LAST_UPDATED.toString())))
-            .andExpect(jsonPath("$.[*].displayed").value(hasItem(DEFAULT_DISPLAYED.booleanValue())))
-            .andExpect(jsonPath("$.[*].order").value(hasItem(DEFAULT_ORDER)));
+            .andExpect(jsonPath("$.[*].displayed").value(hasItem(DEFAULT_DISPLAYED.booleanValue())));
     }
 
     @Test
@@ -190,8 +184,7 @@ class ProjectResourceIT {
             .andExpect(jsonPath("$.name").value(DEFAULT_NAME))
             .andExpect(jsonPath("$.created").value(DEFAULT_CREATED.toString()))
             .andExpect(jsonPath("$.lastUpdated").value(DEFAULT_LAST_UPDATED.toString()))
-            .andExpect(jsonPath("$.displayed").value(DEFAULT_DISPLAYED.booleanValue()))
-            .andExpect(jsonPath("$.order").value(DEFAULT_ORDER));
+            .andExpect(jsonPath("$.displayed").value(DEFAULT_DISPLAYED.booleanValue()));
     }
 
     @Test
@@ -219,8 +212,7 @@ class ProjectResourceIT {
             .name(UPDATED_NAME)
             .created(UPDATED_CREATED)
             .lastUpdated(UPDATED_LAST_UPDATED)
-            .displayed(UPDATED_DISPLAYED)
-            .order(UPDATED_ORDER);
+            .displayed(UPDATED_DISPLAYED);
 
         restProjectMockMvc
             .perform(
@@ -330,8 +322,7 @@ class ProjectResourceIT {
             .name(UPDATED_NAME)
             .created(UPDATED_CREATED)
             .lastUpdated(UPDATED_LAST_UPDATED)
-            .displayed(UPDATED_DISPLAYED)
-            .order(UPDATED_ORDER);
+            .displayed(UPDATED_DISPLAYED);
 
         restProjectMockMvc
             .perform(

@@ -58,7 +58,7 @@ public class AssignmentAsserts {
             .satisfies(e -> assertThat(e.getSubdistrict()).as("check subdistrict").isEqualTo(actual.getSubdistrict()))
             .satisfies(e -> assertThat(e.getVillage()).as("check village").isEqualTo(actual.getVillage()))
             .satisfies(e -> assertThat(e.getSubvillage()).as("check subvillage").isEqualTo(actual.getSubvillage()))
-            .satisfies(e -> assertThat(e.getPpdName()).as("check ppdName").isEqualTo(actual.getPpdName()))
+            .satisfies(e -> assertThat(e.getName()).as("check name").isEqualTo(actual.getName()))
             .satisfies(e -> assertThat(e.getDayId()).as("check dayId").isEqualTo(actual.getDayId()))
             .satisfies(e -> assertThat(e.getPopulation()).as("check population").isEqualTo(actual.getPopulation()))
             .satisfies(e -> assertThat(e.getItnsPlanned()).as("check itnsPlanned").isEqualTo(actual.getItnsPlanned()))

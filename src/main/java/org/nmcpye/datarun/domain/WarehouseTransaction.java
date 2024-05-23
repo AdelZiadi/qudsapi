@@ -33,7 +33,7 @@ public class WarehouseTransaction extends AbstractAuditingEntity<Long> implement
 
     @NotNull
     @Column(name = "transaction_date", nullable = false)
-    private Integer transactionDate;
+    private Instant transactionDate;
 
     @Column(name = "phase_no")
     private Integer phaseNo;
@@ -85,7 +85,7 @@ public class WarehouseTransaction extends AbstractAuditingEntity<Long> implement
     private Warehouse sourceWarehouse;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JsonIgnoreProperties(value = { "activity", "operationRoom", "warehouse", "userInfo" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "activity", "operationRoom", "warehouse", "userInfo", "assignments" }, allowSetters = true)
     private Team team;
 
     @ManyToOne(optional = false)
@@ -125,16 +125,16 @@ public class WarehouseTransaction extends AbstractAuditingEntity<Long> implement
         this.imovUid = imovUid;
     }
 
-    public Integer getTransactionDate() {
+    public Instant getTransactionDate() {
         return this.transactionDate;
     }
 
-    public WarehouseTransaction transactionDate(Integer transactionDate) {
+    public WarehouseTransaction transactionDate(Instant transactionDate) {
         this.setTransactionDate(transactionDate);
         return this;
     }
 
-    public void setTransactionDate(Integer transactionDate) {
+    public void setTransactionDate(Instant transactionDate) {
         this.transactionDate = transactionDate;
     }
 
@@ -399,7 +399,7 @@ public class WarehouseTransaction extends AbstractAuditingEntity<Long> implement
         return "WarehouseTransaction{" +
             "id=" + getId() +
             ", imovUid='" + getImovUid() + "'" +
-            ", transactionDate=" + getTransactionDate() +
+            ", transactionDate='" + getTransactionDate() + "'" +
             ", phaseNo=" + getPhaseNo() +
             ", entryType='" + getEntryType() + "'" +
             ", quantity=" + getQuantity() +

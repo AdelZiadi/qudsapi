@@ -73,8 +73,8 @@ public class AssignmentServiceImpl implements AssignmentService {
                 if (assignment.getSubvillage() != null) {
                     existingAssignment.setSubvillage(assignment.getSubvillage());
                 }
-                if (assignment.getPpdName() != null) {
-                    existingAssignment.setPpdName(assignment.getPpdName());
+                if (assignment.getName() != null) {
+                    existingAssignment.setName(assignment.getName());
                 }
                 if (assignment.getDayId() != null) {
                     existingAssignment.setDayId(assignment.getDayId());

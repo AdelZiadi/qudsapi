@@ -1,6 +1,5 @@
 package org.nmcpye.datarun.service;
 
-import java.util.List;
 import java.util.Optional;
 import org.nmcpye.datarun.domain.Team;
 import org.springframework.data.domain.Page;
@@ -37,9 +36,10 @@ public interface TeamService {
     /**
      * Get all the teams.
      *
+     * @param pageable the pagination information.
      * @return the list of entities.
      */
-    List<Team> findAll();
+    Page<Team> findAll(Pageable pageable);
 
     /**
      * Get all the teams with eager load of many-to-many relationships.
