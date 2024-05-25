@@ -7,13 +7,11 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
-
 /**
  * Spring Data JPA repository for the Team entity.
  */
 @Repository
-public interface TeamRepositoryExt extends TeamRepository {
+public interface TeamRepositoryCustom extends TeamRepository {
     @Query(
         value = "SELECT t FROM Team t WHERE t.activity.active = true and t.userInfo.login = :login",
         countQuery = "select count(team) from Team team"
