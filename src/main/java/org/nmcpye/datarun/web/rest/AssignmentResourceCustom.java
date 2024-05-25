@@ -1,8 +1,8 @@
 package org.nmcpye.datarun.web.rest;
 
 import org.nmcpye.datarun.domain.Assignment;
-import org.nmcpye.datarun.repository.AssignmentRepositoryExt;
-import org.nmcpye.datarun.service.AssignmentServiceExt;
+import org.nmcpye.datarun.repository.AssignmentRepositoryCustom;
+import org.nmcpye.datarun.service.AssignmentServiceCustom;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -20,18 +20,18 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/api/assignments/custom")
-public class AssignmentResourceExt extends AssignmentResource {
+public class AssignmentResourceCustom extends AssignmentResource {
 
-    private final Logger log = LoggerFactory.getLogger(AssignmentResourceExt.class);
+    private final Logger log = LoggerFactory.getLogger(AssignmentResourceCustom.class);
 
-    private final AssignmentServiceExt assignmentServiceExt;
+    private final AssignmentServiceCustom assignmentServiceCustom;
 
-    private final AssignmentRepositoryExt assignmentRepositoryExt;
+    private final AssignmentRepositoryCustom assignmentRepositoryCustom;
 
-    public AssignmentResourceExt(AssignmentServiceExt assignmentService, AssignmentRepositoryExt assignmentRepository) {
+    public AssignmentResourceCustom(AssignmentServiceCustom assignmentService, AssignmentRepositoryCustom assignmentRepository) {
         super(assignmentService, assignmentRepository);
-        this.assignmentRepositoryExt = assignmentRepository;
-        this.assignmentServiceExt = assignmentService;
+        this.assignmentRepositoryCustom = assignmentRepository;
+        this.assignmentServiceCustom = assignmentService;
     }
 
     /**
@@ -48,7 +48,7 @@ public class AssignmentResourceExt extends AssignmentResource {
     ) {
         log.debug("REST request to get a page of Assignments");
         Page<Assignment> page;
-        page = assignmentServiceExt.findByCurrentUser(pageable);
+        page = assignmentServiceCustom.findByCurrentUser(pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }

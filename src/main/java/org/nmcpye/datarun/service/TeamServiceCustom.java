@@ -8,6 +8,6 @@ import org.springframework.data.domain.Pageable;
 /**
  * Service Interface for managing {@link Team}.
  */
-public interface TeamServiceExt extends TeamService {
+public interface TeamServiceCustom extends TeamService {
     Page<Team> findByCurrentUser(Pageable pageable);
 }

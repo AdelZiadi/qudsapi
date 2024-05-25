@@ -1,8 +1,8 @@
 package org.nmcpye.datarun.web.rest;
 
 import org.nmcpye.datarun.domain.Team;
-import org.nmcpye.datarun.repository.TeamRepositoryExt;
-import org.nmcpye.datarun.service.TeamServiceExt;
+import org.nmcpye.datarun.repository.TeamRepositoryCustom;
+import org.nmcpye.datarun.service.TeamServiceCustom;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -21,17 +21,17 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/api/teams/custom")
-public class TeamResourceExt extends TeamResource {
-    private final Logger log = LoggerFactory.getLogger(TeamResourceExt.class);
+public class TeamResourceCustom extends TeamResource {
+    private final Logger log = LoggerFactory.getLogger(TeamResourceCustom.class);
 
-    private final TeamServiceExt teamServiceExt;
+    private final TeamServiceCustom teamServiceCustom;
 
-    private final TeamRepositoryExt teamRepositoryExt;
+    private final TeamRepositoryCustom teamRepositoryCustom;
 
-    public TeamResourceExt(TeamServiceExt teamService, TeamRepositoryExt teamRepository) {
+    public TeamResourceCustom(TeamServiceCustom teamService, TeamRepositoryCustom teamRepository) {
         super(teamService, teamRepository);
-        this.teamRepositoryExt = teamRepository;
-        this.teamServiceExt = teamService;
+        this.teamRepositoryCustom = teamRepository;
+        this.teamServiceCustom = teamService;
     }
 
     /**
@@ -48,7 +48,7 @@ public class TeamResourceExt extends TeamResource {
     ) {
         log.debug("REST request to get a page of current user's Teams");
         Page<Team> page;
-        page = teamServiceExt.findByCurrentUser(pageable);
+        page = teamServiceCustom.findByCurrentUser(pageable);
 
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
