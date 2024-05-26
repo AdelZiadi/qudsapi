@@ -19,19 +19,19 @@ import java.util.List;
  * REST Extended controller for managing {@link Assignment}.
  */
 @RestController
-@RequestMapping("/api/assignments/custom")
+@RequestMapping("/api/custom/assignments")
 public class AssignmentResourceCustom extends AssignmentResource {
 
     private final Logger log = LoggerFactory.getLogger(AssignmentResourceCustom.class);
 
-    private final AssignmentServiceCustom assignmentServiceCustom;
+    private final AssignmentServiceCustom assignmentService;
 
-    private final AssignmentRepositoryCustom assignmentRepositoryCustom;
+    private final AssignmentRepositoryCustom assignmentRepository;
 
     public AssignmentResourceCustom(AssignmentServiceCustom assignmentService, AssignmentRepositoryCustom assignmentRepository) {
         super(assignmentService, assignmentRepository);
-        this.assignmentRepositoryCustom = assignmentRepository;
-        this.assignmentServiceCustom = assignmentService;
+        this.assignmentRepository = assignmentRepository;
+        this.assignmentService = assignmentService;
     }
 
     /**
@@ -42,13 +42,17 @@ public class AssignmentResourceCustom extends AssignmentResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of assignments in body.
      */
     @GetMapping("user")
-    public ResponseEntity<List<Assignment>> getCurrentUserAssignments(
+    public ResponseEntity<List<Assignment>> getAllByCurrentUser(
         @org.springdoc.core.annotations.ParameterObject Pageable pageable,
         @RequestParam(name = "eagerload", required = false, defaultValue = "true") boolean eagerload
     ) {
         log.debug("REST request to get a page of Assignments");
         Page<Assignment> page;
-        page = assignmentServiceCustom.findByCurrentUser(pageable);
+        if (eagerload) {
+            page = assignmentService.findAllWithEagerRelationships(pageable);
+        } else {
+            page = assignmentService.findAll(pageable);
+        }
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }

@@ -20,18 +20,18 @@ import java.util.List;
  * REST controller for managing {@link Team}.
  */
 @RestController
-@RequestMapping("/api/teams/custom")
+@RequestMapping("/api/custom/teams")
 public class TeamResourceCustom extends TeamResource {
     private final Logger log = LoggerFactory.getLogger(TeamResourceCustom.class);
 
-    private final TeamServiceCustom teamServiceCustom;
+    private final TeamServiceCustom teamService;
 
-    private final TeamRepositoryCustom teamRepositoryCustom;
+    private final TeamRepositoryCustom teamRepository;
 
-    public TeamResourceCustom(TeamServiceCustom teamService, TeamRepositoryCustom teamRepository) {
-        super(teamService, teamRepository);
-        this.teamRepositoryCustom = teamRepository;
-        this.teamServiceCustom = teamService;
+    public TeamResourceCustom(TeamServiceCustom teamServiceCustom, TeamRepositoryCustom teamRepositoryCustom) {
+        super(teamServiceCustom, teamRepositoryCustom);
+        this.teamService = teamServiceCustom;
+        this.teamRepository = teamRepositoryCustom;
     }
 
     /**
@@ -42,13 +42,13 @@ public class TeamResourceCustom extends TeamResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of teams in body.
      */
     @GetMapping("user")
-    public ResponseEntity<List<Team>> getCurrentUserTeams(
+    public ResponseEntity<List<Team>> getAllByCurrentUser(
         @org.springdoc.core.annotations.ParameterObject Pageable pageable,
         @RequestParam(name = "eagerload", required = false, defaultValue = "true") boolean eagerload
     ) {
         log.debug("REST request to get a page of current user's Teams");
         Page<Team> page;
-        page = teamServiceCustom.findByCurrentUser(pageable);
+        page = teamService.findByCurrentUser(pageable);
 
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());

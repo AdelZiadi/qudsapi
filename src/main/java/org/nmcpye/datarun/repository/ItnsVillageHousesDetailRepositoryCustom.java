@@ -7,5 +7,7 @@ import org.springframework.stereotype.Repository;
  */
 @SuppressWarnings("unused")
 @Repository
-public interface ItnsVillageHousesDetailRepositoryCustom extends ItnsVillageHousesDetailRepository {
+public interface ItnsVillageHousesDetailRepositoryCustom
+    extends ItnsVillageHousesDetailRepository {
+
 }

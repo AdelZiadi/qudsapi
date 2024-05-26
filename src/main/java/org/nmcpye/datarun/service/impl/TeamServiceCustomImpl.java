@@ -24,17 +24,17 @@ public class TeamServiceCustomImpl extends TeamServiceImpl implements TeamServic
     }
 
     @Override
-    public Page<Team> findByCurrentUser(Pageable pageable) {
-        String userLogin = SecurityUtils.getCurrentUserLogin()
-            .orElseThrow(() -> new IllegalStateException("User not logged in"));
-        return teamRepositoryCustom.findByCurrentUser(userLogin, pageable);
-    }
-
-    @Override
     public Team save(Team team) {
         if (team.getUid() == null || team.getUid().isEmpty()) {
             team.setUid(CodeGenerator.generateUid());
         }
         return super.save(team);
+    }
+
+    @Override
+    public Page<Team> findByCurrentUser(Pageable pageable) {
+        String userLogin = SecurityUtils.getCurrentUserLogin()
+            .orElseThrow(() -> new IllegalStateException("User not logged in"));
+        return teamRepositoryCustom.findByCurrentUser(userLogin, pageable);
     }
 }
