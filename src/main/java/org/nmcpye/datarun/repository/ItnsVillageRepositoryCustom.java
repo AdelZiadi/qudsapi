@@ -17,16 +17,16 @@ import java.util.Optional;
 public interface ItnsVillageRepositoryCustom
     extends ItnsVillageRepositoryWithBagRelationships, ItnsVillageRepository {
 
-    default Optional<ItnsVillage> findOneWithEagerRelationshipsByUser(Long id, String login) {
-        return this.fetchBagRelationships(this.findOneWithToOneRelationshipsByUser(id, login));
+    default Optional<ItnsVillage> findOneWithEagerRelationshipsByUser(Long id) {
+        return this.fetchBagRelationships(this.findOneWithToOneRelationshipsByUser(id));
     }
 
-    default List<ItnsVillage> findAllWithEagerRelationshipsByUser(String login) {
-        return this.fetchBagRelationships(this.findAllWithToOneRelationshipsByUser(login));
+    default List<ItnsVillage> findAllWithEagerRelationshipsByUser() {
+        return this.fetchBagRelationships(this.findAllWithToOneRelationshipsByUser());
     }
 
-    default Page<ItnsVillage> findAllWithEagerRelationshipsByUser(Pageable pageable, String login) {
-        return this.fetchBagRelationships(this.findAllWithToOneRelationshipsByUser(pageable, login));
+    default Page<ItnsVillage> findAllWithEagerRelationshipsByUser(Pageable pageable) {
+        return this.fetchBagRelationships(this.findAllWithToOneRelationshipsByUser(pageable));
     }
 
     @Query(
@@ -35,28 +35,28 @@ public interface ItnsVillageRepositoryCustom
             "left join fetch itnsVillage.team " +
             "left join fetch itnsVillage.assignment " +
             "left join fetch itnsVillage.activity " +
-            "WHERE itnsVillage.team.userInfo.login = :login",
+            "WHERE itnsVillage.team.userInfo.login = ?#{authentication.name}",
         countQuery = "select count(itnsVillage) from ItnsVillage itnsVillage " +
-            "WHERE itnsVillage.team.userInfo.login = :login"
+            "WHERE itnsVillage.team.userInfo.login = ?#{authentication.name}"
     )
-    Page<ItnsVillage> findAllWithToOneRelationshipsByUser(Pageable pageable, @Param("login") String login);
+    Page<ItnsVillage> findAllWithToOneRelationshipsByUser(Pageable pageable);
 
     @Query(
         "select itnsVillage from ItnsVillage itnsVillage " +
             "left join fetch itnsVillage.progressStatus " +
             "left join fetch itnsVillage.team " +
             "left join fetch itnsVillage.assignment " +
-            "left join fetch itnsVillage.activity WHERE itnsVillage.team.userInfo.login = :login"
+            "left join fetch itnsVillage.activity WHERE itnsVillage.team.userInfo.login = ?#{authentication.name}"
     )
-    List<ItnsVillage> findAllWithToOneRelationshipsByUser(@Param("login") String login);
+    List<ItnsVillage> findAllWithToOneRelationshipsByUser();
 
     @Query(
         "select itnsVillage from ItnsVillage itnsVillage " +
             "left join fetch itnsVillage.progressStatus " +
             "left join fetch itnsVillage.team " +
             "left join fetch itnsVillage.assignment " +
-            "left join fetch itnsVillage.activity where itnsVillage.id =:id and itnsVillage.team.userInfo.login = :login"
+            "left join fetch itnsVillage.activity where itnsVillage.id =:id and itnsVillage.team.userInfo.login = ?#{authentication.name}"
     )
-    Optional<ItnsVillage> findOneWithToOneRelationshipsByUser(@Param("id") Long id, @Param("login") String login);
+    Optional<ItnsVillage> findOneWithToOneRelationshipsByUser(@Param("id") Long id);
 }
 

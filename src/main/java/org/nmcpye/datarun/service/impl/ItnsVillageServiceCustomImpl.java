@@ -2,7 +2,6 @@ package org.nmcpye.datarun.service.impl;
 
 import org.nmcpye.datarun.domain.ItnsVillage;
 import org.nmcpye.datarun.repository.ItnsVillageRepositoryCustom;
-import org.nmcpye.datarun.security.SecurityUtils;
 import org.nmcpye.datarun.service.ItnsVillageServiceCustom;
 import org.nmcpye.datarun.utils.CodeGenerator;
 import org.slf4j.Logger;
@@ -39,17 +38,13 @@ public class ItnsVillageServiceCustomImpl extends ItnsVillageServiceImpl impleme
 
     @Override
     public Page<ItnsVillage> findAllWithEagerRelationships(Pageable pageable) {
-        final String userLogin = SecurityUtils.getCurrentUserLogin()
-            .orElseThrow(() -> new IllegalStateException("User not logged in"));
-        return itnsVillageRepository.findAllWithEagerRelationshipsByUser(pageable, userLogin);
+        return itnsVillageRepository.findAllWithEagerRelationshipsByUser(pageable);
     }
 
     @Override
     @Transactional(readOnly = true)
     public Optional<ItnsVillage> findOne(Long id) {
-        final String userLogin = SecurityUtils.getCurrentUserLogin()
-            .orElseThrow(() -> new IllegalStateException("User not logged in"));
         log.debug("Request to get ItnsVillage : {}", id);
-        return itnsVillageRepository.findOneWithEagerRelationshipsByUser(id, userLogin);
+        return itnsVillageRepository.findOneWithEagerRelationshipsByUser(id);
     }
 }

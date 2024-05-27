@@ -1,26 +1,33 @@
 package org.nmcpye.datarun.service.impl;
 
 import org.nmcpye.datarun.domain.Team;
-import org.nmcpye.datarun.repository.TeamRepository;
 import org.nmcpye.datarun.repository.TeamRepositoryCustom;
-import org.nmcpye.datarun.security.SecurityUtils;
 import org.nmcpye.datarun.service.TeamServiceCustom;
 import org.nmcpye.datarun.utils.CodeGenerator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Primary;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 @Service
 @Primary
 @Transactional
-public class TeamServiceCustomImpl extends TeamServiceImpl implements TeamServiceCustom {
-    TeamRepositoryCustom teamRepositoryCustom;
+public class TeamServiceCustomImpl
+    extends TeamServiceImpl
+    implements TeamServiceCustom {
 
-    public TeamServiceCustomImpl(TeamRepository teamRepository, TeamRepositoryCustom teamRepositoryCustom) {
-        super(teamRepository);
-        this.teamRepositoryCustom = teamRepositoryCustom;
+    private final Logger log = LoggerFactory.getLogger(TeamServiceCustomImpl.class);
+
+    TeamRepositoryCustom teamRepository;
+
+    public TeamServiceCustomImpl(TeamRepositoryCustom teamRepositoryCustom) {
+        super(teamRepositoryCustom);
+        this.teamRepository = teamRepositoryCustom;
     }
 
     @Override
@@ -31,10 +38,14 @@ public class TeamServiceCustomImpl extends TeamServiceImpl implements TeamServic
         return super.save(team);
     }
 
+    public Page<Team> findAllWithEagerRelationships(Pageable pageable) {
+        return teamRepository.findAllWithEagerRelationshipsByUser(pageable);
+    }
+
     @Override
-    public Page<Team> findByCurrentUser(Pageable pageable) {
-        String userLogin = SecurityUtils.getCurrentUserLogin()
-            .orElseThrow(() -> new IllegalStateException("User not logged in"));
-        return teamRepositoryCustom.findByCurrentUser(userLogin, pageable);
+    @Transactional(readOnly = true)
+    public Optional<Team> findOne(Long id) {
+        log.debug("Request to get Team : {}", id);
+        return teamRepository.findOneWithEagerRelationships(id);
     }
 }

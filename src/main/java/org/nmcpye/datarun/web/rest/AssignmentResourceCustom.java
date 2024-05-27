@@ -12,8 +12,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import tech.jhipster.web.util.PaginationUtil;
+import tech.jhipster.web.util.ResponseUtil;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * REST Extended controller for managing {@link Assignment}.
@@ -42,7 +44,7 @@ public class AssignmentResourceCustom extends AssignmentResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of assignments in body.
      */
     @GetMapping("user")
-    public ResponseEntity<List<Assignment>> getAllByCurrentUser(
+    public ResponseEntity<List<Assignment>> getAllByUser(
         @org.springdoc.core.annotations.ParameterObject Pageable pageable,
         @RequestParam(name = "eagerload", required = false, defaultValue = "true") boolean eagerload
     ) {
@@ -56,4 +58,18 @@ public class AssignmentResourceCustom extends AssignmentResource {
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
+
+    /**
+     * {@code GET  /assignments/:id} : get the "id" assignment.
+     *
+     * @param id the id of the assignment to retrieve.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the assignment, or with status {@code 404 (Not Found)}.
+     */
+    @GetMapping("/user/{id}")
+    public ResponseEntity<Assignment> getOneByUser(@PathVariable("id") Long id) {
+        log.debug("REST request to get Assignment : {}", id);
+        Optional<Assignment> assignment = assignmentService.findOne(id);
+        return ResponseUtil.wrapOrNotFound(assignment);
+    }
+
 }

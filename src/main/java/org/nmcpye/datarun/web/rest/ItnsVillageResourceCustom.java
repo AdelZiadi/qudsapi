@@ -60,7 +60,7 @@ public class ItnsVillageResourceCustom extends ItnsVillageResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of itnsVillages in body.
      */
     @GetMapping("user")
-    public ResponseEntity<List<ItnsVillage>> getAllByCurrentUser(
+    public ResponseEntity<List<ItnsVillage>> getAllByUser(
         @org.springdoc.core.annotations.ParameterObject Pageable pageable,
         @RequestParam(name = "eagerload", required = false, defaultValue = "true") boolean eagerload
     ) {
@@ -73,5 +73,18 @@ public class ItnsVillageResourceCustom extends ItnsVillageResource {
         }
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
+    }
+
+    /**
+     * {@code GET  /itns-villages/:id} : get the "id" itnsVillage.
+     *
+     * @param id the id of the itnsVillage to retrieve.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the itnsVillage, or with status {@code 404 (Not Found)}.
+     */
+    @GetMapping("/user/{id}")
+    public ResponseEntity<ItnsVillage> getOneByUser(@PathVariable("id") Long id) {
+        log.debug("REST request to get ItnsVillage : {}", id);
+        Optional<ItnsVillage> itnsVillage = itnsVillageService.findOne(id);
+        return ResponseUtil.wrapOrNotFound(itnsVillage);
     }
 }

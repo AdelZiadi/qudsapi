@@ -7,15 +7,55 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+import java.util.Optional;
+
 /**
  * Spring Data JPA repository for the Team entity.
  */
 @Repository
 public interface TeamRepositoryCustom extends TeamRepository {
+    default Optional<Team> findOneWithEagerRelationshipsByUser(Long id) {
+        return this.findOneWithToOneRelationshipsByUser(id);
+    }
+
+    default List<Team> findAllWithEagerRelationshipsByUser() {
+        return this.findAllWithToOneRelationshipsByUser();
+    }
+
+    default Page<Team> findAllWithEagerRelationshipsByUser(Pageable pageable) {
+        return this.findAllWithToOneRelationshipsByUser(pageable);
+    }
+
     @Query(
-        value = "SELECT t FROM Team t WHERE t.activity.active = true and t.userInfo.login = :login",
-        countQuery = "select count(team) from Team team"
+        value = "select team from Team team " +
+            "left join fetch team.activity " +
+            "left join fetch team.operationRoom " +
+            "left join fetch team.warehouse " +
+            "left join fetch team.userInfo " +
+            "where team.userInfo.login = ?#{authentication.name}",
+        countQuery = "select count(team) from Team team " +
+            "where team.userInfo.login = ?#{authentication.name}"
     )
-    Page<Team> findByCurrentUser(@Param("login") String login,
-                                 Pageable pageable);
+    Page<Team> findAllWithToOneRelationshipsByUser(Pageable pageable);
+
+    @Query(
+        "select team from Team team " +
+            "left join fetch team.activity " +
+            "left join fetch team.operationRoom " +
+            "left join fetch team.warehouse " +
+            "left join fetch team.userInfo " +
+            "where team.userInfo.login = ?#{authentication.name}"
+    )
+    List<Team> findAllWithToOneRelationshipsByUser();
+
+    @Query(
+        "select team from Team team " +
+            "left join fetch team.activity " +
+            "left join fetch team.operationRoom " +
+            "left join fetch team.warehouse " +
+            "left join fetch team.userInfo " +
+            "where team.id =:id and team.userInfo.login = ?#{authentication.name}"
+    )
+    Optional<Team> findOneWithToOneRelationshipsByUser(@Param("id") Long id);
 }

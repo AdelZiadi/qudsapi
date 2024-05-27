@@ -55,15 +55,33 @@ public class WarehouseResourceCustom extends WarehouseResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of warehouses in body.
      */
     @GetMapping("user")
-    public ResponseEntity<List<Warehouse>> getAllByCurrentUser(
+    public ResponseEntity<List<Warehouse>> getAllByUser(
         @org.springdoc.core.annotations.ParameterObject Pageable pageable,
         @RequestParam(name = "eagerload", required = false, defaultValue = "true") boolean eagerload
     ) {
         log.debug("REST request to get a page of Warehouses By user");
         Page<Warehouse> page;
-        page = warehouseService.findByCurrentUser(pageable);
+
+        if (eagerload) {
+            page = warehouseService.findAllWithEagerRelationships(pageable);
+        } else {
+            page = warehouseService.findAll(pageable);
+        }
 
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
+    }
+
+    /**
+     * {@code GET  /warehouses/:id} : get the "id" warehouse.
+     *
+     * @param id the id of the warehouse to retrieve.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the warehouse, or with status {@code 404 (Not Found)}.
+     */
+    @GetMapping("/user/{id}")
+    public ResponseEntity<Warehouse> getOneByUser(@PathVariable("id") Long id) {
+        log.debug("REST request to get Warehouse : {}", id);
+        Optional<Warehouse> warehouse = warehouseService.findOne(id);
+        return ResponseUtil.wrapOrNotFound(warehouse);
     }
 }

@@ -38,25 +38,14 @@ public class AssignmentServiceImplCustom
         return super.save(assignment);
     }
 
-    @Override
-    public Page<Assignment> findByCurrentUser(Pageable pageable) {
-        final String userLogin = SecurityUtils.getCurrentUserLogin()
-            .orElseThrow(() -> new IllegalStateException("User not logged in"));
-        return assignmentRepositoryCustom.findByCurrentUser(userLogin, pageable);
-    }
-
     public Page<Assignment> findAllWithEagerRelationships(Pageable pageable) {
-        final String userLogin = SecurityUtils.getCurrentUserLogin()
-            .orElseThrow(() -> new IllegalStateException("User not logged in"));
-        return assignmentRepositoryCustom.findAllWithEagerRelationshipsByUser(pageable, userLogin);
+        return assignmentRepositoryCustom.findAllWithEagerRelationshipsByUser(pageable);
     }
 
     @Override
     @Transactional(readOnly = true)
     public Optional<Assignment> findOne(Long id) {
         log.debug("Request to get Assignment : {}", id);
-        final String userLogin = SecurityUtils.getCurrentUserLogin()
-            .orElseThrow(() -> new IllegalStateException("User not logged in"));
-        return assignmentRepositoryCustom.findOneWithEagerRelationshipsByUser(id, userLogin);
+        return assignmentRepositoryCustom.findOneWithEagerRelationshipsByUser(id);
     }
 }

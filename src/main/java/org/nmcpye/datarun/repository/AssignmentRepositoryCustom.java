@@ -12,23 +12,17 @@ import java.util.Optional;
 
 @Repository
 public interface AssignmentRepositoryCustom extends AssignmentRepository {
-    @Query(
-        value = "SELECT a FROM Assignment a WHERE a.team.userInfo.login = :login and a.activity.active = true",
-        countQuery = "select count(assignment) from Assignment assignment"
-    )
-    Page<Assignment> findByCurrentUser(@Param("login") String login,
-                                       Pageable pageable);
 
-    default Optional<Assignment> findOneWithEagerRelationshipsByUser(Long id, String login) {
-        return this.findOneWithToOneRelationshipsByUser(id, login);
+    default Optional<Assignment> findOneWithEagerRelationshipsByUser(Long id) {
+        return this.findOneWithToOneRelationshipsByUser(id);
     }
 
-    default List<Assignment> findAllWithEagerRelationshipsByUser(String login) {
-        return this.findAllWithToOneRelationshipsByUser(login);
+    default List<Assignment> findAllWithEagerRelationshipsByUser() {
+        return this.findAllWithToOneRelationshipsByUser();
     }
 
-    default Page<Assignment> findAllWithEagerRelationshipsByUser(Pageable pageable, String login) {
-        return this.findAllWithToOneRelationshipsByUser(pageable, login);
+    default Page<Assignment> findAllWithEagerRelationshipsByUser(Pageable pageable) {
+        return this.findAllWithToOneRelationshipsByUser(pageable);
     }
 
     @Query(
@@ -37,11 +31,11 @@ public interface AssignmentRepositoryCustom extends AssignmentRepository {
             "left join fetch assignment.organisationUnit " +
             "left join fetch assignment.team " +
             "left join fetch assignment.warehouse " +
-            "where assignment.team.userInfo.login = :login",
+            "where assignment.team.userInfo.login = ?#{authentication.name}",
         countQuery = "select count(assignment) from Assignment assignment " +
-            "where assignment.team.userInfo.login = :login"
+            "where assignment.team.userInfo.login = ?#{authentication.name}"
     )
-    Page<Assignment> findAllWithToOneRelationshipsByUser(Pageable pageable, @Param("login") String login);
+    Page<Assignment> findAllWithToOneRelationshipsByUser(Pageable pageable);
 
     @Query(
         "select assignment from Assignment assignment " +
@@ -49,9 +43,9 @@ public interface AssignmentRepositoryCustom extends AssignmentRepository {
             "left join fetch assignment.organisationUnit " +
             "left join fetch assignment.team " +
             "left join fetch assignment.warehouse " +
-            "where assignment.team.userInfo.login = :login"
+            "where assignment.team.userInfo.login = ?#{authentication.name}"
     )
-    List<Assignment> findAllWithToOneRelationshipsByUser(@Param("login") String login);
+    List<Assignment> findAllWithToOneRelationshipsByUser();
 
     @Query(
         "select assignment from Assignment assignment " +
@@ -59,7 +53,7 @@ public interface AssignmentRepositoryCustom extends AssignmentRepository {
             "left join fetch assignment.organisationUnit " +
             "left join fetch assignment.team " +
             "left join fetch assignment.warehouse " +
-            "where assignment.id =:id and assignment.team.userInfo.login = :login"
+            "where assignment.id =:id and assignment.team.userInfo.login = ?#{authentication.name}"
     )
-    Optional<Assignment> findOneWithToOneRelationshipsByUser(@Param("id") Long id, @Param("login") String login);
+    Optional<Assignment> findOneWithToOneRelationshipsByUser(@Param("id") Long id);
 }
