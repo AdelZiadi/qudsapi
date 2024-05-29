@@ -29,6 +29,19 @@ public interface WarehouseTransactionRepositoryCustom extends WarehouseTransacti
 
     @Query(
         value = "select warehouseTransaction from WarehouseTransaction warehouseTransaction " +
+            "left join warehouseTransaction.item " +
+            "left join warehouseTransaction.sourceWarehouse " +
+            "left join warehouseTransaction.team " +
+            "left join warehouseTransaction.warehouse " +
+            "left join warehouseTransaction.activity " +
+            "where warehouseTransaction.team.userInfo.login = ?#{authentication.name}",
+        countQuery = "select count(warehouseTransaction) from WarehouseTransaction warehouseTransaction " +
+            "where warehouseTransaction.team.userInfo.login = ?#{authentication.name}"
+    )
+    Page<WarehouseTransaction> findAllByUser(Pageable pageable);
+
+    @Query(
+        value = "select warehouseTransaction from WarehouseTransaction warehouseTransaction " +
             "left join fetch warehouseTransaction.item " +
             "left join fetch warehouseTransaction.sourceWarehouse " +
             "left join fetch warehouseTransaction.team " +

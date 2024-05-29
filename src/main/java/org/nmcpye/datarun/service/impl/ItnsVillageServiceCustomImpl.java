@@ -37,6 +37,13 @@ public class ItnsVillageServiceCustomImpl extends ItnsVillageServiceImpl impleme
     }
 
     @Override
+    @Transactional(readOnly = true)
+    public Page<ItnsVillage> findAll(Pageable pageable) {
+        log.debug("Request to get all ItnsVillages");
+        return itnsVillageRepository.findAllByUser(pageable);
+    }
+
+    @Override
     public Page<ItnsVillage> findAllWithEagerRelationships(Pageable pageable) {
         return itnsVillageRepository.findAllWithEagerRelationshipsByUser(pageable);
     }

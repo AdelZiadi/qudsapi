@@ -33,6 +33,17 @@ public interface WarehouseRepositoryCustom extends WarehouseRepository {
 
     @Query(
         value = "select warehouse from Warehouse warehouse " +
+            "left join warehouse.activity " +
+            "WHERE EXISTS (SELECT t FROM Team t " +
+            "WHERE t.userInfo.login = ?#{authentication.name} AND t.warehouse = warehouse)",
+        countQuery = "select count(warehouse) from Warehouse warehouse " +
+            "WHERE EXISTS (SELECT t FROM Team t " +
+            "WHERE t.userInfo.login = ?#{authentication.name} AND t.warehouse = warehouse)"
+    )
+    Page<Warehouse> findAllByUser(Pageable pageable);
+
+    @Query(
+        value = "select warehouse from Warehouse warehouse " +
                 "left join fetch warehouse.activity " +
                 "WHERE EXISTS (SELECT t FROM Team t " +
                 "WHERE t.userInfo.login = ?#{authentication.name} AND t.warehouse = warehouse)",

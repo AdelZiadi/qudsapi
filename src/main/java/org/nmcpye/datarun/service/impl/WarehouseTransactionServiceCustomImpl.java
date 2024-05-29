@@ -38,6 +38,13 @@ public class WarehouseTransactionServiceCustomImpl
         return warehouseTransactionRepository.save(warehouseTransaction);
     }
 
+    @Override
+    @Transactional(readOnly = true)
+    public Page<WarehouseTransaction> findAll(Pageable pageable) {
+        log.debug("Request to get all WarehouseTransactions");
+        return warehouseTransactionRepository.findAllByUser(pageable);
+    }
+
     public Page<WarehouseTransaction> findAllWithEagerRelationships(Pageable pageable) {
         return warehouseTransactionRepository.findAllWithEagerRelationshipsByUser(pageable);
     }

@@ -31,6 +31,18 @@ public interface ItnsVillageRepositoryCustom
 
     @Query(
         value = "select itnsVillage from ItnsVillage itnsVillage " +
+            "left join itnsVillage.progressStatus " +
+            "left join itnsVillage.team " +
+            "left join itnsVillage.assignment " +
+            "left join itnsVillage.activity " +
+            "WHERE itnsVillage.team.userInfo.login = ?#{authentication.name}",
+        countQuery = "select count(itnsVillage) from ItnsVillage itnsVillage " +
+            "WHERE itnsVillage.team.userInfo.login = ?#{authentication.name}"
+    )
+    Page<ItnsVillage> findAllByUser(Pageable pageable);
+
+    @Query(
+        value = "select itnsVillage from ItnsVillage itnsVillage " +
             "left join fetch itnsVillage.progressStatus " +
             "left join fetch itnsVillage.team " +
             "left join fetch itnsVillage.assignment " +

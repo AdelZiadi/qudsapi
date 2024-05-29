@@ -38,6 +38,13 @@ public class TeamServiceCustomImpl
         return super.save(team);
     }
 
+    @Override
+    @Transactional(readOnly = true)
+    public Page<Team> findAll(Pageable pageable) {
+        log.debug("Request to get all Teams");
+        return teamRepository.findAllByUser(pageable);
+    }
+
     public Page<Team> findAllWithEagerRelationships(Pageable pageable) {
         return teamRepository.findAllWithEagerRelationshipsByUser(pageable);
     }

@@ -27,6 +27,18 @@ public interface AssignmentRepositoryCustom extends AssignmentRepository {
 
     @Query(
         value = "select assignment from Assignment assignment " +
+            "left join assignment.activity " +
+            "left join assignment.organisationUnit " +
+            "left join assignment.team " +
+            "left join assignment.warehouse " +
+            "where assignment.team.userInfo.login = ?#{authentication.name}",
+        countQuery = "select count(assignment) from Assignment assignment " +
+            "where assignment.team.userInfo.login = ?#{authentication.name}"
+    )
+    Page<Assignment> findAllByUser(Pageable pageable);
+
+    @Query(
+        value = "select assignment from Assignment assignment " +
             "left join fetch assignment.activity " +
             "left join fetch assignment.organisationUnit " +
             "left join fetch assignment.team " +

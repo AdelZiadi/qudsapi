@@ -29,6 +29,18 @@ public interface TeamRepositoryCustom extends TeamRepository {
 
     @Query(
         value = "select team from Team team " +
+            "left join team.activity " +
+            "left join team.operationRoom " +
+            "left join team.warehouse " +
+            "left join team.userInfo " +
+            "where team.userInfo.login = ?#{authentication.name}",
+        countQuery = "select count(team) from Team team " +
+            "where team.userInfo.login = ?#{authentication.name}"
+    )
+    Page<Team> findAllByUser(Pageable pageable);
+
+    @Query(
+        value = "select team from Team team " +
             "left join fetch team.activity " +
             "left join fetch team.operationRoom " +
             "left join fetch team.warehouse " +

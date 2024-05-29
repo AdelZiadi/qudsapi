@@ -2,7 +2,6 @@ package org.nmcpye.datarun.service.impl;
 
 import org.nmcpye.datarun.domain.Assignment;
 import org.nmcpye.datarun.repository.AssignmentRepositoryCustom;
-import org.nmcpye.datarun.security.SecurityUtils;
 import org.nmcpye.datarun.service.AssignmentServiceCustom;
 import org.nmcpye.datarun.utils.CodeGenerator;
 import org.slf4j.Logger;
@@ -23,11 +22,11 @@ public class AssignmentServiceImplCustom
 
     private final Logger log = LoggerFactory.getLogger(AssignmentServiceImplCustom.class);
 
-    AssignmentRepositoryCustom assignmentRepositoryCustom;
+    AssignmentRepositoryCustom assignmentRepository;
 
-    public AssignmentServiceImplCustom(AssignmentRepositoryCustom assignmentRepositoryCustom) {
-        super(assignmentRepositoryCustom);
-        this.assignmentRepositoryCustom = assignmentRepositoryCustom;
+    public AssignmentServiceImplCustom(AssignmentRepositoryCustom assignmentRepository) {
+        super(assignmentRepository);
+        this.assignmentRepository = assignmentRepository;
     }
 
     @Override
@@ -38,14 +37,21 @@ public class AssignmentServiceImplCustom
         return super.save(assignment);
     }
 
+    @Override
+    @Transactional(readOnly = true)
+    public Page<Assignment> findAll(Pageable pageable) {
+        log.debug("Request to get all Assignments");
+        return assignmentRepository.findAllByUser(pageable);
+    }
+
     public Page<Assignment> findAllWithEagerRelationships(Pageable pageable) {
-        return assignmentRepositoryCustom.findAllWithEagerRelationshipsByUser(pageable);
+        return assignmentRepository.findAllWithEagerRelationshipsByUser(pageable);
     }
 
     @Override
     @Transactional(readOnly = true)
     public Optional<Assignment> findOne(Long id) {
         log.debug("Request to get Assignment : {}", id);
-        return assignmentRepositoryCustom.findOneWithEagerRelationshipsByUser(id);
+        return assignmentRepository.findOneWithEagerRelationshipsByUser(id);
     }
 }
