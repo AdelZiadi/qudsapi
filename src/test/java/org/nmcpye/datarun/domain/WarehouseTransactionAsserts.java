@@ -49,6 +49,9 @@ public class WarehouseTransactionAsserts {
     public static void assertWarehouseTransactionUpdatableFieldsEquals(WarehouseTransaction expected, WarehouseTransaction actual) {
         assertThat(expected)
             .as("Verify WarehouseTransaction relevant properties")
+            .satisfies(e -> assertThat(e.getUid()).as("check uid").isEqualTo(actual.getUid()))
+            .satisfies(e -> assertThat(e.getCode()).as("check code").isEqualTo(actual.getCode()))
+            .satisfies(e -> assertThat(e.getName()).as("check name").isEqualTo(actual.getName()))
             .satisfies(e -> assertThat(e.getImovUid()).as("check imovUid").isEqualTo(actual.getImovUid()))
             .satisfies(e -> assertThat(e.getTransactionDate()).as("check transactionDate").isEqualTo(actual.getTransactionDate()))
             .satisfies(e -> assertThat(e.getPhaseNo()).as("check phaseNo").isEqualTo(actual.getPhaseNo()))

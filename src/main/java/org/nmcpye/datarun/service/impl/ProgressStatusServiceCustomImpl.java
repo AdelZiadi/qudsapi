@@ -3,6 +3,7 @@ package org.nmcpye.datarun.service.impl;
 import org.nmcpye.datarun.domain.ProgressStatus;
 import org.nmcpye.datarun.repository.ProgressStatusRepositoryCustom;
 import org.nmcpye.datarun.service.ProgressStatusServiceCustom;
+import org.nmcpye.datarun.utils.CodeGenerator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Primary;
@@ -25,6 +26,14 @@ public class ProgressStatusServiceCustomImpl
     public ProgressStatusServiceCustomImpl(ProgressStatusRepositoryCustom progressStatusRepository) {
         super(progressStatusRepository);
         this.progressStatusRepository = progressStatusRepository;
+    }
+
+    @Override
+    public ProgressStatus save(ProgressStatus progressStatus) {
+        if (progressStatus.getUid() == null || progressStatus.getUid().isEmpty()) {
+            progressStatus.setUid(CodeGenerator.generateUid());
+        }
+        return progressStatusRepository.save(progressStatus);
     }
 
     @Override

@@ -31,15 +31,8 @@ public class ItnsVillageHousesDetail extends AbstractAuditingEntity<Long> implem
     @Column(name = "uid", length = 11, unique = true)
     private String uid;
 
-    @Column(name = "submission_uuid")
-    private String submissionUuid;
-
-    @Column(name = "deleted")
-    private Boolean deleted;
-
-    @NotNull
-    @Column(name = "house_uuid", nullable = false, unique = true)
-    private String houseUuid;
+    @Column(name = "code", unique = true)
+    private String code;
 
     @Column(name = "coupon_id")
     private Long couponId;
@@ -83,6 +76,15 @@ public class ItnsVillageHousesDetail extends AbstractAuditingEntity<Long> implem
     @Column(name = "comment", length = 2000)
     private String comment;
 
+    @Column(name = "submission_uuid")
+    private String submissionUuid;
+
+    @Column(name = "deleted")
+    private Boolean deleted;
+
+    @Column(name = "house_uuid", unique = true)
+    private String houseUuid;
+
     // Inherited createdBy definition
     // Inherited createdDate definition
     // Inherited lastModifiedBy definition
@@ -123,43 +125,17 @@ public class ItnsVillageHousesDetail extends AbstractAuditingEntity<Long> implem
         this.uid = uid;
     }
 
-    public String getSubmissionUuid() {
-        return this.submissionUuid;
+    public String getCode() {
+        return this.code;
     }
 
-    public ItnsVillageHousesDetail submissionUuid(String submissionUuid) {
-        this.setSubmissionUuid(submissionUuid);
+    public ItnsVillageHousesDetail code(String code) {
+        this.setCode(code);
         return this;
     }
 
-    public void setSubmissionUuid(String submissionUuid) {
-        this.submissionUuid = submissionUuid;
-    }
-
-    public Boolean getDeleted() {
-        return this.deleted;
-    }
-
-    public ItnsVillageHousesDetail deleted(Boolean deleted) {
-        this.setDeleted(deleted);
-        return this;
-    }
-
-    public void setDeleted(Boolean deleted) {
-        this.deleted = deleted;
-    }
-
-    public String getHouseUuid() {
-        return this.houseUuid;
-    }
-
-    public ItnsVillageHousesDetail houseUuid(String houseUuid) {
-        this.setHouseUuid(houseUuid);
-        return this;
-    }
-
-    public void setHouseUuid(String houseUuid) {
-        this.houseUuid = houseUuid;
+    public void setCode(String code) {
+        this.code = code;
     }
 
     public Long getCouponId() {
@@ -305,6 +281,45 @@ public class ItnsVillageHousesDetail extends AbstractAuditingEntity<Long> implem
         this.comment = comment;
     }
 
+    public String getSubmissionUuid() {
+        return this.submissionUuid;
+    }
+
+    public ItnsVillageHousesDetail submissionUuid(String submissionUuid) {
+        this.setSubmissionUuid(submissionUuid);
+        return this;
+    }
+
+    public void setSubmissionUuid(String submissionUuid) {
+        this.submissionUuid = submissionUuid;
+    }
+
+    public Boolean getDeleted() {
+        return this.deleted;
+    }
+
+    public ItnsVillageHousesDetail deleted(Boolean deleted) {
+        this.setDeleted(deleted);
+        return this;
+    }
+
+    public void setDeleted(Boolean deleted) {
+        this.deleted = deleted;
+    }
+
+    public String getHouseUuid() {
+        return this.houseUuid;
+    }
+
+    public ItnsVillageHousesDetail houseUuid(String houseUuid) {
+        this.setHouseUuid(houseUuid);
+        return this;
+    }
+
+    public void setHouseUuid(String houseUuid) {
+        this.houseUuid = houseUuid;
+    }
+
     // Inherited createdBy methods
     public ItnsVillageHousesDetail createdBy(String createdBy) {
         this.setCreatedBy(createdBy);
@@ -384,9 +399,7 @@ public class ItnsVillageHousesDetail extends AbstractAuditingEntity<Long> implem
         return "ItnsVillageHousesDetail{" +
             "id=" + getId() +
             ", uid='" + getUid() + "'" +
-            ", submissionUuid='" + getSubmissionUuid() + "'" +
-            ", deleted='" + getDeleted() + "'" +
-            ", houseUuid='" + getHouseUuid() + "'" +
+            ", code='" + getCode() + "'" +
             ", couponId=" + getCouponId() +
             ", name='" + getName() + "'" +
             ", male=" + getMale() +
@@ -398,6 +411,9 @@ public class ItnsVillageHousesDetail extends AbstractAuditingEntity<Long> implem
             ", displaced=" + getDisplaced() +
             ", itns=" + getItns() +
             ", comment='" + getComment() + "'" +
+            ", submissionUuid='" + getSubmissionUuid() + "'" +
+            ", deleted='" + getDeleted() + "'" +
+            ", houseUuid='" + getHouseUuid() + "'" +
             ", createdBy='" + getCreatedBy() + "'" +
             ", createdDate='" + getCreatedDate() + "'" +
             ", lastModifiedBy='" + getLastModifiedBy() + "'" +

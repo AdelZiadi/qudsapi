@@ -22,14 +22,6 @@
       "fieldType": "String"
     },
     {
-      "fieldName": "created",
-      "fieldType": "Instant"
-    },
-    {
-      "fieldName": "lastUpdated",
-      "fieldType": "Instant"
-    },
-    {
       "fieldName": "displayed",
       "fieldType": "Boolean"
     },

@@ -50,11 +50,11 @@ public class WarehouseAsserts {
         assertThat(expected)
             .as("Verify Warehouse relevant properties")
             .satisfies(e -> assertThat(e.getUid()).as("check uid").isEqualTo(actual.getUid()))
+            .satisfies(e -> assertThat(e.getCode()).as("check code").isEqualTo(actual.getCode()))
             .satisfies(e -> assertThat(e.getName()).as("check name").isEqualTo(actual.getName()))
             .satisfies(e -> assertThat(e.getDescription()).as("check description").isEqualTo(actual.getDescription()))
             .satisfies(e -> assertThat(e.getGpsCoordinate()).as("check gpsCoordinate").isEqualTo(actual.getGpsCoordinate()))
             .satisfies(e -> assertThat(e.getSupervisor()).as("check supervisor").isEqualTo(actual.getSupervisor()))
-            .satisfies(e -> assertThat(e.getCode()).as("check code").isEqualTo(actual.getCode()))
             .satisfies(e -> assertThat(e.getSupervisorMobile()).as("check supervisorMobile").isEqualTo(actual.getSupervisorMobile()));
     }
 

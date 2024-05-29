@@ -14,6 +14,9 @@ public class WarehouseTransactionTestSamples {
     public static WarehouseTransaction getWarehouseTransactionSample1() {
         return new WarehouseTransaction()
             .id(1L)
+            .uid("uid1")
+            .code("code1")
+            .name("name1")
             .imovUid("imovUid1")
             .phaseNo(1)
             .entryType("entryType1")
@@ -30,6 +33,9 @@ public class WarehouseTransactionTestSamples {
     public static WarehouseTransaction getWarehouseTransactionSample2() {
         return new WarehouseTransaction()
             .id(2L)
+            .uid("uid2")
+            .code("code2")
+            .name("name2")
             .imovUid("imovUid2")
             .phaseNo(2)
             .entryType("entryType2")
@@ -46,6 +52,9 @@ public class WarehouseTransactionTestSamples {
     public static WarehouseTransaction getWarehouseTransactionRandomSampleGenerator() {
         return new WarehouseTransaction()
             .id(longCount.incrementAndGet())
+            .uid(UUID.randomUUID().toString())
+            .code(UUID.randomUUID().toString())
+            .name(UUID.randomUUID().toString())
             .imovUid(UUID.randomUUID().toString())
             .phaseNo(intCount.incrementAndGet())
             .entryType(UUID.randomUUID().toString())

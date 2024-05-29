@@ -3,6 +3,7 @@
     "changelogDate": "20240522234852"
   },
   "applications": "*",
+  "enableAudit": true,
   "fields": [
     {
       "fieldName": "uid",
@@ -14,6 +15,10 @@
       "fieldName": "code",
       "fieldType": "String",
       "fieldValidateRules": ["unique", "required"]
+    },
+    {
+      "fieldName": "name",
+      "fieldType": "String"
     },
     {
       "fieldName": "mappingStatus",
@@ -37,10 +42,6 @@
     },
     {
       "fieldName": "subvillageName",
-      "fieldType": "String"
-    },
-    {
-      "fieldName": "name",
       "fieldType": "String"
     },
     {
@@ -80,6 +81,40 @@
       "fieldName": "level",
       "fieldType": "PublicLocationType",
       "fieldValues": "DISTRICT,SUBDISTRICT,SUBVILLAGE"
+    },
+    {
+      "auditField": true,
+      "autoGenerate": true,
+      "columnType": "varchar(50)",
+      "fieldName": "createdBy",
+      "fieldType": "String",
+      "nullable": false,
+      "readonly": true
+    },
+    {
+      "auditField": true,
+      "autoGenerate": true,
+      "fieldName": "createdDate",
+      "fieldType": "Instant",
+      "nullable": false,
+      "readonly": true
+    },
+    {
+      "auditField": true,
+      "autoGenerate": true,
+      "columnType": "varchar(50)",
+      "fieldName": "lastModifiedBy",
+      "fieldType": "String",
+      "nullable": false,
+      "readonly": true
+    },
+    {
+      "auditField": true,
+      "autoGenerate": true,
+      "fieldName": "lastModifiedDate",
+      "fieldType": "Instant",
+      "nullable": false,
+      "readonly": true
     }
   ],
   "name": "VillageLocation",

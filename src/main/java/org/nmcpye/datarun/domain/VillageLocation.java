@@ -1,11 +1,14 @@
 package org.nmcpye.datarun.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import java.io.Serializable;
+import java.time.Instant;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.nmcpye.datarun.domain.enumeration.PublicLocationType;
+import org.springframework.data.domain.Persistable;
 
 /**
  * A VillageLocation.
@@ -13,8 +16,9 @@ import org.nmcpye.datarun.domain.enumeration.PublicLocationType;
 @Entity
 @Table(name = "village_location")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+@JsonIgnoreProperties(value = { "new" })
 @SuppressWarnings("common-java:DuplicatedBlocks")
-public class VillageLocation implements Serializable {
+public class VillageLocation extends AbstractAuditingEntity<Long> implements Serializable, Persistable<Long> {
 
     private static final long serialVersionUID = 1L;
 
@@ -31,6 +35,9 @@ public class VillageLocation implements Serializable {
     @NotNull
     @Column(name = "code", nullable = false, unique = true)
     private String code;
+
+    @Column(name = "name")
+    private String name;
 
     @Column(name = "mapping_status")
     private Integer mappingStatus;
@@ -49,9 +56,6 @@ public class VillageLocation implements Serializable {
 
     @Column(name = "subvillage_name")
     private String subvillageName;
-
-    @Column(name = "name")
-    private String name;
 
     @Column(name = "urban_rural_id")
     private Integer urbanRuralId;
@@ -81,6 +85,13 @@ public class VillageLocation implements Serializable {
     @Enumerated(EnumType.STRING)
     @Column(name = "level")
     private PublicLocationType level;
+
+    // Inherited createdBy definition
+    // Inherited createdDate definition
+    // Inherited lastModifiedBy definition
+    // Inherited lastModifiedDate definition
+    @Transient
+    private boolean isPersisted;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -121,6 +132,19 @@ public class VillageLocation implements Serializable {
 
     public void setCode(String code) {
         this.code = code;
+    }
+
+    public String getName() {
+        return this.name;
+    }
+
+    public VillageLocation name(String name) {
+        this.setName(name);
+        return this;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public Integer getMappingStatus() {
@@ -199,19 +223,6 @@ public class VillageLocation implements Serializable {
 
     public void setSubvillageName(String subvillageName) {
         this.subvillageName = subvillageName;
-    }
-
-    public String getName() {
-        return this.name;
-    }
-
-    public VillageLocation name(String name) {
-        this.setName(name);
-        return this;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public Integer getUrbanRuralId() {
@@ -331,6 +342,47 @@ public class VillageLocation implements Serializable {
         this.level = level;
     }
 
+    // Inherited createdBy methods
+    public VillageLocation createdBy(String createdBy) {
+        this.setCreatedBy(createdBy);
+        return this;
+    }
+
+    // Inherited createdDate methods
+    public VillageLocation createdDate(Instant createdDate) {
+        this.setCreatedDate(createdDate);
+        return this;
+    }
+
+    // Inherited lastModifiedBy methods
+    public VillageLocation lastModifiedBy(String lastModifiedBy) {
+        this.setLastModifiedBy(lastModifiedBy);
+        return this;
+    }
+
+    // Inherited lastModifiedDate methods
+    public VillageLocation lastModifiedDate(Instant lastModifiedDate) {
+        this.setLastModifiedDate(lastModifiedDate);
+        return this;
+    }
+
+    @PostLoad
+    @PostPersist
+    public void updateEntityState() {
+        this.setIsPersisted();
+    }
+
+    @Transient
+    @Override
+    public boolean isNew() {
+        return !this.isPersisted;
+    }
+
+    public VillageLocation setIsPersisted() {
+        this.isPersisted = true;
+        return this;
+    }
+
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
 
     @Override
@@ -357,13 +409,13 @@ public class VillageLocation implements Serializable {
             "id=" + getId() +
             ", uid='" + getUid() + "'" +
             ", code='" + getCode() + "'" +
+            ", name='" + getName() + "'" +
             ", mappingStatus=" + getMappingStatus() +
             ", districtCode=" + getDistrictCode() +
             ", villageUid='" + getVillageUid() + "'" +
             ", subdistrictName='" + getSubdistrictName() + "'" +
             ", villageName='" + getVillageName() + "'" +
             ", subvillageName='" + getSubvillageName() + "'" +
-            ", name='" + getName() + "'" +
             ", urbanRuralId=" + getUrbanRuralId() +
             ", urbanRural='" + getUrbanRural() + "'" +
             ", settlement='" + getSettlement() + "'" +
@@ -373,6 +425,10 @@ public class VillageLocation implements Serializable {
             ", latitude=" + getLatitude() +
             ", ppcCodeGis='" + getPpcCodeGis() + "'" +
             ", level='" + getLevel() + "'" +
+            ", createdBy='" + getCreatedBy() + "'" +
+            ", createdDate='" + getCreatedDate() + "'" +
+            ", lastModifiedBy='" + getLastModifiedBy() + "'" +
+            ", lastModifiedDate='" + getLastModifiedDate() + "'" +
             "}";
     }
 }

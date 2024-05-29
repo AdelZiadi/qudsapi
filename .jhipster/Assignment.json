@@ -12,12 +12,12 @@
       "fieldValidateRulesMaxlength": "11"
     },
     {
-      "fieldName": "phaseNo",
-      "fieldType": "Integer"
-    },
-    {
       "fieldName": "code",
       "fieldType": "String"
+    },
+    {
+      "fieldName": "phaseNo",
+      "fieldType": "Integer"
     },
     {
       "fieldName": "districtCode",

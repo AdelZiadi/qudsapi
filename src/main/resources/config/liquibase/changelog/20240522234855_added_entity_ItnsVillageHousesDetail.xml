@@ -17,14 +17,8 @@
             <column name="uid" type="varchar(11)">
                 <constraints nullable="true" unique="true" uniqueConstraintName="ux_itns_village_houses_detail__uid" />
             </column>
-            <column name="submission_uuid" type="varchar(255)">
-                <constraints nullable="true" />
-            </column>
-            <column name="deleted" type="boolean">
-                <constraints nullable="true" />
-            </column>
-            <column name="house_uuid" type="varchar(255)">
-                <constraints nullable="false" unique="true" uniqueConstraintName="ux_itns_village_houses_detail__house_uuid" />
+            <column name="code" type="varchar(255)">
+                <constraints nullable="true" unique="true" uniqueConstraintName="ux_itns_village_houses_detail__code" />
             </column>
             <column name="coupon_id" type="bigint">
                 <constraints nullable="true" />
@@ -58,6 +52,15 @@
             </column>
             <column name="comment" type="varchar(2000)">
                 <constraints nullable="true" />
+            </column>
+            <column name="submission_uuid" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="deleted" type="boolean">
+                <constraints nullable="true" />
+            </column>
+            <column name="house_uuid" type="varchar(255)">
+                <constraints nullable="true" unique="true" uniqueConstraintName="ux_itns_village_houses_detail__house_uuid" />
             </column>
             <column name="created_by" type="varchar(50)">
                 <constraints nullable="false" />

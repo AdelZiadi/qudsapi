@@ -31,6 +31,9 @@ public class ProgressStatus extends AbstractAuditingEntity<Long> implements Seri
     @Column(name = "uid", length = 11, unique = true)
     private String uid;
 
+    @Column(name = "code", unique = true)
+    private String code;
+
     @Column(name = "name")
     private String name;
 
@@ -67,6 +70,19 @@ public class ProgressStatus extends AbstractAuditingEntity<Long> implements Seri
 
     public void setUid(String uid) {
         this.uid = uid;
+    }
+
+    public String getCode() {
+        return this.code;
+    }
+
+    public ProgressStatus code(String code) {
+        this.setCode(code);
+        return this;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
     }
 
     public String getName() {
@@ -148,6 +164,7 @@ public class ProgressStatus extends AbstractAuditingEntity<Long> implements Seri
         return "ProgressStatus{" +
             "id=" + getId() +
             ", uid='" + getUid() + "'" +
+            ", code='" + getCode() + "'" +
             ", name='" + getName() + "'" +
             ", createdBy='" + getCreatedBy() + "'" +
             ", createdDate='" + getCreatedDate() + "'" +

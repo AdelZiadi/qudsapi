@@ -1,6 +1,5 @@
 package org.nmcpye.datarun.service.impl;
 
-import java.util.Optional;
 import org.nmcpye.datarun.domain.WarehouseTransaction;
 import org.nmcpye.datarun.repository.WarehouseTransactionRepository;
 import org.nmcpye.datarun.service.WarehouseTransactionService;
@@ -10,6 +9,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Optional;
 
 /**
  * Service Implementation for managing {@link org.nmcpye.datarun.domain.WarehouseTransaction}.
@@ -46,6 +47,15 @@ public class WarehouseTransactionServiceImpl implements WarehouseTransactionServ
         return warehouseTransactionRepository
             .findById(warehouseTransaction.getId())
             .map(existingWarehouseTransaction -> {
+                if (warehouseTransaction.getUid() != null) {
+                    existingWarehouseTransaction.setUid(warehouseTransaction.getUid());
+                }
+                if (warehouseTransaction.getCode() != null) {
+                    existingWarehouseTransaction.setCode(warehouseTransaction.getCode());
+                }
+                if (warehouseTransaction.getName() != null) {
+                    existingWarehouseTransaction.setName(warehouseTransaction.getName());
+                }
                 if (warehouseTransaction.getImovUid() != null) {
                     existingWarehouseTransaction.setImovUid(warehouseTransaction.getImovUid());
                 }

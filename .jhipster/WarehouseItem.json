@@ -12,11 +12,11 @@
       "fieldValidateRulesMaxlength": "11"
     },
     {
-      "fieldName": "name",
+      "fieldName": "code",
       "fieldType": "String"
     },
     {
-      "fieldName": "code",
+      "fieldName": "name",
       "fieldType": "String"
     },
     {

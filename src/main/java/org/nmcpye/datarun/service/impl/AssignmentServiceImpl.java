@@ -1,6 +1,5 @@
 package org.nmcpye.datarun.service.impl;
 
-import java.util.Optional;
 import org.nmcpye.datarun.domain.Assignment;
 import org.nmcpye.datarun.repository.AssignmentRepository;
 import org.nmcpye.datarun.service.AssignmentService;
@@ -10,6 +9,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Optional;
 
 /**
  * Service Implementation for managing {@link org.nmcpye.datarun.domain.Assignment}.
@@ -49,11 +50,11 @@ public class AssignmentServiceImpl implements AssignmentService {
                 if (assignment.getUid() != null) {
                     existingAssignment.setUid(assignment.getUid());
                 }
-                if (assignment.getPhaseNo() != null) {
-                    existingAssignment.setPhaseNo(assignment.getPhaseNo());
-                }
                 if (assignment.getCode() != null) {
                     existingAssignment.setCode(assignment.getCode());
+                }
+                if (assignment.getPhaseNo() != null) {
+                    existingAssignment.setPhaseNo(assignment.getPhaseNo());
                 }
                 if (assignment.getDistrictCode() != null) {
                     existingAssignment.setDistrictCode(assignment.getDistrictCode());

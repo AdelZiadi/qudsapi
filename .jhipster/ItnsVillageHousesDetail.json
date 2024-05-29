@@ -12,17 +12,9 @@
       "fieldValidateRulesMaxlength": "11"
     },
     {
-      "fieldName": "submissionUuid",
-      "fieldType": "String"
-    },
-    {
-      "fieldName": "deleted",
-      "fieldType": "Boolean"
-    },
-    {
-      "fieldName": "houseUuid",
+      "fieldName": "code",
       "fieldType": "String",
-      "fieldValidateRules": ["unique", "required"]
+      "fieldValidateRules": ["unique"]
     },
     {
       "fieldName": "couponId",
@@ -85,6 +77,19 @@
       "fieldType": "String",
       "fieldValidateRules": ["maxlength"],
       "fieldValidateRulesMaxlength": "2000"
+    },
+    {
+      "fieldName": "submissionUuid",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "deleted",
+      "fieldType": "Boolean"
+    },
+    {
+      "fieldName": "houseUuid",
+      "fieldType": "String",
+      "fieldValidateRules": ["unique"]
     },
     {
       "auditField": true,

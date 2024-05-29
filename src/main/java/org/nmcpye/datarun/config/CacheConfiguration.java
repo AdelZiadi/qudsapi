@@ -66,6 +66,9 @@ public class CacheConfiguration {
             createCache(cm, org.nmcpye.datarun.domain.Warehouse.class.getName());
             createCache(cm, org.nmcpye.datarun.domain.WarehouseItem.class.getName());
             createCache(cm, org.nmcpye.datarun.domain.WarehouseTransaction.class.getName());
+            createCache(cm, org.nmcpye.datarun.domain.ChvRegister.class.getName());
+            createCache(cm, org.nmcpye.datarun.domain.ChvSessions.class.getName());
+            createCache(cm, org.nmcpye.datarun.domain.PatientInfo.class.getName());
             // jhipster-needle-ehcache-add-entry
         };
     }

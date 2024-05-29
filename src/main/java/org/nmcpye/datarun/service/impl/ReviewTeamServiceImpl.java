@@ -1,7 +1,5 @@
 package org.nmcpye.datarun.service.impl;
 
-import java.util.List;
-import java.util.Optional;
 import org.nmcpye.datarun.domain.ReviewTeam;
 import org.nmcpye.datarun.repository.ReviewTeamRepository;
 import org.nmcpye.datarun.service.ReviewTeamService;
@@ -9,6 +7,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.Optional;
 
 /**
  * Service Implementation for managing {@link org.nmcpye.datarun.domain.ReviewTeam}.
@@ -47,6 +48,9 @@ public class ReviewTeamServiceImpl implements ReviewTeamService {
             .map(existingReviewTeam -> {
                 if (reviewTeam.getUid() != null) {
                     existingReviewTeam.setUid(reviewTeam.getUid());
+                }
+                if (reviewTeam.getCode() != null) {
+                    existingReviewTeam.setCode(reviewTeam.getCode());
                 }
                 if (reviewTeam.getName() != null) {
                     existingReviewTeam.setName(reviewTeam.getName());

@@ -49,14 +49,17 @@ class ItnsVillageResourceIT {
     private static final String DEFAULT_UID = "AAAAAAAAAA";
     private static final String UPDATED_UID = "BBBBBBBBBB";
 
+    private static final String DEFAULT_CODE = "AAAAAAAAAA";
+    private static final String UPDATED_CODE = "BBBBBBBBBB";
+
+    private static final String DEFAULT_NAME = "AAAAAAAAAA";
+    private static final String UPDATED_NAME = "BBBBBBBBBB";
+
     private static final String DEFAULT_SUBMISSION_UUID = "AAAAAAAAAA";
     private static final String UPDATED_SUBMISSION_UUID = "BBBBBBBBBB";
 
     private static final Long DEFAULT_SUBMISSION_ID = 1L;
     private static final Long UPDATED_SUBMISSION_ID = 2L;
-
-    private static final Boolean DEFAULT_DELETED = false;
-    private static final Boolean UPDATED_DELETED = true;
 
     private static final Instant DEFAULT_WORK_DAY_DATE = Instant.ofEpochMilli(0L);
     private static final Instant UPDATED_WORK_DAY_DATE = Instant.now().truncatedTo(ChronoUnit.MILLIS);
@@ -124,6 +127,9 @@ class ItnsVillageResourceIT {
     private static final Long DEFAULT_OTHER_TEAM_NO = 1L;
     private static final Long UPDATED_OTHER_TEAM_NO = 2L;
 
+    private static final Boolean DEFAULT_DELETED = false;
+    private static final Boolean UPDATED_DELETED = true;
+
     private static final String ENTITY_API_URL = "/api/itns-villages";
     private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";
 
@@ -159,9 +165,10 @@ class ItnsVillageResourceIT {
     public static ItnsVillage createEntity(EntityManager em) {
         ItnsVillage itnsVillage = new ItnsVillage()
             .uid(DEFAULT_UID)
+            .code(DEFAULT_CODE)
+            .name(DEFAULT_NAME)
             .submissionUuid(DEFAULT_SUBMISSION_UUID)
             .submissionId(DEFAULT_SUBMISSION_ID)
-            .deleted(DEFAULT_DELETED)
             .workDayDate(DEFAULT_WORK_DAY_DATE)
             .surveytype(DEFAULT_SURVEYTYPE)
             .otherReasonComment(DEFAULT_OTHER_REASON_COMMENT)
@@ -183,7 +190,8 @@ class ItnsVillageResourceIT {
             .untargetingOtherSpecify(DEFAULT_UNTARGETING_OTHER_SPECIFY)
             .otherVillageName(DEFAULT_OTHER_VILLAGE_NAME)
             .otherVillageCode(DEFAULT_OTHER_VILLAGE_CODE)
-            .otherTeamNo(DEFAULT_OTHER_TEAM_NO);
+            .otherTeamNo(DEFAULT_OTHER_TEAM_NO)
+            .deleted(DEFAULT_DELETED);
         // Add required entity
         Team team;
         if (TestUtil.findAll(em, Team.class).isEmpty()) {
@@ -216,9 +224,10 @@ class ItnsVillageResourceIT {
     public static ItnsVillage createUpdatedEntity(EntityManager em) {
         ItnsVillage itnsVillage = new ItnsVillage()
             .uid(UPDATED_UID)
+            .code(UPDATED_CODE)
+            .name(UPDATED_NAME)
             .submissionUuid(UPDATED_SUBMISSION_UUID)
             .submissionId(UPDATED_SUBMISSION_ID)
-            .deleted(UPDATED_DELETED)
             .workDayDate(UPDATED_WORK_DAY_DATE)
             .surveytype(UPDATED_SURVEYTYPE)
             .otherReasonComment(UPDATED_OTHER_REASON_COMMENT)
@@ -240,7 +249,8 @@ class ItnsVillageResourceIT {
             .untargetingOtherSpecify(UPDATED_UNTARGETING_OTHER_SPECIFY)
             .otherVillageName(UPDATED_OTHER_VILLAGE_NAME)
             .otherVillageCode(UPDATED_OTHER_VILLAGE_CODE)
-            .otherTeamNo(UPDATED_OTHER_TEAM_NO);
+            .otherTeamNo(UPDATED_OTHER_TEAM_NO)
+            .deleted(UPDATED_DELETED);
         // Add required entity
         Team team;
         if (TestUtil.findAll(em, Team.class).isEmpty()) {
@@ -351,9 +361,10 @@ class ItnsVillageResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(itnsVillage.getId().intValue())))
             .andExpect(jsonPath("$.[*].uid").value(hasItem(DEFAULT_UID)))
+            .andExpect(jsonPath("$.[*].code").value(hasItem(DEFAULT_CODE)))
+            .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)))
             .andExpect(jsonPath("$.[*].submissionUuid").value(hasItem(DEFAULT_SUBMISSION_UUID)))
             .andExpect(jsonPath("$.[*].submissionId").value(hasItem(DEFAULT_SUBMISSION_ID.intValue())))
-            .andExpect(jsonPath("$.[*].deleted").value(hasItem(DEFAULT_DELETED.booleanValue())))
             .andExpect(jsonPath("$.[*].workDayDate").value(hasItem(DEFAULT_WORK_DAY_DATE.toString())))
             .andExpect(jsonPath("$.[*].surveytype").value(hasItem(DEFAULT_SURVEYTYPE.toString())))
             .andExpect(jsonPath("$.[*].otherReasonComment").value(hasItem(DEFAULT_OTHER_REASON_COMMENT)))
@@ -375,7 +386,8 @@ class ItnsVillageResourceIT {
             .andExpect(jsonPath("$.[*].untargetingOtherSpecify").value(hasItem(DEFAULT_UNTARGETING_OTHER_SPECIFY)))
             .andExpect(jsonPath("$.[*].otherVillageName").value(hasItem(DEFAULT_OTHER_VILLAGE_NAME)))
             .andExpect(jsonPath("$.[*].otherVillageCode").value(hasItem(DEFAULT_OTHER_VILLAGE_CODE)))
-            .andExpect(jsonPath("$.[*].otherTeamNo").value(hasItem(DEFAULT_OTHER_TEAM_NO.intValue())));
+            .andExpect(jsonPath("$.[*].otherTeamNo").value(hasItem(DEFAULT_OTHER_TEAM_NO.intValue())))
+            .andExpect(jsonPath("$.[*].deleted").value(hasItem(DEFAULT_DELETED.booleanValue())));
     }
 
     @SuppressWarnings({ "unchecked" })
@@ -408,9 +420,10 @@ class ItnsVillageResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(itnsVillage.getId().intValue()))
             .andExpect(jsonPath("$.uid").value(DEFAULT_UID))
+            .andExpect(jsonPath("$.code").value(DEFAULT_CODE))
+            .andExpect(jsonPath("$.name").value(DEFAULT_NAME))
             .andExpect(jsonPath("$.submissionUuid").value(DEFAULT_SUBMISSION_UUID))
             .andExpect(jsonPath("$.submissionId").value(DEFAULT_SUBMISSION_ID.intValue()))
-            .andExpect(jsonPath("$.deleted").value(DEFAULT_DELETED.booleanValue()))
             .andExpect(jsonPath("$.workDayDate").value(DEFAULT_WORK_DAY_DATE.toString()))
             .andExpect(jsonPath("$.surveytype").value(DEFAULT_SURVEYTYPE.toString()))
             .andExpect(jsonPath("$.otherReasonComment").value(DEFAULT_OTHER_REASON_COMMENT))
@@ -432,7 +445,8 @@ class ItnsVillageResourceIT {
             .andExpect(jsonPath("$.untargetingOtherSpecify").value(DEFAULT_UNTARGETING_OTHER_SPECIFY))
             .andExpect(jsonPath("$.otherVillageName").value(DEFAULT_OTHER_VILLAGE_NAME))
             .andExpect(jsonPath("$.otherVillageCode").value(DEFAULT_OTHER_VILLAGE_CODE))
-            .andExpect(jsonPath("$.otherTeamNo").value(DEFAULT_OTHER_TEAM_NO.intValue()));
+            .andExpect(jsonPath("$.otherTeamNo").value(DEFAULT_OTHER_TEAM_NO.intValue()))
+            .andExpect(jsonPath("$.deleted").value(DEFAULT_DELETED.booleanValue()));
     }
 
     @Test
@@ -456,9 +470,10 @@ class ItnsVillageResourceIT {
         em.detach(updatedItnsVillage);
         updatedItnsVillage
             .uid(UPDATED_UID)
+            .code(UPDATED_CODE)
+            .name(UPDATED_NAME)
             .submissionUuid(UPDATED_SUBMISSION_UUID)
             .submissionId(UPDATED_SUBMISSION_ID)
-            .deleted(UPDATED_DELETED)
             .workDayDate(UPDATED_WORK_DAY_DATE)
             .surveytype(UPDATED_SURVEYTYPE)
             .otherReasonComment(UPDATED_OTHER_REASON_COMMENT)
@@ -480,7 +495,8 @@ class ItnsVillageResourceIT {
             .untargetingOtherSpecify(UPDATED_UNTARGETING_OTHER_SPECIFY)
             .otherVillageName(UPDATED_OTHER_VILLAGE_NAME)
             .otherVillageCode(UPDATED_OTHER_VILLAGE_CODE)
-            .otherTeamNo(UPDATED_OTHER_TEAM_NO);
+            .otherTeamNo(UPDATED_OTHER_TEAM_NO)
+            .deleted(UPDATED_DELETED);
 
         restItnsVillageMockMvc
             .perform(
@@ -561,15 +577,19 @@ class ItnsVillageResourceIT {
         partialUpdatedItnsVillage.setId(itnsVillage.getId());
 
         partialUpdatedItnsVillage
+            .submissionUuid(UPDATED_SUBMISSION_UUID)
             .submissionId(UPDATED_SUBMISSION_ID)
-            .deleted(UPDATED_DELETED)
-            .reasonNotcomplete(UPDATED_REASON_NOTCOMPLETE)
-            .tlCommenet(UPDATED_TL_COMMENET)
+            .workDayDate(UPDATED_WORK_DAY_DATE)
+            .surveytype(UPDATED_SURVEYTYPE)
+            .otherReasonComment(UPDATED_OTHER_REASON_COMMENT)
+            .settlementName(UPDATED_SETTLEMENT_NAME)
+            .locationCaptured(UPDATED_LOCATION_CAPTURED)
             .hoProof(UPDATED_HO_PROOF)
             .startEntryTime(UPDATED_START_ENTRY_TIME)
+            .endEntryTime(UPDATED_END_ENTRY_TIME)
             .hoProofUrl(UPDATED_HO_PROOF_URL)
-            .untargetingOtherSpecify(UPDATED_UNTARGETING_OTHER_SPECIFY)
-            .otherVillageName(UPDATED_OTHER_VILLAGE_NAME);
+            .otherVillageName(UPDATED_OTHER_VILLAGE_NAME)
+            .deleted(UPDATED_DELETED);
 
         restItnsVillageMockMvc
             .perform(
@@ -602,9 +622,10 @@ class ItnsVillageResourceIT {
 
         partialUpdatedItnsVillage
             .uid(UPDATED_UID)
+            .code(UPDATED_CODE)
+            .name(UPDATED_NAME)
             .submissionUuid(UPDATED_SUBMISSION_UUID)
             .submissionId(UPDATED_SUBMISSION_ID)
-            .deleted(UPDATED_DELETED)
             .workDayDate(UPDATED_WORK_DAY_DATE)
             .surveytype(UPDATED_SURVEYTYPE)
             .otherReasonComment(UPDATED_OTHER_REASON_COMMENT)
@@ -626,7 +647,8 @@ class ItnsVillageResourceIT {
             .untargetingOtherSpecify(UPDATED_UNTARGETING_OTHER_SPECIFY)
             .otherVillageName(UPDATED_OTHER_VILLAGE_NAME)
             .otherVillageCode(UPDATED_OTHER_VILLAGE_CODE)
-            .otherTeamNo(UPDATED_OTHER_TEAM_NO);
+            .otherTeamNo(UPDATED_OTHER_TEAM_NO)
+            .deleted(UPDATED_DELETED);
 
         restItnsVillageMockMvc
             .perform(

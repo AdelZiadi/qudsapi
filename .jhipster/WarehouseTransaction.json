@@ -6,6 +6,20 @@
   "enableAudit": true,
   "fields": [
     {
+      "fieldName": "uid",
+      "fieldType": "String",
+      "fieldValidateRules": ["unique", "maxlength"],
+      "fieldValidateRulesMaxlength": "11"
+    },
+    {
+      "fieldName": "code",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "name",
+      "fieldType": "String"
+    },
+    {
       "fieldName": "imovUid",
       "fieldType": "String",
       "fieldValidateRules": ["unique", "required"]

@@ -1,7 +1,5 @@
 package org.nmcpye.datarun.service.impl;
 
-import java.util.List;
-import java.util.Optional;
 import org.nmcpye.datarun.domain.WarehouseItem;
 import org.nmcpye.datarun.repository.WarehouseItemRepository;
 import org.nmcpye.datarun.service.WarehouseItemService;
@@ -9,6 +7,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.Optional;
 
 /**
  * Service Implementation for managing {@link org.nmcpye.datarun.domain.WarehouseItem}.
@@ -48,11 +49,11 @@ public class WarehouseItemServiceImpl implements WarehouseItemService {
                 if (warehouseItem.getUid() != null) {
                     existingWarehouseItem.setUid(warehouseItem.getUid());
                 }
-                if (warehouseItem.getName() != null) {
-                    existingWarehouseItem.setName(warehouseItem.getName());
-                }
                 if (warehouseItem.getCode() != null) {
                     existingWarehouseItem.setCode(warehouseItem.getCode());
+                }
+                if (warehouseItem.getName() != null) {
+                    existingWarehouseItem.setName(warehouseItem.getName());
                 }
                 if (warehouseItem.getDescription() != null) {
                     existingWarehouseItem.setDescription(warehouseItem.getDescription());

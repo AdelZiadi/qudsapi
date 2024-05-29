@@ -20,6 +20,9 @@
             <column name="code" type="varchar(255)">
                 <constraints nullable="false" unique="true" uniqueConstraintName="ux_village_location__code" />
             </column>
+            <column name="name" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
             <column name="mapping_status" type="integer">
                 <constraints nullable="true" />
             </column>
@@ -36,9 +39,6 @@
                 <constraints nullable="true" />
             </column>
             <column name="subvillage_name" type="varchar(255)">
-                <constraints nullable="true" />
-            </column>
-            <column name="name" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
             <column name="urban_rural_id" type="integer">
@@ -68,8 +68,22 @@
             <column name="level" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
+            <column name="created_by" type="varchar(50)">
+                <constraints nullable="false" />
+            </column>
+            <column name="created_date" type="${datetimeType}">
+                <constraints nullable="false" />
+            </column>
+            <column name="last_modified_by" type="varchar(50)">
+                <constraints nullable="false" />
+            </column>
+            <column name="last_modified_date" type="${datetimeType}">
+                <constraints nullable="false" />
+            </column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->
         </createTable>
+        <dropDefaultValue tableName="village_location" columnName="created_date" columnDataType="${datetimeType}"/>
+        <dropDefaultValue tableName="village_location" columnName="last_modified_date" columnDataType="${datetimeType}"/>
     </changeSet>
 
     <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here -->

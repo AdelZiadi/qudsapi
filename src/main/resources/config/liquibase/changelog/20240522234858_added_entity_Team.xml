@@ -17,11 +17,11 @@
             <column name="uid" type="varchar(11)">
                 <constraints nullable="true" unique="true" uniqueConstraintName="ux_team__uid" />
             </column>
-            <column name="name" type="varchar(255)">
-                <constraints nullable="true" />
-            </column>
             <column name="code" type="varchar(255)">
                 <constraints nullable="false" />
+            </column>
+            <column name="name" type="varchar(255)">
+                <constraints nullable="true" />
             </column>
             <column name="description" type="varchar(255)">
                 <constraints nullable="true" />

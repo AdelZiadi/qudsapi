@@ -31,7 +31,6 @@ public class AssignmentResourceCustom extends AbstractResource<Assignment> {
     private final AssignmentRepositoryCustom assignmentRepository;
 
     public AssignmentResourceCustom(AssignmentServiceCustom assignmentService, AssignmentRepositoryCustom assignmentRepository) {
-//        super(assignmentService, assignmentRepository);
         this.assignmentRepository = assignmentRepository;
         this.assignmentService = assignmentService;
     }
@@ -39,9 +38,6 @@ public class AssignmentResourceCustom extends AbstractResource<Assignment> {
     @Override
     protected Page<Assignment> getList(Pageable pageable, boolean eagerload) {
         pageable.getSort();
-//        Pageable unpaged = Pageable.unpaged();
-//        Page<Assignment> allAccounts = assignmentService.findAllWithEagerRelationships(unpaged);
-
         if (eagerload) {
             return assignmentService.findAllWithEagerRelationships(pageable);
         } else {

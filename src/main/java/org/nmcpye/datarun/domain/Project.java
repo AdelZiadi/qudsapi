@@ -39,12 +39,6 @@ public class Project extends AbstractAuditingEntity<Long> implements Serializabl
     @Column(name = "name")
     private String name;
 
-    @Column(name = "created")
-    private Instant created;
-
-    @Column(name = "last_updated")
-    private Instant lastUpdated;
-
     @Column(name = "displayed")
     private Boolean displayed;
 
@@ -112,32 +106,6 @@ public class Project extends AbstractAuditingEntity<Long> implements Serializabl
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public Instant getCreated() {
-        return this.created;
-    }
-
-    public Project created(Instant created) {
-        this.setCreated(created);
-        return this;
-    }
-
-    public void setCreated(Instant created) {
-        this.created = created;
-    }
-
-    public Instant getLastUpdated() {
-        return this.lastUpdated;
-    }
-
-    public Project lastUpdated(Instant lastUpdated) {
-        this.setLastUpdated(lastUpdated);
-        return this;
-    }
-
-    public void setLastUpdated(Instant lastUpdated) {
-        this.lastUpdated = lastUpdated;
     }
 
     public Boolean getDisplayed() {
@@ -252,8 +220,6 @@ public class Project extends AbstractAuditingEntity<Long> implements Serializabl
             ", uid='" + getUid() + "'" +
             ", code='" + getCode() + "'" +
             ", name='" + getName() + "'" +
-            ", created='" + getCreated() + "'" +
-            ", lastUpdated='" + getLastUpdated() + "'" +
             ", displayed='" + getDisplayed() + "'" +
             ", createdBy='" + getCreatedBy() + "'" +
             ", createdDate='" + getCreatedDate() + "'" +

@@ -23,12 +23,41 @@ enum PublicLocationType {
   SUBVILLAGE
 }
 
+enum Gender {
+  MALE
+  FEMALE
+}
+
+enum MTestResult {
+ NEGATIVE, PF, PV, MIX, INVALID
+}
+
+enum MDetectionType {
+  REACTIVE
+  ACTIVE
+}
+
+enum MSeverity {
+  SIMPLE
+  SEVERE
+}
+
+enum MTreatment {
+  TREATED
+  FIRSTDOSE
+  REFERAL
+}
+
+enum MSessionSubject {
+  ITNs
+  BreadingSite
+  TRANSMISSION_PREVENTION
+}
+
 entity Project(project) {
  uid String unique maxlength(11)
  code String unique
  name String
- created Instant
- lastUpdated Instant
  displayed Boolean 
 } 
 
@@ -44,13 +73,13 @@ entity Activity(activity) {
 entity VillageLocation {
   uid String unique maxlength(11)
   code String unique required
+  name String
   mappingStatus Integer
   districtCode Integer
   villageUid String
   subdistrictName String
   villageName String
   subvillageName String
-  name String
   urbanRuralId Integer
   urbanRural String
   settlement String
@@ -64,9 +93,9 @@ entity VillageLocation {
 
 entity Assignment {
   uid String unique maxlength(11)
+  code String
   phaseNo Integer
   // fieldCode
-  code String
   districtCode Integer
   gov String
   district String
@@ -85,9 +114,10 @@ entity Assignment {
 
 entity ItnsVillage {
   uid String unique maxlength(11)
+  code String unique
+  name String
   submissionUuid String unique required
   submissionId Long required
-  deleted Boolean
   workDayDate Instant
   surveytype SurveyTypeEnum
   otherReasonComment String maxlength(2000)
@@ -110,13 +140,12 @@ entity ItnsVillage {
   otherVillageName String maxlength(2000)
   otherVillageCode String maxlength(2000)
   otherTeamNo Long
+  deleted Boolean
 }
 
 entity ItnsVillageHousesDetail {
   uid String unique maxlength(11)
-  submissionUuid String
-  deleted Boolean
-  houseUuid String unique required
+  code String unique
   couponId Long
   name String
   male Integer min(0)
@@ -128,24 +157,28 @@ entity ItnsVillageHousesDetail {
   displaced Integer min(0)
   itns Integer min(0)
   comment String maxlength(2000)
+  submissionUuid String
+  deleted Boolean
+  houseUuid String unique
 }
 
 entity ProgressStatus {
   uid String unique maxlength(11)
-  name String
+  code String unique
   name String
 }
 
 entity ReviewTeam {
   uid String unique maxlength(11)
+  code String unique
   name String
   user String
 }
 
 entity Team {
   uid String unique maxlength(11)
-  name String
   code String required
+  name String
   description String
   mobile String
   workers Integer
@@ -154,22 +187,25 @@ entity Team {
 
 entity Warehouse {
   uid String unique maxlength(11)
+  code String required
   name String
   description String
   gpsCoordinate String
   supervisor String
-  code String required
   supervisorMobile String
 }
 
 entity WarehouseItem {
   uid String unique maxlength(11)
-  name String
   code String
+  name String
   description String
 }
 
 entity WarehouseTransaction {
+  uid String unique maxlength(11)
+  code String
+  name String
   imovUid String unique required
   transactionDate Instant required
   phaseNo Integer
@@ -184,7 +220,60 @@ entity WarehouseTransaction {
   submissionUuid String
 }
 
+entity PatientInfo {
+ uid String unique maxlength(11)
+ code String unique
+ name String
+ age Integer min(1) max(140)
+ gender Gender 
+} 
+
+entity ChvRegister {
+ uid String unique maxlength(11)
+ code String
+ name String
+ visitDate Instant required
+ age Integer min(1) max(140) required
+ pregnant Boolean
+ testResult MTestResult
+ detectionType MDetectionType
+ severity MSeverity
+ treatment MTreatment
+ comment String
+ startEntryTime Instant
+ deleted Boolean
+}
+
+entity ChvSessions {
+ uid String unique maxlength(11)
+ code String
+ name String
+ sessionDate Instant required
+ subject MSessionSubject
+ sessions Integer required
+ people Integer required
+ comment String
+ startEntryTime Instant
+ deleted Boolean
+}
+
 // Define Relationships
+relationship ManyToOne {
+  PatientInfo{location(code)} to Assignment
+}
+
+relationship ManyToOne {
+  ChvRegister{patient(name)} to PatientInfo
+}
+
+relationship ManyToOne {
+  ChvRegister{team(code)} to Team
+}
+
+relationship ManyToOne {
+  ChvSessions{team(code)} to Team
+}
+
 relationship ManyToOne {
   Activity{project(name)} to Project{activity}
 }
@@ -265,7 +354,8 @@ relationship ManyToOne {
   Team{userInfo(login)} to User {team} with builtInEntity
 }
 
+//dto * with mapstruct
 
 service * with serviceImpl
-paginate Assignment, Activity, Team, Warehouse, WarehouseTransaction, 
+paginate PatientInfo, ChvRegister, ChvSessions, Assignment, Activity, Team, Warehouse, WarehouseTransaction, 
 	ItnsVillageHousesDetail, ItnsVillage, VillageLocation with pagination

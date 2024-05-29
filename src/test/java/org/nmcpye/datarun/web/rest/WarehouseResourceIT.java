@@ -43,6 +43,9 @@ class WarehouseResourceIT {
     private static final String DEFAULT_UID = "AAAAAAAAAA";
     private static final String UPDATED_UID = "BBBBBBBBBB";
 
+    private static final String DEFAULT_CODE = "AAAAAAAAAA";
+    private static final String UPDATED_CODE = "BBBBBBBBBB";
+
     private static final String DEFAULT_NAME = "AAAAAAAAAA";
     private static final String UPDATED_NAME = "BBBBBBBBBB";
 
@@ -54,9 +57,6 @@ class WarehouseResourceIT {
 
     private static final String DEFAULT_SUPERVISOR = "AAAAAAAAAA";
     private static final String UPDATED_SUPERVISOR = "BBBBBBBBBB";
-
-    private static final String DEFAULT_CODE = "AAAAAAAAAA";
-    private static final String UPDATED_CODE = "BBBBBBBBBB";
 
     private static final String DEFAULT_SUPERVISOR_MOBILE = "AAAAAAAAAA";
     private static final String UPDATED_SUPERVISOR_MOBILE = "BBBBBBBBBB";
@@ -96,11 +96,11 @@ class WarehouseResourceIT {
     public static Warehouse createEntity(EntityManager em) {
         Warehouse warehouse = new Warehouse()
             .uid(DEFAULT_UID)
+            .code(DEFAULT_CODE)
             .name(DEFAULT_NAME)
             .description(DEFAULT_DESCRIPTION)
             .gpsCoordinate(DEFAULT_GPS_COORDINATE)
             .supervisor(DEFAULT_SUPERVISOR)
-            .code(DEFAULT_CODE)
             .supervisorMobile(DEFAULT_SUPERVISOR_MOBILE);
         return warehouse;
     }
@@ -114,11 +114,11 @@ class WarehouseResourceIT {
     public static Warehouse createUpdatedEntity(EntityManager em) {
         Warehouse warehouse = new Warehouse()
             .uid(UPDATED_UID)
+            .code(UPDATED_CODE)
             .name(UPDATED_NAME)
             .description(UPDATED_DESCRIPTION)
             .gpsCoordinate(UPDATED_GPS_COORDINATE)
             .supervisor(UPDATED_SUPERVISOR)
-            .code(UPDATED_CODE)
             .supervisorMobile(UPDATED_SUPERVISOR_MOBILE);
         return warehouse;
     }
@@ -194,11 +194,11 @@ class WarehouseResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(warehouse.getId().intValue())))
             .andExpect(jsonPath("$.[*].uid").value(hasItem(DEFAULT_UID)))
+            .andExpect(jsonPath("$.[*].code").value(hasItem(DEFAULT_CODE)))
             .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)))
             .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION)))
             .andExpect(jsonPath("$.[*].gpsCoordinate").value(hasItem(DEFAULT_GPS_COORDINATE)))
             .andExpect(jsonPath("$.[*].supervisor").value(hasItem(DEFAULT_SUPERVISOR)))
-            .andExpect(jsonPath("$.[*].code").value(hasItem(DEFAULT_CODE)))
             .andExpect(jsonPath("$.[*].supervisorMobile").value(hasItem(DEFAULT_SUPERVISOR_MOBILE)));
     }
 
@@ -232,11 +232,11 @@ class WarehouseResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(warehouse.getId().intValue()))
             .andExpect(jsonPath("$.uid").value(DEFAULT_UID))
+            .andExpect(jsonPath("$.code").value(DEFAULT_CODE))
             .andExpect(jsonPath("$.name").value(DEFAULT_NAME))
             .andExpect(jsonPath("$.description").value(DEFAULT_DESCRIPTION))
             .andExpect(jsonPath("$.gpsCoordinate").value(DEFAULT_GPS_COORDINATE))
             .andExpect(jsonPath("$.supervisor").value(DEFAULT_SUPERVISOR))
-            .andExpect(jsonPath("$.code").value(DEFAULT_CODE))
             .andExpect(jsonPath("$.supervisorMobile").value(DEFAULT_SUPERVISOR_MOBILE));
     }
 
@@ -261,11 +261,11 @@ class WarehouseResourceIT {
         em.detach(updatedWarehouse);
         updatedWarehouse
             .uid(UPDATED_UID)
+            .code(UPDATED_CODE)
             .name(UPDATED_NAME)
             .description(UPDATED_DESCRIPTION)
             .gpsCoordinate(UPDATED_GPS_COORDINATE)
             .supervisor(UPDATED_SUPERVISOR)
-            .code(UPDATED_CODE)
             .supervisorMobile(UPDATED_SUPERVISOR_MOBILE);
 
         restWarehouseMockMvc
@@ -344,7 +344,7 @@ class WarehouseResourceIT {
         Warehouse partialUpdatedWarehouse = new Warehouse();
         partialUpdatedWarehouse.setId(warehouse.getId());
 
-        partialUpdatedWarehouse.uid(UPDATED_UID).supervisor(UPDATED_SUPERVISOR).supervisorMobile(UPDATED_SUPERVISOR_MOBILE);
+        partialUpdatedWarehouse.name(UPDATED_NAME).description(UPDATED_DESCRIPTION);
 
         restWarehouseMockMvc
             .perform(
@@ -377,11 +377,11 @@ class WarehouseResourceIT {
 
         partialUpdatedWarehouse
             .uid(UPDATED_UID)
+            .code(UPDATED_CODE)
             .name(UPDATED_NAME)
             .description(UPDATED_DESCRIPTION)
             .gpsCoordinate(UPDATED_GPS_COORDINATE)
             .supervisor(UPDATED_SUPERVISOR)
-            .code(UPDATED_CODE)
             .supervisorMobile(UPDATED_SUPERVISOR_MOBILE);
 
         restWarehouseMockMvc

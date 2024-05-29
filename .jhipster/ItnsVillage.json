@@ -12,6 +12,15 @@
       "fieldValidateRulesMaxlength": "11"
     },
     {
+      "fieldName": "code",
+      "fieldType": "String",
+      "fieldValidateRules": ["unique"]
+    },
+    {
+      "fieldName": "name",
+      "fieldType": "String"
+    },
+    {
       "fieldName": "submissionUuid",
       "fieldType": "String",
       "fieldValidateRules": ["unique", "required"]
@@ -20,10 +29,6 @@
       "fieldName": "submissionId",
       "fieldType": "Long",
       "fieldValidateRules": ["required"]
-    },
-    {
-      "fieldName": "deleted",
-      "fieldType": "Boolean"
     },
     {
       "fieldName": "workDayDate",
@@ -128,6 +133,10 @@
     {
       "fieldName": "otherTeamNo",
       "fieldType": "Long"
+    },
+    {
+      "fieldName": "deleted",
+      "fieldType": "Boolean"
     },
     {
       "auditField": true,

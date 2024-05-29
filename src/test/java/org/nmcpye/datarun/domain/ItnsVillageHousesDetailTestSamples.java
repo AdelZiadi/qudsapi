@@ -15,8 +15,7 @@ public class ItnsVillageHousesDetailTestSamples {
         return new ItnsVillageHousesDetail()
             .id(1L)
             .uid("uid1")
-            .submissionUuid("submissionUuid1")
-            .houseUuid("houseUuid1")
+            .code("code1")
             .couponId(1L)
             .name("name1")
             .male(1)
@@ -28,6 +27,8 @@ public class ItnsVillageHousesDetailTestSamples {
             .displaced(1)
             .itns(1)
             .comment("comment1")
+            .submissionUuid("submissionUuid1")
+            .houseUuid("houseUuid1")
             .createdBy("createdBy1")
             .lastModifiedBy("lastModifiedBy1");
     }
@@ -36,8 +37,7 @@ public class ItnsVillageHousesDetailTestSamples {
         return new ItnsVillageHousesDetail()
             .id(2L)
             .uid("uid2")
-            .submissionUuid("submissionUuid2")
-            .houseUuid("houseUuid2")
+            .code("code2")
             .couponId(2L)
             .name("name2")
             .male(2)
@@ -49,6 +49,8 @@ public class ItnsVillageHousesDetailTestSamples {
             .displaced(2)
             .itns(2)
             .comment("comment2")
+            .submissionUuid("submissionUuid2")
+            .houseUuid("houseUuid2")
             .createdBy("createdBy2")
             .lastModifiedBy("lastModifiedBy2");
     }
@@ -57,8 +59,7 @@ public class ItnsVillageHousesDetailTestSamples {
         return new ItnsVillageHousesDetail()
             .id(longCount.incrementAndGet())
             .uid(UUID.randomUUID().toString())
-            .submissionUuid(UUID.randomUUID().toString())
-            .houseUuid(UUID.randomUUID().toString())
+            .code(UUID.randomUUID().toString())
             .couponId(longCount.incrementAndGet())
             .name(UUID.randomUUID().toString())
             .male(intCount.incrementAndGet())
@@ -70,6 +71,8 @@ public class ItnsVillageHousesDetailTestSamples {
             .displaced(intCount.incrementAndGet())
             .itns(intCount.incrementAndGet())
             .comment(UUID.randomUUID().toString())
+            .submissionUuid(UUID.randomUUID().toString())
+            .houseUuid(UUID.randomUUID().toString())
             .createdBy(UUID.randomUUID().toString())
             .lastModifiedBy(UUID.randomUUID().toString());
     }

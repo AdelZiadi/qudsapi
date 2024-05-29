@@ -31,6 +31,10 @@ public class Warehouse extends AbstractAuditingEntity<Long> implements Serializa
     @Column(name = "uid", length = 11, unique = true)
     private String uid;
 
+    @NotNull
+    @Column(name = "code", nullable = false)
+    private String code;
+
     @Column(name = "name")
     private String name;
 
@@ -42,10 +46,6 @@ public class Warehouse extends AbstractAuditingEntity<Long> implements Serializa
 
     @Column(name = "supervisor")
     private String supervisor;
-
-    @NotNull
-    @Column(name = "code", nullable = false)
-    private String code;
 
     @Column(name = "supervisor_mobile")
     private String supervisorMobile;
@@ -87,6 +87,19 @@ public class Warehouse extends AbstractAuditingEntity<Long> implements Serializa
 
     public void setUid(String uid) {
         this.uid = uid;
+    }
+
+    public String getCode() {
+        return this.code;
+    }
+
+    public Warehouse code(String code) {
+        this.setCode(code);
+        return this;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
     }
 
     public String getName() {
@@ -139,19 +152,6 @@ public class Warehouse extends AbstractAuditingEntity<Long> implements Serializa
 
     public void setSupervisor(String supervisor) {
         this.supervisor = supervisor;
-    }
-
-    public String getCode() {
-        return this.code;
-    }
-
-    public Warehouse code(String code) {
-        this.setCode(code);
-        return this;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
     }
 
     public String getSupervisorMobile() {
@@ -246,11 +246,11 @@ public class Warehouse extends AbstractAuditingEntity<Long> implements Serializa
         return "Warehouse{" +
             "id=" + getId() +
             ", uid='" + getUid() + "'" +
+            ", code='" + getCode() + "'" +
             ", name='" + getName() + "'" +
             ", description='" + getDescription() + "'" +
             ", gpsCoordinate='" + getGpsCoordinate() + "'" +
             ", supervisor='" + getSupervisor() + "'" +
-            ", code='" + getCode() + "'" +
             ", supervisorMobile='" + getSupervisorMobile() + "'" +
             ", createdBy='" + getCreatedBy() + "'" +
             ", createdDate='" + getCreatedDate() + "'" +

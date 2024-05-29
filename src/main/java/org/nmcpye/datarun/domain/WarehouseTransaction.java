@@ -27,6 +27,16 @@ public class WarehouseTransaction extends AbstractAuditingEntity<Long> implement
     @Column(name = "id")
     private Long id;
 
+    @Size(max = 11)
+    @Column(name = "uid", length = 11, unique = true)
+    private String uid;
+
+    @Column(name = "code")
+    private String code;
+
+    @Column(name = "name")
+    private String name;
+
     @NotNull
     @Column(name = "imov_uid", nullable = false, unique = true)
     private String imovUid;
@@ -110,6 +120,45 @@ public class WarehouseTransaction extends AbstractAuditingEntity<Long> implement
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getUid() {
+        return this.uid;
+    }
+
+    public WarehouseTransaction uid(String uid) {
+        this.setUid(uid);
+        return this;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
+    }
+
+    public String getCode() {
+        return this.code;
+    }
+
+    public WarehouseTransaction code(String code) {
+        this.setCode(code);
+        return this;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+
+    public String getName() {
+        return this.name;
+    }
+
+    public WarehouseTransaction name(String name) {
+        this.setName(name);
+        return this;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getImovUid() {
@@ -398,6 +447,9 @@ public class WarehouseTransaction extends AbstractAuditingEntity<Long> implement
     public String toString() {
         return "WarehouseTransaction{" +
             "id=" + getId() +
+            ", uid='" + getUid() + "'" +
+            ", code='" + getCode() + "'" +
+            ", name='" + getName() + "'" +
             ", imovUid='" + getImovUid() + "'" +
             ", transactionDate='" + getTransactionDate() + "'" +
             ", phaseNo=" + getPhaseNo() +

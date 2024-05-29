@@ -13,8 +13,8 @@ public class WarehouseItemTestSamples {
         return new WarehouseItem()
             .id(1L)
             .uid("uid1")
-            .name("name1")
             .code("code1")
+            .name("name1")
             .description("description1")
             .createdBy("createdBy1")
             .lastModifiedBy("lastModifiedBy1");
@@ -24,8 +24,8 @@ public class WarehouseItemTestSamples {
         return new WarehouseItem()
             .id(2L)
             .uid("uid2")
-            .name("name2")
             .code("code2")
+            .name("name2")
             .description("description2")
             .createdBy("createdBy2")
             .lastModifiedBy("lastModifiedBy2");
@@ -35,8 +35,8 @@ public class WarehouseItemTestSamples {
         return new WarehouseItem()
             .id(longCount.incrementAndGet())
             .uid(UUID.randomUUID().toString())
-            .name(UUID.randomUUID().toString())
             .code(UUID.randomUUID().toString())
+            .name(UUID.randomUUID().toString())
             .description(UUID.randomUUID().toString())
             .createdBy(UUID.randomUUID().toString())
             .lastModifiedBy(UUID.randomUUID().toString());

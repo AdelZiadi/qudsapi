@@ -59,9 +59,7 @@ public class ItnsVillageHousesDetailAsserts {
         assertThat(expected)
             .as("Verify ItnsVillageHousesDetail relevant properties")
             .satisfies(e -> assertThat(e.getUid()).as("check uid").isEqualTo(actual.getUid()))
-            .satisfies(e -> assertThat(e.getSubmissionUuid()).as("check submissionUuid").isEqualTo(actual.getSubmissionUuid()))
-            .satisfies(e -> assertThat(e.getDeleted()).as("check deleted").isEqualTo(actual.getDeleted()))
-            .satisfies(e -> assertThat(e.getHouseUuid()).as("check houseUuid").isEqualTo(actual.getHouseUuid()))
+            .satisfies(e -> assertThat(e.getCode()).as("check code").isEqualTo(actual.getCode()))
             .satisfies(e -> assertThat(e.getCouponId()).as("check couponId").isEqualTo(actual.getCouponId()))
             .satisfies(e -> assertThat(e.getName()).as("check name").isEqualTo(actual.getName()))
             .satisfies(e -> assertThat(e.getMale()).as("check male").isEqualTo(actual.getMale()))
@@ -72,7 +70,10 @@ public class ItnsVillageHousesDetailAsserts {
             .satisfies(e -> assertThat(e.getFemaleChild()).as("check femaleChild").isEqualTo(actual.getFemaleChild()))
             .satisfies(e -> assertThat(e.getDisplaced()).as("check displaced").isEqualTo(actual.getDisplaced()))
             .satisfies(e -> assertThat(e.getItns()).as("check itns").isEqualTo(actual.getItns()))
-            .satisfies(e -> assertThat(e.getComment()).as("check comment").isEqualTo(actual.getComment()));
+            .satisfies(e -> assertThat(e.getComment()).as("check comment").isEqualTo(actual.getComment()))
+            .satisfies(e -> assertThat(e.getSubmissionUuid()).as("check submissionUuid").isEqualTo(actual.getSubmissionUuid()))
+            .satisfies(e -> assertThat(e.getDeleted()).as("check deleted").isEqualTo(actual.getDeleted()))
+            .satisfies(e -> assertThat(e.getHouseUuid()).as("check houseUuid").isEqualTo(actual.getHouseUuid()));
     }
 
     /**

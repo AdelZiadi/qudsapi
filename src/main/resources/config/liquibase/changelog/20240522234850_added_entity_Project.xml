@@ -23,12 +23,6 @@
             <column name="name" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
-            <column name="created" type="${datetimeType}">
-                <constraints nullable="true" />
-            </column>
-            <column name="last_updated" type="${datetimeType}">
-                <constraints nullable="true" />
-            </column>
             <column name="displayed" type="boolean">
                 <constraints nullable="true" />
             </column>
@@ -46,8 +40,6 @@
             </column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->
         </createTable>
-        <dropDefaultValue tableName="project" columnName="created" columnDataType="${datetimeType}"/>
-        <dropDefaultValue tableName="project" columnName="last_updated" columnDataType="${datetimeType}"/>
         <dropDefaultValue tableName="project" columnName="created_date" columnDataType="${datetimeType}"/>
         <dropDefaultValue tableName="project" columnName="last_modified_date" columnDataType="${datetimeType}"/>
     </changeSet>

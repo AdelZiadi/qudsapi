@@ -2,8 +2,8 @@ package org.nmcpye.datarun.service.impl;
 
 import org.nmcpye.datarun.domain.WarehouseTransaction;
 import org.nmcpye.datarun.repository.WarehouseTransactionRepositoryCustom;
-import org.nmcpye.datarun.security.SecurityUtils;
 import org.nmcpye.datarun.service.WarehouseTransactionServiceCustom;
+import org.nmcpye.datarun.utils.CodeGenerator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Primary;
@@ -32,9 +32,9 @@ public class WarehouseTransactionServiceCustomImpl
 
     @Override
     public WarehouseTransaction save(WarehouseTransaction warehouseTransaction) {
-//        if (warehouseTransaction.getUid() == null || warehouseTransaction.getUid().isEmpty()) {
-//            warehouseTransaction.setUid(CodeGenerator.generateUid());
-//        }
+        if (warehouseTransaction.getUid() == null || warehouseTransaction.getUid().isEmpty()) {
+            warehouseTransaction.setUid(CodeGenerator.generateUid());
+        }
         return warehouseTransactionRepository.save(warehouseTransaction);
     }
 

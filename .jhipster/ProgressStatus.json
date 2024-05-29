@@ -12,6 +12,11 @@
       "fieldValidateRulesMaxlength": "11"
     },
     {
+      "fieldName": "code",
+      "fieldType": "String",
+      "fieldValidateRules": ["unique"]
+    },
+    {
       "fieldName": "name",
       "fieldType": "String"
     },

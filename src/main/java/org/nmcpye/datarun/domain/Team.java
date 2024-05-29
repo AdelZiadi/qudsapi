@@ -33,12 +33,12 @@ public class Team extends AbstractAuditingEntity<Long> implements Serializable, 
     @Column(name = "uid", length = 11, unique = true)
     private String uid;
 
-    @Column(name = "name")
-    private String name;
-
     @NotNull
     @Column(name = "code", nullable = false)
     private String code;
+
+    @Column(name = "name")
+    private String name;
 
     @Column(name = "description")
     private String description;
@@ -106,19 +106,6 @@ public class Team extends AbstractAuditingEntity<Long> implements Serializable, 
         this.uid = uid;
     }
 
-    public String getName() {
-        return this.name;
-    }
-
-    public Team name(String name) {
-        this.setName(name);
-        return this;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public String getCode() {
         return this.code;
     }
@@ -130,6 +117,19 @@ public class Team extends AbstractAuditingEntity<Long> implements Serializable, 
 
     public void setCode(String code) {
         this.code = code;
+    }
+
+    public String getName() {
+        return this.name;
+    }
+
+    public Team name(String name) {
+        this.setName(name);
+        return this;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getDescription() {
@@ -333,8 +333,8 @@ public class Team extends AbstractAuditingEntity<Long> implements Serializable, 
         return "Team{" +
             "id=" + getId() +
             ", uid='" + getUid() + "'" +
-            ", name='" + getName() + "'" +
             ", code='" + getCode() + "'" +
+            ", name='" + getName() + "'" +
             ", description='" + getDescription() + "'" +
             ", mobile='" + getMobile() + "'" +
             ", workers=" + getWorkers() +

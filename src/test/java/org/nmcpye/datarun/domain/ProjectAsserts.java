@@ -52,8 +52,6 @@ public class ProjectAsserts {
             .satisfies(e -> assertThat(e.getUid()).as("check uid").isEqualTo(actual.getUid()))
             .satisfies(e -> assertThat(e.getCode()).as("check code").isEqualTo(actual.getCode()))
             .satisfies(e -> assertThat(e.getName()).as("check name").isEqualTo(actual.getName()))
-            .satisfies(e -> assertThat(e.getCreated()).as("check created").isEqualTo(actual.getCreated()))
-            .satisfies(e -> assertThat(e.getLastUpdated()).as("check lastUpdated").isEqualTo(actual.getLastUpdated()))
             .satisfies(e -> assertThat(e.getDisplayed()).as("check displayed").isEqualTo(actual.getDisplayed()));
     }
 

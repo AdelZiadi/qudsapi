@@ -35,6 +35,12 @@ public class ItnsVillage extends AbstractAuditingEntity<Long> implements Seriali
     @Column(name = "uid", length = 11, unique = true)
     private String uid;
 
+    @Column(name = "code", unique = true)
+    private String code;
+
+    @Column(name = "name")
+    private String name;
+
     @NotNull
     @Column(name = "submission_uuid", nullable = false, unique = true)
     private String submissionUuid;
@@ -42,9 +48,6 @@ public class ItnsVillage extends AbstractAuditingEntity<Long> implements Seriali
     @NotNull
     @Column(name = "submission_id", nullable = false)
     private Long submissionId;
-
-    @Column(name = "deleted")
-    private Boolean deleted;
 
     @Column(name = "work_day_date")
     private Instant workDayDate;
@@ -121,6 +124,9 @@ public class ItnsVillage extends AbstractAuditingEntity<Long> implements Seriali
     @Column(name = "other_team_no")
     private Long otherTeamNo;
 
+    @Column(name = "deleted")
+    private Boolean deleted;
+
     // Inherited createdBy definition
     // Inherited createdDate definition
     // Inherited lastModifiedBy definition
@@ -178,6 +184,32 @@ public class ItnsVillage extends AbstractAuditingEntity<Long> implements Seriali
         this.uid = uid;
     }
 
+    public String getCode() {
+        return this.code;
+    }
+
+    public ItnsVillage code(String code) {
+        this.setCode(code);
+        return this;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+
+    public String getName() {
+        return this.name;
+    }
+
+    public ItnsVillage name(String name) {
+        this.setName(name);
+        return this;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public String getSubmissionUuid() {
         return this.submissionUuid;
     }
@@ -202,19 +234,6 @@ public class ItnsVillage extends AbstractAuditingEntity<Long> implements Seriali
 
     public void setSubmissionId(Long submissionId) {
         this.submissionId = submissionId;
-    }
-
-    public Boolean getDeleted() {
-        return this.deleted;
-    }
-
-    public ItnsVillage deleted(Boolean deleted) {
-        this.setDeleted(deleted);
-        return this;
-    }
-
-    public void setDeleted(Boolean deleted) {
-        this.deleted = deleted;
     }
 
     public Instant getWorkDayDate() {
@@ -503,6 +522,19 @@ public class ItnsVillage extends AbstractAuditingEntity<Long> implements Seriali
         this.otherTeamNo = otherTeamNo;
     }
 
+    public Boolean getDeleted() {
+        return this.deleted;
+    }
+
+    public ItnsVillage deleted(Boolean deleted) {
+        this.setDeleted(deleted);
+        return this;
+    }
+
+    public void setDeleted(Boolean deleted) {
+        this.deleted = deleted;
+    }
+
     // Inherited createdBy methods
     public ItnsVillage createdBy(String createdBy) {
         this.setCreatedBy(createdBy);
@@ -652,9 +684,10 @@ public class ItnsVillage extends AbstractAuditingEntity<Long> implements Seriali
         return "ItnsVillage{" +
             "id=" + getId() +
             ", uid='" + getUid() + "'" +
+            ", code='" + getCode() + "'" +
+            ", name='" + getName() + "'" +
             ", submissionUuid='" + getSubmissionUuid() + "'" +
             ", submissionId=" + getSubmissionId() +
-            ", deleted='" + getDeleted() + "'" +
             ", workDayDate='" + getWorkDayDate() + "'" +
             ", surveytype='" + getSurveytype() + "'" +
             ", otherReasonComment='" + getOtherReasonComment() + "'" +
@@ -677,6 +710,7 @@ public class ItnsVillage extends AbstractAuditingEntity<Long> implements Seriali
             ", otherVillageName='" + getOtherVillageName() + "'" +
             ", otherVillageCode='" + getOtherVillageCode() + "'" +
             ", otherTeamNo=" + getOtherTeamNo() +
+            ", deleted='" + getDeleted() + "'" +
             ", createdBy='" + getCreatedBy() + "'" +
             ", createdDate='" + getCreatedDate() + "'" +
             ", lastModifiedBy='" + getLastModifiedBy() + "'" +

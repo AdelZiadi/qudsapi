@@ -38,6 +38,9 @@ class VillageLocationResourceIT {
     private static final String DEFAULT_CODE = "AAAAAAAAAA";
     private static final String UPDATED_CODE = "BBBBBBBBBB";
 
+    private static final String DEFAULT_NAME = "AAAAAAAAAA";
+    private static final String UPDATED_NAME = "BBBBBBBBBB";
+
     private static final Integer DEFAULT_MAPPING_STATUS = 1;
     private static final Integer UPDATED_MAPPING_STATUS = 2;
 
@@ -55,9 +58,6 @@ class VillageLocationResourceIT {
 
     private static final String DEFAULT_SUBVILLAGE_NAME = "AAAAAAAAAA";
     private static final String UPDATED_SUBVILLAGE_NAME = "BBBBBBBBBB";
-
-    private static final String DEFAULT_NAME = "AAAAAAAAAA";
-    private static final String UPDATED_NAME = "BBBBBBBBBB";
 
     private static final Integer DEFAULT_URBAN_RURAL_ID = 1;
     private static final Integer UPDATED_URBAN_RURAL_ID = 2;
@@ -116,13 +116,13 @@ class VillageLocationResourceIT {
         VillageLocation villageLocation = new VillageLocation()
             .uid(DEFAULT_UID)
             .code(DEFAULT_CODE)
+            .name(DEFAULT_NAME)
             .mappingStatus(DEFAULT_MAPPING_STATUS)
             .districtCode(DEFAULT_DISTRICT_CODE)
             .villageUid(DEFAULT_VILLAGE_UID)
             .subdistrictName(DEFAULT_SUBDISTRICT_NAME)
             .villageName(DEFAULT_VILLAGE_NAME)
             .subvillageName(DEFAULT_SUBVILLAGE_NAME)
-            .name(DEFAULT_NAME)
             .urbanRuralId(DEFAULT_URBAN_RURAL_ID)
             .urbanRural(DEFAULT_URBAN_RURAL)
             .settlement(DEFAULT_SETTLEMENT)
@@ -145,13 +145,13 @@ class VillageLocationResourceIT {
         VillageLocation villageLocation = new VillageLocation()
             .uid(UPDATED_UID)
             .code(UPDATED_CODE)
+            .name(UPDATED_NAME)
             .mappingStatus(UPDATED_MAPPING_STATUS)
             .districtCode(UPDATED_DISTRICT_CODE)
             .villageUid(UPDATED_VILLAGE_UID)
             .subdistrictName(UPDATED_SUBDISTRICT_NAME)
             .villageName(UPDATED_VILLAGE_NAME)
             .subvillageName(UPDATED_SUBVILLAGE_NAME)
-            .name(UPDATED_NAME)
             .urbanRuralId(UPDATED_URBAN_RURAL_ID)
             .urbanRural(UPDATED_URBAN_RURAL)
             .settlement(UPDATED_SETTLEMENT)
@@ -252,13 +252,13 @@ class VillageLocationResourceIT {
             .andExpect(jsonPath("$.[*].id").value(hasItem(villageLocation.getId().intValue())))
             .andExpect(jsonPath("$.[*].uid").value(hasItem(DEFAULT_UID)))
             .andExpect(jsonPath("$.[*].code").value(hasItem(DEFAULT_CODE)))
+            .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)))
             .andExpect(jsonPath("$.[*].mappingStatus").value(hasItem(DEFAULT_MAPPING_STATUS)))
             .andExpect(jsonPath("$.[*].districtCode").value(hasItem(DEFAULT_DISTRICT_CODE)))
             .andExpect(jsonPath("$.[*].villageUid").value(hasItem(DEFAULT_VILLAGE_UID)))
             .andExpect(jsonPath("$.[*].subdistrictName").value(hasItem(DEFAULT_SUBDISTRICT_NAME)))
             .andExpect(jsonPath("$.[*].villageName").value(hasItem(DEFAULT_VILLAGE_NAME)))
             .andExpect(jsonPath("$.[*].subvillageName").value(hasItem(DEFAULT_SUBVILLAGE_NAME)))
-            .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)))
             .andExpect(jsonPath("$.[*].urbanRuralId").value(hasItem(DEFAULT_URBAN_RURAL_ID)))
             .andExpect(jsonPath("$.[*].urbanRural").value(hasItem(DEFAULT_URBAN_RURAL)))
             .andExpect(jsonPath("$.[*].settlement").value(hasItem(DEFAULT_SETTLEMENT)))
@@ -284,13 +284,13 @@ class VillageLocationResourceIT {
             .andExpect(jsonPath("$.id").value(villageLocation.getId().intValue()))
             .andExpect(jsonPath("$.uid").value(DEFAULT_UID))
             .andExpect(jsonPath("$.code").value(DEFAULT_CODE))
+            .andExpect(jsonPath("$.name").value(DEFAULT_NAME))
             .andExpect(jsonPath("$.mappingStatus").value(DEFAULT_MAPPING_STATUS))
             .andExpect(jsonPath("$.districtCode").value(DEFAULT_DISTRICT_CODE))
             .andExpect(jsonPath("$.villageUid").value(DEFAULT_VILLAGE_UID))
             .andExpect(jsonPath("$.subdistrictName").value(DEFAULT_SUBDISTRICT_NAME))
             .andExpect(jsonPath("$.villageName").value(DEFAULT_VILLAGE_NAME))
             .andExpect(jsonPath("$.subvillageName").value(DEFAULT_SUBVILLAGE_NAME))
-            .andExpect(jsonPath("$.name").value(DEFAULT_NAME))
             .andExpect(jsonPath("$.urbanRuralId").value(DEFAULT_URBAN_RURAL_ID))
             .andExpect(jsonPath("$.urbanRural").value(DEFAULT_URBAN_RURAL))
             .andExpect(jsonPath("$.settlement").value(DEFAULT_SETTLEMENT))
@@ -324,13 +324,13 @@ class VillageLocationResourceIT {
         updatedVillageLocation
             .uid(UPDATED_UID)
             .code(UPDATED_CODE)
+            .name(UPDATED_NAME)
             .mappingStatus(UPDATED_MAPPING_STATUS)
             .districtCode(UPDATED_DISTRICT_CODE)
             .villageUid(UPDATED_VILLAGE_UID)
             .subdistrictName(UPDATED_SUBDISTRICT_NAME)
             .villageName(UPDATED_VILLAGE_NAME)
             .subvillageName(UPDATED_SUBVILLAGE_NAME)
-            .name(UPDATED_NAME)
             .urbanRuralId(UPDATED_URBAN_RURAL_ID)
             .urbanRural(UPDATED_URBAN_RURAL)
             .settlement(UPDATED_SETTLEMENT)
@@ -420,16 +420,14 @@ class VillageLocationResourceIT {
         partialUpdatedVillageLocation.setId(villageLocation.getId());
 
         partialUpdatedVillageLocation
+            .name(UPDATED_NAME)
             .mappingStatus(UPDATED_MAPPING_STATUS)
             .districtCode(UPDATED_DISTRICT_CODE)
-            .villageName(UPDATED_VILLAGE_NAME)
-            .subvillageName(UPDATED_SUBVILLAGE_NAME)
-            .name(UPDATED_NAME)
-            .urbanRuralId(UPDATED_URBAN_RURAL_ID)
+            .villageUid(UPDATED_VILLAGE_UID)
+            .subdistrictName(UPDATED_SUBDISTRICT_NAME)
             .pop2004(UPDATED_POP_2004)
-            .pop2022(UPDATED_POP_2022)
-            .latitude(UPDATED_LATITUDE)
-            .level(UPDATED_LEVEL);
+            .longitude(UPDATED_LONGITUDE)
+            .ppcCodeGis(UPDATED_PPC_CODE_GIS);
 
         restVillageLocationMockMvc
             .perform(
@@ -463,13 +461,13 @@ class VillageLocationResourceIT {
         partialUpdatedVillageLocation
             .uid(UPDATED_UID)
             .code(UPDATED_CODE)
+            .name(UPDATED_NAME)
             .mappingStatus(UPDATED_MAPPING_STATUS)
             .districtCode(UPDATED_DISTRICT_CODE)
             .villageUid(UPDATED_VILLAGE_UID)
             .subdistrictName(UPDATED_SUBDISTRICT_NAME)
             .villageName(UPDATED_VILLAGE_NAME)
             .subvillageName(UPDATED_SUBVILLAGE_NAME)
-            .name(UPDATED_NAME)
             .urbanRuralId(UPDATED_URBAN_RURAL_ID)
             .urbanRural(UPDATED_URBAN_RURAL)
             .settlement(UPDATED_SETTLEMENT)

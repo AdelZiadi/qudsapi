@@ -338,13 +338,7 @@ class ActivityResourceIT {
         Activity partialUpdatedActivity = new Activity();
         partialUpdatedActivity.setId(activity.getId());
 
-        partialUpdatedActivity
-            .uid(UPDATED_UID)
-            .code(UPDATED_CODE)
-            .name(UPDATED_NAME)
-            .startDate(UPDATED_START_DATE)
-            .endDate(UPDATED_END_DATE)
-            .active(UPDATED_ACTIVE);
+        partialUpdatedActivity.uid(UPDATED_UID).code(UPDATED_CODE).name(UPDATED_NAME).startDate(UPDATED_START_DATE);
 
         restActivityMockMvc
             .perform(

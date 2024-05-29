@@ -43,11 +43,11 @@ class TeamResourceIT {
     private static final String DEFAULT_UID = "AAAAAAAAAA";
     private static final String UPDATED_UID = "BBBBBBBBBB";
 
-    private static final String DEFAULT_NAME = "AAAAAAAAAA";
-    private static final String UPDATED_NAME = "BBBBBBBBBB";
-
     private static final String DEFAULT_CODE = "AAAAAAAAAA";
     private static final String UPDATED_CODE = "BBBBBBBBBB";
+
+    private static final String DEFAULT_NAME = "AAAAAAAAAA";
+    private static final String UPDATED_NAME = "BBBBBBBBBB";
 
     private static final String DEFAULT_DESCRIPTION = "AAAAAAAAAA";
     private static final String UPDATED_DESCRIPTION = "BBBBBBBBBB";
@@ -96,8 +96,8 @@ class TeamResourceIT {
     public static Team createEntity(EntityManager em) {
         Team team = new Team()
             .uid(DEFAULT_UID)
-            .name(DEFAULT_NAME)
             .code(DEFAULT_CODE)
+            .name(DEFAULT_NAME)
             .description(DEFAULT_DESCRIPTION)
             .mobile(DEFAULT_MOBILE)
             .workers(DEFAULT_WORKERS)
@@ -114,8 +114,8 @@ class TeamResourceIT {
     public static Team createUpdatedEntity(EntityManager em) {
         Team team = new Team()
             .uid(UPDATED_UID)
-            .name(UPDATED_NAME)
             .code(UPDATED_CODE)
+            .name(UPDATED_NAME)
             .description(UPDATED_DESCRIPTION)
             .mobile(UPDATED_MOBILE)
             .workers(UPDATED_WORKERS)
@@ -194,8 +194,8 @@ class TeamResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(team.getId().intValue())))
             .andExpect(jsonPath("$.[*].uid").value(hasItem(DEFAULT_UID)))
-            .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)))
             .andExpect(jsonPath("$.[*].code").value(hasItem(DEFAULT_CODE)))
+            .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)))
             .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION)))
             .andExpect(jsonPath("$.[*].mobile").value(hasItem(DEFAULT_MOBILE)))
             .andExpect(jsonPath("$.[*].workers").value(hasItem(DEFAULT_WORKERS)))
@@ -232,8 +232,8 @@ class TeamResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(team.getId().intValue()))
             .andExpect(jsonPath("$.uid").value(DEFAULT_UID))
-            .andExpect(jsonPath("$.name").value(DEFAULT_NAME))
             .andExpect(jsonPath("$.code").value(DEFAULT_CODE))
+            .andExpect(jsonPath("$.name").value(DEFAULT_NAME))
             .andExpect(jsonPath("$.description").value(DEFAULT_DESCRIPTION))
             .andExpect(jsonPath("$.mobile").value(DEFAULT_MOBILE))
             .andExpect(jsonPath("$.workers").value(DEFAULT_WORKERS))
@@ -261,8 +261,8 @@ class TeamResourceIT {
         em.detach(updatedTeam);
         updatedTeam
             .uid(UPDATED_UID)
-            .name(UPDATED_NAME)
             .code(UPDATED_CODE)
+            .name(UPDATED_NAME)
             .description(UPDATED_DESCRIPTION)
             .mobile(UPDATED_MOBILE)
             .workers(UPDATED_WORKERS)
@@ -342,7 +342,12 @@ class TeamResourceIT {
         Team partialUpdatedTeam = new Team();
         partialUpdatedTeam.setId(team.getId());
 
-        partialUpdatedTeam.name(UPDATED_NAME).mobile(UPDATED_MOBILE).mobility(UPDATED_MOBILITY);
+        partialUpdatedTeam
+            .uid(UPDATED_UID)
+            .name(UPDATED_NAME)
+            .description(UPDATED_DESCRIPTION)
+            .mobile(UPDATED_MOBILE)
+            .workers(UPDATED_WORKERS);
 
         restTeamMockMvc
             .perform(
@@ -372,8 +377,8 @@ class TeamResourceIT {
 
         partialUpdatedTeam
             .uid(UPDATED_UID)
-            .name(UPDATED_NAME)
             .code(UPDATED_CODE)
+            .name(UPDATED_NAME)
             .description(UPDATED_DESCRIPTION)
             .mobile(UPDATED_MOBILE)
             .workers(UPDATED_WORKERS)

@@ -1,6 +1,5 @@
 package org.nmcpye.datarun.service.impl;
 
-import java.util.Optional;
 import org.nmcpye.datarun.domain.ItnsVillageHousesDetail;
 import org.nmcpye.datarun.repository.ItnsVillageHousesDetailRepository;
 import org.nmcpye.datarun.service.ItnsVillageHousesDetailService;
@@ -10,6 +9,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Optional;
 
 /**
  * Service Implementation for managing {@link org.nmcpye.datarun.domain.ItnsVillageHousesDetail}.
@@ -49,14 +50,8 @@ public class ItnsVillageHousesDetailServiceImpl implements ItnsVillageHousesDeta
                 if (itnsVillageHousesDetail.getUid() != null) {
                     existingItnsVillageHousesDetail.setUid(itnsVillageHousesDetail.getUid());
                 }
-                if (itnsVillageHousesDetail.getSubmissionUuid() != null) {
-                    existingItnsVillageHousesDetail.setSubmissionUuid(itnsVillageHousesDetail.getSubmissionUuid());
-                }
-                if (itnsVillageHousesDetail.getDeleted() != null) {
-                    existingItnsVillageHousesDetail.setDeleted(itnsVillageHousesDetail.getDeleted());
-                }
-                if (itnsVillageHousesDetail.getHouseUuid() != null) {
-                    existingItnsVillageHousesDetail.setHouseUuid(itnsVillageHousesDetail.getHouseUuid());
+                if (itnsVillageHousesDetail.getCode() != null) {
+                    existingItnsVillageHousesDetail.setCode(itnsVillageHousesDetail.getCode());
                 }
                 if (itnsVillageHousesDetail.getCouponId() != null) {
                     existingItnsVillageHousesDetail.setCouponId(itnsVillageHousesDetail.getCouponId());
@@ -90,6 +85,15 @@ public class ItnsVillageHousesDetailServiceImpl implements ItnsVillageHousesDeta
                 }
                 if (itnsVillageHousesDetail.getComment() != null) {
                     existingItnsVillageHousesDetail.setComment(itnsVillageHousesDetail.getComment());
+                }
+                if (itnsVillageHousesDetail.getSubmissionUuid() != null) {
+                    existingItnsVillageHousesDetail.setSubmissionUuid(itnsVillageHousesDetail.getSubmissionUuid());
+                }
+                if (itnsVillageHousesDetail.getDeleted() != null) {
+                    existingItnsVillageHousesDetail.setDeleted(itnsVillageHousesDetail.getDeleted());
+                }
+                if (itnsVillageHousesDetail.getHouseUuid() != null) {
+                    existingItnsVillageHousesDetail.setHouseUuid(itnsVillageHousesDetail.getHouseUuid());
                 }
                 if (itnsVillageHousesDetail.getCreatedBy() != null) {
                     existingItnsVillageHousesDetail.setCreatedBy(itnsVillageHousesDetail.getCreatedBy());

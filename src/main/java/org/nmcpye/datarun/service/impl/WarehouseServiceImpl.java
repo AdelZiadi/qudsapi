@@ -1,6 +1,5 @@
 package org.nmcpye.datarun.service.impl;
 
-import java.util.Optional;
 import org.nmcpye.datarun.domain.Warehouse;
 import org.nmcpye.datarun.repository.WarehouseRepository;
 import org.nmcpye.datarun.service.WarehouseService;
@@ -10,6 +9,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Optional;
 
 /**
  * Service Implementation for managing {@link org.nmcpye.datarun.domain.Warehouse}.
@@ -49,6 +50,9 @@ public class WarehouseServiceImpl implements WarehouseService {
                 if (warehouse.getUid() != null) {
                     existingWarehouse.setUid(warehouse.getUid());
                 }
+                if (warehouse.getCode() != null) {
+                    existingWarehouse.setCode(warehouse.getCode());
+                }
                 if (warehouse.getName() != null) {
                     existingWarehouse.setName(warehouse.getName());
                 }
@@ -60,9 +64,6 @@ public class WarehouseServiceImpl implements WarehouseService {
                 }
                 if (warehouse.getSupervisor() != null) {
                     existingWarehouse.setSupervisor(warehouse.getSupervisor());
-                }
-                if (warehouse.getCode() != null) {
-                    existingWarehouse.setCode(warehouse.getCode());
                 }
                 if (warehouse.getSupervisorMobile() != null) {
                     existingWarehouse.setSupervisorMobile(warehouse.getSupervisorMobile());

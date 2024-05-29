@@ -31,6 +31,9 @@ public class ReviewTeam extends AbstractAuditingEntity<Long> implements Serializ
     @Column(name = "uid", length = 11, unique = true)
     private String uid;
 
+    @Column(name = "code", unique = true)
+    private String code;
+
     @Column(name = "name")
     private String name;
 
@@ -70,6 +73,19 @@ public class ReviewTeam extends AbstractAuditingEntity<Long> implements Serializ
 
     public void setUid(String uid) {
         this.uid = uid;
+    }
+
+    public String getCode() {
+        return this.code;
+    }
+
+    public ReviewTeam code(String code) {
+        this.setCode(code);
+        return this;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
     }
 
     public String getName() {
@@ -164,6 +180,7 @@ public class ReviewTeam extends AbstractAuditingEntity<Long> implements Serializ
         return "ReviewTeam{" +
             "id=" + getId() +
             ", uid='" + getUid() + "'" +
+            ", code='" + getCode() + "'" +
             ", name='" + getName() + "'" +
             ", user='" + getUser() + "'" +
             ", createdBy='" + getCreatedBy() + "'" +

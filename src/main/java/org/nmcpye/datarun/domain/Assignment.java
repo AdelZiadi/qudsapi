@@ -31,11 +31,11 @@ public class Assignment extends AbstractAuditingEntity<Long> implements Serializ
     @Column(name = "uid", length = 11, unique = true)
     private String uid;
 
-    @Column(name = "phase_no")
-    private Integer phaseNo;
-
     @Column(name = "code")
     private String code;
+
+    @Column(name = "phase_no")
+    private Integer phaseNo;
 
     @Column(name = "district_code")
     private Integer districtCode;
@@ -129,19 +129,6 @@ public class Assignment extends AbstractAuditingEntity<Long> implements Serializ
         this.uid = uid;
     }
 
-    public Integer getPhaseNo() {
-        return this.phaseNo;
-    }
-
-    public Assignment phaseNo(Integer phaseNo) {
-        this.setPhaseNo(phaseNo);
-        return this;
-    }
-
-    public void setPhaseNo(Integer phaseNo) {
-        this.phaseNo = phaseNo;
-    }
-
     public String getCode() {
         return this.code;
     }
@@ -153,6 +140,19 @@ public class Assignment extends AbstractAuditingEntity<Long> implements Serializ
 
     public void setCode(String code) {
         this.code = code;
+    }
+
+    public Integer getPhaseNo() {
+        return this.phaseNo;
+    }
+
+    public Assignment phaseNo(Integer phaseNo) {
+        this.setPhaseNo(phaseNo);
+        return this;
+    }
+
+    public void setPhaseNo(Integer phaseNo) {
+        this.phaseNo = phaseNo;
     }
 
     public Integer getDistrictCode() {
@@ -455,8 +455,8 @@ public class Assignment extends AbstractAuditingEntity<Long> implements Serializ
         return "Assignment{" +
             "id=" + getId() +
             ", uid='" + getUid() + "'" +
-            ", phaseNo=" + getPhaseNo() +
             ", code='" + getCode() + "'" +
+            ", phaseNo=" + getPhaseNo() +
             ", districtCode=" + getDistrictCode() +
             ", gov='" + getGov() + "'" +
             ", district='" + getDistrict() + "'" +

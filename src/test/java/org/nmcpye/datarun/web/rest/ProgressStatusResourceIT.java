@@ -34,6 +34,9 @@ class ProgressStatusResourceIT {
     private static final String DEFAULT_UID = "AAAAAAAAAA";
     private static final String UPDATED_UID = "BBBBBBBBBB";
 
+    private static final String DEFAULT_CODE = "AAAAAAAAAA";
+    private static final String UPDATED_CODE = "BBBBBBBBBB";
+
     private static final String DEFAULT_NAME = "AAAAAAAAAA";
     private static final String UPDATED_NAME = "BBBBBBBBBB";
 
@@ -64,7 +67,7 @@ class ProgressStatusResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static ProgressStatus createEntity(EntityManager em) {
-        ProgressStatus progressStatus = new ProgressStatus().uid(DEFAULT_UID).name(DEFAULT_NAME);
+        ProgressStatus progressStatus = new ProgressStatus().uid(DEFAULT_UID).code(DEFAULT_CODE).name(DEFAULT_NAME);
         return progressStatus;
     }
 
@@ -75,7 +78,7 @@ class ProgressStatusResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static ProgressStatus createUpdatedEntity(EntityManager em) {
-        ProgressStatus progressStatus = new ProgressStatus().uid(UPDATED_UID).name(UPDATED_NAME);
+        ProgressStatus progressStatus = new ProgressStatus().uid(UPDATED_UID).code(UPDATED_CODE).name(UPDATED_NAME);
         return progressStatus;
     }
 
@@ -134,6 +137,7 @@ class ProgressStatusResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(progressStatus.getId().intValue())))
             .andExpect(jsonPath("$.[*].uid").value(hasItem(DEFAULT_UID)))
+            .andExpect(jsonPath("$.[*].code").value(hasItem(DEFAULT_CODE)))
             .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)));
     }
 
@@ -150,6 +154,7 @@ class ProgressStatusResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(progressStatus.getId().intValue()))
             .andExpect(jsonPath("$.uid").value(DEFAULT_UID))
+            .andExpect(jsonPath("$.code").value(DEFAULT_CODE))
             .andExpect(jsonPath("$.name").value(DEFAULT_NAME));
     }
 
@@ -172,7 +177,7 @@ class ProgressStatusResourceIT {
         ProgressStatus updatedProgressStatus = progressStatusRepository.findById(progressStatus.getId()).orElseThrow();
         // Disconnect from session so that the updates on updatedProgressStatus are not directly saved in db
         em.detach(updatedProgressStatus);
-        updatedProgressStatus.uid(UPDATED_UID).name(UPDATED_NAME);
+        updatedProgressStatus.uid(UPDATED_UID).code(UPDATED_CODE).name(UPDATED_NAME);
 
         restProgressStatusMockMvc
             .perform(
@@ -252,7 +257,7 @@ class ProgressStatusResourceIT {
         ProgressStatus partialUpdatedProgressStatus = new ProgressStatus();
         partialUpdatedProgressStatus.setId(progressStatus.getId());
 
-        partialUpdatedProgressStatus.name(UPDATED_NAME);
+        partialUpdatedProgressStatus.uid(UPDATED_UID).code(UPDATED_CODE).name(UPDATED_NAME);
 
         restProgressStatusMockMvc
             .perform(
@@ -283,7 +288,7 @@ class ProgressStatusResourceIT {
         ProgressStatus partialUpdatedProgressStatus = new ProgressStatus();
         partialUpdatedProgressStatus.setId(progressStatus.getId());
 
-        partialUpdatedProgressStatus.uid(UPDATED_UID).name(UPDATED_NAME);
+        partialUpdatedProgressStatus.uid(UPDATED_UID).code(UPDATED_CODE).name(UPDATED_NAME);
 
         restProgressStatusMockMvc
             .perform(

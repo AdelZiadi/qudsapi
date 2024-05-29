@@ -1,6 +1,5 @@
 package org.nmcpye.datarun.service.impl;
 
-import java.util.Optional;
 import org.nmcpye.datarun.domain.Team;
 import org.nmcpye.datarun.repository.TeamRepository;
 import org.nmcpye.datarun.service.TeamService;
@@ -10,6 +9,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Optional;
 
 /**
  * Service Implementation for managing {@link org.nmcpye.datarun.domain.Team}.
@@ -49,11 +50,11 @@ public class TeamServiceImpl implements TeamService {
                 if (team.getUid() != null) {
                     existingTeam.setUid(team.getUid());
                 }
-                if (team.getName() != null) {
-                    existingTeam.setName(team.getName());
-                }
                 if (team.getCode() != null) {
                     existingTeam.setCode(team.getCode());
+                }
+                if (team.getName() != null) {
+                    existingTeam.setName(team.getName());
                 }
                 if (team.getDescription() != null) {
                     existingTeam.setDescription(team.getDescription());

@@ -43,6 +43,15 @@ import org.springframework.transaction.annotation.Transactional;
 @WithMockUser
 class WarehouseTransactionResourceIT {
 
+    private static final String DEFAULT_UID = "AAAAAAAAAA";
+    private static final String UPDATED_UID = "BBBBBBBBBB";
+
+    private static final String DEFAULT_CODE = "AAAAAAAAAA";
+    private static final String UPDATED_CODE = "BBBBBBBBBB";
+
+    private static final String DEFAULT_NAME = "AAAAAAAAAA";
+    private static final String UPDATED_NAME = "BBBBBBBBBB";
+
     private static final String DEFAULT_IMOV_UID = "AAAAAAAAAA";
     private static final String UPDATED_IMOV_UID = "BBBBBBBBBB";
 
@@ -113,6 +122,9 @@ class WarehouseTransactionResourceIT {
      */
     public static WarehouseTransaction createEntity(EntityManager em) {
         WarehouseTransaction warehouseTransaction = new WarehouseTransaction()
+            .uid(DEFAULT_UID)
+            .code(DEFAULT_CODE)
+            .name(DEFAULT_NAME)
             .imovUid(DEFAULT_IMOV_UID)
             .transactionDate(DEFAULT_TRANSACTION_DATE)
             .phaseNo(DEFAULT_PHASE_NO)
@@ -146,6 +158,9 @@ class WarehouseTransactionResourceIT {
      */
     public static WarehouseTransaction createUpdatedEntity(EntityManager em) {
         WarehouseTransaction warehouseTransaction = new WarehouseTransaction()
+            .uid(UPDATED_UID)
+            .code(UPDATED_CODE)
+            .name(UPDATED_NAME)
             .imovUid(UPDATED_IMOV_UID)
             .transactionDate(UPDATED_TRANSACTION_DATE)
             .phaseNo(UPDATED_PHASE_NO)
@@ -292,6 +307,9 @@ class WarehouseTransactionResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(warehouseTransaction.getId().intValue())))
+            .andExpect(jsonPath("$.[*].uid").value(hasItem(DEFAULT_UID)))
+            .andExpect(jsonPath("$.[*].code").value(hasItem(DEFAULT_CODE)))
+            .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)))
             .andExpect(jsonPath("$.[*].imovUid").value(hasItem(DEFAULT_IMOV_UID)))
             .andExpect(jsonPath("$.[*].transactionDate").value(hasItem(DEFAULT_TRANSACTION_DATE.toString())))
             .andExpect(jsonPath("$.[*].phaseNo").value(hasItem(DEFAULT_PHASE_NO)))
@@ -335,6 +353,9 @@ class WarehouseTransactionResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(warehouseTransaction.getId().intValue()))
+            .andExpect(jsonPath("$.uid").value(DEFAULT_UID))
+            .andExpect(jsonPath("$.code").value(DEFAULT_CODE))
+            .andExpect(jsonPath("$.name").value(DEFAULT_NAME))
             .andExpect(jsonPath("$.imovUid").value(DEFAULT_IMOV_UID))
             .andExpect(jsonPath("$.transactionDate").value(DEFAULT_TRANSACTION_DATE.toString()))
             .andExpect(jsonPath("$.phaseNo").value(DEFAULT_PHASE_NO))
@@ -371,6 +392,9 @@ class WarehouseTransactionResourceIT {
         // Disconnect from session so that the updates on updatedWarehouseTransaction are not directly saved in db
         em.detach(updatedWarehouseTransaction);
         updatedWarehouseTransaction
+            .uid(UPDATED_UID)
+            .code(UPDATED_CODE)
+            .name(UPDATED_NAME)
             .imovUid(UPDATED_IMOV_UID)
             .transactionDate(UPDATED_TRANSACTION_DATE)
             .phaseNo(UPDATED_PHASE_NO)
@@ -463,12 +487,16 @@ class WarehouseTransactionResourceIT {
         partialUpdatedWarehouseTransaction.setId(warehouseTransaction.getId());
 
         partialUpdatedWarehouseTransaction
+            .code(UPDATED_CODE)
+            .name(UPDATED_NAME)
+            .imovUid(UPDATED_IMOV_UID)
+            .transactionDate(UPDATED_TRANSACTION_DATE)
             .phaseNo(UPDATED_PHASE_NO)
             .entryType(UPDATED_ENTRY_TYPE)
             .quantity(UPDATED_QUANTITY)
             .notes(UPDATED_NOTES)
-            .personName(UPDATED_PERSON_NAME)
-            .submissionTime(UPDATED_SUBMISSION_TIME);
+            .submissionTime(UPDATED_SUBMISSION_TIME)
+            .deleted(UPDATED_DELETED);
 
         restWarehouseTransactionMockMvc
             .perform(
@@ -500,6 +528,9 @@ class WarehouseTransactionResourceIT {
         partialUpdatedWarehouseTransaction.setId(warehouseTransaction.getId());
 
         partialUpdatedWarehouseTransaction
+            .uid(UPDATED_UID)
+            .code(UPDATED_CODE)
+            .name(UPDATED_NAME)
             .imovUid(UPDATED_IMOV_UID)
             .transactionDate(UPDATED_TRANSACTION_DATE)
             .phaseNo(UPDATED_PHASE_NO)

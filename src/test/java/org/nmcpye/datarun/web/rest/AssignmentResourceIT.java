@@ -45,11 +45,11 @@ class AssignmentResourceIT {
     private static final String DEFAULT_UID = "AAAAAAAAAA";
     private static final String UPDATED_UID = "BBBBBBBBBB";
 
-    private static final Integer DEFAULT_PHASE_NO = 1;
-    private static final Integer UPDATED_PHASE_NO = 2;
-
     private static final String DEFAULT_CODE = "AAAAAAAAAA";
     private static final String UPDATED_CODE = "BBBBBBBBBB";
+
+    private static final Integer DEFAULT_PHASE_NO = 1;
+    private static final Integer UPDATED_PHASE_NO = 2;
 
     private static final Integer DEFAULT_DISTRICT_CODE = 1;
     private static final Integer UPDATED_DISTRICT_CODE = 2;
@@ -128,8 +128,8 @@ class AssignmentResourceIT {
     public static Assignment createEntity(EntityManager em) {
         Assignment assignment = new Assignment()
             .uid(DEFAULT_UID)
-            .phaseNo(DEFAULT_PHASE_NO)
             .code(DEFAULT_CODE)
+            .phaseNo(DEFAULT_PHASE_NO)
             .districtCode(DEFAULT_DISTRICT_CODE)
             .gov(DEFAULT_GOV)
             .district(DEFAULT_DISTRICT)
@@ -156,8 +156,8 @@ class AssignmentResourceIT {
     public static Assignment createUpdatedEntity(EntityManager em) {
         Assignment assignment = new Assignment()
             .uid(UPDATED_UID)
-            .phaseNo(UPDATED_PHASE_NO)
             .code(UPDATED_CODE)
+            .phaseNo(UPDATED_PHASE_NO)
             .districtCode(UPDATED_DISTRICT_CODE)
             .gov(UPDATED_GOV)
             .district(UPDATED_DISTRICT)
@@ -230,8 +230,8 @@ class AssignmentResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(assignment.getId().intValue())))
             .andExpect(jsonPath("$.[*].uid").value(hasItem(DEFAULT_UID)))
-            .andExpect(jsonPath("$.[*].phaseNo").value(hasItem(DEFAULT_PHASE_NO)))
             .andExpect(jsonPath("$.[*].code").value(hasItem(DEFAULT_CODE)))
+            .andExpect(jsonPath("$.[*].phaseNo").value(hasItem(DEFAULT_PHASE_NO)))
             .andExpect(jsonPath("$.[*].districtCode").value(hasItem(DEFAULT_DISTRICT_CODE)))
             .andExpect(jsonPath("$.[*].gov").value(hasItem(DEFAULT_GOV)))
             .andExpect(jsonPath("$.[*].district").value(hasItem(DEFAULT_DISTRICT)))
@@ -278,8 +278,8 @@ class AssignmentResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(assignment.getId().intValue()))
             .andExpect(jsonPath("$.uid").value(DEFAULT_UID))
-            .andExpect(jsonPath("$.phaseNo").value(DEFAULT_PHASE_NO))
             .andExpect(jsonPath("$.code").value(DEFAULT_CODE))
+            .andExpect(jsonPath("$.phaseNo").value(DEFAULT_PHASE_NO))
             .andExpect(jsonPath("$.districtCode").value(DEFAULT_DISTRICT_CODE))
             .andExpect(jsonPath("$.gov").value(DEFAULT_GOV))
             .andExpect(jsonPath("$.district").value(DEFAULT_DISTRICT))
@@ -317,8 +317,8 @@ class AssignmentResourceIT {
         em.detach(updatedAssignment);
         updatedAssignment
             .uid(UPDATED_UID)
-            .phaseNo(UPDATED_PHASE_NO)
             .code(UPDATED_CODE)
+            .phaseNo(UPDATED_PHASE_NO)
             .districtCode(UPDATED_DISTRICT_CODE)
             .gov(UPDATED_GOV)
             .district(UPDATED_DISTRICT)
@@ -411,15 +411,13 @@ class AssignmentResourceIT {
         partialUpdatedAssignment.setId(assignment.getId());
 
         partialUpdatedAssignment
-            .districtCode(UPDATED_DISTRICT_CODE)
-            .gov(UPDATED_GOV)
+            .code(UPDATED_CODE)
+            .phaseNo(UPDATED_PHASE_NO)
+            .district(UPDATED_DISTRICT)
             .village(UPDATED_VILLAGE)
-            .name(UPDATED_NAME)
+            .dayId(UPDATED_DAY_ID)
             .population(UPDATED_POPULATION)
-            .targetType(UPDATED_TARGET_TYPE)
-            .longitude(UPDATED_LONGITUDE)
-            .latitude(UPDATED_LATITUDE)
-            .startDate(UPDATED_START_DATE);
+            .longitude(UPDATED_LONGITUDE);
 
         restAssignmentMockMvc
             .perform(
@@ -452,8 +450,8 @@ class AssignmentResourceIT {
 
         partialUpdatedAssignment
             .uid(UPDATED_UID)
-            .phaseNo(UPDATED_PHASE_NO)
             .code(UPDATED_CODE)
+            .phaseNo(UPDATED_PHASE_NO)
             .districtCode(UPDATED_DISTRICT_CODE)
             .gov(UPDATED_GOV)
             .district(UPDATED_DISTRICT)

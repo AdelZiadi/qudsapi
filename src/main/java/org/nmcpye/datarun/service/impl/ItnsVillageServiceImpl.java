@@ -1,6 +1,5 @@
 package org.nmcpye.datarun.service.impl;
 
-import java.util.Optional;
 import org.nmcpye.datarun.domain.ItnsVillage;
 import org.nmcpye.datarun.repository.ItnsVillageRepository;
 import org.nmcpye.datarun.service.ItnsVillageService;
@@ -10,6 +9,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Optional;
 
 /**
  * Service Implementation for managing {@link org.nmcpye.datarun.domain.ItnsVillage}.
@@ -49,14 +50,17 @@ public class ItnsVillageServiceImpl implements ItnsVillageService {
                 if (itnsVillage.getUid() != null) {
                     existingItnsVillage.setUid(itnsVillage.getUid());
                 }
+                if (itnsVillage.getCode() != null) {
+                    existingItnsVillage.setCode(itnsVillage.getCode());
+                }
+                if (itnsVillage.getName() != null) {
+                    existingItnsVillage.setName(itnsVillage.getName());
+                }
                 if (itnsVillage.getSubmissionUuid() != null) {
                     existingItnsVillage.setSubmissionUuid(itnsVillage.getSubmissionUuid());
                 }
                 if (itnsVillage.getSubmissionId() != null) {
                     existingItnsVillage.setSubmissionId(itnsVillage.getSubmissionId());
-                }
-                if (itnsVillage.getDeleted() != null) {
-                    existingItnsVillage.setDeleted(itnsVillage.getDeleted());
                 }
                 if (itnsVillage.getWorkDayDate() != null) {
                     existingItnsVillage.setWorkDayDate(itnsVillage.getWorkDayDate());
@@ -123,6 +127,9 @@ public class ItnsVillageServiceImpl implements ItnsVillageService {
                 }
                 if (itnsVillage.getOtherTeamNo() != null) {
                     existingItnsVillage.setOtherTeamNo(itnsVillage.getOtherTeamNo());
+                }
+                if (itnsVillage.getDeleted() != null) {
+                    existingItnsVillage.setDeleted(itnsVillage.getDeleted());
                 }
                 if (itnsVillage.getCreatedBy() != null) {
                     existingItnsVillage.setCreatedBy(itnsVillage.getCreatedBy());

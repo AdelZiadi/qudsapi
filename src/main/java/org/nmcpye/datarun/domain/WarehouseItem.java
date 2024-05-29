@@ -31,11 +31,11 @@ public class WarehouseItem extends AbstractAuditingEntity<Long> implements Seria
     @Column(name = "uid", length = 11, unique = true)
     private String uid;
 
-    @Column(name = "name")
-    private String name;
-
     @Column(name = "code")
     private String code;
+
+    @Column(name = "name")
+    private String name;
 
     @Column(name = "description")
     private String description;
@@ -75,19 +75,6 @@ public class WarehouseItem extends AbstractAuditingEntity<Long> implements Seria
         this.uid = uid;
     }
 
-    public String getName() {
-        return this.name;
-    }
-
-    public WarehouseItem name(String name) {
-        this.setName(name);
-        return this;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public String getCode() {
         return this.code;
     }
@@ -99,6 +86,19 @@ public class WarehouseItem extends AbstractAuditingEntity<Long> implements Seria
 
     public void setCode(String code) {
         this.code = code;
+    }
+
+    public String getName() {
+        return this.name;
+    }
+
+    public WarehouseItem name(String name) {
+        this.setName(name);
+        return this;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getDescription() {
@@ -180,8 +180,8 @@ public class WarehouseItem extends AbstractAuditingEntity<Long> implements Seria
         return "WarehouseItem{" +
             "id=" + getId() +
             ", uid='" + getUid() + "'" +
-            ", name='" + getName() + "'" +
             ", code='" + getCode() + "'" +
+            ", name='" + getName() + "'" +
             ", description='" + getDescription() + "'" +
             ", createdBy='" + getCreatedBy() + "'" +
             ", createdDate='" + getCreatedDate() + "'" +

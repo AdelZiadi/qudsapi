@@ -1,6 +1,5 @@
 package org.nmcpye.datarun.service.impl;
 
-import java.util.Optional;
 import org.nmcpye.datarun.domain.VillageLocation;
 import org.nmcpye.datarun.repository.VillageLocationRepository;
 import org.nmcpye.datarun.service.VillageLocationService;
@@ -10,6 +9,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Optional;
 
 /**
  * Service Implementation for managing {@link org.nmcpye.datarun.domain.VillageLocation}.
@@ -35,6 +36,7 @@ public class VillageLocationServiceImpl implements VillageLocationService {
     @Override
     public VillageLocation update(VillageLocation villageLocation) {
         log.debug("Request to update VillageLocation : {}", villageLocation);
+        villageLocation.setIsPersisted();
         return villageLocationRepository.save(villageLocation);
     }
 
@@ -50,6 +52,9 @@ public class VillageLocationServiceImpl implements VillageLocationService {
                 }
                 if (villageLocation.getCode() != null) {
                     existingVillageLocation.setCode(villageLocation.getCode());
+                }
+                if (villageLocation.getName() != null) {
+                    existingVillageLocation.setName(villageLocation.getName());
                 }
                 if (villageLocation.getMappingStatus() != null) {
                     existingVillageLocation.setMappingStatus(villageLocation.getMappingStatus());
@@ -68,9 +73,6 @@ public class VillageLocationServiceImpl implements VillageLocationService {
                 }
                 if (villageLocation.getSubvillageName() != null) {
                     existingVillageLocation.setSubvillageName(villageLocation.getSubvillageName());
-                }
-                if (villageLocation.getName() != null) {
-                    existingVillageLocation.setName(villageLocation.getName());
                 }
                 if (villageLocation.getUrbanRuralId() != null) {
                     existingVillageLocation.setUrbanRuralId(villageLocation.getUrbanRuralId());
@@ -98,6 +100,18 @@ public class VillageLocationServiceImpl implements VillageLocationService {
                 }
                 if (villageLocation.getLevel() != null) {
                     existingVillageLocation.setLevel(villageLocation.getLevel());
+                }
+                if (villageLocation.getCreatedBy() != null) {
+                    existingVillageLocation.setCreatedBy(villageLocation.getCreatedBy());
+                }
+                if (villageLocation.getCreatedDate() != null) {
+                    existingVillageLocation.setCreatedDate(villageLocation.getCreatedDate());
+                }
+                if (villageLocation.getLastModifiedBy() != null) {
+                    existingVillageLocation.setLastModifiedBy(villageLocation.getLastModifiedBy());
+                }
+                if (villageLocation.getLastModifiedDate() != null) {
+                    existingVillageLocation.setLastModifiedDate(villageLocation.getLastModifiedDate());
                 }
 
                 return existingVillageLocation;

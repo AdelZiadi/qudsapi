@@ -12,6 +12,11 @@
       "fieldValidateRulesMaxlength": "11"
     },
     {
+      "fieldName": "code",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
       "fieldName": "name",
       "fieldType": "String"
     },
@@ -26,11 +31,6 @@
     {
       "fieldName": "supervisor",
       "fieldType": "String"
-    },
-    {
-      "fieldName": "code",
-      "fieldType": "String",
-      "fieldValidateRules": ["required"]
     },
     {
       "fieldName": "supervisorMobile",

@@ -35,14 +35,8 @@ class ItnsVillageHousesDetailResourceIT {
     private static final String DEFAULT_UID = "AAAAAAAAAA";
     private static final String UPDATED_UID = "BBBBBBBBBB";
 
-    private static final String DEFAULT_SUBMISSION_UUID = "AAAAAAAAAA";
-    private static final String UPDATED_SUBMISSION_UUID = "BBBBBBBBBB";
-
-    private static final Boolean DEFAULT_DELETED = false;
-    private static final Boolean UPDATED_DELETED = true;
-
-    private static final String DEFAULT_HOUSE_UUID = "AAAAAAAAAA";
-    private static final String UPDATED_HOUSE_UUID = "BBBBBBBBBB";
+    private static final String DEFAULT_CODE = "AAAAAAAAAA";
+    private static final String UPDATED_CODE = "BBBBBBBBBB";
 
     private static final Long DEFAULT_COUPON_ID = 1L;
     private static final Long UPDATED_COUPON_ID = 2L;
@@ -77,6 +71,15 @@ class ItnsVillageHousesDetailResourceIT {
     private static final String DEFAULT_COMMENT = "AAAAAAAAAA";
     private static final String UPDATED_COMMENT = "BBBBBBBBBB";
 
+    private static final String DEFAULT_SUBMISSION_UUID = "AAAAAAAAAA";
+    private static final String UPDATED_SUBMISSION_UUID = "BBBBBBBBBB";
+
+    private static final Boolean DEFAULT_DELETED = false;
+    private static final Boolean UPDATED_DELETED = true;
+
+    private static final String DEFAULT_HOUSE_UUID = "AAAAAAAAAA";
+    private static final String UPDATED_HOUSE_UUID = "BBBBBBBBBB";
+
     private static final String ENTITY_API_URL = "/api/itns-village-houses-details";
     private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";
 
@@ -106,9 +109,7 @@ class ItnsVillageHousesDetailResourceIT {
     public static ItnsVillageHousesDetail createEntity(EntityManager em) {
         ItnsVillageHousesDetail itnsVillageHousesDetail = new ItnsVillageHousesDetail()
             .uid(DEFAULT_UID)
-            .submissionUuid(DEFAULT_SUBMISSION_UUID)
-            .deleted(DEFAULT_DELETED)
-            .houseUuid(DEFAULT_HOUSE_UUID)
+            .code(DEFAULT_CODE)
             .couponId(DEFAULT_COUPON_ID)
             .name(DEFAULT_NAME)
             .male(DEFAULT_MALE)
@@ -119,7 +120,10 @@ class ItnsVillageHousesDetailResourceIT {
             .femaleChild(DEFAULT_FEMALE_CHILD)
             .displaced(DEFAULT_DISPLACED)
             .itns(DEFAULT_ITNS)
-            .comment(DEFAULT_COMMENT);
+            .comment(DEFAULT_COMMENT)
+            .submissionUuid(DEFAULT_SUBMISSION_UUID)
+            .deleted(DEFAULT_DELETED)
+            .houseUuid(DEFAULT_HOUSE_UUID);
         // Add required entity
         ItnsVillage itnsVillage;
         if (TestUtil.findAll(em, ItnsVillage.class).isEmpty()) {
@@ -142,9 +146,7 @@ class ItnsVillageHousesDetailResourceIT {
     public static ItnsVillageHousesDetail createUpdatedEntity(EntityManager em) {
         ItnsVillageHousesDetail itnsVillageHousesDetail = new ItnsVillageHousesDetail()
             .uid(UPDATED_UID)
-            .submissionUuid(UPDATED_SUBMISSION_UUID)
-            .deleted(UPDATED_DELETED)
-            .houseUuid(UPDATED_HOUSE_UUID)
+            .code(UPDATED_CODE)
             .couponId(UPDATED_COUPON_ID)
             .name(UPDATED_NAME)
             .male(UPDATED_MALE)
@@ -155,7 +157,10 @@ class ItnsVillageHousesDetailResourceIT {
             .femaleChild(UPDATED_FEMALE_CHILD)
             .displaced(UPDATED_DISPLACED)
             .itns(UPDATED_ITNS)
-            .comment(UPDATED_COMMENT);
+            .comment(UPDATED_COMMENT)
+            .submissionUuid(UPDATED_SUBMISSION_UUID)
+            .deleted(UPDATED_DELETED)
+            .houseUuid(UPDATED_HOUSE_UUID);
         // Add required entity
         ItnsVillage itnsVillage;
         if (TestUtil.findAll(em, ItnsVillage.class).isEmpty()) {
@@ -218,22 +223,6 @@ class ItnsVillageHousesDetailResourceIT {
 
     @Test
     @Transactional
-    void checkHouseUuidIsRequired() throws Exception {
-        long databaseSizeBeforeTest = getRepositoryCount();
-        // set the field null
-        itnsVillageHousesDetail.setHouseUuid(null);
-
-        // Create the ItnsVillageHousesDetail, which fails.
-
-        restItnsVillageHousesDetailMockMvc
-            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(om.writeValueAsBytes(itnsVillageHousesDetail)))
-            .andExpect(status().isBadRequest());
-
-        assertSameRepositoryCount(databaseSizeBeforeTest);
-    }
-
-    @Test
-    @Transactional
     void getAllItnsVillageHousesDetails() throws Exception {
         // Initialize the database
         itnsVillageHousesDetailRepository.saveAndFlush(itnsVillageHousesDetail);
@@ -245,9 +234,7 @@ class ItnsVillageHousesDetailResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(itnsVillageHousesDetail.getId().intValue())))
             .andExpect(jsonPath("$.[*].uid").value(hasItem(DEFAULT_UID)))
-            .andExpect(jsonPath("$.[*].submissionUuid").value(hasItem(DEFAULT_SUBMISSION_UUID)))
-            .andExpect(jsonPath("$.[*].deleted").value(hasItem(DEFAULT_DELETED.booleanValue())))
-            .andExpect(jsonPath("$.[*].houseUuid").value(hasItem(DEFAULT_HOUSE_UUID)))
+            .andExpect(jsonPath("$.[*].code").value(hasItem(DEFAULT_CODE)))
             .andExpect(jsonPath("$.[*].couponId").value(hasItem(DEFAULT_COUPON_ID.intValue())))
             .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)))
             .andExpect(jsonPath("$.[*].male").value(hasItem(DEFAULT_MALE)))
@@ -258,7 +245,10 @@ class ItnsVillageHousesDetailResourceIT {
             .andExpect(jsonPath("$.[*].femaleChild").value(hasItem(DEFAULT_FEMALE_CHILD)))
             .andExpect(jsonPath("$.[*].displaced").value(hasItem(DEFAULT_DISPLACED)))
             .andExpect(jsonPath("$.[*].itns").value(hasItem(DEFAULT_ITNS)))
-            .andExpect(jsonPath("$.[*].comment").value(hasItem(DEFAULT_COMMENT)));
+            .andExpect(jsonPath("$.[*].comment").value(hasItem(DEFAULT_COMMENT)))
+            .andExpect(jsonPath("$.[*].submissionUuid").value(hasItem(DEFAULT_SUBMISSION_UUID)))
+            .andExpect(jsonPath("$.[*].deleted").value(hasItem(DEFAULT_DELETED.booleanValue())))
+            .andExpect(jsonPath("$.[*].houseUuid").value(hasItem(DEFAULT_HOUSE_UUID)));
     }
 
     @Test
@@ -274,9 +264,7 @@ class ItnsVillageHousesDetailResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(itnsVillageHousesDetail.getId().intValue()))
             .andExpect(jsonPath("$.uid").value(DEFAULT_UID))
-            .andExpect(jsonPath("$.submissionUuid").value(DEFAULT_SUBMISSION_UUID))
-            .andExpect(jsonPath("$.deleted").value(DEFAULT_DELETED.booleanValue()))
-            .andExpect(jsonPath("$.houseUuid").value(DEFAULT_HOUSE_UUID))
+            .andExpect(jsonPath("$.code").value(DEFAULT_CODE))
             .andExpect(jsonPath("$.couponId").value(DEFAULT_COUPON_ID.intValue()))
             .andExpect(jsonPath("$.name").value(DEFAULT_NAME))
             .andExpect(jsonPath("$.male").value(DEFAULT_MALE))
@@ -287,7 +275,10 @@ class ItnsVillageHousesDetailResourceIT {
             .andExpect(jsonPath("$.femaleChild").value(DEFAULT_FEMALE_CHILD))
             .andExpect(jsonPath("$.displaced").value(DEFAULT_DISPLACED))
             .andExpect(jsonPath("$.itns").value(DEFAULT_ITNS))
-            .andExpect(jsonPath("$.comment").value(DEFAULT_COMMENT));
+            .andExpect(jsonPath("$.comment").value(DEFAULT_COMMENT))
+            .andExpect(jsonPath("$.submissionUuid").value(DEFAULT_SUBMISSION_UUID))
+            .andExpect(jsonPath("$.deleted").value(DEFAULT_DELETED.booleanValue()))
+            .andExpect(jsonPath("$.houseUuid").value(DEFAULT_HOUSE_UUID));
     }
 
     @Test
@@ -313,9 +304,7 @@ class ItnsVillageHousesDetailResourceIT {
         em.detach(updatedItnsVillageHousesDetail);
         updatedItnsVillageHousesDetail
             .uid(UPDATED_UID)
-            .submissionUuid(UPDATED_SUBMISSION_UUID)
-            .deleted(UPDATED_DELETED)
-            .houseUuid(UPDATED_HOUSE_UUID)
+            .code(UPDATED_CODE)
             .couponId(UPDATED_COUPON_ID)
             .name(UPDATED_NAME)
             .male(UPDATED_MALE)
@@ -326,7 +315,10 @@ class ItnsVillageHousesDetailResourceIT {
             .femaleChild(UPDATED_FEMALE_CHILD)
             .displaced(UPDATED_DISPLACED)
             .itns(UPDATED_ITNS)
-            .comment(UPDATED_COMMENT);
+            .comment(UPDATED_COMMENT)
+            .submissionUuid(UPDATED_SUBMISSION_UUID)
+            .deleted(UPDATED_DELETED)
+            .houseUuid(UPDATED_HOUSE_UUID);
 
         restItnsVillageHousesDetailMockMvc
             .perform(
@@ -406,7 +398,14 @@ class ItnsVillageHousesDetailResourceIT {
         ItnsVillageHousesDetail partialUpdatedItnsVillageHousesDetail = new ItnsVillageHousesDetail();
         partialUpdatedItnsVillageHousesDetail.setId(itnsVillageHousesDetail.getId());
 
-        partialUpdatedItnsVillageHousesDetail.uid(UPDATED_UID).male(UPDATED_MALE).maleChild(UPDATED_MALE_CHILD).itns(UPDATED_ITNS);
+        partialUpdatedItnsVillageHousesDetail
+            .uid(UPDATED_UID)
+            .code(UPDATED_CODE)
+            .couponId(UPDATED_COUPON_ID)
+            .male(UPDATED_MALE)
+            .female(UPDATED_FEMALE)
+            .comment(UPDATED_COMMENT)
+            .houseUuid(UPDATED_HOUSE_UUID);
 
         restItnsVillageHousesDetailMockMvc
             .perform(
@@ -439,9 +438,7 @@ class ItnsVillageHousesDetailResourceIT {
 
         partialUpdatedItnsVillageHousesDetail
             .uid(UPDATED_UID)
-            .submissionUuid(UPDATED_SUBMISSION_UUID)
-            .deleted(UPDATED_DELETED)
-            .houseUuid(UPDATED_HOUSE_UUID)
+            .code(UPDATED_CODE)
             .couponId(UPDATED_COUPON_ID)
             .name(UPDATED_NAME)
             .male(UPDATED_MALE)
@@ -452,7 +449,10 @@ class ItnsVillageHousesDetailResourceIT {
             .femaleChild(UPDATED_FEMALE_CHILD)
             .displaced(UPDATED_DISPLACED)
             .itns(UPDATED_ITNS)
-            .comment(UPDATED_COMMENT);
+            .comment(UPDATED_COMMENT)
+            .submissionUuid(UPDATED_SUBMISSION_UUID)
+            .deleted(UPDATED_DELETED)
+            .houseUuid(UPDATED_HOUSE_UUID);
 
         restItnsVillageHousesDetailMockMvc
             .perform(

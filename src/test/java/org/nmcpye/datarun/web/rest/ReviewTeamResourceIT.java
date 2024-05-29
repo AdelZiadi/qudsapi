@@ -34,6 +34,9 @@ class ReviewTeamResourceIT {
     private static final String DEFAULT_UID = "AAAAAAAAAA";
     private static final String UPDATED_UID = "BBBBBBBBBB";
 
+    private static final String DEFAULT_CODE = "AAAAAAAAAA";
+    private static final String UPDATED_CODE = "BBBBBBBBBB";
+
     private static final String DEFAULT_NAME = "AAAAAAAAAA";
     private static final String UPDATED_NAME = "BBBBBBBBBB";
 
@@ -67,7 +70,7 @@ class ReviewTeamResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static ReviewTeam createEntity(EntityManager em) {
-        ReviewTeam reviewTeam = new ReviewTeam().uid(DEFAULT_UID).name(DEFAULT_NAME).user(DEFAULT_USER);
+        ReviewTeam reviewTeam = new ReviewTeam().uid(DEFAULT_UID).code(DEFAULT_CODE).name(DEFAULT_NAME).user(DEFAULT_USER);
         return reviewTeam;
     }
 
@@ -78,7 +81,7 @@ class ReviewTeamResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static ReviewTeam createUpdatedEntity(EntityManager em) {
-        ReviewTeam reviewTeam = new ReviewTeam().uid(UPDATED_UID).name(UPDATED_NAME).user(UPDATED_USER);
+        ReviewTeam reviewTeam = new ReviewTeam().uid(UPDATED_UID).code(UPDATED_CODE).name(UPDATED_NAME).user(UPDATED_USER);
         return reviewTeam;
     }
 
@@ -137,6 +140,7 @@ class ReviewTeamResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(reviewTeam.getId().intValue())))
             .andExpect(jsonPath("$.[*].uid").value(hasItem(DEFAULT_UID)))
+            .andExpect(jsonPath("$.[*].code").value(hasItem(DEFAULT_CODE)))
             .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)))
             .andExpect(jsonPath("$.[*].user").value(hasItem(DEFAULT_USER)));
     }
@@ -154,6 +158,7 @@ class ReviewTeamResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(reviewTeam.getId().intValue()))
             .andExpect(jsonPath("$.uid").value(DEFAULT_UID))
+            .andExpect(jsonPath("$.code").value(DEFAULT_CODE))
             .andExpect(jsonPath("$.name").value(DEFAULT_NAME))
             .andExpect(jsonPath("$.user").value(DEFAULT_USER));
     }
@@ -177,7 +182,7 @@ class ReviewTeamResourceIT {
         ReviewTeam updatedReviewTeam = reviewTeamRepository.findById(reviewTeam.getId()).orElseThrow();
         // Disconnect from session so that the updates on updatedReviewTeam are not directly saved in db
         em.detach(updatedReviewTeam);
-        updatedReviewTeam.uid(UPDATED_UID).name(UPDATED_NAME).user(UPDATED_USER);
+        updatedReviewTeam.uid(UPDATED_UID).code(UPDATED_CODE).name(UPDATED_NAME).user(UPDATED_USER);
 
         restReviewTeamMockMvc
             .perform(
@@ -255,6 +260,8 @@ class ReviewTeamResourceIT {
         ReviewTeam partialUpdatedReviewTeam = new ReviewTeam();
         partialUpdatedReviewTeam.setId(reviewTeam.getId());
 
+        partialUpdatedReviewTeam.uid(UPDATED_UID).name(UPDATED_NAME);
+
         restReviewTeamMockMvc
             .perform(
                 patch(ENTITY_API_URL_ID, partialUpdatedReviewTeam.getId())
@@ -284,7 +291,7 @@ class ReviewTeamResourceIT {
         ReviewTeam partialUpdatedReviewTeam = new ReviewTeam();
         partialUpdatedReviewTeam.setId(reviewTeam.getId());
 
-        partialUpdatedReviewTeam.uid(UPDATED_UID).name(UPDATED_NAME).user(UPDATED_USER);
+        partialUpdatedReviewTeam.uid(UPDATED_UID).code(UPDATED_CODE).name(UPDATED_NAME).user(UPDATED_USER);
 
         restReviewTeamMockMvc
             .perform(
