@@ -6,15 +6,15 @@
     xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd
                         http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
     <!--
-        Added the constraints for entity ItnsVillageHousesDetail.
+        Added the constraints for entity ChvSession.
     -->
-    <changeSet id="20240521125527-2" author="jhipster">
+    <changeSet id="20240530121624-2" author="jhipster">
 
-        <addForeignKeyConstraint baseColumnNames="village_data_id"
-                                 baseTableName="itns_village_houses_detail"
-                                 constraintName="fk_itns_village_houses_detail__village_data_id"
+        <addForeignKeyConstraint baseColumnNames="team_id"
+                                 baseTableName="chv_session"
+                                 constraintName="fk_chv_session__team_id"
                                  referencedColumnNames="id"
-                                 referencedTableName="itns_village"
+                                 referencedTableName="team"
                                  />
     </changeSet>
 </databaseChangeLog>

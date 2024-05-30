@@ -1,6 +1,6 @@
 {
   "annotations": {
-    "changelogDate": "20240529163216"
+    "changelogDate": "20240530121624"
   },
   "applications": "*",
   "enableAudit": true,
@@ -86,7 +86,7 @@
       "readonly": true
     }
   ],
-  "name": "ChvSessions",
+  "name": "ChvSession",
   "pagination": "pagination",
   "relationships": [
     {

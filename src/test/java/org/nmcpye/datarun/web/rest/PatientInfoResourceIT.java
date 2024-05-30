@@ -310,7 +310,7 @@ class PatientInfoResourceIT {
         PatientInfo partialUpdatedPatientInfo = new PatientInfo();
         partialUpdatedPatientInfo.setId(patientInfo.getId());
 
-        partialUpdatedPatientInfo.code(UPDATED_CODE).age(UPDATED_AGE);
+        partialUpdatedPatientInfo.code(UPDATED_CODE).name(UPDATED_NAME).gender(UPDATED_GENDER);
 
         restPatientInfoMockMvc
             .perform(

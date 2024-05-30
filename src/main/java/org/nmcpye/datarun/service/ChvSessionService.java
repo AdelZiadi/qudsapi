@@ -1,37 +1,37 @@
 package org.nmcpye.datarun.service;
 
 import java.util.Optional;
-import org.nmcpye.datarun.domain.ChvSessions;
+import org.nmcpye.datarun.domain.ChvSession;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 /**
- * Service Interface for managing {@link org.nmcpye.datarun.domain.ChvSessions}.
+ * Service Interface for managing {@link org.nmcpye.datarun.domain.ChvSession}.
  */
-public interface ChvSessionsService {
+public interface ChvSessionService {
     /**
-     * Save a chvSessions.
+     * Save a chvSession.
      *
-     * @param chvSessions the entity to save.
+     * @param chvSession the entity to save.
      * @return the persisted entity.
      */
-    ChvSessions save(ChvSessions chvSessions);
+    ChvSession save(ChvSession chvSession);
 
     /**
-     * Updates a chvSessions.
+     * Updates a chvSession.
      *
-     * @param chvSessions the entity to update.
+     * @param chvSession the entity to update.
      * @return the persisted entity.
      */
-    ChvSessions update(ChvSessions chvSessions);
+    ChvSession update(ChvSession chvSession);
 
     /**
-     * Partially updates a chvSessions.
+     * Partially updates a chvSession.
      *
-     * @param chvSessions the entity to update partially.
+     * @param chvSession the entity to update partially.
      * @return the persisted entity.
      */
-    Optional<ChvSessions> partialUpdate(ChvSessions chvSessions);
+    Optional<ChvSession> partialUpdate(ChvSession chvSession);
 
     /**
      * Get all the chvSessions.
@@ -39,7 +39,7 @@ public interface ChvSessionsService {
      * @param pageable the pagination information.
      * @return the list of entities.
      */
-    Page<ChvSessions> findAll(Pageable pageable);
+    Page<ChvSession> findAll(Pageable pageable);
 
     /**
      * Get all the chvSessions with eager load of many-to-many relationships.
@@ -47,18 +47,18 @@ public interface ChvSessionsService {
      * @param pageable the pagination information.
      * @return the list of entities.
      */
-    Page<ChvSessions> findAllWithEagerRelationships(Pageable pageable);
+    Page<ChvSession> findAllWithEagerRelationships(Pageable pageable);
 
     /**
-     * Get the "id" chvSessions.
+     * Get the "id" chvSession.
      *
      * @param id the id of the entity.
      * @return the entity.
      */
-    Optional<ChvSessions> findOne(Long id);
+    Optional<ChvSession> findOne(Long id);
 
     /**
-     * Delete the "id" chvSessions.
+     * Delete the "id" chvSession.
      *
      * @param id the id of the entity.
      */

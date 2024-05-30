@@ -400,12 +400,9 @@ class ItnsVillageHousesDetailResourceIT {
 
         partialUpdatedItnsVillageHousesDetail
             .uid(UPDATED_UID)
-            .code(UPDATED_CODE)
-            .couponId(UPDATED_COUPON_ID)
-            .male(UPDATED_MALE)
-            .female(UPDATED_FEMALE)
-            .comment(UPDATED_COMMENT)
-            .houseUuid(UPDATED_HOUSE_UUID);
+            .pregnant(UPDATED_PREGNANT)
+            .displaced(UPDATED_DISPLACED)
+            .submissionUuid(UPDATED_SUBMISSION_UUID);
 
         restItnsVillageHousesDetailMockMvc
             .perform(

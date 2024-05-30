@@ -260,7 +260,7 @@ class ReviewTeamResourceIT {
         ReviewTeam partialUpdatedReviewTeam = new ReviewTeam();
         partialUpdatedReviewTeam.setId(reviewTeam.getId());
 
-        partialUpdatedReviewTeam.uid(UPDATED_UID).name(UPDATED_NAME);
+        partialUpdatedReviewTeam.user(UPDATED_USER);
 
         restReviewTeamMockMvc
             .perform(

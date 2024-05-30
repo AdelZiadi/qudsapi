@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
  * REST Custom controller for managing {@link PatientInfo}.
  */
 @RestController
-@RequestMapping("/api/custom/patientInfos")
+@RequestMapping("/api/custom/patientInfo")
 public class PatientInfoResourceCustom extends AbstractResource<PatientInfo> {
 
     private final Logger log = LoggerFactory.getLogger(PatientInfoResourceCustom.class);
@@ -40,6 +40,6 @@ public class PatientInfoResourceCustom extends AbstractResource<PatientInfo> {
 
     @Override
     protected String getName() {
-        return "patientInfos";
+        return "patientInfo";
     }
 }

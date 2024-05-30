@@ -2,7 +2,7 @@ package org.nmcpye.datarun.web.rest;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
-import static org.nmcpye.datarun.domain.VillageLocationAsserts.*;
+import static org.nmcpye.datarun.domain.MVillagesLocationsAsserts.*;
 import static org.nmcpye.datarun.web.rest.TestUtil.createUpdateProxyForBean;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -14,9 +14,9 @@ import java.util.concurrent.atomic.AtomicLong;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.nmcpye.datarun.IntegrationTest;
-import org.nmcpye.datarun.domain.VillageLocation;
+import org.nmcpye.datarun.domain.MVillagesLocations;
 import org.nmcpye.datarun.domain.enumeration.PublicLocationType;
-import org.nmcpye.datarun.repository.VillageLocationRepository;
+import org.nmcpye.datarun.repository.MVillagesLocationsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.http.MediaType;
@@ -25,21 +25,18 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- * Integration tests for the {@link VillageLocationResource} REST controller.
+ * Integration tests for the {@link MVillagesLocationsResource} REST controller.
  */
 @IntegrationTest
 @AutoConfigureMockMvc
 @WithMockUser
-class VillageLocationResourceIT {
+class MVillagesLocationsResourceIT {
 
     private static final String DEFAULT_UID = "AAAAAAAAAA";
     private static final String UPDATED_UID = "BBBBBBBBBB";
 
     private static final String DEFAULT_CODE = "AAAAAAAAAA";
     private static final String UPDATED_CODE = "BBBBBBBBBB";
-
-    private static final String DEFAULT_NAME = "AAAAAAAAAA";
-    private static final String UPDATED_NAME = "BBBBBBBBBB";
 
     private static final Integer DEFAULT_MAPPING_STATUS = 1;
     private static final Integer UPDATED_MAPPING_STATUS = 2;
@@ -58,6 +55,9 @@ class VillageLocationResourceIT {
 
     private static final String DEFAULT_SUBVILLAGE_NAME = "AAAAAAAAAA";
     private static final String UPDATED_SUBVILLAGE_NAME = "BBBBBBBBBB";
+
+    private static final String DEFAULT_NAME = "AAAAAAAAAA";
+    private static final String UPDATED_NAME = "BBBBBBBBBB";
 
     private static final Integer DEFAULT_URBAN_RURAL_ID = 1;
     private static final Integer UPDATED_URBAN_RURAL_ID = 2;
@@ -86,7 +86,7 @@ class VillageLocationResourceIT {
     private static final PublicLocationType DEFAULT_LEVEL = PublicLocationType.DISTRICT;
     private static final PublicLocationType UPDATED_LEVEL = PublicLocationType.SUBDISTRICT;
 
-    private static final String ENTITY_API_URL = "/api/village-locations";
+    private static final String ENTITY_API_URL = "/api/m-villages-locations";
     private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";
 
     private static Random random = new Random();
@@ -96,15 +96,15 @@ class VillageLocationResourceIT {
     private ObjectMapper om;
 
     @Autowired
-    private VillageLocationRepository villageLocationRepository;
+    private MVillagesLocationsRepository mVillagesLocationsRepository;
 
     @Autowired
     private EntityManager em;
 
     @Autowired
-    private MockMvc restVillageLocationMockMvc;
+    private MockMvc restMVillagesLocationsMockMvc;
 
-    private VillageLocation villageLocation;
+    private MVillagesLocations mVillagesLocations;
 
     /**
      * Create an entity for this test.
@@ -112,17 +112,17 @@ class VillageLocationResourceIT {
      * This is a static method, as tests for other entities might also need it,
      * if they test an entity which requires the current entity.
      */
-    public static VillageLocation createEntity(EntityManager em) {
-        VillageLocation villageLocation = new VillageLocation()
+    public static MVillagesLocations createEntity(EntityManager em) {
+        MVillagesLocations mVillagesLocations = new MVillagesLocations()
             .uid(DEFAULT_UID)
             .code(DEFAULT_CODE)
-            .name(DEFAULT_NAME)
             .mappingStatus(DEFAULT_MAPPING_STATUS)
             .districtCode(DEFAULT_DISTRICT_CODE)
             .villageUid(DEFAULT_VILLAGE_UID)
             .subdistrictName(DEFAULT_SUBDISTRICT_NAME)
             .villageName(DEFAULT_VILLAGE_NAME)
             .subvillageName(DEFAULT_SUBVILLAGE_NAME)
+            .name(DEFAULT_NAME)
             .urbanRuralId(DEFAULT_URBAN_RURAL_ID)
             .urbanRural(DEFAULT_URBAN_RURAL)
             .settlement(DEFAULT_SETTLEMENT)
@@ -132,7 +132,7 @@ class VillageLocationResourceIT {
             .latitude(DEFAULT_LATITUDE)
             .ppcCodeGis(DEFAULT_PPC_CODE_GIS)
             .level(DEFAULT_LEVEL);
-        return villageLocation;
+        return mVillagesLocations;
     }
 
     /**
@@ -141,17 +141,17 @@ class VillageLocationResourceIT {
      * This is a static method, as tests for other entities might also need it,
      * if they test an entity which requires the current entity.
      */
-    public static VillageLocation createUpdatedEntity(EntityManager em) {
-        VillageLocation villageLocation = new VillageLocation()
+    public static MVillagesLocations createUpdatedEntity(EntityManager em) {
+        MVillagesLocations mVillagesLocations = new MVillagesLocations()
             .uid(UPDATED_UID)
             .code(UPDATED_CODE)
-            .name(UPDATED_NAME)
             .mappingStatus(UPDATED_MAPPING_STATUS)
             .districtCode(UPDATED_DISTRICT_CODE)
             .villageUid(UPDATED_VILLAGE_UID)
             .subdistrictName(UPDATED_SUBDISTRICT_NAME)
             .villageName(UPDATED_VILLAGE_NAME)
             .subvillageName(UPDATED_SUBVILLAGE_NAME)
+            .name(UPDATED_NAME)
             .urbanRuralId(UPDATED_URBAN_RURAL_ID)
             .urbanRural(UPDATED_URBAN_RURAL)
             .settlement(UPDATED_SETTLEMENT)
@@ -161,48 +161,51 @@ class VillageLocationResourceIT {
             .latitude(UPDATED_LATITUDE)
             .ppcCodeGis(UPDATED_PPC_CODE_GIS)
             .level(UPDATED_LEVEL);
-        return villageLocation;
+        return mVillagesLocations;
     }
 
     @BeforeEach
     public void initTest() {
-        villageLocation = createEntity(em);
+        mVillagesLocations = createEntity(em);
     }
 
     @Test
     @Transactional
-    void createVillageLocation() throws Exception {
+    void createMVillagesLocations() throws Exception {
         long databaseSizeBeforeCreate = getRepositoryCount();
-        // Create the VillageLocation
-        var returnedVillageLocation = om.readValue(
-            restVillageLocationMockMvc
-                .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(om.writeValueAsBytes(villageLocation)))
+        // Create the MVillagesLocations
+        var returnedMVillagesLocations = om.readValue(
+            restMVillagesLocationsMockMvc
+                .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(om.writeValueAsBytes(mVillagesLocations)))
                 .andExpect(status().isCreated())
                 .andReturn()
                 .getResponse()
                 .getContentAsString(),
-            VillageLocation.class
+            MVillagesLocations.class
         );
 
-        // Validate the VillageLocation in the database
+        // Validate the MVillagesLocations in the database
         assertIncrementedRepositoryCount(databaseSizeBeforeCreate);
-        assertVillageLocationUpdatableFieldsEquals(returnedVillageLocation, getPersistedVillageLocation(returnedVillageLocation));
+        assertMVillagesLocationsUpdatableFieldsEquals(
+            returnedMVillagesLocations,
+            getPersistedMVillagesLocations(returnedMVillagesLocations)
+        );
     }
 
     @Test
     @Transactional
-    void createVillageLocationWithExistingId() throws Exception {
-        // Create the VillageLocation with an existing ID
-        villageLocation.setId(1L);
+    void createMVillagesLocationsWithExistingId() throws Exception {
+        // Create the MVillagesLocations with an existing ID
+        mVillagesLocations.setId(1L);
 
         long databaseSizeBeforeCreate = getRepositoryCount();
 
         // An entity with an existing ID cannot be created, so this API call must fail
-        restVillageLocationMockMvc
-            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(om.writeValueAsBytes(villageLocation)))
+        restMVillagesLocationsMockMvc
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(om.writeValueAsBytes(mVillagesLocations)))
             .andExpect(status().isBadRequest());
 
-        // Validate the VillageLocation in the database
+        // Validate the MVillagesLocations in the database
         assertSameRepositoryCount(databaseSizeBeforeCreate);
     }
 
@@ -211,12 +214,12 @@ class VillageLocationResourceIT {
     void checkCodeIsRequired() throws Exception {
         long databaseSizeBeforeTest = getRepositoryCount();
         // set the field null
-        villageLocation.setCode(null);
+        mVillagesLocations.setCode(null);
 
-        // Create the VillageLocation, which fails.
+        // Create the MVillagesLocations, which fails.
 
-        restVillageLocationMockMvc
-            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(om.writeValueAsBytes(villageLocation)))
+        restMVillagesLocationsMockMvc
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(om.writeValueAsBytes(mVillagesLocations)))
             .andExpect(status().isBadRequest());
 
         assertSameRepositoryCount(databaseSizeBeforeTest);
@@ -227,12 +230,12 @@ class VillageLocationResourceIT {
     void checkPpcCodeGisIsRequired() throws Exception {
         long databaseSizeBeforeTest = getRepositoryCount();
         // set the field null
-        villageLocation.setPpcCodeGis(null);
+        mVillagesLocations.setPpcCodeGis(null);
 
-        // Create the VillageLocation, which fails.
+        // Create the MVillagesLocations, which fails.
 
-        restVillageLocationMockMvc
-            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(om.writeValueAsBytes(villageLocation)))
+        restMVillagesLocationsMockMvc
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(om.writeValueAsBytes(mVillagesLocations)))
             .andExpect(status().isBadRequest());
 
         assertSameRepositoryCount(databaseSizeBeforeTest);
@@ -240,25 +243,25 @@ class VillageLocationResourceIT {
 
     @Test
     @Transactional
-    void getAllVillageLocations() throws Exception {
+    void getAllMVillagesLocations() throws Exception {
         // Initialize the database
-        villageLocationRepository.saveAndFlush(villageLocation);
+        mVillagesLocationsRepository.saveAndFlush(mVillagesLocations);
 
-        // Get all the villageLocationList
-        restVillageLocationMockMvc
+        // Get all the mVillagesLocationsList
+        restMVillagesLocationsMockMvc
             .perform(get(ENTITY_API_URL + "?sort=id,desc"))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
-            .andExpect(jsonPath("$.[*].id").value(hasItem(villageLocation.getId().intValue())))
+            .andExpect(jsonPath("$.[*].id").value(hasItem(mVillagesLocations.getId().intValue())))
             .andExpect(jsonPath("$.[*].uid").value(hasItem(DEFAULT_UID)))
             .andExpect(jsonPath("$.[*].code").value(hasItem(DEFAULT_CODE)))
-            .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)))
             .andExpect(jsonPath("$.[*].mappingStatus").value(hasItem(DEFAULT_MAPPING_STATUS)))
             .andExpect(jsonPath("$.[*].districtCode").value(hasItem(DEFAULT_DISTRICT_CODE)))
             .andExpect(jsonPath("$.[*].villageUid").value(hasItem(DEFAULT_VILLAGE_UID)))
             .andExpect(jsonPath("$.[*].subdistrictName").value(hasItem(DEFAULT_SUBDISTRICT_NAME)))
             .andExpect(jsonPath("$.[*].villageName").value(hasItem(DEFAULT_VILLAGE_NAME)))
             .andExpect(jsonPath("$.[*].subvillageName").value(hasItem(DEFAULT_SUBVILLAGE_NAME)))
+            .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)))
             .andExpect(jsonPath("$.[*].urbanRuralId").value(hasItem(DEFAULT_URBAN_RURAL_ID)))
             .andExpect(jsonPath("$.[*].urbanRural").value(hasItem(DEFAULT_URBAN_RURAL)))
             .andExpect(jsonPath("$.[*].settlement").value(hasItem(DEFAULT_SETTLEMENT)))
@@ -272,25 +275,25 @@ class VillageLocationResourceIT {
 
     @Test
     @Transactional
-    void getVillageLocation() throws Exception {
+    void getMVillagesLocations() throws Exception {
         // Initialize the database
-        villageLocationRepository.saveAndFlush(villageLocation);
+        mVillagesLocationsRepository.saveAndFlush(mVillagesLocations);
 
-        // Get the villageLocation
-        restVillageLocationMockMvc
-            .perform(get(ENTITY_API_URL_ID, villageLocation.getId()))
+        // Get the mVillagesLocations
+        restMVillagesLocationsMockMvc
+            .perform(get(ENTITY_API_URL_ID, mVillagesLocations.getId()))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
-            .andExpect(jsonPath("$.id").value(villageLocation.getId().intValue()))
+            .andExpect(jsonPath("$.id").value(mVillagesLocations.getId().intValue()))
             .andExpect(jsonPath("$.uid").value(DEFAULT_UID))
             .andExpect(jsonPath("$.code").value(DEFAULT_CODE))
-            .andExpect(jsonPath("$.name").value(DEFAULT_NAME))
             .andExpect(jsonPath("$.mappingStatus").value(DEFAULT_MAPPING_STATUS))
             .andExpect(jsonPath("$.districtCode").value(DEFAULT_DISTRICT_CODE))
             .andExpect(jsonPath("$.villageUid").value(DEFAULT_VILLAGE_UID))
             .andExpect(jsonPath("$.subdistrictName").value(DEFAULT_SUBDISTRICT_NAME))
             .andExpect(jsonPath("$.villageName").value(DEFAULT_VILLAGE_NAME))
             .andExpect(jsonPath("$.subvillageName").value(DEFAULT_SUBVILLAGE_NAME))
+            .andExpect(jsonPath("$.name").value(DEFAULT_NAME))
             .andExpect(jsonPath("$.urbanRuralId").value(DEFAULT_URBAN_RURAL_ID))
             .andExpect(jsonPath("$.urbanRural").value(DEFAULT_URBAN_RURAL))
             .andExpect(jsonPath("$.settlement").value(DEFAULT_SETTLEMENT))
@@ -304,33 +307,33 @@ class VillageLocationResourceIT {
 
     @Test
     @Transactional
-    void getNonExistingVillageLocation() throws Exception {
-        // Get the villageLocation
-        restVillageLocationMockMvc.perform(get(ENTITY_API_URL_ID, Long.MAX_VALUE)).andExpect(status().isNotFound());
+    void getNonExistingMVillagesLocations() throws Exception {
+        // Get the mVillagesLocations
+        restMVillagesLocationsMockMvc.perform(get(ENTITY_API_URL_ID, Long.MAX_VALUE)).andExpect(status().isNotFound());
     }
 
     @Test
     @Transactional
-    void putExistingVillageLocation() throws Exception {
+    void putExistingMVillagesLocations() throws Exception {
         // Initialize the database
-        villageLocationRepository.saveAndFlush(villageLocation);
+        mVillagesLocationsRepository.saveAndFlush(mVillagesLocations);
 
         long databaseSizeBeforeUpdate = getRepositoryCount();
 
-        // Update the villageLocation
-        VillageLocation updatedVillageLocation = villageLocationRepository.findById(villageLocation.getId()).orElseThrow();
-        // Disconnect from session so that the updates on updatedVillageLocation are not directly saved in db
-        em.detach(updatedVillageLocation);
-        updatedVillageLocation
+        // Update the mVillagesLocations
+        MVillagesLocations updatedMVillagesLocations = mVillagesLocationsRepository.findById(mVillagesLocations.getId()).orElseThrow();
+        // Disconnect from session so that the updates on updatedMVillagesLocations are not directly saved in db
+        em.detach(updatedMVillagesLocations);
+        updatedMVillagesLocations
             .uid(UPDATED_UID)
             .code(UPDATED_CODE)
-            .name(UPDATED_NAME)
             .mappingStatus(UPDATED_MAPPING_STATUS)
             .districtCode(UPDATED_DISTRICT_CODE)
             .villageUid(UPDATED_VILLAGE_UID)
             .subdistrictName(UPDATED_SUBDISTRICT_NAME)
             .villageName(UPDATED_VILLAGE_NAME)
             .subvillageName(UPDATED_SUBVILLAGE_NAME)
+            .name(UPDATED_NAME)
             .urbanRuralId(UPDATED_URBAN_RURAL_ID)
             .urbanRural(UPDATED_URBAN_RURAL)
             .settlement(UPDATED_SETTLEMENT)
@@ -341,135 +344,133 @@ class VillageLocationResourceIT {
             .ppcCodeGis(UPDATED_PPC_CODE_GIS)
             .level(UPDATED_LEVEL);
 
-        restVillageLocationMockMvc
+        restMVillagesLocationsMockMvc
             .perform(
-                put(ENTITY_API_URL_ID, updatedVillageLocation.getId())
+                put(ENTITY_API_URL_ID, updatedMVillagesLocations.getId())
                     .contentType(MediaType.APPLICATION_JSON)
-                    .content(om.writeValueAsBytes(updatedVillageLocation))
+                    .content(om.writeValueAsBytes(updatedMVillagesLocations))
             )
             .andExpect(status().isOk());
 
-        // Validate the VillageLocation in the database
+        // Validate the MVillagesLocations in the database
         assertSameRepositoryCount(databaseSizeBeforeUpdate);
-        assertPersistedVillageLocationToMatchAllProperties(updatedVillageLocation);
+        assertPersistedMVillagesLocationsToMatchAllProperties(updatedMVillagesLocations);
     }
 
     @Test
     @Transactional
-    void putNonExistingVillageLocation() throws Exception {
+    void putNonExistingMVillagesLocations() throws Exception {
         long databaseSizeBeforeUpdate = getRepositoryCount();
-        villageLocation.setId(longCount.incrementAndGet());
+        mVillagesLocations.setId(longCount.incrementAndGet());
 
         // If the entity doesn't have an ID, it will throw BadRequestAlertException
-        restVillageLocationMockMvc
+        restMVillagesLocationsMockMvc
             .perform(
-                put(ENTITY_API_URL_ID, villageLocation.getId())
+                put(ENTITY_API_URL_ID, mVillagesLocations.getId())
                     .contentType(MediaType.APPLICATION_JSON)
-                    .content(om.writeValueAsBytes(villageLocation))
+                    .content(om.writeValueAsBytes(mVillagesLocations))
             )
             .andExpect(status().isBadRequest());
 
-        // Validate the VillageLocation in the database
+        // Validate the MVillagesLocations in the database
         assertSameRepositoryCount(databaseSizeBeforeUpdate);
     }
 
     @Test
     @Transactional
-    void putWithIdMismatchVillageLocation() throws Exception {
+    void putWithIdMismatchMVillagesLocations() throws Exception {
         long databaseSizeBeforeUpdate = getRepositoryCount();
-        villageLocation.setId(longCount.incrementAndGet());
+        mVillagesLocations.setId(longCount.incrementAndGet());
 
         // If url ID doesn't match entity ID, it will throw BadRequestAlertException
-        restVillageLocationMockMvc
+        restMVillagesLocationsMockMvc
             .perform(
                 put(ENTITY_API_URL_ID, longCount.incrementAndGet())
                     .contentType(MediaType.APPLICATION_JSON)
-                    .content(om.writeValueAsBytes(villageLocation))
+                    .content(om.writeValueAsBytes(mVillagesLocations))
             )
             .andExpect(status().isBadRequest());
 
-        // Validate the VillageLocation in the database
+        // Validate the MVillagesLocations in the database
         assertSameRepositoryCount(databaseSizeBeforeUpdate);
     }
 
     @Test
     @Transactional
-    void putWithMissingIdPathParamVillageLocation() throws Exception {
+    void putWithMissingIdPathParamMVillagesLocations() throws Exception {
         long databaseSizeBeforeUpdate = getRepositoryCount();
-        villageLocation.setId(longCount.incrementAndGet());
+        mVillagesLocations.setId(longCount.incrementAndGet());
 
         // If url ID doesn't match entity ID, it will throw BadRequestAlertException
-        restVillageLocationMockMvc
-            .perform(put(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(om.writeValueAsBytes(villageLocation)))
+        restMVillagesLocationsMockMvc
+            .perform(put(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(om.writeValueAsBytes(mVillagesLocations)))
             .andExpect(status().isMethodNotAllowed());
 
-        // Validate the VillageLocation in the database
+        // Validate the MVillagesLocations in the database
         assertSameRepositoryCount(databaseSizeBeforeUpdate);
     }
 
     @Test
     @Transactional
-    void partialUpdateVillageLocationWithPatch() throws Exception {
+    void partialUpdateMVillagesLocationsWithPatch() throws Exception {
         // Initialize the database
-        villageLocationRepository.saveAndFlush(villageLocation);
+        mVillagesLocationsRepository.saveAndFlush(mVillagesLocations);
 
         long databaseSizeBeforeUpdate = getRepositoryCount();
 
-        // Update the villageLocation using partial update
-        VillageLocation partialUpdatedVillageLocation = new VillageLocation();
-        partialUpdatedVillageLocation.setId(villageLocation.getId());
+        // Update the mVillagesLocations using partial update
+        MVillagesLocations partialUpdatedMVillagesLocations = new MVillagesLocations();
+        partialUpdatedMVillagesLocations.setId(mVillagesLocations.getId());
 
-        partialUpdatedVillageLocation
-            .name(UPDATED_NAME)
-            .mappingStatus(UPDATED_MAPPING_STATUS)
+        partialUpdatedMVillagesLocations
+            .uid(UPDATED_UID)
+            .code(UPDATED_CODE)
+            .districtCode(UPDATED_DISTRICT_CODE)
+            .villageUid(UPDATED_VILLAGE_UID)
             .subdistrictName(UPDATED_SUBDISTRICT_NAME)
-            .villageName(UPDATED_VILLAGE_NAME)
             .subvillageName(UPDATED_SUBVILLAGE_NAME)
-            .urbanRuralId(UPDATED_URBAN_RURAL_ID)
-            .pop2004(UPDATED_POP_2004)
-            .pop2022(UPDATED_POP_2022)
-            .latitude(UPDATED_LATITUDE)
-            .level(UPDATED_LEVEL);
+            .longitude(UPDATED_LONGITUDE)
+            .latitude(UPDATED_LATITUDE);
 
-        restVillageLocationMockMvc
+        restMVillagesLocationsMockMvc
             .perform(
-                patch(ENTITY_API_URL_ID, partialUpdatedVillageLocation.getId())
+                patch(ENTITY_API_URL_ID, partialUpdatedMVillagesLocations.getId())
                     .contentType("application/merge-patch+json")
-                    .content(om.writeValueAsBytes(partialUpdatedVillageLocation))
+                    .content(om.writeValueAsBytes(partialUpdatedMVillagesLocations))
             )
             .andExpect(status().isOk());
 
-        // Validate the VillageLocation in the database
+        // Validate the MVillagesLocations in the database
 
         assertSameRepositoryCount(databaseSizeBeforeUpdate);
-        assertVillageLocationUpdatableFieldsEquals(
-            createUpdateProxyForBean(partialUpdatedVillageLocation, villageLocation),
-            getPersistedVillageLocation(villageLocation)
+        assertMVillagesLocationsUpdatableFieldsEquals(
+            createUpdateProxyForBean(partialUpdatedMVillagesLocations, mVillagesLocations),
+            getPersistedMVillagesLocations(mVillagesLocations)
         );
     }
 
     @Test
     @Transactional
-    void fullUpdateVillageLocationWithPatch() throws Exception {
+    void fullUpdateMVillagesLocationsWithPatch() throws Exception {
         // Initialize the database
-        villageLocationRepository.saveAndFlush(villageLocation);
+        mVillagesLocationsRepository.saveAndFlush(mVillagesLocations);
 
         long databaseSizeBeforeUpdate = getRepositoryCount();
 
-        // Update the villageLocation using partial update
-        VillageLocation partialUpdatedVillageLocation = new VillageLocation();
-        partialUpdatedVillageLocation.setId(villageLocation.getId());
+        // Update the mVillagesLocations using partial update
+        MVillagesLocations partialUpdatedMVillagesLocations = new MVillagesLocations();
+        partialUpdatedMVillagesLocations.setId(mVillagesLocations.getId());
 
-        partialUpdatedVillageLocation
+        partialUpdatedMVillagesLocations
             .uid(UPDATED_UID)
             .code(UPDATED_CODE)
-            .name(UPDATED_NAME)
             .mappingStatus(UPDATED_MAPPING_STATUS)
             .districtCode(UPDATED_DISTRICT_CODE)
             .villageUid(UPDATED_VILLAGE_UID)
             .subdistrictName(UPDATED_SUBDISTRICT_NAME)
             .villageName(UPDATED_VILLAGE_NAME)
             .subvillageName(UPDATED_SUBVILLAGE_NAME)
+            .name(UPDATED_NAME)
             .urbanRuralId(UPDATED_URBAN_RURAL_ID)
             .urbanRural(UPDATED_URBAN_RURAL)
             .settlement(UPDATED_SETTLEMENT)
@@ -480,87 +481,87 @@ class VillageLocationResourceIT {
             .ppcCodeGis(UPDATED_PPC_CODE_GIS)
             .level(UPDATED_LEVEL);
 
-        restVillageLocationMockMvc
+        restMVillagesLocationsMockMvc
             .perform(
-                patch(ENTITY_API_URL_ID, partialUpdatedVillageLocation.getId())
+                patch(ENTITY_API_URL_ID, partialUpdatedMVillagesLocations.getId())
                     .contentType("application/merge-patch+json")
-                    .content(om.writeValueAsBytes(partialUpdatedVillageLocation))
+                    .content(om.writeValueAsBytes(partialUpdatedMVillagesLocations))
             )
             .andExpect(status().isOk());
 
-        // Validate the VillageLocation in the database
+        // Validate the MVillagesLocations in the database
 
         assertSameRepositoryCount(databaseSizeBeforeUpdate);
-        assertVillageLocationUpdatableFieldsEquals(
-            partialUpdatedVillageLocation,
-            getPersistedVillageLocation(partialUpdatedVillageLocation)
+        assertMVillagesLocationsUpdatableFieldsEquals(
+            partialUpdatedMVillagesLocations,
+            getPersistedMVillagesLocations(partialUpdatedMVillagesLocations)
         );
     }
 
     @Test
     @Transactional
-    void patchNonExistingVillageLocation() throws Exception {
+    void patchNonExistingMVillagesLocations() throws Exception {
         long databaseSizeBeforeUpdate = getRepositoryCount();
-        villageLocation.setId(longCount.incrementAndGet());
+        mVillagesLocations.setId(longCount.incrementAndGet());
 
         // If the entity doesn't have an ID, it will throw BadRequestAlertException
-        restVillageLocationMockMvc
+        restMVillagesLocationsMockMvc
             .perform(
-                patch(ENTITY_API_URL_ID, villageLocation.getId())
+                patch(ENTITY_API_URL_ID, mVillagesLocations.getId())
                     .contentType("application/merge-patch+json")
-                    .content(om.writeValueAsBytes(villageLocation))
+                    .content(om.writeValueAsBytes(mVillagesLocations))
             )
             .andExpect(status().isBadRequest());
 
-        // Validate the VillageLocation in the database
+        // Validate the MVillagesLocations in the database
         assertSameRepositoryCount(databaseSizeBeforeUpdate);
     }
 
     @Test
     @Transactional
-    void patchWithIdMismatchVillageLocation() throws Exception {
+    void patchWithIdMismatchMVillagesLocations() throws Exception {
         long databaseSizeBeforeUpdate = getRepositoryCount();
-        villageLocation.setId(longCount.incrementAndGet());
+        mVillagesLocations.setId(longCount.incrementAndGet());
 
         // If url ID doesn't match entity ID, it will throw BadRequestAlertException
-        restVillageLocationMockMvc
+        restMVillagesLocationsMockMvc
             .perform(
                 patch(ENTITY_API_URL_ID, longCount.incrementAndGet())
                     .contentType("application/merge-patch+json")
-                    .content(om.writeValueAsBytes(villageLocation))
+                    .content(om.writeValueAsBytes(mVillagesLocations))
             )
             .andExpect(status().isBadRequest());
 
-        // Validate the VillageLocation in the database
+        // Validate the MVillagesLocations in the database
         assertSameRepositoryCount(databaseSizeBeforeUpdate);
     }
 
     @Test
     @Transactional
-    void patchWithMissingIdPathParamVillageLocation() throws Exception {
+    void patchWithMissingIdPathParamMVillagesLocations() throws Exception {
         long databaseSizeBeforeUpdate = getRepositoryCount();
-        villageLocation.setId(longCount.incrementAndGet());
+        mVillagesLocations.setId(longCount.incrementAndGet());
 
         // If url ID doesn't match entity ID, it will throw BadRequestAlertException
-        restVillageLocationMockMvc
-            .perform(patch(ENTITY_API_URL).contentType("application/merge-patch+json").content(om.writeValueAsBytes(villageLocation)))
+        restMVillagesLocationsMockMvc
+            .perform(patch(ENTITY_API_URL).contentType("application/merge-patch+json").content(om.writeValueAsBytes(mVillagesLocations)))
             .andExpect(status().isMethodNotAllowed());
 
-        // Validate the VillageLocation in the database
+        // Validate the MVillagesLocations in the database
         assertSameRepositoryCount(databaseSizeBeforeUpdate);
     }
 
     @Test
     @Transactional
-    void deleteVillageLocation() throws Exception {
+    void deleteMVillagesLocations() throws Exception {
         // Initialize the database
-        villageLocationRepository.saveAndFlush(villageLocation);
+        mVillagesLocationsRepository.saveAndFlush(mVillagesLocations);
 
         long databaseSizeBeforeDelete = getRepositoryCount();
 
-        // Delete the villageLocation
-        restVillageLocationMockMvc
-            .perform(delete(ENTITY_API_URL_ID, villageLocation.getId()).accept(MediaType.APPLICATION_JSON))
+        // Delete the mVillagesLocations
+        restMVillagesLocationsMockMvc
+            .perform(delete(ENTITY_API_URL_ID, mVillagesLocations.getId()).accept(MediaType.APPLICATION_JSON))
             .andExpect(status().isNoContent());
 
         // Validate the database contains one less item
@@ -568,7 +569,7 @@ class VillageLocationResourceIT {
     }
 
     protected long getRepositoryCount() {
-        return villageLocationRepository.count();
+        return mVillagesLocationsRepository.count();
     }
 
     protected void assertIncrementedRepositoryCount(long countBefore) {
@@ -583,15 +584,18 @@ class VillageLocationResourceIT {
         assertThat(countBefore).isEqualTo(getRepositoryCount());
     }
 
-    protected VillageLocation getPersistedVillageLocation(VillageLocation villageLocation) {
-        return villageLocationRepository.findById(villageLocation.getId()).orElseThrow();
+    protected MVillagesLocations getPersistedMVillagesLocations(MVillagesLocations mVillagesLocations) {
+        return mVillagesLocationsRepository.findById(mVillagesLocations.getId()).orElseThrow();
     }
 
-    protected void assertPersistedVillageLocationToMatchAllProperties(VillageLocation expectedVillageLocation) {
-        assertVillageLocationAllPropertiesEquals(expectedVillageLocation, getPersistedVillageLocation(expectedVillageLocation));
+    protected void assertPersistedMVillagesLocationsToMatchAllProperties(MVillagesLocations expectedMVillagesLocations) {
+        assertMVillagesLocationsAllPropertiesEquals(expectedMVillagesLocations, getPersistedMVillagesLocations(expectedMVillagesLocations));
     }
 
-    protected void assertPersistedVillageLocationToMatchUpdatableProperties(VillageLocation expectedVillageLocation) {
-        assertVillageLocationAllUpdatablePropertiesEquals(expectedVillageLocation, getPersistedVillageLocation(expectedVillageLocation));
+    protected void assertPersistedMVillagesLocationsToMatchUpdatableProperties(MVillagesLocations expectedMVillagesLocations) {
+        assertMVillagesLocationsAllUpdatablePropertiesEquals(
+            expectedMVillagesLocations,
+            getPersistedMVillagesLocations(expectedMVillagesLocations)
+        );
     }
 }

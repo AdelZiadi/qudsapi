@@ -33,15 +33,15 @@
       "WarehouseItem",
       "WarehouseTransaction",
       "ChvRegister",
-      "ChvSessions",
-      "PatientInfo"
+      "PatientInfo",
+      "ChvSession"
     ],
     "feignClient": null,
     "jhiPrefix": "app",
     "jhipsterVersion": "8.4.0",
     "jwtSecretKey": "MjJmNDA2ZjQwMzg5NWE0ZDFiZmZmY2IzYzk2NmQ0MmI4OTM0NWU1MDBjYmU1N2VkYmNjOWM2ZmI2OGVlZWVmYTI0NDM0Y2JhY2ZhMWI2Nzg2ZGY2YWNhZjNmMTViYTcyZTNmMjMwNmFjZTRkMTAzOTVhYjlkNDRhOWZhNDJhY2I=",
     "languages": ["en", "ar-ly"],
-    "lastLiquibaseTimestamp": 1717000337000,
+    "lastLiquibaseTimestamp": 1717071384000,
     "messageBroker": false,
     "nativeLanguage": "en",
     "packageName": "org.nmcpye.datarun",

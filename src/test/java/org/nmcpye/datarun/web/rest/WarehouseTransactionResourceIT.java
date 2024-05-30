@@ -487,16 +487,14 @@ class WarehouseTransactionResourceIT {
         partialUpdatedWarehouseTransaction.setId(warehouseTransaction.getId());
 
         partialUpdatedWarehouseTransaction
-            .code(UPDATED_CODE)
             .name(UPDATED_NAME)
             .imovUid(UPDATED_IMOV_UID)
             .transactionDate(UPDATED_TRANSACTION_DATE)
             .phaseNo(UPDATED_PHASE_NO)
             .entryType(UPDATED_ENTRY_TYPE)
-            .quantity(UPDATED_QUANTITY)
             .notes(UPDATED_NOTES)
-            .submissionTime(UPDATED_SUBMISSION_TIME)
-            .deleted(UPDATED_DELETED);
+            .submissionId(UPDATED_SUBMISSION_ID)
+            .submissionUuid(UPDATED_SUBMISSION_UUID);
 
         restWarehouseTransactionMockMvc
             .perform(

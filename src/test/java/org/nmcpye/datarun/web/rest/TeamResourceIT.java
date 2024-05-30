@@ -342,12 +342,7 @@ class TeamResourceIT {
         Team partialUpdatedTeam = new Team();
         partialUpdatedTeam.setId(team.getId());
 
-        partialUpdatedTeam
-            .uid(UPDATED_UID)
-            .name(UPDATED_NAME)
-            .description(UPDATED_DESCRIPTION)
-            .mobile(UPDATED_MOBILE)
-            .workers(UPDATED_WORKERS);
+        partialUpdatedTeam.code(UPDATED_CODE).mobile(UPDATED_MOBILE).mobility(UPDATED_MOBILITY);
 
         restTeamMockMvc
             .perform(

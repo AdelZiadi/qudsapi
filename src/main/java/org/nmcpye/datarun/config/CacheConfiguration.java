@@ -51,6 +51,7 @@ public class CacheConfiguration {
             createCache(cm, org.nmcpye.datarun.domain.Authority.class.getName());
             createCache(cm, org.nmcpye.datarun.domain.User.class.getName() + ".authorities");
             createCache(cm, org.nmcpye.datarun.domain.EntityAuditEvent.class.getName());
+            createCache(cm, org.nmcpye.datarun.domain.MVillagesLocations.class.getName());
             createCache(cm, org.nmcpye.datarun.domain.Project.class.getName());
             createCache(cm, org.nmcpye.datarun.domain.Project.class.getName() + ".activities");
             createCache(cm, org.nmcpye.datarun.domain.Activity.class.getName());
@@ -67,8 +68,8 @@ public class CacheConfiguration {
             createCache(cm, org.nmcpye.datarun.domain.WarehouseItem.class.getName());
             createCache(cm, org.nmcpye.datarun.domain.WarehouseTransaction.class.getName());
             createCache(cm, org.nmcpye.datarun.domain.ChvRegister.class.getName());
-            createCache(cm, org.nmcpye.datarun.domain.ChvSessions.class.getName());
             createCache(cm, org.nmcpye.datarun.domain.PatientInfo.class.getName());
+            createCache(cm, org.nmcpye.datarun.domain.ChvSession.class.getName());
             // jhipster-needle-ehcache-add-entry
         };
     }

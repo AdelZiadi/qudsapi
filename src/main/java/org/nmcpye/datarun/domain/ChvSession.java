@@ -11,14 +11,14 @@ import org.nmcpye.datarun.domain.enumeration.MSessionSubject;
 import org.springframework.data.domain.Persistable;
 
 /**
- * A ChvSessions.
+ * A ChvSession.
  */
 @Entity
-@Table(name = "chv_sessions")
+@Table(name = "chv_session")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @JsonIgnoreProperties(value = { "new" })
 @SuppressWarnings("common-java:DuplicatedBlocks")
-public class ChvSessions extends AbstractAuditingEntity<Long> implements Serializable, Persistable<Long> {
+public class ChvSession extends AbstractAuditingEntity<Long> implements Serializable, Persistable<Long> {
 
     private static final long serialVersionUID = 1L;
 
@@ -80,7 +80,7 @@ public class ChvSessions extends AbstractAuditingEntity<Long> implements Seriali
         return this.id;
     }
 
-    public ChvSessions id(Long id) {
+    public ChvSession id(Long id) {
         this.setId(id);
         return this;
     }
@@ -93,7 +93,7 @@ public class ChvSessions extends AbstractAuditingEntity<Long> implements Seriali
         return this.uid;
     }
 
-    public ChvSessions uid(String uid) {
+    public ChvSession uid(String uid) {
         this.setUid(uid);
         return this;
     }
@@ -106,7 +106,7 @@ public class ChvSessions extends AbstractAuditingEntity<Long> implements Seriali
         return this.code;
     }
 
-    public ChvSessions code(String code) {
+    public ChvSession code(String code) {
         this.setCode(code);
         return this;
     }
@@ -119,7 +119,7 @@ public class ChvSessions extends AbstractAuditingEntity<Long> implements Seriali
         return this.name;
     }
 
-    public ChvSessions name(String name) {
+    public ChvSession name(String name) {
         this.setName(name);
         return this;
     }
@@ -132,7 +132,7 @@ public class ChvSessions extends AbstractAuditingEntity<Long> implements Seriali
         return this.sessionDate;
     }
 
-    public ChvSessions sessionDate(Instant sessionDate) {
+    public ChvSession sessionDate(Instant sessionDate) {
         this.setSessionDate(sessionDate);
         return this;
     }
@@ -145,7 +145,7 @@ public class ChvSessions extends AbstractAuditingEntity<Long> implements Seriali
         return this.subject;
     }
 
-    public ChvSessions subject(MSessionSubject subject) {
+    public ChvSession subject(MSessionSubject subject) {
         this.setSubject(subject);
         return this;
     }
@@ -158,7 +158,7 @@ public class ChvSessions extends AbstractAuditingEntity<Long> implements Seriali
         return this.sessions;
     }
 
-    public ChvSessions sessions(Integer sessions) {
+    public ChvSession sessions(Integer sessions) {
         this.setSessions(sessions);
         return this;
     }
@@ -171,7 +171,7 @@ public class ChvSessions extends AbstractAuditingEntity<Long> implements Seriali
         return this.people;
     }
 
-    public ChvSessions people(Integer people) {
+    public ChvSession people(Integer people) {
         this.setPeople(people);
         return this;
     }
@@ -184,7 +184,7 @@ public class ChvSessions extends AbstractAuditingEntity<Long> implements Seriali
         return this.comment;
     }
 
-    public ChvSessions comment(String comment) {
+    public ChvSession comment(String comment) {
         this.setComment(comment);
         return this;
     }
@@ -197,7 +197,7 @@ public class ChvSessions extends AbstractAuditingEntity<Long> implements Seriali
         return this.startEntryTime;
     }
 
-    public ChvSessions startEntryTime(Instant startEntryTime) {
+    public ChvSession startEntryTime(Instant startEntryTime) {
         this.setStartEntryTime(startEntryTime);
         return this;
     }
@@ -210,7 +210,7 @@ public class ChvSessions extends AbstractAuditingEntity<Long> implements Seriali
         return this.deleted;
     }
 
-    public ChvSessions deleted(Boolean deleted) {
+    public ChvSession deleted(Boolean deleted) {
         this.setDeleted(deleted);
         return this;
     }
@@ -220,25 +220,25 @@ public class ChvSessions extends AbstractAuditingEntity<Long> implements Seriali
     }
 
     // Inherited createdBy methods
-    public ChvSessions createdBy(String createdBy) {
+    public ChvSession createdBy(String createdBy) {
         this.setCreatedBy(createdBy);
         return this;
     }
 
     // Inherited createdDate methods
-    public ChvSessions createdDate(Instant createdDate) {
+    public ChvSession createdDate(Instant createdDate) {
         this.setCreatedDate(createdDate);
         return this;
     }
 
     // Inherited lastModifiedBy methods
-    public ChvSessions lastModifiedBy(String lastModifiedBy) {
+    public ChvSession lastModifiedBy(String lastModifiedBy) {
         this.setLastModifiedBy(lastModifiedBy);
         return this;
     }
 
     // Inherited lastModifiedDate methods
-    public ChvSessions lastModifiedDate(Instant lastModifiedDate) {
+    public ChvSession lastModifiedDate(Instant lastModifiedDate) {
         this.setLastModifiedDate(lastModifiedDate);
         return this;
     }
@@ -255,7 +255,7 @@ public class ChvSessions extends AbstractAuditingEntity<Long> implements Seriali
         return !this.isPersisted;
     }
 
-    public ChvSessions setIsPersisted() {
+    public ChvSession setIsPersisted() {
         this.isPersisted = true;
         return this;
     }
@@ -268,7 +268,7 @@ public class ChvSessions extends AbstractAuditingEntity<Long> implements Seriali
         this.team = team;
     }
 
-    public ChvSessions team(Team team) {
+    public ChvSession team(Team team) {
         this.setTeam(team);
         return this;
     }
@@ -280,10 +280,10 @@ public class ChvSessions extends AbstractAuditingEntity<Long> implements Seriali
         if (this == o) {
             return true;
         }
-        if (!(o instanceof ChvSessions)) {
+        if (!(o instanceof ChvSession)) {
             return false;
         }
-        return getId() != null && getId().equals(((ChvSessions) o).getId());
+        return getId() != null && getId().equals(((ChvSession) o).getId());
     }
 
     @Override
@@ -295,7 +295,7 @@ public class ChvSessions extends AbstractAuditingEntity<Long> implements Seriali
     // prettier-ignore
     @Override
     public String toString() {
-        return "ChvSessions{" +
+        return "ChvSession{" +
             "id=" + getId() +
             ", uid='" + getUid() + "'" +
             ", code='" + getCode() + "'" +

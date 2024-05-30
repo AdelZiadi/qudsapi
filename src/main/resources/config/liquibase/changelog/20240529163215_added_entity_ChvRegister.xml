@@ -26,9 +26,6 @@
             <column name="visit_date" type="${datetimeType}">
                 <constraints nullable="false" />
             </column>
-            <column name="age" type="integer">
-                <constraints nullable="false" />
-            </column>
             <column name="pregnant" type="boolean">
                 <constraints nullable="true" />
             </column>

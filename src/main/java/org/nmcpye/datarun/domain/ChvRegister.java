@@ -45,12 +45,6 @@ public class ChvRegister extends AbstractAuditingEntity<Long> implements Seriali
     @Column(name = "visit_date", nullable = false)
     private Instant visitDate;
 
-    @NotNull
-    @Min(value = 1)
-    @Max(value = 140)
-    @Column(name = "age", nullable = false)
-    private Integer age;
-
     @Column(name = "pregnant")
     private Boolean pregnant;
 
@@ -159,19 +153,6 @@ public class ChvRegister extends AbstractAuditingEntity<Long> implements Seriali
 
     public void setVisitDate(Instant visitDate) {
         this.visitDate = visitDate;
-    }
-
-    public Integer getAge() {
-        return this.age;
-    }
-
-    public ChvRegister age(Integer age) {
-        this.setAge(age);
-        return this;
-    }
-
-    public void setAge(Integer age) {
-        this.age = age;
     }
 
     public Boolean getPregnant() {
@@ -373,7 +354,6 @@ public class ChvRegister extends AbstractAuditingEntity<Long> implements Seriali
             ", code='" + getCode() + "'" +
             ", name='" + getName() + "'" +
             ", visitDate='" + getVisitDate() + "'" +
-            ", age=" + getAge() +
             ", pregnant='" + getPregnant() + "'" +
             ", testResult='" + getTestResult() + "'" +
             ", detectionType='" + getDetectionType() + "'" +

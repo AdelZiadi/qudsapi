@@ -25,13 +25,6 @@
       "fieldValidateRules": ["required"]
     },
     {
-      "fieldName": "age",
-      "fieldType": "Integer",
-      "fieldValidateRules": ["min", "max", "required"],
-      "fieldValidateRulesMax": "140",
-      "fieldValidateRulesMin": "1"
-    },
-    {
       "fieldName": "pregnant",
       "fieldType": "Boolean"
     },

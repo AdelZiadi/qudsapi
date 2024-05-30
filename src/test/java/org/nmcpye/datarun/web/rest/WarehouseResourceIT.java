@@ -344,7 +344,7 @@ class WarehouseResourceIT {
         Warehouse partialUpdatedWarehouse = new Warehouse();
         partialUpdatedWarehouse.setId(warehouse.getId());
 
-        partialUpdatedWarehouse.name(UPDATED_NAME).description(UPDATED_DESCRIPTION);
+        partialUpdatedWarehouse.uid(UPDATED_UID).gpsCoordinate(UPDATED_GPS_COORDINATE).supervisorMobile(UPDATED_SUPERVISOR_MOBILE);
 
         restWarehouseMockMvc
             .perform(

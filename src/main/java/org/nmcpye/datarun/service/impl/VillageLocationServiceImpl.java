@@ -1,5 +1,6 @@
 package org.nmcpye.datarun.service.impl;
 
+import java.util.Optional;
 import org.nmcpye.datarun.domain.VillageLocation;
 import org.nmcpye.datarun.repository.VillageLocationRepository;
 import org.nmcpye.datarun.service.VillageLocationService;
@@ -9,8 +10,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Optional;
 
 /**
  * Service Implementation for managing {@link org.nmcpye.datarun.domain.VillageLocation}.

@@ -58,9 +58,6 @@ class ChvRegisterResourceIT {
     private static final Instant DEFAULT_VISIT_DATE = Instant.ofEpochMilli(0L);
     private static final Instant UPDATED_VISIT_DATE = Instant.now().truncatedTo(ChronoUnit.MILLIS);
 
-    private static final Integer DEFAULT_AGE = 1;
-    private static final Integer UPDATED_AGE = 2;
-
     private static final Boolean DEFAULT_PREGNANT = false;
     private static final Boolean UPDATED_PREGNANT = true;
 
@@ -123,7 +120,6 @@ class ChvRegisterResourceIT {
             .code(DEFAULT_CODE)
             .name(DEFAULT_NAME)
             .visitDate(DEFAULT_VISIT_DATE)
-            .age(DEFAULT_AGE)
             .pregnant(DEFAULT_PREGNANT)
             .testResult(DEFAULT_TEST_RESULT)
             .detectionType(DEFAULT_DETECTION_TYPE)
@@ -147,7 +143,6 @@ class ChvRegisterResourceIT {
             .code(UPDATED_CODE)
             .name(UPDATED_NAME)
             .visitDate(UPDATED_VISIT_DATE)
-            .age(UPDATED_AGE)
             .pregnant(UPDATED_PREGNANT)
             .testResult(UPDATED_TEST_RESULT)
             .detectionType(UPDATED_DETECTION_TYPE)
@@ -219,22 +214,6 @@ class ChvRegisterResourceIT {
 
     @Test
     @Transactional
-    void checkAgeIsRequired() throws Exception {
-        long databaseSizeBeforeTest = getRepositoryCount();
-        // set the field null
-        chvRegister.setAge(null);
-
-        // Create the ChvRegister, which fails.
-
-        restChvRegisterMockMvc
-            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(om.writeValueAsBytes(chvRegister)))
-            .andExpect(status().isBadRequest());
-
-        assertSameRepositoryCount(databaseSizeBeforeTest);
-    }
-
-    @Test
-    @Transactional
     void getAllChvRegisters() throws Exception {
         // Initialize the database
         chvRegisterRepository.saveAndFlush(chvRegister);
@@ -249,7 +228,6 @@ class ChvRegisterResourceIT {
             .andExpect(jsonPath("$.[*].code").value(hasItem(DEFAULT_CODE)))
             .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)))
             .andExpect(jsonPath("$.[*].visitDate").value(hasItem(DEFAULT_VISIT_DATE.toString())))
-            .andExpect(jsonPath("$.[*].age").value(hasItem(DEFAULT_AGE)))
             .andExpect(jsonPath("$.[*].pregnant").value(hasItem(DEFAULT_PREGNANT.booleanValue())))
             .andExpect(jsonPath("$.[*].testResult").value(hasItem(DEFAULT_TEST_RESULT.toString())))
             .andExpect(jsonPath("$.[*].detectionType").value(hasItem(DEFAULT_DETECTION_TYPE.toString())))
@@ -293,7 +271,6 @@ class ChvRegisterResourceIT {
             .andExpect(jsonPath("$.code").value(DEFAULT_CODE))
             .andExpect(jsonPath("$.name").value(DEFAULT_NAME))
             .andExpect(jsonPath("$.visitDate").value(DEFAULT_VISIT_DATE.toString()))
-            .andExpect(jsonPath("$.age").value(DEFAULT_AGE))
             .andExpect(jsonPath("$.pregnant").value(DEFAULT_PREGNANT.booleanValue()))
             .andExpect(jsonPath("$.testResult").value(DEFAULT_TEST_RESULT.toString()))
             .andExpect(jsonPath("$.detectionType").value(DEFAULT_DETECTION_TYPE.toString()))
@@ -328,7 +305,6 @@ class ChvRegisterResourceIT {
             .code(UPDATED_CODE)
             .name(UPDATED_NAME)
             .visitDate(UPDATED_VISIT_DATE)
-            .age(UPDATED_AGE)
             .pregnant(UPDATED_PREGNANT)
             .testResult(UPDATED_TEST_RESULT)
             .detectionType(UPDATED_DETECTION_TYPE)
@@ -416,15 +392,7 @@ class ChvRegisterResourceIT {
         ChvRegister partialUpdatedChvRegister = new ChvRegister();
         partialUpdatedChvRegister.setId(chvRegister.getId());
 
-        partialUpdatedChvRegister
-            .uid(UPDATED_UID)
-            .name(UPDATED_NAME)
-            .age(UPDATED_AGE)
-            .pregnant(UPDATED_PREGNANT)
-            .detectionType(UPDATED_DETECTION_TYPE)
-            .treatment(UPDATED_TREATMENT)
-            .comment(UPDATED_COMMENT)
-            .deleted(UPDATED_DELETED);
+        partialUpdatedChvRegister.uid(UPDATED_UID).code(UPDATED_CODE).treatment(UPDATED_TREATMENT).startEntryTime(UPDATED_START_ENTRY_TIME);
 
         restChvRegisterMockMvc
             .perform(
@@ -460,7 +428,6 @@ class ChvRegisterResourceIT {
             .code(UPDATED_CODE)
             .name(UPDATED_NAME)
             .visitDate(UPDATED_VISIT_DATE)
-            .age(UPDATED_AGE)
             .pregnant(UPDATED_PREGNANT)
             .testResult(UPDATED_TEST_RESULT)
             .detectionType(UPDATED_DETECTION_TYPE)

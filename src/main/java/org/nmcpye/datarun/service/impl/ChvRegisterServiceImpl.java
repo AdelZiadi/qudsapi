@@ -58,9 +58,6 @@ public class ChvRegisterServiceImpl implements ChvRegisterService {
                 if (chvRegister.getVisitDate() != null) {
                     existingChvRegister.setVisitDate(chvRegister.getVisitDate());
                 }
-                if (chvRegister.getAge() != null) {
-                    existingChvRegister.setAge(chvRegister.getAge());
-                }
                 if (chvRegister.getPregnant() != null) {
                     existingChvRegister.setPregnant(chvRegister.getPregnant());
                 }

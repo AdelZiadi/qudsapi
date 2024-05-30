@@ -3,7 +3,7 @@ package org.nmcpye.datarun.web.rest;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
 import static org.mockito.Mockito.*;
-import static org.nmcpye.datarun.domain.ChvSessionsAsserts.*;
+import static org.nmcpye.datarun.domain.ChvSessionAsserts.*;
 import static org.nmcpye.datarun.web.rest.TestUtil.createUpdateProxyForBean;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -21,10 +21,10 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.nmcpye.datarun.IntegrationTest;
-import org.nmcpye.datarun.domain.ChvSessions;
+import org.nmcpye.datarun.domain.ChvSession;
 import org.nmcpye.datarun.domain.enumeration.MSessionSubject;
-import org.nmcpye.datarun.repository.ChvSessionsRepository;
-import org.nmcpye.datarun.service.ChvSessionsService;
+import org.nmcpye.datarun.repository.ChvSessionRepository;
+import org.nmcpye.datarun.service.ChvSessionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.data.domain.PageImpl;
@@ -35,13 +35,13 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- * Integration tests for the {@link ChvSessionsResource} REST controller.
+ * Integration tests for the {@link ChvSessionResource} REST controller.
  */
 @IntegrationTest
 @ExtendWith(MockitoExtension.class)
 @AutoConfigureMockMvc
 @WithMockUser
-class ChvSessionsResourceIT {
+class ChvSessionResourceIT {
 
     private static final String DEFAULT_UID = "AAAAAAAAAA";
     private static final String UPDATED_UID = "BBBBBBBBBB";
@@ -83,21 +83,21 @@ class ChvSessionsResourceIT {
     private ObjectMapper om;
 
     @Autowired
-    private ChvSessionsRepository chvSessionsRepository;
+    private ChvSessionRepository chvSessionRepository;
 
     @Mock
-    private ChvSessionsRepository chvSessionsRepositoryMock;
+    private ChvSessionRepository chvSessionRepositoryMock;
 
     @Mock
-    private ChvSessionsService chvSessionsServiceMock;
+    private ChvSessionService chvSessionServiceMock;
 
     @Autowired
     private EntityManager em;
 
     @Autowired
-    private MockMvc restChvSessionsMockMvc;
+    private MockMvc restChvSessionMockMvc;
 
-    private ChvSessions chvSessions;
+    private ChvSession chvSession;
 
     /**
      * Create an entity for this test.
@@ -105,8 +105,8 @@ class ChvSessionsResourceIT {
      * This is a static method, as tests for other entities might also need it,
      * if they test an entity which requires the current entity.
      */
-    public static ChvSessions createEntity(EntityManager em) {
-        ChvSessions chvSessions = new ChvSessions()
+    public static ChvSession createEntity(EntityManager em) {
+        ChvSession chvSession = new ChvSession()
             .uid(DEFAULT_UID)
             .code(DEFAULT_CODE)
             .name(DEFAULT_NAME)
@@ -117,7 +117,7 @@ class ChvSessionsResourceIT {
             .comment(DEFAULT_COMMENT)
             .startEntryTime(DEFAULT_START_ENTRY_TIME)
             .deleted(DEFAULT_DELETED);
-        return chvSessions;
+        return chvSession;
     }
 
     /**
@@ -126,8 +126,8 @@ class ChvSessionsResourceIT {
      * This is a static method, as tests for other entities might also need it,
      * if they test an entity which requires the current entity.
      */
-    public static ChvSessions createUpdatedEntity(EntityManager em) {
-        ChvSessions chvSessions = new ChvSessions()
+    public static ChvSession createUpdatedEntity(EntityManager em) {
+        ChvSession chvSession = new ChvSession()
             .uid(UPDATED_UID)
             .code(UPDATED_CODE)
             .name(UPDATED_NAME)
@@ -138,48 +138,48 @@ class ChvSessionsResourceIT {
             .comment(UPDATED_COMMENT)
             .startEntryTime(UPDATED_START_ENTRY_TIME)
             .deleted(UPDATED_DELETED);
-        return chvSessions;
+        return chvSession;
     }
 
     @BeforeEach
     public void initTest() {
-        chvSessions = createEntity(em);
+        chvSession = createEntity(em);
     }
 
     @Test
     @Transactional
-    void createChvSessions() throws Exception {
+    void createChvSession() throws Exception {
         long databaseSizeBeforeCreate = getRepositoryCount();
-        // Create the ChvSessions
-        var returnedChvSessions = om.readValue(
-            restChvSessionsMockMvc
-                .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(om.writeValueAsBytes(chvSessions)))
+        // Create the ChvSession
+        var returnedChvSession = om.readValue(
+            restChvSessionMockMvc
+                .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(om.writeValueAsBytes(chvSession)))
                 .andExpect(status().isCreated())
                 .andReturn()
                 .getResponse()
                 .getContentAsString(),
-            ChvSessions.class
+            ChvSession.class
         );
 
-        // Validate the ChvSessions in the database
+        // Validate the ChvSession in the database
         assertIncrementedRepositoryCount(databaseSizeBeforeCreate);
-        assertChvSessionsUpdatableFieldsEquals(returnedChvSessions, getPersistedChvSessions(returnedChvSessions));
+        assertChvSessionUpdatableFieldsEquals(returnedChvSession, getPersistedChvSession(returnedChvSession));
     }
 
     @Test
     @Transactional
-    void createChvSessionsWithExistingId() throws Exception {
-        // Create the ChvSessions with an existing ID
-        chvSessions.setId(1L);
+    void createChvSessionWithExistingId() throws Exception {
+        // Create the ChvSession with an existing ID
+        chvSession.setId(1L);
 
         long databaseSizeBeforeCreate = getRepositoryCount();
 
         // An entity with an existing ID cannot be created, so this API call must fail
-        restChvSessionsMockMvc
-            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(om.writeValueAsBytes(chvSessions)))
+        restChvSessionMockMvc
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(om.writeValueAsBytes(chvSession)))
             .andExpect(status().isBadRequest());
 
-        // Validate the ChvSessions in the database
+        // Validate the ChvSession in the database
         assertSameRepositoryCount(databaseSizeBeforeCreate);
     }
 
@@ -188,12 +188,12 @@ class ChvSessionsResourceIT {
     void checkSessionDateIsRequired() throws Exception {
         long databaseSizeBeforeTest = getRepositoryCount();
         // set the field null
-        chvSessions.setSessionDate(null);
+        chvSession.setSessionDate(null);
 
-        // Create the ChvSessions, which fails.
+        // Create the ChvSession, which fails.
 
-        restChvSessionsMockMvc
-            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(om.writeValueAsBytes(chvSessions)))
+        restChvSessionMockMvc
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(om.writeValueAsBytes(chvSession)))
             .andExpect(status().isBadRequest());
 
         assertSameRepositoryCount(databaseSizeBeforeTest);
@@ -204,12 +204,12 @@ class ChvSessionsResourceIT {
     void checkSessionsIsRequired() throws Exception {
         long databaseSizeBeforeTest = getRepositoryCount();
         // set the field null
-        chvSessions.setSessions(null);
+        chvSession.setSessions(null);
 
-        // Create the ChvSessions, which fails.
+        // Create the ChvSession, which fails.
 
-        restChvSessionsMockMvc
-            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(om.writeValueAsBytes(chvSessions)))
+        restChvSessionMockMvc
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(om.writeValueAsBytes(chvSession)))
             .andExpect(status().isBadRequest());
 
         assertSameRepositoryCount(databaseSizeBeforeTest);
@@ -220,12 +220,12 @@ class ChvSessionsResourceIT {
     void checkPeopleIsRequired() throws Exception {
         long databaseSizeBeforeTest = getRepositoryCount();
         // set the field null
-        chvSessions.setPeople(null);
+        chvSession.setPeople(null);
 
-        // Create the ChvSessions, which fails.
+        // Create the ChvSession, which fails.
 
-        restChvSessionsMockMvc
-            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(om.writeValueAsBytes(chvSessions)))
+        restChvSessionMockMvc
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(om.writeValueAsBytes(chvSession)))
             .andExpect(status().isBadRequest());
 
         assertSameRepositoryCount(databaseSizeBeforeTest);
@@ -235,14 +235,14 @@ class ChvSessionsResourceIT {
     @Transactional
     void getAllChvSessions() throws Exception {
         // Initialize the database
-        chvSessionsRepository.saveAndFlush(chvSessions);
+        chvSessionRepository.saveAndFlush(chvSession);
 
-        // Get all the chvSessionsList
-        restChvSessionsMockMvc
+        // Get all the chvSessionList
+        restChvSessionMockMvc
             .perform(get(ENTITY_API_URL + "?sort=id,desc"))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
-            .andExpect(jsonPath("$.[*].id").value(hasItem(chvSessions.getId().intValue())))
+            .andExpect(jsonPath("$.[*].id").value(hasItem(chvSession.getId().intValue())))
             .andExpect(jsonPath("$.[*].uid").value(hasItem(DEFAULT_UID)))
             .andExpect(jsonPath("$.[*].code").value(hasItem(DEFAULT_CODE)))
             .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)))
@@ -257,33 +257,33 @@ class ChvSessionsResourceIT {
 
     @SuppressWarnings({ "unchecked" })
     void getAllChvSessionsWithEagerRelationshipsIsEnabled() throws Exception {
-        when(chvSessionsServiceMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
+        when(chvSessionServiceMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
 
-        restChvSessionsMockMvc.perform(get(ENTITY_API_URL + "?eagerload=true")).andExpect(status().isOk());
+        restChvSessionMockMvc.perform(get(ENTITY_API_URL + "?eagerload=true")).andExpect(status().isOk());
 
-        verify(chvSessionsServiceMock, times(1)).findAllWithEagerRelationships(any());
+        verify(chvSessionServiceMock, times(1)).findAllWithEagerRelationships(any());
     }
 
     @SuppressWarnings({ "unchecked" })
     void getAllChvSessionsWithEagerRelationshipsIsNotEnabled() throws Exception {
-        when(chvSessionsServiceMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
+        when(chvSessionServiceMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
 
-        restChvSessionsMockMvc.perform(get(ENTITY_API_URL + "?eagerload=false")).andExpect(status().isOk());
-        verify(chvSessionsRepositoryMock, times(1)).findAll(any(Pageable.class));
+        restChvSessionMockMvc.perform(get(ENTITY_API_URL + "?eagerload=false")).andExpect(status().isOk());
+        verify(chvSessionRepositoryMock, times(1)).findAll(any(Pageable.class));
     }
 
     @Test
     @Transactional
-    void getChvSessions() throws Exception {
+    void getChvSession() throws Exception {
         // Initialize the database
-        chvSessionsRepository.saveAndFlush(chvSessions);
+        chvSessionRepository.saveAndFlush(chvSession);
 
-        // Get the chvSessions
-        restChvSessionsMockMvc
-            .perform(get(ENTITY_API_URL_ID, chvSessions.getId()))
+        // Get the chvSession
+        restChvSessionMockMvc
+            .perform(get(ENTITY_API_URL_ID, chvSession.getId()))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
-            .andExpect(jsonPath("$.id").value(chvSessions.getId().intValue()))
+            .andExpect(jsonPath("$.id").value(chvSession.getId().intValue()))
             .andExpect(jsonPath("$.uid").value(DEFAULT_UID))
             .andExpect(jsonPath("$.code").value(DEFAULT_CODE))
             .andExpect(jsonPath("$.name").value(DEFAULT_NAME))
@@ -298,24 +298,24 @@ class ChvSessionsResourceIT {
 
     @Test
     @Transactional
-    void getNonExistingChvSessions() throws Exception {
-        // Get the chvSessions
-        restChvSessionsMockMvc.perform(get(ENTITY_API_URL_ID, Long.MAX_VALUE)).andExpect(status().isNotFound());
+    void getNonExistingChvSession() throws Exception {
+        // Get the chvSession
+        restChvSessionMockMvc.perform(get(ENTITY_API_URL_ID, Long.MAX_VALUE)).andExpect(status().isNotFound());
     }
 
     @Test
     @Transactional
-    void putExistingChvSessions() throws Exception {
+    void putExistingChvSession() throws Exception {
         // Initialize the database
-        chvSessionsRepository.saveAndFlush(chvSessions);
+        chvSessionRepository.saveAndFlush(chvSession);
 
         long databaseSizeBeforeUpdate = getRepositoryCount();
 
-        // Update the chvSessions
-        ChvSessions updatedChvSessions = chvSessionsRepository.findById(chvSessions.getId()).orElseThrow();
-        // Disconnect from session so that the updates on updatedChvSessions are not directly saved in db
-        em.detach(updatedChvSessions);
-        updatedChvSessions
+        // Update the chvSession
+        ChvSession updatedChvSession = chvSessionRepository.findById(chvSession.getId()).orElseThrow();
+        // Disconnect from session so that the updates on updatedChvSession are not directly saved in db
+        em.detach(updatedChvSession);
+        updatedChvSession
             .uid(UPDATED_UID)
             .code(UPDATED_CODE)
             .name(UPDATED_NAME)
@@ -327,121 +327,119 @@ class ChvSessionsResourceIT {
             .startEntryTime(UPDATED_START_ENTRY_TIME)
             .deleted(UPDATED_DELETED);
 
-        restChvSessionsMockMvc
+        restChvSessionMockMvc
             .perform(
-                put(ENTITY_API_URL_ID, updatedChvSessions.getId())
+                put(ENTITY_API_URL_ID, updatedChvSession.getId())
                     .contentType(MediaType.APPLICATION_JSON)
-                    .content(om.writeValueAsBytes(updatedChvSessions))
+                    .content(om.writeValueAsBytes(updatedChvSession))
             )
             .andExpect(status().isOk());
 
-        // Validate the ChvSessions in the database
+        // Validate the ChvSession in the database
         assertSameRepositoryCount(databaseSizeBeforeUpdate);
-        assertPersistedChvSessionsToMatchAllProperties(updatedChvSessions);
+        assertPersistedChvSessionToMatchAllProperties(updatedChvSession);
     }
 
     @Test
     @Transactional
-    void putNonExistingChvSessions() throws Exception {
+    void putNonExistingChvSession() throws Exception {
         long databaseSizeBeforeUpdate = getRepositoryCount();
-        chvSessions.setId(longCount.incrementAndGet());
+        chvSession.setId(longCount.incrementAndGet());
 
         // If the entity doesn't have an ID, it will throw BadRequestAlertException
-        restChvSessionsMockMvc
+        restChvSessionMockMvc
             .perform(
-                put(ENTITY_API_URL_ID, chvSessions.getId())
-                    .contentType(MediaType.APPLICATION_JSON)
-                    .content(om.writeValueAsBytes(chvSessions))
+                put(ENTITY_API_URL_ID, chvSession.getId()).contentType(MediaType.APPLICATION_JSON).content(om.writeValueAsBytes(chvSession))
             )
             .andExpect(status().isBadRequest());
 
-        // Validate the ChvSessions in the database
+        // Validate the ChvSession in the database
         assertSameRepositoryCount(databaseSizeBeforeUpdate);
     }
 
     @Test
     @Transactional
-    void putWithIdMismatchChvSessions() throws Exception {
+    void putWithIdMismatchChvSession() throws Exception {
         long databaseSizeBeforeUpdate = getRepositoryCount();
-        chvSessions.setId(longCount.incrementAndGet());
+        chvSession.setId(longCount.incrementAndGet());
 
         // If url ID doesn't match entity ID, it will throw BadRequestAlertException
-        restChvSessionsMockMvc
+        restChvSessionMockMvc
             .perform(
                 put(ENTITY_API_URL_ID, longCount.incrementAndGet())
                     .contentType(MediaType.APPLICATION_JSON)
-                    .content(om.writeValueAsBytes(chvSessions))
+                    .content(om.writeValueAsBytes(chvSession))
             )
             .andExpect(status().isBadRequest());
 
-        // Validate the ChvSessions in the database
+        // Validate the ChvSession in the database
         assertSameRepositoryCount(databaseSizeBeforeUpdate);
     }
 
     @Test
     @Transactional
-    void putWithMissingIdPathParamChvSessions() throws Exception {
+    void putWithMissingIdPathParamChvSession() throws Exception {
         long databaseSizeBeforeUpdate = getRepositoryCount();
-        chvSessions.setId(longCount.incrementAndGet());
+        chvSession.setId(longCount.incrementAndGet());
 
         // If url ID doesn't match entity ID, it will throw BadRequestAlertException
-        restChvSessionsMockMvc
-            .perform(put(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(om.writeValueAsBytes(chvSessions)))
+        restChvSessionMockMvc
+            .perform(put(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(om.writeValueAsBytes(chvSession)))
             .andExpect(status().isMethodNotAllowed());
 
-        // Validate the ChvSessions in the database
+        // Validate the ChvSession in the database
         assertSameRepositoryCount(databaseSizeBeforeUpdate);
     }
 
     @Test
     @Transactional
-    void partialUpdateChvSessionsWithPatch() throws Exception {
+    void partialUpdateChvSessionWithPatch() throws Exception {
         // Initialize the database
-        chvSessionsRepository.saveAndFlush(chvSessions);
+        chvSessionRepository.saveAndFlush(chvSession);
 
         long databaseSizeBeforeUpdate = getRepositoryCount();
 
-        // Update the chvSessions using partial update
-        ChvSessions partialUpdatedChvSessions = new ChvSessions();
-        partialUpdatedChvSessions.setId(chvSessions.getId());
+        // Update the chvSession using partial update
+        ChvSession partialUpdatedChvSession = new ChvSession();
+        partialUpdatedChvSession.setId(chvSession.getId());
 
-        partialUpdatedChvSessions
+        partialUpdatedChvSession
             .uid(UPDATED_UID)
             .name(UPDATED_NAME)
-            .sessionDate(UPDATED_SESSION_DATE)
-            .comment(UPDATED_COMMENT)
+            .people(UPDATED_PEOPLE)
+            .startEntryTime(UPDATED_START_ENTRY_TIME)
             .deleted(UPDATED_DELETED);
 
-        restChvSessionsMockMvc
+        restChvSessionMockMvc
             .perform(
-                patch(ENTITY_API_URL_ID, partialUpdatedChvSessions.getId())
+                patch(ENTITY_API_URL_ID, partialUpdatedChvSession.getId())
                     .contentType("application/merge-patch+json")
-                    .content(om.writeValueAsBytes(partialUpdatedChvSessions))
+                    .content(om.writeValueAsBytes(partialUpdatedChvSession))
             )
             .andExpect(status().isOk());
 
-        // Validate the ChvSessions in the database
+        // Validate the ChvSession in the database
 
         assertSameRepositoryCount(databaseSizeBeforeUpdate);
-        assertChvSessionsUpdatableFieldsEquals(
-            createUpdateProxyForBean(partialUpdatedChvSessions, chvSessions),
-            getPersistedChvSessions(chvSessions)
+        assertChvSessionUpdatableFieldsEquals(
+            createUpdateProxyForBean(partialUpdatedChvSession, chvSession),
+            getPersistedChvSession(chvSession)
         );
     }
 
     @Test
     @Transactional
-    void fullUpdateChvSessionsWithPatch() throws Exception {
+    void fullUpdateChvSessionWithPatch() throws Exception {
         // Initialize the database
-        chvSessionsRepository.saveAndFlush(chvSessions);
+        chvSessionRepository.saveAndFlush(chvSession);
 
         long databaseSizeBeforeUpdate = getRepositoryCount();
 
-        // Update the chvSessions using partial update
-        ChvSessions partialUpdatedChvSessions = new ChvSessions();
-        partialUpdatedChvSessions.setId(chvSessions.getId());
+        // Update the chvSession using partial update
+        ChvSession partialUpdatedChvSession = new ChvSession();
+        partialUpdatedChvSession.setId(chvSession.getId());
 
-        partialUpdatedChvSessions
+        partialUpdatedChvSession
             .uid(UPDATED_UID)
             .code(UPDATED_CODE)
             .name(UPDATED_NAME)
@@ -453,84 +451,84 @@ class ChvSessionsResourceIT {
             .startEntryTime(UPDATED_START_ENTRY_TIME)
             .deleted(UPDATED_DELETED);
 
-        restChvSessionsMockMvc
+        restChvSessionMockMvc
             .perform(
-                patch(ENTITY_API_URL_ID, partialUpdatedChvSessions.getId())
+                patch(ENTITY_API_URL_ID, partialUpdatedChvSession.getId())
                     .contentType("application/merge-patch+json")
-                    .content(om.writeValueAsBytes(partialUpdatedChvSessions))
+                    .content(om.writeValueAsBytes(partialUpdatedChvSession))
             )
             .andExpect(status().isOk());
 
-        // Validate the ChvSessions in the database
+        // Validate the ChvSession in the database
 
         assertSameRepositoryCount(databaseSizeBeforeUpdate);
-        assertChvSessionsUpdatableFieldsEquals(partialUpdatedChvSessions, getPersistedChvSessions(partialUpdatedChvSessions));
+        assertChvSessionUpdatableFieldsEquals(partialUpdatedChvSession, getPersistedChvSession(partialUpdatedChvSession));
     }
 
     @Test
     @Transactional
-    void patchNonExistingChvSessions() throws Exception {
+    void patchNonExistingChvSession() throws Exception {
         long databaseSizeBeforeUpdate = getRepositoryCount();
-        chvSessions.setId(longCount.incrementAndGet());
+        chvSession.setId(longCount.incrementAndGet());
 
         // If the entity doesn't have an ID, it will throw BadRequestAlertException
-        restChvSessionsMockMvc
+        restChvSessionMockMvc
             .perform(
-                patch(ENTITY_API_URL_ID, chvSessions.getId())
+                patch(ENTITY_API_URL_ID, chvSession.getId())
                     .contentType("application/merge-patch+json")
-                    .content(om.writeValueAsBytes(chvSessions))
+                    .content(om.writeValueAsBytes(chvSession))
             )
             .andExpect(status().isBadRequest());
 
-        // Validate the ChvSessions in the database
+        // Validate the ChvSession in the database
         assertSameRepositoryCount(databaseSizeBeforeUpdate);
     }
 
     @Test
     @Transactional
-    void patchWithIdMismatchChvSessions() throws Exception {
+    void patchWithIdMismatchChvSession() throws Exception {
         long databaseSizeBeforeUpdate = getRepositoryCount();
-        chvSessions.setId(longCount.incrementAndGet());
+        chvSession.setId(longCount.incrementAndGet());
 
         // If url ID doesn't match entity ID, it will throw BadRequestAlertException
-        restChvSessionsMockMvc
+        restChvSessionMockMvc
             .perform(
                 patch(ENTITY_API_URL_ID, longCount.incrementAndGet())
                     .contentType("application/merge-patch+json")
-                    .content(om.writeValueAsBytes(chvSessions))
+                    .content(om.writeValueAsBytes(chvSession))
             )
             .andExpect(status().isBadRequest());
 
-        // Validate the ChvSessions in the database
+        // Validate the ChvSession in the database
         assertSameRepositoryCount(databaseSizeBeforeUpdate);
     }
 
     @Test
     @Transactional
-    void patchWithMissingIdPathParamChvSessions() throws Exception {
+    void patchWithMissingIdPathParamChvSession() throws Exception {
         long databaseSizeBeforeUpdate = getRepositoryCount();
-        chvSessions.setId(longCount.incrementAndGet());
+        chvSession.setId(longCount.incrementAndGet());
 
         // If url ID doesn't match entity ID, it will throw BadRequestAlertException
-        restChvSessionsMockMvc
-            .perform(patch(ENTITY_API_URL).contentType("application/merge-patch+json").content(om.writeValueAsBytes(chvSessions)))
+        restChvSessionMockMvc
+            .perform(patch(ENTITY_API_URL).contentType("application/merge-patch+json").content(om.writeValueAsBytes(chvSession)))
             .andExpect(status().isMethodNotAllowed());
 
-        // Validate the ChvSessions in the database
+        // Validate the ChvSession in the database
         assertSameRepositoryCount(databaseSizeBeforeUpdate);
     }
 
     @Test
     @Transactional
-    void deleteChvSessions() throws Exception {
+    void deleteChvSession() throws Exception {
         // Initialize the database
-        chvSessionsRepository.saveAndFlush(chvSessions);
+        chvSessionRepository.saveAndFlush(chvSession);
 
         long databaseSizeBeforeDelete = getRepositoryCount();
 
-        // Delete the chvSessions
-        restChvSessionsMockMvc
-            .perform(delete(ENTITY_API_URL_ID, chvSessions.getId()).accept(MediaType.APPLICATION_JSON))
+        // Delete the chvSession
+        restChvSessionMockMvc
+            .perform(delete(ENTITY_API_URL_ID, chvSession.getId()).accept(MediaType.APPLICATION_JSON))
             .andExpect(status().isNoContent());
 
         // Validate the database contains one less item
@@ -538,7 +536,7 @@ class ChvSessionsResourceIT {
     }
 
     protected long getRepositoryCount() {
-        return chvSessionsRepository.count();
+        return chvSessionRepository.count();
     }
 
     protected void assertIncrementedRepositoryCount(long countBefore) {
@@ -553,15 +551,15 @@ class ChvSessionsResourceIT {
         assertThat(countBefore).isEqualTo(getRepositoryCount());
     }
 
-    protected ChvSessions getPersistedChvSessions(ChvSessions chvSessions) {
-        return chvSessionsRepository.findById(chvSessions.getId()).orElseThrow();
+    protected ChvSession getPersistedChvSession(ChvSession chvSession) {
+        return chvSessionRepository.findById(chvSession.getId()).orElseThrow();
     }
 
-    protected void assertPersistedChvSessionsToMatchAllProperties(ChvSessions expectedChvSessions) {
-        assertChvSessionsAllPropertiesEquals(expectedChvSessions, getPersistedChvSessions(expectedChvSessions));
+    protected void assertPersistedChvSessionToMatchAllProperties(ChvSession expectedChvSession) {
+        assertChvSessionAllPropertiesEquals(expectedChvSession, getPersistedChvSession(expectedChvSession));
     }
 
-    protected void assertPersistedChvSessionsToMatchUpdatableProperties(ChvSessions expectedChvSessions) {
-        assertChvSessionsAllUpdatablePropertiesEquals(expectedChvSessions, getPersistedChvSessions(expectedChvSessions));
+    protected void assertPersistedChvSessionToMatchUpdatableProperties(ChvSession expectedChvSession) {
+        assertChvSessionAllUpdatablePropertiesEquals(expectedChvSession, getPersistedChvSession(expectedChvSession));
     }
 }
