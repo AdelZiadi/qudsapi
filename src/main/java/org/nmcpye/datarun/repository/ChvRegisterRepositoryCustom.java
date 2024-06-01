@@ -14,7 +14,11 @@ import java.util.Optional;
  * Spring Data JPA repository for the ChvRegister entity.
  */
 @Repository
-public interface ChvRegisterRepositoryCustom extends ChvRegisterRepository {
+public interface ChvRegisterRepositoryCustom
+    extends ChvRegisterRepository {
+
+    Optional<ChvRegister> findByUid(String uid);
+
     default Optional<ChvRegister> findOneWithEagerRelationshipsByUser(Long id) {
         return this.findOneWithToOneRelationshipsByUser(id);
     }

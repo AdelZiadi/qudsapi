@@ -14,7 +14,11 @@ import java.util.Optional;
  * Spring Data JPA repository for the Team entity.
  */
 @Repository
-public interface TeamRepositoryCustom extends TeamRepository {
+public interface TeamRepositoryCustom
+    extends TeamRepository {
+
+    Optional<Team> findByUid(String uid);
+
     default Optional<Team> findOneWithEagerRelationshipsByUser(Long id) {
         return this.findOneWithToOneRelationshipsByUser(id);
     }

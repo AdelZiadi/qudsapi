@@ -4,9 +4,13 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.Column;
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.MappedSuperclass;
+
 import java.io.Serializable;
 import java.time.Instant;
+
+import jakarta.validation.constraints.Size;
 import org.nmcpye.datarun.audit.EntityAuditEventListener;
+import org.nmcpye.datarun.domain.common.IdentifiableObject;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
@@ -18,9 +22,9 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
  * last modified by attributes.
  */
 @MappedSuperclass
-@EntityListeners({ AuditingEntityListener.class, EntityAuditEventListener.class })
-@JsonIgnoreProperties(value = { "createdBy", "createdDate", "lastModifiedBy", "lastModifiedDate" }, allowGetters = true)
-public abstract class AbstractAuditingEntity<T> implements Serializable {
+@EntityListeners({AuditingEntityListener.class, EntityAuditEventListener.class})
+@JsonIgnoreProperties(value = {"createdBy", "createdDate", "lastModifiedBy", "lastModifiedDate"}, allowGetters = true)
+public abstract class AbstractAuditingEntity<T> implements IdentifiableObject, Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -73,4 +77,5 @@ public abstract class AbstractAuditingEntity<T> implements Serializable {
     public void setLastModifiedDate(Instant lastModifiedDate) {
         this.lastModifiedDate = lastModifiedDate;
     }
+    // Data Run
 }

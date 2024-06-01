@@ -11,7 +11,10 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface AssignmentRepositoryCustom extends AssignmentRepository {
+public interface AssignmentRepositoryCustom
+    extends AssignmentRepository {
+
+    Optional<Assignment> findByUid(String uid);
 
     default Optional<Assignment> findOneWithEagerRelationshipsByUser(Long id) {
         return this.findOneWithToOneRelationshipsByUser(id);

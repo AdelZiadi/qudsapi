@@ -14,7 +14,11 @@ import java.util.Optional;
  * Spring Data JPA repository for the WarehouseTransaction entity.
  */
 @Repository
-public interface WarehouseTransactionRepositoryCustom extends WarehouseTransactionRepository {
+public interface WarehouseTransactionRepositoryCustom
+    extends WarehouseTransactionRepository {
+
+    Optional<WarehouseTransaction> findByUid(String uid);
+
     default Optional<WarehouseTransaction> findOneWithEagerRelationshipsByUser(Long id) {
         return this.findOneWithToOneRelationshipsByUser(id);
     }

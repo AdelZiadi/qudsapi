@@ -17,6 +17,8 @@ import java.util.Optional;
 public interface ItnsVillageRepositoryCustom
     extends ItnsVillageRepositoryWithBagRelationships, ItnsVillageRepository {
 
+    Optional<ItnsVillage> findByUid(String uid);
+
     default Optional<ItnsVillage> findOneWithEagerRelationshipsByUser(Long id) {
         return this.fetchBagRelationships(this.findOneWithToOneRelationshipsByUser(id));
     }

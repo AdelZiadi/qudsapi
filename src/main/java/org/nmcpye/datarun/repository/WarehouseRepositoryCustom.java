@@ -14,7 +14,10 @@ import java.util.Optional;
  * Spring Data JPA repository for the Warehouse entity.
  */
 @Repository
-public interface WarehouseRepositoryCustom extends WarehouseRepository {
+public interface WarehouseRepositoryCustom
+    extends WarehouseRepository {
+
+    Optional<Warehouse> findByUid(String uid);
 //    @Query("SELECT warehouse FROM Warehouse warehouse " +
 //        "WHERE EXISTS (SELECT t FROM Team t WHERE t.userInfo.login = ?#{authentication.name} AND t.warehouse = warehouse)")
 //    Page<Warehouse> findByCurrentUser(Pageable pageable);

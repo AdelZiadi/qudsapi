@@ -14,7 +14,11 @@ import java.util.Optional;
  * Spring Data JPA repository for the PatientInfo entity.
  */
 @Repository
-public interface PatientInfoRepositoryCustom extends PatientInfoRepository {
+public interface PatientInfoRepositoryCustom
+    extends PatientInfoRepository {
+
+    Optional<PatientInfo> findByUid(String uid);
+
     default Optional<PatientInfo> findOneWithEagerRelationshipsByUser(Long id) {
         return this.findOneWithToOneRelationshipsByUser(id);
     }

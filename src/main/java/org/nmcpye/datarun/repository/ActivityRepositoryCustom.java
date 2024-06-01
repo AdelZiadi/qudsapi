@@ -14,7 +14,11 @@ import java.util.Optional;
  * Spring Data JPA repository for the Activity entity.
  */
 @Repository
-public interface ActivityRepositoryCustom extends ActivityRepository {
+public interface ActivityRepositoryCustom
+    extends ActivityRepository {
+
+    Optional<Activity> findByUid(String uid);
+
     default Optional<Activity> findOneWithEagerRelationshipsByUser(Long id) {
         return this.findOneWithToOneRelationshipsByUser(id);
     }
