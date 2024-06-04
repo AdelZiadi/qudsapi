@@ -47,8 +47,8 @@ public class SecurityConfiguration {
 
                     // Data Run Added
                     // For basic Auth (Basic username:password) in header
-                    .requestMatchers(mvc.pattern(HttpMethod.POST, "/api/basicAuthenticate")).permitAll()
-                    .requestMatchers(mvc.pattern(HttpMethod.GET, "/api/basicAuthenticate")).permitAll()
+                    .requestMatchers(mvc.pattern(HttpMethod.POST, "/api/custom/authenticateBasic")).permitAll()
+                    .requestMatchers(mvc.pattern(HttpMethod.GET, "/api/custom/authenticateBasic")).permitAll()
 
                     .requestMatchers(mvc.pattern("/api/register")).permitAll()
                     .requestMatchers(mvc.pattern("/api/activate")).permitAll()
