@@ -2,6 +2,10 @@ package org.nmcpye.datarun.web.rest;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.servlet.http.HttpServletRequest;
+import org.nmcpye.datarun.domain.Authority;
+import org.nmcpye.datarun.domain.User;
+import org.nmcpye.datarun.service.UserService;
+import org.nmcpye.datarun.web.rest.common.UserTokenResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -32,9 +36,9 @@ import static org.nmcpye.datarun.security.SecurityUtils.JWT_ALGORITHM;
 
 @RestController
 @RequestMapping("/api/custom")
-public class AuthenticateControllerBasic {
+public class AuthenticateBasicResource {
 
-    private final Logger log = LoggerFactory.getLogger(AuthenticateControllerBasic.class);
+    private final Logger log = LoggerFactory.getLogger(AuthenticateBasicResource.class);
 
     private final JwtEncoder jwtEncoder;
 
@@ -46,13 +50,18 @@ public class AuthenticateControllerBasic {
 
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
 
-    public AuthenticateControllerBasic(JwtEncoder jwtEncoder, AuthenticationManagerBuilder authenticationManagerBuilder) {
+    private final UserService userService;
+
+    public AuthenticateBasicResource(JwtEncoder jwtEncoder,
+                                     AuthenticationManagerBuilder authenticationManagerBuilder,
+                                     UserService userService) {
         this.jwtEncoder = jwtEncoder;
         this.authenticationManagerBuilder = authenticationManagerBuilder;
+        this.userService = userService;
     }
 
     @PostMapping("/authenticateBasic")
-    public ResponseEntity<JWTToken> authorize(HttpServletRequest request) {
+    public ResponseEntity<UserTokenResponse> authorize(HttpServletRequest request) {
         String header = request.getHeader(HttpHeaders.AUTHORIZATION);
         if (header == null || !header.startsWith("Basic ")) {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
@@ -75,13 +84,40 @@ public class AuthenticateControllerBasic {
         boolean rememberMe = false; // Or derive this from your logic
         String jwt = this.createToken(authentication, rememberMe);
 
+        // Fetch user information
+        User user = userService.getUserWithAuthoritiesByLogin(username)
+            .orElseThrow(() -> new IllegalArgumentException("User not found"));
+
+        // Create response object
+        UserTokenResponse userWithToken = new UserTokenResponse();
+        userWithToken.setId(user.getId());
+        userWithToken.setLogin(user.getLogin());
+        userWithToken.setFirstName(user.getFirstName());
+        userWithToken.setLastName(user.getLastName());
+        userWithToken.setEmail(user.getEmail());
+        userWithToken.setImageUrl(user.getImageUrl());
+        userWithToken.setActivated(user.isActivated());
+        userWithToken.setLangKey(user.getLangKey());
+        userWithToken.setCreatedBy(user.getCreatedBy());
+        userWithToken.setCreatedDate(user.getCreatedDate().toString());
+        userWithToken.setLastModifiedBy(user.getLastModifiedBy());
+        userWithToken.setLastModifiedDate(user.getLastModifiedDate().toString());
+        userWithToken.setAuthorities(user.getAuthorities()
+            .stream().map(Authority::getName).collect(Collectors.toSet()));
+        userWithToken.setToken(jwt);
+        userWithToken.setAuthType("bearer");
+
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setBearerAuth(jwt);
-        return new ResponseEntity<>(new JWTToken(jwt), httpHeaders, HttpStatus.OK);
+        return new ResponseEntity<>(userWithToken, httpHeaders, HttpStatus.OK);
     }
 
     private String createToken(Authentication authentication, boolean rememberMe) {
-        String authorities = authentication.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.joining(" "));
+        String authorities = authentication
+            .getAuthorities()
+            .stream()
+            .map(GrantedAuthority::getAuthority)
+            .collect(Collectors.joining(" "));
 
         Instant now = Instant.now();
         Instant validity;
@@ -110,7 +146,7 @@ public class AuthenticateControllerBasic {
             this.idToken = idToken;
         }
 
-        @JsonProperty("id_token")
+        @JsonProperty("token")
         String getIdToken() {
             return idToken;
         }

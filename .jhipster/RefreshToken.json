@@ -1,0 +1,33 @@
+{
+  "annotations": {
+    "changelogDate": "20240603195621"
+  },
+  "applications": "*",
+  "enableAudit": true,
+  "fields": [
+    {
+      "fieldName": "token",
+      "fieldType": "String",
+      "fieldValidateRules": ["required", "unique"]
+    },
+    {
+      "fieldName": "expiryDate",
+      "fieldType": "Instant"
+    }
+  ],
+  "name": "RefreshToken",
+  "pagination": "pagination",
+  "relationships": [
+    {
+      "otherEntityField": "login",
+      "otherEntityName": "user",
+      "relationshipName": "user",
+      "relationshipSide": "left",
+      "relationshipType": "many-to-one",
+      "relationshipValidateRules": "required",
+      "relationshipWithBuiltInEntity": true
+    }
+  ],
+  "searchEngine": "no",
+  "service": "serviceImpl"
+}
