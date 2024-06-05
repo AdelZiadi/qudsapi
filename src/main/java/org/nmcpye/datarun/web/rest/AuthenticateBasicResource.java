@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.servlet.http.HttpServletRequest;
 import org.nmcpye.datarun.domain.Authority;
 import org.nmcpye.datarun.domain.User;
-import org.nmcpye.datarun.service.UserService;
+import org.nmcpye.datarun.repository.UserRepository;
 import org.nmcpye.datarun.web.rest.common.UserTokenResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,7 +21,7 @@ import org.springframework.security.oauth2.jwt.JwsHeader;
 import org.springframework.security.oauth2.jwt.JwtClaimsSet;
 import org.springframework.security.oauth2.jwt.JwtEncoder;
 import org.springframework.security.oauth2.jwt.JwtEncoderParameters;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -50,17 +50,17 @@ public class AuthenticateBasicResource {
 
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
 
-    private final UserService userService;
+    private final UserRepository userRepository;
 
     public AuthenticateBasicResource(JwtEncoder jwtEncoder,
                                      AuthenticationManagerBuilder authenticationManagerBuilder,
-                                     UserService userService) {
+                                     UserRepository userRepository) {
         this.jwtEncoder = jwtEncoder;
         this.authenticationManagerBuilder = authenticationManagerBuilder;
-        this.userService = userService;
+        this.userRepository = userRepository;
     }
 
-    @PostMapping("/authenticateBasic")
+    @GetMapping("/authenticateBasic")
     public ResponseEntity<UserTokenResponse> authorize(HttpServletRequest request) {
         String header = request.getHeader(HttpHeaders.AUTHORIZATION);
         if (header == null || !header.startsWith("Basic ")) {
@@ -85,12 +85,13 @@ public class AuthenticateBasicResource {
         String jwt = this.createToken(authentication, rememberMe);
 
         // Fetch user information
-        User user = userService.getUserWithAuthoritiesByLogin(username)
+        User user = userRepository.findOneWithAuthoritiesByLogin(username)
             .orElseThrow(() -> new IllegalArgumentException("User not found"));
 
         // Create response object
         UserTokenResponse userWithToken = new UserTokenResponse();
         userWithToken.setId(user.getId());
+        userWithToken.setUid(user.getUid());
         userWithToken.setLogin(user.getLogin());
         userWithToken.setFirstName(user.getFirstName());
         userWithToken.setLastName(user.getLastName());
@@ -98,14 +99,10 @@ public class AuthenticateBasicResource {
         userWithToken.setImageUrl(user.getImageUrl());
         userWithToken.setActivated(user.isActivated());
         userWithToken.setLangKey(user.getLangKey());
-        userWithToken.setCreatedBy(user.getCreatedBy());
-        userWithToken.setCreatedDate(user.getCreatedDate().toString());
-        userWithToken.setLastModifiedBy(user.getLastModifiedBy());
-        userWithToken.setLastModifiedDate(user.getLastModifiedDate().toString());
         userWithToken.setAuthorities(user.getAuthorities()
             .stream().map(Authority::getName).collect(Collectors.toSet()));
-        userWithToken.setToken(jwt);
-        userWithToken.setAuthType("bearer");
+//        userWithToken.setToken(jwt);
+//        userWithToken.setAuthType("bearer");
 
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setBearerAuth(jwt);

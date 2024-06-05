@@ -6,6 +6,7 @@ import java.util.Set;
 public class UserTokenResponse {
 
     private Long id;
+    private String uid;
     private String login;
     private String firstName;
     private String lastName;
@@ -18,17 +19,17 @@ public class UserTokenResponse {
     private String lastModifiedBy;
     private String lastModifiedDate;
     private Set<String> authorities;
-    private String token;
+//    private String token;
 
     private String authType;
 
-    public String getToken() {
-        return token;
-    }
+//    public String getToken() {
+//        return token;
+//    }
 
-    public void setToken(String token) {
-        this.token = token;
-    }
+//    public void setToken(String token) {
+//        this.token = token;
+//    }
 
     public Long getId() {
         return id;
@@ -36,6 +37,15 @@ public class UserTokenResponse {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getUid() {
+
+        return uid;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
     }
 
     public String getLogin() {
@@ -148,14 +158,13 @@ public class UserTokenResponse {
         if (o == null || getClass() != o.getClass()) return false;
 
         UserTokenResponse that = (UserTokenResponse) o;
-        return Objects.equals(getId(), that.getId()) && Objects.equals(getToken(), that.getToken()) && Objects.equals(getAuthType(), that.getAuthType());
+        return Objects.equals(getId(), that.getId()) && Objects.equals(getLogin(), that.getLogin());
     }
 
     @Override
     public int hashCode() {
         int result = Objects.hashCode(getId());
-        result = 31 * result + Objects.hashCode(getToken());
-        result = 31 * result + Objects.hashCode(getAuthType());
+        result = 31 * result + Objects.hashCode(getLogin());
         return result;
     }
 }

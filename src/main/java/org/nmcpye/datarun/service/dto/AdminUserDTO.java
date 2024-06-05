@@ -1,13 +1,17 @@
 package org.nmcpye.datarun.service.dto;
 
-import jakarta.validation.constraints.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
+import org.nmcpye.datarun.config.Constants;
+import org.nmcpye.datarun.domain.Authority;
+import org.nmcpye.datarun.domain.User;
+
 import java.io.Serializable;
 import java.time.Instant;
 import java.util.Set;
 import java.util.stream.Collectors;
-import org.nmcpye.datarun.config.Constants;
-import org.nmcpye.datarun.domain.Authority;
-import org.nmcpye.datarun.domain.User;
 
 /**
  * A DTO representing a user, with his authorities.
@@ -17,6 +21,10 @@ public class AdminUserDTO implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private Long id;
+
+    @NotBlank
+    @Size(min = 11, max = 11)
+    private String uid;
 
     @NotBlank
     @Pattern(regexp = Constants.LOGIN_REGEX)
@@ -56,6 +64,7 @@ public class AdminUserDTO implements Serializable {
     }
 
     public AdminUserDTO(User user) {
+        this.uid = user.getUid();
         this.id = user.getId();
         this.login = user.getLogin();
         this.firstName = user.getFirstName();
@@ -77,6 +86,14 @@ public class AdminUserDTO implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getUid() {
+        return uid;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
     }
 
     public String getLogin() {
