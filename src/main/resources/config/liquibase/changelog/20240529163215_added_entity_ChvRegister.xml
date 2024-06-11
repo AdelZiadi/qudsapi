@@ -44,12 +44,6 @@
             <column name="comment" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
-            <column name="start_entry_time" type="${datetimeType}">
-                <constraints nullable="true" />
-            </column>
-            <column name="deleted" type="boolean">
-                <constraints nullable="true" />
-            </column>
             <column name="created_by" type="varchar(50)">
                 <constraints nullable="false" />
             </column>
@@ -63,15 +57,11 @@
                 <constraints nullable="false" />
             </column>
             <column name="patient_id" type="bigint">
-                <constraints nullable="true" />
-            </column>
-            <column name="team_id" type="bigint">
-                <constraints nullable="true" />
+                <constraints nullable="false" />
             </column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->
         </createTable>
         <dropDefaultValue tableName="chv_register" columnName="visit_date" columnDataType="${datetimeType}"/>
-        <dropDefaultValue tableName="chv_register" columnName="start_entry_time" columnDataType="${datetimeType}"/>
         <dropDefaultValue tableName="chv_register" columnName="created_date" columnDataType="${datetimeType}"/>
         <dropDefaultValue tableName="chv_register" columnName="last_modified_date" columnDataType="${datetimeType}"/>
     </changeSet>

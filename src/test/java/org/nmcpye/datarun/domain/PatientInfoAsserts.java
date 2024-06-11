@@ -53,7 +53,11 @@ public class PatientInfoAsserts {
             .satisfies(e -> assertThat(e.getCode()).as("check code").isEqualTo(actual.getCode()))
             .satisfies(e -> assertThat(e.getName()).as("check name").isEqualTo(actual.getName()))
             .satisfies(e -> assertThat(e.getAge()).as("check age").isEqualTo(actual.getAge()))
-            .satisfies(e -> assertThat(e.getGender()).as("check gender").isEqualTo(actual.getGender()));
+            .satisfies(e -> assertThat(e.getGender()).as("check gender").isEqualTo(actual.getGender()))
+            .satisfies(e -> assertThat(e.getStartEntryTime()).as("check startEntryTime").isEqualTo(actual.getStartEntryTime()))
+            .satisfies(e -> assertThat(e.getFinishedEntryTime()).as("check finishedEntryTime").isEqualTo(actual.getFinishedEntryTime()))
+            .satisfies(e -> assertThat(e.getStatus()).as("check status").isEqualTo(actual.getStatus()))
+            .satisfies(e -> assertThat(e.getDeleted()).as("check deleted").isEqualTo(actual.getDeleted()));
     }
 
     /**
@@ -65,6 +69,8 @@ public class PatientInfoAsserts {
     public static void assertPatientInfoUpdatableRelationshipsEquals(PatientInfo expected, PatientInfo actual) {
         assertThat(expected)
             .as("Verify PatientInfo relationships")
-            .satisfies(e -> assertThat(e.getLocation()).as("check location").isEqualTo(actual.getLocation()));
+            .satisfies(e -> assertThat(e.getLocation()).as("check location").isEqualTo(actual.getLocation()))
+            .satisfies(e -> assertThat(e.getActivity()).as("check activity").isEqualTo(actual.getActivity()))
+            .satisfies(e -> assertThat(e.getTeam()).as("check team").isEqualTo(actual.getTeam()));
     }
 }

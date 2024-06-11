@@ -27,14 +27,16 @@ public interface ChvSessionRepository extends JpaRepository<ChvSession, Long> {
     }
 
     @Query(
-        value = "select chvSession from ChvSession chvSession left join fetch chvSession.team",
+        value = "select chvSession from ChvSession chvSession left join fetch chvSession.team left join fetch chvSession.activity",
         countQuery = "select count(chvSession) from ChvSession chvSession"
     )
     Page<ChvSession> findAllWithToOneRelationships(Pageable pageable);
 
-    @Query("select chvSession from ChvSession chvSession left join fetch chvSession.team")
+    @Query("select chvSession from ChvSession chvSession left join fetch chvSession.team left join fetch chvSession.activity")
     List<ChvSession> findAllWithToOneRelationships();
 
-    @Query("select chvSession from ChvSession chvSession left join fetch chvSession.team where chvSession.id =:id")
+    @Query(
+        "select chvSession from ChvSession chvSession left join fetch chvSession.team left join fetch chvSession.activity where chvSession.id =:id"
+    )
     Optional<ChvSession> findOneWithToOneRelationships(@Param("id") Long id);
 }

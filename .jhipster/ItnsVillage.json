@@ -95,18 +95,6 @@
       "fieldType": "String"
     },
     {
-      "fieldName": "startEntryTime",
-      "fieldType": "Instant"
-    },
-    {
-      "fieldName": "endEntryTime",
-      "fieldType": "Instant"
-    },
-    {
-      "fieldName": "finishedEntryTime",
-      "fieldType": "Instant"
-    },
-    {
       "fieldName": "hoProofUrl",
       "fieldType": "String"
     },
@@ -133,6 +121,19 @@
     {
       "fieldName": "otherTeamNo",
       "fieldType": "Long"
+    },
+    {
+      "fieldName": "startEntryTime",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "finishedEntryTime",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "status",
+      "fieldType": "SyncableStatus",
+      "fieldValues": "ACTIVE,COMPLETED"
     },
     {
       "fieldName": "deleted",
@@ -208,7 +209,7 @@
     },
     {
       "otherEntityName": "itnsVillageHousesDetail",
-      "otherEntityRelationshipName": "villageData",
+      "otherEntityRelationshipName": "itnsVillage",
       "relationshipName": "houseDetail",
       "relationshipSide": "right",
       "relationshipType": "one-to-many"

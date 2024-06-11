@@ -1,11 +1,13 @@
 package org.nmcpye.datarun.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import java.io.Serializable;
 import java.time.Instant;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.springframework.data.domain.Persistable;
 
 /**
  * A RefreshToken.
@@ -13,8 +15,9 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 @Entity
 @Table(name = "refresh_token")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+@JsonIgnoreProperties(value = { "new" })
 @SuppressWarnings("common-java:DuplicatedBlocks")
-public class RefreshToken implements Serializable {
+public class RefreshToken extends AbstractAuditingEntity<Long> implements Serializable, Persistable<Long> {
 
     private static final long serialVersionUID = 1L;
 
@@ -24,12 +27,23 @@ public class RefreshToken implements Serializable {
     @Column(name = "id")
     private Long id;
 
+    @Size(max = 11)
+    @Column(name = "uid", length = 11, unique = true)
+    private String uid;
+
     @NotNull
     @Column(name = "token", nullable = false, unique = true)
     private String token;
 
     @Column(name = "expiry_date")
     private Instant expiryDate;
+
+    // Inherited createdBy definition
+    // Inherited createdDate definition
+    // Inherited lastModifiedBy definition
+    // Inherited lastModifiedDate definition
+    @Transient
+    private boolean isPersisted;
 
     @ManyToOne(optional = false)
     @NotNull
@@ -48,6 +62,19 @@ public class RefreshToken implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getUid() {
+        return this.uid;
+    }
+
+    public RefreshToken uid(String uid) {
+        this.setUid(uid);
+        return this;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
     }
 
     public String getToken() {
@@ -74,6 +101,47 @@ public class RefreshToken implements Serializable {
 
     public void setExpiryDate(Instant expiryDate) {
         this.expiryDate = expiryDate;
+    }
+
+    // Inherited createdBy methods
+    public RefreshToken createdBy(String createdBy) {
+        this.setCreatedBy(createdBy);
+        return this;
+    }
+
+    // Inherited createdDate methods
+    public RefreshToken createdDate(Instant createdDate) {
+        this.setCreatedDate(createdDate);
+        return this;
+    }
+
+    // Inherited lastModifiedBy methods
+    public RefreshToken lastModifiedBy(String lastModifiedBy) {
+        this.setLastModifiedBy(lastModifiedBy);
+        return this;
+    }
+
+    // Inherited lastModifiedDate methods
+    public RefreshToken lastModifiedDate(Instant lastModifiedDate) {
+        this.setLastModifiedDate(lastModifiedDate);
+        return this;
+    }
+
+    @PostLoad
+    @PostPersist
+    public void updateEntityState() {
+        this.setIsPersisted();
+    }
+
+    @Transient
+    @Override
+    public boolean isNew() {
+        return !this.isPersisted;
+    }
+
+    public RefreshToken setIsPersisted() {
+        this.isPersisted = true;
+        return this;
     }
 
     public User getUser() {
@@ -113,8 +181,13 @@ public class RefreshToken implements Serializable {
     public String toString() {
         return "RefreshToken{" +
             "id=" + getId() +
+            ", uid='" + getUid() + "'" +
             ", token='" + getToken() + "'" +
             ", expiryDate='" + getExpiryDate() + "'" +
+            ", createdBy='" + getCreatedBy() + "'" +
+            ", createdDate='" + getCreatedDate() + "'" +
+            ", lastModifiedBy='" + getLastModifiedBy() + "'" +
+            ", lastModifiedDate='" + getLastModifiedDate() + "'" +
             "}";
     }
 }

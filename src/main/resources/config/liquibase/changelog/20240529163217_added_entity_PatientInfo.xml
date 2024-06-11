@@ -29,6 +29,18 @@
             <column name="gender" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
+            <column name="start_entry_time" type="${datetimeType}">
+                <constraints nullable="true" />
+            </column>
+            <column name="finished_entry_time" type="${datetimeType}">
+                <constraints nullable="true" />
+            </column>
+            <column name="status" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="deleted" type="boolean">
+                <constraints nullable="true" />
+            </column>
             <column name="created_by" type="varchar(50)">
                 <constraints nullable="false" />
             </column>
@@ -44,8 +56,16 @@
             <column name="location_id" type="bigint">
                 <constraints nullable="true" />
             </column>
+            <column name="activity_id" type="bigint">
+                <constraints nullable="true" />
+            </column>
+            <column name="team_id" type="bigint">
+                <constraints nullable="true" />
+            </column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->
         </createTable>
+        <dropDefaultValue tableName="patient_info" columnName="start_entry_time" columnDataType="${datetimeType}"/>
+        <dropDefaultValue tableName="patient_info" columnName="finished_entry_time" columnDataType="${datetimeType}"/>
         <dropDefaultValue tableName="patient_info" columnName="created_date" columnDataType="${datetimeType}"/>
         <dropDefaultValue tableName="patient_info" columnName="last_modified_date" columnDataType="${datetimeType}"/>
     </changeSet>

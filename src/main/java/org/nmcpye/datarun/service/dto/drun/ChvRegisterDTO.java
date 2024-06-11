@@ -45,8 +45,6 @@ public class ChvRegisterDTO implements Serializable {
 
     private PatientInfoDTO patient;
 
-    private TeamDTO team;
-
     public String getUid() {
         return uid;
     }
@@ -151,14 +149,6 @@ public class ChvRegisterDTO implements Serializable {
         this.patient = patient;
     }
 
-    public TeamDTO getTeam() {
-        return team;
-    }
-
-    public void setTeam(TeamDTO team) {
-        this.team = team;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -197,7 +187,6 @@ public class ChvRegisterDTO implements Serializable {
             ", startEntryTime='" + getStartEntryTime() + "'" +
             ", deleted='" + getDeleted() + "'" +
             ", patient=" + getPatient() +
-            ", team=" + getTeam() +
             "}";
     }
 }

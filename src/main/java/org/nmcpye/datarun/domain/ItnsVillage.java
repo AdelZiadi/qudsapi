@@ -11,6 +11,7 @@ import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.nmcpye.datarun.domain.enumeration.SettlementEnum;
 import org.nmcpye.datarun.domain.enumeration.SurveyTypeEnum;
+import org.nmcpye.datarun.domain.enumeration.SyncableStatus;
 import org.springframework.data.domain.Persistable;
 
 /**
@@ -95,15 +96,6 @@ public class ItnsVillage extends AbstractAuditingEntity<Long> implements Seriali
     @Column(name = "ho_proof")
     private String hoProof;
 
-    @Column(name = "start_entry_time")
-    private Instant startEntryTime;
-
-    @Column(name = "end_entry_time")
-    private Instant endEntryTime;
-
-    @Column(name = "finished_entry_time")
-    private Instant finishedEntryTime;
-
     @Column(name = "ho_proof_url")
     private String hoProofUrl;
 
@@ -123,6 +115,16 @@ public class ItnsVillage extends AbstractAuditingEntity<Long> implements Seriali
 
     @Column(name = "other_team_no")
     private Long otherTeamNo;
+
+    @Column(name = "start_entry_time")
+    private Instant startEntryTime;
+
+    @Column(name = "finished_entry_time")
+    private Instant finishedEntryTime;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status")
+    private SyncableStatus status;
 
     @Column(name = "deleted")
     private Boolean deleted;
@@ -151,9 +153,9 @@ public class ItnsVillage extends AbstractAuditingEntity<Long> implements Seriali
     @JsonIgnoreProperties(value = { "project" }, allowSetters = true)
     private Activity activity;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "villageData")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "itnsVillage")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-    @JsonIgnoreProperties(value = { "villageData" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "itnsVillage" }, allowSetters = true)
     private Set<ItnsVillageHousesDetail> houseDetails = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
@@ -405,45 +407,6 @@ public class ItnsVillage extends AbstractAuditingEntity<Long> implements Seriali
         this.hoProof = hoProof;
     }
 
-    public Instant getStartEntryTime() {
-        return this.startEntryTime;
-    }
-
-    public ItnsVillage startEntryTime(Instant startEntryTime) {
-        this.setStartEntryTime(startEntryTime);
-        return this;
-    }
-
-    public void setStartEntryTime(Instant startEntryTime) {
-        this.startEntryTime = startEntryTime;
-    }
-
-    public Instant getEndEntryTime() {
-        return this.endEntryTime;
-    }
-
-    public ItnsVillage endEntryTime(Instant endEntryTime) {
-        this.setEndEntryTime(endEntryTime);
-        return this;
-    }
-
-    public void setEndEntryTime(Instant endEntryTime) {
-        this.endEntryTime = endEntryTime;
-    }
-
-    public Instant getFinishedEntryTime() {
-        return this.finishedEntryTime;
-    }
-
-    public ItnsVillage finishedEntryTime(Instant finishedEntryTime) {
-        this.setFinishedEntryTime(finishedEntryTime);
-        return this;
-    }
-
-    public void setFinishedEntryTime(Instant finishedEntryTime) {
-        this.finishedEntryTime = finishedEntryTime;
-    }
-
     public String getHoProofUrl() {
         return this.hoProofUrl;
     }
@@ -520,6 +483,45 @@ public class ItnsVillage extends AbstractAuditingEntity<Long> implements Seriali
 
     public void setOtherTeamNo(Long otherTeamNo) {
         this.otherTeamNo = otherTeamNo;
+    }
+
+    public Instant getStartEntryTime() {
+        return this.startEntryTime;
+    }
+
+    public ItnsVillage startEntryTime(Instant startEntryTime) {
+        this.setStartEntryTime(startEntryTime);
+        return this;
+    }
+
+    public void setStartEntryTime(Instant startEntryTime) {
+        this.startEntryTime = startEntryTime;
+    }
+
+    public Instant getFinishedEntryTime() {
+        return this.finishedEntryTime;
+    }
+
+    public ItnsVillage finishedEntryTime(Instant finishedEntryTime) {
+        this.setFinishedEntryTime(finishedEntryTime);
+        return this;
+    }
+
+    public void setFinishedEntryTime(Instant finishedEntryTime) {
+        this.finishedEntryTime = finishedEntryTime;
+    }
+
+    public SyncableStatus getStatus() {
+        return this.status;
+    }
+
+    public ItnsVillage status(SyncableStatus status) {
+        this.setStatus(status);
+        return this;
+    }
+
+    public void setStatus(SyncableStatus status) {
+        this.status = status;
     }
 
     public Boolean getDeleted() {
@@ -634,10 +636,10 @@ public class ItnsVillage extends AbstractAuditingEntity<Long> implements Seriali
 
     public void setHouseDetails(Set<ItnsVillageHousesDetail> itnsVillageHousesDetails) {
         if (this.houseDetails != null) {
-            this.houseDetails.forEach(i -> i.setVillageData(null));
+            this.houseDetails.forEach(i -> i.setItnsVillage(null));
         }
         if (itnsVillageHousesDetails != null) {
-            itnsVillageHousesDetails.forEach(i -> i.setVillageData(this));
+            itnsVillageHousesDetails.forEach(i -> i.setItnsVillage(this));
         }
         this.houseDetails = itnsVillageHousesDetails;
     }
@@ -649,13 +651,13 @@ public class ItnsVillage extends AbstractAuditingEntity<Long> implements Seriali
 
     public ItnsVillage addHouseDetail(ItnsVillageHousesDetail itnsVillageHousesDetail) {
         this.houseDetails.add(itnsVillageHousesDetail);
-        itnsVillageHousesDetail.setVillageData(this);
+        itnsVillageHousesDetail.setItnsVillage(this);
         return this;
     }
 
     public ItnsVillage removeHouseDetail(ItnsVillageHousesDetail itnsVillageHousesDetail) {
         this.houseDetails.remove(itnsVillageHousesDetail);
-        itnsVillageHousesDetail.setVillageData(null);
+        itnsVillageHousesDetail.setItnsVillage(null);
         return this;
     }
 
@@ -701,15 +703,15 @@ public class ItnsVillage extends AbstractAuditingEntity<Long> implements Seriali
             ", locationCaptured='" + getLocationCaptured() + "'" +
             ", locationCaptureTime='" + getLocationCaptureTime() + "'" +
             ", hoProof='" + getHoProof() + "'" +
-            ", startEntryTime='" + getStartEntryTime() + "'" +
-            ", endEntryTime='" + getEndEntryTime() + "'" +
-            ", finishedEntryTime='" + getFinishedEntryTime() + "'" +
             ", hoProofUrl='" + getHoProofUrl() + "'" +
             ", submissionTime='" + getSubmissionTime() + "'" +
             ", untargetingOtherSpecify='" + getUntargetingOtherSpecify() + "'" +
             ", otherVillageName='" + getOtherVillageName() + "'" +
             ", otherVillageCode='" + getOtherVillageCode() + "'" +
             ", otherTeamNo=" + getOtherTeamNo() +
+            ", startEntryTime='" + getStartEntryTime() + "'" +
+            ", finishedEntryTime='" + getFinishedEntryTime() + "'" +
+            ", status='" + getStatus() + "'" +
             ", deleted='" + getDeleted() + "'" +
             ", createdBy='" + getCreatedBy() + "'" +
             ", createdDate='" + getCreatedDate() + "'" +

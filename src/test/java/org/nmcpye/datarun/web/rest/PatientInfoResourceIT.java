@@ -10,6 +10,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.persistence.EntityManager;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicLong;
@@ -21,6 +23,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.nmcpye.datarun.IntegrationTest;
 import org.nmcpye.datarun.domain.PatientInfo;
 import org.nmcpye.datarun.domain.enumeration.Gender;
+import org.nmcpye.datarun.domain.enumeration.SyncableStatus;
 import org.nmcpye.datarun.repository.PatientInfoRepository;
 import org.nmcpye.datarun.service.PatientInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,6 +58,18 @@ class PatientInfoResourceIT {
 
     private static final Gender DEFAULT_GENDER = Gender.MALE;
     private static final Gender UPDATED_GENDER = Gender.FEMALE;
+
+    private static final Instant DEFAULT_START_ENTRY_TIME = Instant.ofEpochMilli(0L);
+    private static final Instant UPDATED_START_ENTRY_TIME = Instant.now().truncatedTo(ChronoUnit.MILLIS);
+
+    private static final Instant DEFAULT_FINISHED_ENTRY_TIME = Instant.ofEpochMilli(0L);
+    private static final Instant UPDATED_FINISHED_ENTRY_TIME = Instant.now().truncatedTo(ChronoUnit.MILLIS);
+
+    private static final SyncableStatus DEFAULT_STATUS = SyncableStatus.ACTIVE;
+    private static final SyncableStatus UPDATED_STATUS = SyncableStatus.COMPLETED;
+
+    private static final Boolean DEFAULT_DELETED = false;
+    private static final Boolean UPDATED_DELETED = true;
 
     private static final String ENTITY_API_URL = "/api/patient-infos";
     private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";
@@ -94,7 +109,11 @@ class PatientInfoResourceIT {
             .code(DEFAULT_CODE)
             .name(DEFAULT_NAME)
             .age(DEFAULT_AGE)
-            .gender(DEFAULT_GENDER);
+            .gender(DEFAULT_GENDER)
+            .startEntryTime(DEFAULT_START_ENTRY_TIME)
+            .finishedEntryTime(DEFAULT_FINISHED_ENTRY_TIME)
+            .status(DEFAULT_STATUS)
+            .deleted(DEFAULT_DELETED);
         return patientInfo;
     }
 
@@ -110,7 +129,11 @@ class PatientInfoResourceIT {
             .code(UPDATED_CODE)
             .name(UPDATED_NAME)
             .age(UPDATED_AGE)
-            .gender(UPDATED_GENDER);
+            .gender(UPDATED_GENDER)
+            .startEntryTime(UPDATED_START_ENTRY_TIME)
+            .finishedEntryTime(UPDATED_FINISHED_ENTRY_TIME)
+            .status(UPDATED_STATUS)
+            .deleted(UPDATED_DELETED);
         return patientInfo;
     }
 
@@ -172,7 +195,11 @@ class PatientInfoResourceIT {
             .andExpect(jsonPath("$.[*].code").value(hasItem(DEFAULT_CODE)))
             .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)))
             .andExpect(jsonPath("$.[*].age").value(hasItem(DEFAULT_AGE)))
-            .andExpect(jsonPath("$.[*].gender").value(hasItem(DEFAULT_GENDER.toString())));
+            .andExpect(jsonPath("$.[*].gender").value(hasItem(DEFAULT_GENDER.toString())))
+            .andExpect(jsonPath("$.[*].startEntryTime").value(hasItem(DEFAULT_START_ENTRY_TIME.toString())))
+            .andExpect(jsonPath("$.[*].finishedEntryTime").value(hasItem(DEFAULT_FINISHED_ENTRY_TIME.toString())))
+            .andExpect(jsonPath("$.[*].status").value(hasItem(DEFAULT_STATUS.toString())))
+            .andExpect(jsonPath("$.[*].deleted").value(hasItem(DEFAULT_DELETED.booleanValue())));
     }
 
     @SuppressWarnings({ "unchecked" })
@@ -208,7 +235,11 @@ class PatientInfoResourceIT {
             .andExpect(jsonPath("$.code").value(DEFAULT_CODE))
             .andExpect(jsonPath("$.name").value(DEFAULT_NAME))
             .andExpect(jsonPath("$.age").value(DEFAULT_AGE))
-            .andExpect(jsonPath("$.gender").value(DEFAULT_GENDER.toString()));
+            .andExpect(jsonPath("$.gender").value(DEFAULT_GENDER.toString()))
+            .andExpect(jsonPath("$.startEntryTime").value(DEFAULT_START_ENTRY_TIME.toString()))
+            .andExpect(jsonPath("$.finishedEntryTime").value(DEFAULT_FINISHED_ENTRY_TIME.toString()))
+            .andExpect(jsonPath("$.status").value(DEFAULT_STATUS.toString()))
+            .andExpect(jsonPath("$.deleted").value(DEFAULT_DELETED.booleanValue()));
     }
 
     @Test
@@ -230,7 +261,16 @@ class PatientInfoResourceIT {
         PatientInfo updatedPatientInfo = patientInfoRepository.findById(patientInfo.getId()).orElseThrow();
         // Disconnect from session so that the updates on updatedPatientInfo are not directly saved in db
         em.detach(updatedPatientInfo);
-        updatedPatientInfo.uid(UPDATED_UID).code(UPDATED_CODE).name(UPDATED_NAME).age(UPDATED_AGE).gender(UPDATED_GENDER);
+        updatedPatientInfo
+            .uid(UPDATED_UID)
+            .code(UPDATED_CODE)
+            .name(UPDATED_NAME)
+            .age(UPDATED_AGE)
+            .gender(UPDATED_GENDER)
+            .startEntryTime(UPDATED_START_ENTRY_TIME)
+            .finishedEntryTime(UPDATED_FINISHED_ENTRY_TIME)
+            .status(UPDATED_STATUS)
+            .deleted(UPDATED_DELETED);
 
         restPatientInfoMockMvc
             .perform(
@@ -310,7 +350,7 @@ class PatientInfoResourceIT {
         PatientInfo partialUpdatedPatientInfo = new PatientInfo();
         partialUpdatedPatientInfo.setId(patientInfo.getId());
 
-        partialUpdatedPatientInfo.code(UPDATED_CODE).name(UPDATED_NAME).gender(UPDATED_GENDER);
+        partialUpdatedPatientInfo.gender(UPDATED_GENDER).deleted(UPDATED_DELETED);
 
         restPatientInfoMockMvc
             .perform(
@@ -341,7 +381,16 @@ class PatientInfoResourceIT {
         PatientInfo partialUpdatedPatientInfo = new PatientInfo();
         partialUpdatedPatientInfo.setId(patientInfo.getId());
 
-        partialUpdatedPatientInfo.uid(UPDATED_UID).code(UPDATED_CODE).name(UPDATED_NAME).age(UPDATED_AGE).gender(UPDATED_GENDER);
+        partialUpdatedPatientInfo
+            .uid(UPDATED_UID)
+            .code(UPDATED_CODE)
+            .name(UPDATED_NAME)
+            .age(UPDATED_AGE)
+            .gender(UPDATED_GENDER)
+            .startEntryTime(UPDATED_START_ENTRY_TIME)
+            .finishedEntryTime(UPDATED_FINISHED_ENTRY_TIME)
+            .status(UPDATED_STATUS)
+            .deleted(UPDATED_DELETED);
 
         restPatientInfoMockMvc
             .perform(

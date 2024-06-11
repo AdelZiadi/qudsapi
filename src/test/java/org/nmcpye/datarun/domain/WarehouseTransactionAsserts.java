@@ -63,7 +63,10 @@ public class WarehouseTransactionAsserts {
             .satisfies(e -> assertThat(e.getSubmissionTime()).as("check submissionTime").isEqualTo(actual.getSubmissionTime()))
             .satisfies(e -> assertThat(e.getSubmissionId()).as("check submissionId").isEqualTo(actual.getSubmissionId()))
             .satisfies(e -> assertThat(e.getDeleted()).as("check deleted").isEqualTo(actual.getDeleted()))
-            .satisfies(e -> assertThat(e.getSubmissionUuid()).as("check submissionUuid").isEqualTo(actual.getSubmissionUuid()));
+            .satisfies(e -> assertThat(e.getSubmissionUuid()).as("check submissionUuid").isEqualTo(actual.getSubmissionUuid()))
+            .satisfies(e -> assertThat(e.getStartEntryTime()).as("check startEntryTime").isEqualTo(actual.getStartEntryTime()))
+            .satisfies(e -> assertThat(e.getFinishedEntryTime()).as("check finishedEntryTime").isEqualTo(actual.getFinishedEntryTime()))
+            .satisfies(e -> assertThat(e.getStatus()).as("check status").isEqualTo(actual.getStatus()));
     }
 
     /**

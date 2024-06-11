@@ -16,12 +16,5 @@
                                  referencedColumnNames="id"
                                  referencedTableName="patient_info"
                                  />
-
-        <addForeignKeyConstraint baseColumnNames="team_id"
-                                 baseTableName="chv_register"
-                                 constraintName="fk_chv_register__team_id"
-                                 referencedColumnNames="id"
-                                 referencedTableName="team"
-                                 />
     </changeSet>
 </databaseChangeLog>

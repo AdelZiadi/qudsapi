@@ -34,6 +34,7 @@ public interface ChvSessionRepositoryCustom
     @Query(
         value = "select chvSession from ChvSession chvSession " +
             "left join chvSession.team " +
+            "left join chvSession.activity " +
             "where chvSession.team.userInfo.login = ?#{authentication.name}",
         countQuery = "select count(chvSession) from ChvSession chvSession " +
             "where chvSession.team.userInfo.login = ?#{authentication.name}"
@@ -42,7 +43,9 @@ public interface ChvSessionRepositoryCustom
 
 
     @Query(
-        value = "select chvSession from ChvSession chvSession left join fetch chvSession.team " +
+        value = "select chvSession from ChvSession chvSession " +
+            "left join fetch chvSession.team " +
+            "left join chvSession.activity " +
             "where chvSession.team.userInfo.login = ?#{authentication.name}",
         countQuery = "select count(chvSession) from ChvSession chvSession " +
             "where chvSession.team.userInfo.login = ?#{authentication.name}"
@@ -51,10 +54,13 @@ public interface ChvSessionRepositoryCustom
 
     @Query("select chvSession from ChvSession chvSession " +
         "left join fetch chvSession.team " +
+        "left join chvSession.activity " +
         "where chvSession.team.userInfo.login = ?#{authentication.name}")
     List<ChvSession> findAllWithToOneRelationshipsByUser();
 
     @Query("select chvSession from ChvSession chvSession " +
-        "left join fetch chvSession.team where chvSession.id =:id and chvSession.team.userInfo.login = ?#{authentication.name}")
+        "left join fetch chvSession.team " +
+        "left join chvSession.activity " +
+        "where chvSession.id =:id and chvSession.team.userInfo.login = ?#{authentication.name}")
     Optional<ChvSession> findOneWithToOneRelationshipsByUser(@Param("id") Long id);
 }

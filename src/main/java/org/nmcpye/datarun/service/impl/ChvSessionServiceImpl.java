@@ -70,11 +70,17 @@ public class ChvSessionServiceImpl implements ChvSessionService {
                 if (chvSession.getComment() != null) {
                     existingChvSession.setComment(chvSession.getComment());
                 }
+                if (chvSession.getDeleted() != null) {
+                    existingChvSession.setDeleted(chvSession.getDeleted());
+                }
                 if (chvSession.getStartEntryTime() != null) {
                     existingChvSession.setStartEntryTime(chvSession.getStartEntryTime());
                 }
-                if (chvSession.getDeleted() != null) {
-                    existingChvSession.setDeleted(chvSession.getDeleted());
+                if (chvSession.getFinishedEntryTime() != null) {
+                    existingChvSession.setFinishedEntryTime(chvSession.getFinishedEntryTime());
+                }
+                if (chvSession.getStatus() != null) {
+                    existingChvSession.setStatus(chvSession.getStatus());
                 }
                 if (chvSession.getCreatedBy() != null) {
                     existingChvSession.setCreatedBy(chvSession.getCreatedBy());

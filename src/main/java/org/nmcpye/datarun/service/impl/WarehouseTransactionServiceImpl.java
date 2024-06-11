@@ -91,6 +91,15 @@ public class WarehouseTransactionServiceImpl implements WarehouseTransactionServ
                 if (warehouseTransaction.getSubmissionUuid() != null) {
                     existingWarehouseTransaction.setSubmissionUuid(warehouseTransaction.getSubmissionUuid());
                 }
+                if (warehouseTransaction.getStartEntryTime() != null) {
+                    existingWarehouseTransaction.setStartEntryTime(warehouseTransaction.getStartEntryTime());
+                }
+                if (warehouseTransaction.getFinishedEntryTime() != null) {
+                    existingWarehouseTransaction.setFinishedEntryTime(warehouseTransaction.getFinishedEntryTime());
+                }
+                if (warehouseTransaction.getStatus() != null) {
+                    existingWarehouseTransaction.setStatus(warehouseTransaction.getStatus());
+                }
                 if (warehouseTransaction.getCreatedBy() != null) {
                     existingWarehouseTransaction.setCreatedBy(warehouseTransaction.getCreatedBy());
                 }

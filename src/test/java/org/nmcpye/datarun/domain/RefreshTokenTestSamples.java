@@ -10,14 +10,19 @@ public class RefreshTokenTestSamples {
     private static final AtomicLong longCount = new AtomicLong(random.nextInt() + (2 * Integer.MAX_VALUE));
 
     public static RefreshToken getRefreshTokenSample1() {
-        return new RefreshToken().id(1L).token("token1");
+        return new RefreshToken().id(1L).uid("uid1").token("token1").createdBy("createdBy1").lastModifiedBy("lastModifiedBy1");
     }
 
     public static RefreshToken getRefreshTokenSample2() {
-        return new RefreshToken().id(2L).token("token2");
+        return new RefreshToken().id(2L).uid("uid2").token("token2").createdBy("createdBy2").lastModifiedBy("lastModifiedBy2");
     }
 
     public static RefreshToken getRefreshTokenRandomSampleGenerator() {
-        return new RefreshToken().id(longCount.incrementAndGet()).token(UUID.randomUUID().toString());
+        return new RefreshToken()
+            .id(longCount.incrementAndGet())
+            .uid(UUID.randomUUID().toString())
+            .token(UUID.randomUUID().toString())
+            .createdBy(UUID.randomUUID().toString())
+            .lastModifiedBy(UUID.randomUUID().toString());
     }
 }

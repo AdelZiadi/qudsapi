@@ -53,14 +53,6 @@
       "fieldType": "String"
     },
     {
-      "fieldName": "startEntryTime",
-      "fieldType": "Instant"
-    },
-    {
-      "fieldName": "deleted",
-      "fieldType": "Boolean"
-    },
-    {
       "auditField": true,
       "autoGenerate": true,
       "columnType": "varchar(50)",
@@ -101,16 +93,11 @@
     {
       "otherEntityField": "name",
       "otherEntityName": "patientInfo",
+      "otherEntityRelationshipName": "chvRegister",
       "relationshipName": "patient",
       "relationshipSide": "left",
-      "relationshipType": "many-to-one"
-    },
-    {
-      "otherEntityField": "code",
-      "otherEntityName": "team",
-      "relationshipName": "team",
-      "relationshipSide": "left",
-      "relationshipType": "many-to-one"
+      "relationshipType": "many-to-one",
+      "relationshipValidateRules": "required"
     }
   ],
   "searchEngine": "no",

@@ -16,5 +16,19 @@
                                  referencedColumnNames="id"
                                  referencedTableName="assignment"
                                  />
+
+        <addForeignKeyConstraint baseColumnNames="activity_id"
+                                 baseTableName="patient_info"
+                                 constraintName="fk_patient_info__activity_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="activity"
+                                 />
+
+        <addForeignKeyConstraint baseColumnNames="team_id"
+                                 baseTableName="patient_info"
+                                 constraintName="fk_patient_info__team_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="team"
+                                 />
     </changeSet>
 </databaseChangeLog>

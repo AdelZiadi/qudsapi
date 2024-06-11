@@ -88,11 +88,11 @@ public class ItnsVillageHousesDetailServiceImpl implements ItnsVillageHousesDeta
                 if (itnsVillageHousesDetail.getSubmissionUuid() != null) {
                     existingItnsVillageHousesDetail.setSubmissionUuid(itnsVillageHousesDetail.getSubmissionUuid());
                 }
-                if (itnsVillageHousesDetail.getDeleted() != null) {
-                    existingItnsVillageHousesDetail.setDeleted(itnsVillageHousesDetail.getDeleted());
-                }
                 if (itnsVillageHousesDetail.getHouseUuid() != null) {
                     existingItnsVillageHousesDetail.setHouseUuid(itnsVillageHousesDetail.getHouseUuid());
+                }
+                if (itnsVillageHousesDetail.getDeleted() != null) {
+                    existingItnsVillageHousesDetail.setDeleted(itnsVillageHousesDetail.getDeleted());
                 }
                 if (itnsVillageHousesDetail.getCreatedBy() != null) {
                     existingItnsVillageHousesDetail.setCreatedBy(itnsVillageHousesDetail.getCreatedBy());

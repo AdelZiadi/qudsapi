@@ -84,18 +84,18 @@ class ItnsVillageTest {
 
         itnsVillage.addHouseDetail(itnsVillageHousesDetailBack);
         assertThat(itnsVillage.getHouseDetails()).containsOnly(itnsVillageHousesDetailBack);
-        assertThat(itnsVillageHousesDetailBack.getVillageData()).isEqualTo(itnsVillage);
+        assertThat(itnsVillageHousesDetailBack.getItnsVillage()).isEqualTo(itnsVillage);
 
         itnsVillage.removeHouseDetail(itnsVillageHousesDetailBack);
         assertThat(itnsVillage.getHouseDetails()).doesNotContain(itnsVillageHousesDetailBack);
-        assertThat(itnsVillageHousesDetailBack.getVillageData()).isNull();
+        assertThat(itnsVillageHousesDetailBack.getItnsVillage()).isNull();
 
         itnsVillage.houseDetails(new HashSet<>(Set.of(itnsVillageHousesDetailBack)));
         assertThat(itnsVillage.getHouseDetails()).containsOnly(itnsVillageHousesDetailBack);
-        assertThat(itnsVillageHousesDetailBack.getVillageData()).isEqualTo(itnsVillage);
+        assertThat(itnsVillageHousesDetailBack.getItnsVillage()).isEqualTo(itnsVillage);
 
         itnsVillage.setHouseDetails(new HashSet<>());
         assertThat(itnsVillage.getHouseDetails()).doesNotContain(itnsVillageHousesDetailBack);
-        assertThat(itnsVillageHousesDetailBack.getVillageData()).isNull();
+        assertThat(itnsVillageHousesDetailBack.getItnsVillage()).isNull();
     }
 }

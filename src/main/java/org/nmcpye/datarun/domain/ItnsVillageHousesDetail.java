@@ -79,11 +79,11 @@ public class ItnsVillageHousesDetail extends AbstractAuditingEntity<Long> implem
     @Column(name = "submission_uuid")
     private String submissionUuid;
 
-    @Column(name = "deleted")
-    private Boolean deleted;
-
     @Column(name = "house_uuid", unique = true)
     private String houseUuid;
+
+    @Column(name = "deleted")
+    private Boolean deleted;
 
     // Inherited createdBy definition
     // Inherited createdDate definition
@@ -95,7 +95,7 @@ public class ItnsVillageHousesDetail extends AbstractAuditingEntity<Long> implem
     @ManyToOne(optional = false)
     @NotNull
     @JsonIgnoreProperties(value = { "progressStatus", "team", "assignment", "activity", "houseDetails" }, allowSetters = true)
-    private ItnsVillage villageData;
+    private ItnsVillage itnsVillage;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -294,19 +294,6 @@ public class ItnsVillageHousesDetail extends AbstractAuditingEntity<Long> implem
         this.submissionUuid = submissionUuid;
     }
 
-    public Boolean getDeleted() {
-        return this.deleted;
-    }
-
-    public ItnsVillageHousesDetail deleted(Boolean deleted) {
-        this.setDeleted(deleted);
-        return this;
-    }
-
-    public void setDeleted(Boolean deleted) {
-        this.deleted = deleted;
-    }
-
     public String getHouseUuid() {
         return this.houseUuid;
     }
@@ -318,6 +305,19 @@ public class ItnsVillageHousesDetail extends AbstractAuditingEntity<Long> implem
 
     public void setHouseUuid(String houseUuid) {
         this.houseUuid = houseUuid;
+    }
+
+    public Boolean getDeleted() {
+        return this.deleted;
+    }
+
+    public ItnsVillageHousesDetail deleted(Boolean deleted) {
+        this.setDeleted(deleted);
+        return this;
+    }
+
+    public void setDeleted(Boolean deleted) {
+        this.deleted = deleted;
     }
 
     // Inherited createdBy methods
@@ -361,16 +361,16 @@ public class ItnsVillageHousesDetail extends AbstractAuditingEntity<Long> implem
         return this;
     }
 
-    public ItnsVillage getVillageData() {
-        return this.villageData;
+    public ItnsVillage getItnsVillage() {
+        return this.itnsVillage;
     }
 
-    public void setVillageData(ItnsVillage itnsVillage) {
-        this.villageData = itnsVillage;
+    public void setItnsVillage(ItnsVillage itnsVillage) {
+        this.itnsVillage = itnsVillage;
     }
 
-    public ItnsVillageHousesDetail villageData(ItnsVillage itnsVillage) {
-        this.setVillageData(itnsVillage);
+    public ItnsVillageHousesDetail itnsVillage(ItnsVillage itnsVillage) {
+        this.setItnsVillage(itnsVillage);
         return this;
     }
 
@@ -412,8 +412,8 @@ public class ItnsVillageHousesDetail extends AbstractAuditingEntity<Long> implem
             ", itns=" + getItns() +
             ", comment='" + getComment() + "'" +
             ", submissionUuid='" + getSubmissionUuid() + "'" +
-            ", deleted='" + getDeleted() + "'" +
             ", houseUuid='" + getHouseUuid() + "'" +
+            ", deleted='" + getDeleted() + "'" +
             ", createdBy='" + getCreatedBy() + "'" +
             ", createdDate='" + getCreatedDate() + "'" +
             ", lastModifiedBy='" + getLastModifiedBy() + "'" +

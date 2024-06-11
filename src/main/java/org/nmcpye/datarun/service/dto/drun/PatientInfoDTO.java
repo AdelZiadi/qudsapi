@@ -29,6 +29,10 @@ public class PatientInfoDTO implements Serializable {
 
     private AssignmentDTO location;
 
+    private TeamDTO team;
+
+    private ActivityDTO activity;
+
     public String getUid() {
         return uid;
     }
@@ -77,6 +81,14 @@ public class PatientInfoDTO implements Serializable {
         this.location = location;
     }
 
+    public TeamDTO getTeam() {
+        return team;
+    }
+
+    public void setTeam(TeamDTO team) {
+        this.team = team;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -109,5 +121,13 @@ public class PatientInfoDTO implements Serializable {
             ", gender='" + getGender() + "'" +
             ", location=" + getLocation() +
             "}";
+    }
+
+    public ActivityDTO getActivity() {
+        return activity;
+    }
+
+    public void setActivity(ActivityDTO activity) {
+        this.activity = activity;
     }
 }

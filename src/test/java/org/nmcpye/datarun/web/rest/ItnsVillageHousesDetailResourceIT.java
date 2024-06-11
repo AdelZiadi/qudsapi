@@ -74,11 +74,11 @@ class ItnsVillageHousesDetailResourceIT {
     private static final String DEFAULT_SUBMISSION_UUID = "AAAAAAAAAA";
     private static final String UPDATED_SUBMISSION_UUID = "BBBBBBBBBB";
 
-    private static final Boolean DEFAULT_DELETED = false;
-    private static final Boolean UPDATED_DELETED = true;
-
     private static final String DEFAULT_HOUSE_UUID = "AAAAAAAAAA";
     private static final String UPDATED_HOUSE_UUID = "BBBBBBBBBB";
+
+    private static final Boolean DEFAULT_DELETED = false;
+    private static final Boolean UPDATED_DELETED = true;
 
     private static final String ENTITY_API_URL = "/api/itns-village-houses-details";
     private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";
@@ -122,8 +122,8 @@ class ItnsVillageHousesDetailResourceIT {
             .itns(DEFAULT_ITNS)
             .comment(DEFAULT_COMMENT)
             .submissionUuid(DEFAULT_SUBMISSION_UUID)
-            .deleted(DEFAULT_DELETED)
-            .houseUuid(DEFAULT_HOUSE_UUID);
+            .houseUuid(DEFAULT_HOUSE_UUID)
+            .deleted(DEFAULT_DELETED);
         // Add required entity
         ItnsVillage itnsVillage;
         if (TestUtil.findAll(em, ItnsVillage.class).isEmpty()) {
@@ -133,7 +133,7 @@ class ItnsVillageHousesDetailResourceIT {
         } else {
             itnsVillage = TestUtil.findAll(em, ItnsVillage.class).get(0);
         }
-        itnsVillageHousesDetail.setVillageData(itnsVillage);
+        itnsVillageHousesDetail.setItnsVillage(itnsVillage);
         return itnsVillageHousesDetail;
     }
 
@@ -159,8 +159,8 @@ class ItnsVillageHousesDetailResourceIT {
             .itns(UPDATED_ITNS)
             .comment(UPDATED_COMMENT)
             .submissionUuid(UPDATED_SUBMISSION_UUID)
-            .deleted(UPDATED_DELETED)
-            .houseUuid(UPDATED_HOUSE_UUID);
+            .houseUuid(UPDATED_HOUSE_UUID)
+            .deleted(UPDATED_DELETED);
         // Add required entity
         ItnsVillage itnsVillage;
         if (TestUtil.findAll(em, ItnsVillage.class).isEmpty()) {
@@ -170,7 +170,7 @@ class ItnsVillageHousesDetailResourceIT {
         } else {
             itnsVillage = TestUtil.findAll(em, ItnsVillage.class).get(0);
         }
-        itnsVillageHousesDetail.setVillageData(itnsVillage);
+        itnsVillageHousesDetail.setItnsVillage(itnsVillage);
         return itnsVillageHousesDetail;
     }
 
@@ -247,8 +247,8 @@ class ItnsVillageHousesDetailResourceIT {
             .andExpect(jsonPath("$.[*].itns").value(hasItem(DEFAULT_ITNS)))
             .andExpect(jsonPath("$.[*].comment").value(hasItem(DEFAULT_COMMENT)))
             .andExpect(jsonPath("$.[*].submissionUuid").value(hasItem(DEFAULT_SUBMISSION_UUID)))
-            .andExpect(jsonPath("$.[*].deleted").value(hasItem(DEFAULT_DELETED.booleanValue())))
-            .andExpect(jsonPath("$.[*].houseUuid").value(hasItem(DEFAULT_HOUSE_UUID)));
+            .andExpect(jsonPath("$.[*].houseUuid").value(hasItem(DEFAULT_HOUSE_UUID)))
+            .andExpect(jsonPath("$.[*].deleted").value(hasItem(DEFAULT_DELETED.booleanValue())));
     }
 
     @Test
@@ -277,8 +277,8 @@ class ItnsVillageHousesDetailResourceIT {
             .andExpect(jsonPath("$.itns").value(DEFAULT_ITNS))
             .andExpect(jsonPath("$.comment").value(DEFAULT_COMMENT))
             .andExpect(jsonPath("$.submissionUuid").value(DEFAULT_SUBMISSION_UUID))
-            .andExpect(jsonPath("$.deleted").value(DEFAULT_DELETED.booleanValue()))
-            .andExpect(jsonPath("$.houseUuid").value(DEFAULT_HOUSE_UUID));
+            .andExpect(jsonPath("$.houseUuid").value(DEFAULT_HOUSE_UUID))
+            .andExpect(jsonPath("$.deleted").value(DEFAULT_DELETED.booleanValue()));
     }
 
     @Test
@@ -317,8 +317,8 @@ class ItnsVillageHousesDetailResourceIT {
             .itns(UPDATED_ITNS)
             .comment(UPDATED_COMMENT)
             .submissionUuid(UPDATED_SUBMISSION_UUID)
-            .deleted(UPDATED_DELETED)
-            .houseUuid(UPDATED_HOUSE_UUID);
+            .houseUuid(UPDATED_HOUSE_UUID)
+            .deleted(UPDATED_DELETED);
 
         restItnsVillageHousesDetailMockMvc
             .perform(
@@ -399,10 +399,14 @@ class ItnsVillageHousesDetailResourceIT {
         partialUpdatedItnsVillageHousesDetail.setId(itnsVillageHousesDetail.getId());
 
         partialUpdatedItnsVillageHousesDetail
-            .uid(UPDATED_UID)
-            .pregnant(UPDATED_PREGNANT)
+            .male(UPDATED_MALE)
+            .female(UPDATED_FEMALE)
+            .maleChild(UPDATED_MALE_CHILD)
             .displaced(UPDATED_DISPLACED)
-            .submissionUuid(UPDATED_SUBMISSION_UUID);
+            .itns(UPDATED_ITNS)
+            .comment(UPDATED_COMMENT)
+            .houseUuid(UPDATED_HOUSE_UUID)
+            .deleted(UPDATED_DELETED);
 
         restItnsVillageHousesDetailMockMvc
             .perform(
@@ -448,8 +452,8 @@ class ItnsVillageHousesDetailResourceIT {
             .itns(UPDATED_ITNS)
             .comment(UPDATED_COMMENT)
             .submissionUuid(UPDATED_SUBMISSION_UUID)
-            .deleted(UPDATED_DELETED)
-            .houseUuid(UPDATED_HOUSE_UUID);
+            .houseUuid(UPDATED_HOUSE_UUID)
+            .deleted(UPDATED_DELETED);
 
         restItnsVillageHousesDetailMockMvc
             .perform(

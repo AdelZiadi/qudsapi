@@ -83,13 +83,13 @@
       "fieldType": "String"
     },
     {
-      "fieldName": "deleted",
-      "fieldType": "Boolean"
-    },
-    {
       "fieldName": "houseUuid",
       "fieldType": "String",
       "fieldValidateRules": ["unique"]
+    },
+    {
+      "fieldName": "deleted",
+      "fieldType": "Boolean"
     },
     {
       "auditField": true,
@@ -132,7 +132,7 @@
     {
       "otherEntityName": "itnsVillage",
       "otherEntityRelationshipName": "houseDetail",
-      "relationshipName": "villageData",
+      "relationshipName": "itnsVillage",
       "relationshipSide": "left",
       "relationshipType": "many-to-one",
       "relationshipValidateRules": "required"

@@ -3,7 +3,6 @@ package org.nmcpye.datarun.domain;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.nmcpye.datarun.domain.ChvRegisterTestSamples.*;
 import static org.nmcpye.datarun.domain.PatientInfoTestSamples.*;
-import static org.nmcpye.datarun.domain.TeamTestSamples.*;
 
 import org.junit.jupiter.api.Test;
 import org.nmcpye.datarun.web.rest.TestUtil;
@@ -34,17 +33,5 @@ class ChvRegisterTest {
 
         chvRegister.patient(null);
         assertThat(chvRegister.getPatient()).isNull();
-    }
-
-    @Test
-    void teamTest() throws Exception {
-        ChvRegister chvRegister = getChvRegisterRandomSampleGenerator();
-        Team teamBack = getTeamRandomSampleGenerator();
-
-        chvRegister.setTeam(teamBack);
-        assertThat(chvRegister.getTeam()).isEqualTo(teamBack);
-
-        chvRegister.team(null);
-        assertThat(chvRegister.getTeam()).isNull();
     }
 }

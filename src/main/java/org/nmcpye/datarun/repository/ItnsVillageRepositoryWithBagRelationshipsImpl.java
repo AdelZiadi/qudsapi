@@ -15,7 +15,8 @@ import java.util.stream.IntStream;
 /**
  * Utility repository to load bag relationships based on https://vladmihalcea.com/hibernate-multiplebagfetchexception/
  */
-public class ItnsVillageRepositoryWithBagRelationshipsImpl implements ItnsVillageRepositoryWithBagRelationships {
+public class ItnsVillageRepositoryWithBagRelationshipsImpl
+    implements ItnsVillageRepositoryWithBagRelationships {
 
     private static final String ID_PARAMETER = "id";
     private static final String ASSIGNMENTS_PARAMETER = "itnsVillages";
@@ -41,7 +42,9 @@ public class ItnsVillageRepositoryWithBagRelationshipsImpl implements ItnsVillag
     ItnsVillage fetchHousesDetails(ItnsVillage result) {
         return entityManager
             .createQuery(
-                "select itnsVillage from ItnsVillage itnsVillage left join fetch itnsVillage.houseDetails where itnsVillage.id = :id",
+                "select itnsVillage from ItnsVillage itnsVillage " +
+                    "left join fetch itnsVillage.houseDetails " +
+                    "where itnsVillage.id = :id",
                 ItnsVillage.class
             )
             .setParameter(ID_PARAMETER, result.getId())
@@ -53,7 +56,9 @@ public class ItnsVillageRepositoryWithBagRelationshipsImpl implements ItnsVillag
         IntStream.range(0, itnsVillages.size()).forEach(index -> order.put(itnsVillages.get(index).getId(), index));
         List<ItnsVillage> result = entityManager
             .createQuery(
-                "select itnsVillage from ItnsVillage itnsVillage left join fetch itnsVillage.houseDetails where itnsVillage in :itnsVillages",
+                "select itnsVillage from ItnsVillage itnsVillage " +
+                    "left join fetch itnsVillage.houseDetails " +
+                    "where itnsVillage in :itnsVillages",
                 ItnsVillage.class
             )
             .setParameter(ASSIGNMENTS_PARAMETER, itnsVillages)

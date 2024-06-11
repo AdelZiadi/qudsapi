@@ -24,14 +24,14 @@ class ItnsVillageHousesDetailTest {
     }
 
     @Test
-    void villageDataTest() throws Exception {
+    void itnsVillageTest() throws Exception {
         ItnsVillageHousesDetail itnsVillageHousesDetail = getItnsVillageHousesDetailRandomSampleGenerator();
         ItnsVillage itnsVillageBack = getItnsVillageRandomSampleGenerator();
 
-        itnsVillageHousesDetail.setVillageData(itnsVillageBack);
-        assertThat(itnsVillageHousesDetail.getVillageData()).isEqualTo(itnsVillageBack);
+        itnsVillageHousesDetail.setItnsVillage(itnsVillageBack);
+        assertThat(itnsVillageHousesDetail.getItnsVillage()).isEqualTo(itnsVillageBack);
 
-        itnsVillageHousesDetail.villageData(null);
-        assertThat(itnsVillageHousesDetail.getVillageData()).isNull();
+        itnsVillageHousesDetail.itnsVillage(null);
+        assertThat(itnsVillageHousesDetail.getItnsVillage()).isNull();
     }
 }

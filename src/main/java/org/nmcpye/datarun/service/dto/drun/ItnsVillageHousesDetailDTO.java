@@ -56,7 +56,7 @@ public class ItnsVillageHousesDetailDTO implements Serializable {
     private String houseUuid;
 
     @NotNull
-    private ItnsVillageDTO villageData;
+    private ItnsVillageDTO itnsVillage;
 
     public String getUid() {
         return uid;
@@ -186,12 +186,12 @@ public class ItnsVillageHousesDetailDTO implements Serializable {
         this.houseUuid = houseUuid;
     }
 
-    public ItnsVillageDTO getVillageData() {
-        return villageData;
+    public ItnsVillageDTO getItnsVillage() {
+        return itnsVillage;
     }
 
-    public void setVillageData(ItnsVillageDTO villageData) {
-        this.villageData = villageData;
+    public void setItnsVillage(ItnsVillageDTO itnsVillage) {
+        this.itnsVillage = itnsVillage;
     }
 
     @Override
@@ -235,7 +235,7 @@ public class ItnsVillageHousesDetailDTO implements Serializable {
             ", submissionUuid='" + getSubmissionUuid() + "'" +
             ", deleted='" + getDeleted() + "'" +
             ", houseUuid='" + getHouseUuid() + "'" +
-            ", villageData=" + getVillageData() +
+            ", villageData=" + getItnsVillage() +
             "}";
     }
 }

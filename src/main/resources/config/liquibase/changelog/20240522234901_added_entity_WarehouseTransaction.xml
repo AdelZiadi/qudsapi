@@ -59,6 +59,15 @@
             <column name="submission_uuid" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
+            <column name="start_entry_time" type="${datetimeType}">
+                <constraints nullable="true" />
+            </column>
+            <column name="finished_entry_time" type="${datetimeType}">
+                <constraints nullable="true" />
+            </column>
+            <column name="status" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
             <column name="created_by" type="varchar(50)">
                 <constraints nullable="false" />
             </column>
@@ -90,6 +99,8 @@
         </createTable>
         <dropDefaultValue tableName="warehouse_transaction" columnName="transaction_date" columnDataType="${datetimeType}"/>
         <dropDefaultValue tableName="warehouse_transaction" columnName="submission_time" columnDataType="${datetimeType}"/>
+        <dropDefaultValue tableName="warehouse_transaction" columnName="start_entry_time" columnDataType="${datetimeType}"/>
+        <dropDefaultValue tableName="warehouse_transaction" columnName="finished_entry_time" columnDataType="${datetimeType}"/>
         <dropDefaultValue tableName="warehouse_transaction" columnName="created_date" columnDataType="${datetimeType}"/>
         <dropDefaultValue tableName="warehouse_transaction" columnName="last_modified_date" columnDataType="${datetimeType}"/>
     </changeSet>

@@ -100,15 +100,6 @@ public class ItnsVillageServiceImpl implements ItnsVillageService {
                 if (itnsVillage.getHoProof() != null) {
                     existingItnsVillage.setHoProof(itnsVillage.getHoProof());
                 }
-                if (itnsVillage.getStartEntryTime() != null) {
-                    existingItnsVillage.setStartEntryTime(itnsVillage.getStartEntryTime());
-                }
-                if (itnsVillage.getEndEntryTime() != null) {
-                    existingItnsVillage.setEndEntryTime(itnsVillage.getEndEntryTime());
-                }
-                if (itnsVillage.getFinishedEntryTime() != null) {
-                    existingItnsVillage.setFinishedEntryTime(itnsVillage.getFinishedEntryTime());
-                }
                 if (itnsVillage.getHoProofUrl() != null) {
                     existingItnsVillage.setHoProofUrl(itnsVillage.getHoProofUrl());
                 }
@@ -126,6 +117,15 @@ public class ItnsVillageServiceImpl implements ItnsVillageService {
                 }
                 if (itnsVillage.getOtherTeamNo() != null) {
                     existingItnsVillage.setOtherTeamNo(itnsVillage.getOtherTeamNo());
+                }
+                if (itnsVillage.getStartEntryTime() != null) {
+                    existingItnsVillage.setStartEntryTime(itnsVillage.getStartEntryTime());
+                }
+                if (itnsVillage.getFinishedEntryTime() != null) {
+                    existingItnsVillage.setFinishedEntryTime(itnsVillage.getFinishedEntryTime());
+                }
+                if (itnsVillage.getStatus() != null) {
+                    existingItnsVillage.setStatus(itnsVillage.getStatus());
                 }
                 if (itnsVillage.getDeleted() != null) {
                     existingItnsVillage.setDeleted(itnsVillage.getDeleted());

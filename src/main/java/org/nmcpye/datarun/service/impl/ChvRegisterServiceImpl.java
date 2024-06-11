@@ -76,12 +76,6 @@ public class ChvRegisterServiceImpl implements ChvRegisterService {
                 if (chvRegister.getComment() != null) {
                     existingChvRegister.setComment(chvRegister.getComment());
                 }
-                if (chvRegister.getStartEntryTime() != null) {
-                    existingChvRegister.setStartEntryTime(chvRegister.getStartEntryTime());
-                }
-                if (chvRegister.getDeleted() != null) {
-                    existingChvRegister.setDeleted(chvRegister.getDeleted());
-                }
                 if (chvRegister.getCreatedBy() != null) {
                     existingChvRegister.setCreatedBy(chvRegister.getCreatedBy());
                 }

@@ -10,9 +10,9 @@
     -->
     <changeSet id="20240522234855-2" author="jhipster">
 
-        <addForeignKeyConstraint baseColumnNames="village_data_id"
+        <addForeignKeyConstraint baseColumnNames="itns_village_id"
                                  baseTableName="itns_village_houses_detail"
-                                 constraintName="fk_itns_village_houses_detail__village_data_id"
+                                 constraintName="fk_itns_village_houses_detail__itns_village_id"
                                  referencedColumnNames="id"
                                  referencedTableName="itns_village"
                                  />

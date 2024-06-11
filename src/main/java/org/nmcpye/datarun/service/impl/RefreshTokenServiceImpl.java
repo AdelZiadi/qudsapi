@@ -35,6 +35,7 @@ public class RefreshTokenServiceImpl implements RefreshTokenService {
     @Override
     public RefreshToken update(RefreshToken refreshToken) {
         log.debug("Request to update RefreshToken : {}", refreshToken);
+        refreshToken.setIsPersisted();
         return refreshTokenRepository.save(refreshToken);
     }
 
@@ -45,11 +46,26 @@ public class RefreshTokenServiceImpl implements RefreshTokenService {
         return refreshTokenRepository
             .findById(refreshToken.getId())
             .map(existingRefreshToken -> {
+                if (refreshToken.getUid() != null) {
+                    existingRefreshToken.setUid(refreshToken.getUid());
+                }
                 if (refreshToken.getToken() != null) {
                     existingRefreshToken.setToken(refreshToken.getToken());
                 }
                 if (refreshToken.getExpiryDate() != null) {
                     existingRefreshToken.setExpiryDate(refreshToken.getExpiryDate());
+                }
+                if (refreshToken.getCreatedBy() != null) {
+                    existingRefreshToken.setCreatedBy(refreshToken.getCreatedBy());
+                }
+                if (refreshToken.getCreatedDate() != null) {
+                    existingRefreshToken.setCreatedDate(refreshToken.getCreatedDate());
+                }
+                if (refreshToken.getLastModifiedBy() != null) {
+                    existingRefreshToken.setLastModifiedBy(refreshToken.getLastModifiedBy());
+                }
+                if (refreshToken.getLastModifiedDate() != null) {
+                    existingRefreshToken.setLastModifiedDate(refreshToken.getLastModifiedDate());
                 }
 
                 return existingRefreshToken;

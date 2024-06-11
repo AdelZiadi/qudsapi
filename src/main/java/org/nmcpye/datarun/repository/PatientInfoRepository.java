@@ -27,14 +27,18 @@ public interface PatientInfoRepository extends JpaRepository<PatientInfo, Long> 
     }
 
     @Query(
-        value = "select patientInfo from PatientInfo patientInfo left join fetch patientInfo.location",
+        value = "select patientInfo from PatientInfo patientInfo left join fetch patientInfo.location left join fetch patientInfo.activity left join fetch patientInfo.team",
         countQuery = "select count(patientInfo) from PatientInfo patientInfo"
     )
     Page<PatientInfo> findAllWithToOneRelationships(Pageable pageable);
 
-    @Query("select patientInfo from PatientInfo patientInfo left join fetch patientInfo.location")
+    @Query(
+        "select patientInfo from PatientInfo patientInfo left join fetch patientInfo.location left join fetch patientInfo.activity left join fetch patientInfo.team"
+    )
     List<PatientInfo> findAllWithToOneRelationships();
 
-    @Query("select patientInfo from PatientInfo patientInfo left join fetch patientInfo.location where patientInfo.id =:id")
+    @Query(
+        "select patientInfo from PatientInfo patientInfo left join fetch patientInfo.location left join fetch patientInfo.activity left join fetch patientInfo.team where patientInfo.id =:id"
+    )
     Optional<PatientInfo> findOneWithToOneRelationships(@Param("id") Long id);
 }

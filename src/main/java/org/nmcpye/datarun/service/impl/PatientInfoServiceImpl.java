@@ -61,6 +61,18 @@ public class PatientInfoServiceImpl implements PatientInfoService {
                 if (patientInfo.getGender() != null) {
                     existingPatientInfo.setGender(patientInfo.getGender());
                 }
+                if (patientInfo.getStartEntryTime() != null) {
+                    existingPatientInfo.setStartEntryTime(patientInfo.getStartEntryTime());
+                }
+                if (patientInfo.getFinishedEntryTime() != null) {
+                    existingPatientInfo.setFinishedEntryTime(patientInfo.getFinishedEntryTime());
+                }
+                if (patientInfo.getStatus() != null) {
+                    existingPatientInfo.setStatus(patientInfo.getStatus());
+                }
+                if (patientInfo.getDeleted() != null) {
+                    existingPatientInfo.setDeleted(patientInfo.getDeleted());
+                }
                 if (patientInfo.getCreatedBy() != null) {
                     existingPatientInfo.setCreatedBy(patientInfo.getCreatedBy());
                 }

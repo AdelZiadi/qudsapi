@@ -23,6 +23,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.nmcpye.datarun.IntegrationTest;
 import org.nmcpye.datarun.domain.Warehouse;
 import org.nmcpye.datarun.domain.WarehouseTransaction;
+import org.nmcpye.datarun.domain.enumeration.SyncableStatus;
 import org.nmcpye.datarun.repository.WarehouseTransactionRepository;
 import org.nmcpye.datarun.service.WarehouseTransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -88,6 +89,15 @@ class WarehouseTransactionResourceIT {
     private static final String DEFAULT_SUBMISSION_UUID = "AAAAAAAAAA";
     private static final String UPDATED_SUBMISSION_UUID = "BBBBBBBBBB";
 
+    private static final Instant DEFAULT_START_ENTRY_TIME = Instant.ofEpochMilli(0L);
+    private static final Instant UPDATED_START_ENTRY_TIME = Instant.now().truncatedTo(ChronoUnit.MILLIS);
+
+    private static final Instant DEFAULT_FINISHED_ENTRY_TIME = Instant.ofEpochMilli(0L);
+    private static final Instant UPDATED_FINISHED_ENTRY_TIME = Instant.now().truncatedTo(ChronoUnit.MILLIS);
+
+    private static final SyncableStatus DEFAULT_STATUS = SyncableStatus.ACTIVE;
+    private static final SyncableStatus UPDATED_STATUS = SyncableStatus.COMPLETED;
+
     private static final String ENTITY_API_URL = "/api/warehouse-transactions";
     private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";
 
@@ -136,7 +146,10 @@ class WarehouseTransactionResourceIT {
             .submissionTime(DEFAULT_SUBMISSION_TIME)
             .submissionId(DEFAULT_SUBMISSION_ID)
             .deleted(DEFAULT_DELETED)
-            .submissionUuid(DEFAULT_SUBMISSION_UUID);
+            .submissionUuid(DEFAULT_SUBMISSION_UUID)
+            .startEntryTime(DEFAULT_START_ENTRY_TIME)
+            .finishedEntryTime(DEFAULT_FINISHED_ENTRY_TIME)
+            .status(DEFAULT_STATUS);
         // Add required entity
         Warehouse warehouse;
         if (TestUtil.findAll(em, Warehouse.class).isEmpty()) {
@@ -172,7 +185,10 @@ class WarehouseTransactionResourceIT {
             .submissionTime(UPDATED_SUBMISSION_TIME)
             .submissionId(UPDATED_SUBMISSION_ID)
             .deleted(UPDATED_DELETED)
-            .submissionUuid(UPDATED_SUBMISSION_UUID);
+            .submissionUuid(UPDATED_SUBMISSION_UUID)
+            .startEntryTime(UPDATED_START_ENTRY_TIME)
+            .finishedEntryTime(UPDATED_FINISHED_ENTRY_TIME)
+            .status(UPDATED_STATUS);
         // Add required entity
         Warehouse warehouse;
         if (TestUtil.findAll(em, Warehouse.class).isEmpty()) {
@@ -321,7 +337,10 @@ class WarehouseTransactionResourceIT {
             .andExpect(jsonPath("$.[*].submissionTime").value(hasItem(DEFAULT_SUBMISSION_TIME.toString())))
             .andExpect(jsonPath("$.[*].submissionId").value(hasItem(DEFAULT_SUBMISSION_ID.intValue())))
             .andExpect(jsonPath("$.[*].deleted").value(hasItem(DEFAULT_DELETED.booleanValue())))
-            .andExpect(jsonPath("$.[*].submissionUuid").value(hasItem(DEFAULT_SUBMISSION_UUID)));
+            .andExpect(jsonPath("$.[*].submissionUuid").value(hasItem(DEFAULT_SUBMISSION_UUID)))
+            .andExpect(jsonPath("$.[*].startEntryTime").value(hasItem(DEFAULT_START_ENTRY_TIME.toString())))
+            .andExpect(jsonPath("$.[*].finishedEntryTime").value(hasItem(DEFAULT_FINISHED_ENTRY_TIME.toString())))
+            .andExpect(jsonPath("$.[*].status").value(hasItem(DEFAULT_STATUS.toString())));
     }
 
     @SuppressWarnings({ "unchecked" })
@@ -367,7 +386,10 @@ class WarehouseTransactionResourceIT {
             .andExpect(jsonPath("$.submissionTime").value(DEFAULT_SUBMISSION_TIME.toString()))
             .andExpect(jsonPath("$.submissionId").value(DEFAULT_SUBMISSION_ID.intValue()))
             .andExpect(jsonPath("$.deleted").value(DEFAULT_DELETED.booleanValue()))
-            .andExpect(jsonPath("$.submissionUuid").value(DEFAULT_SUBMISSION_UUID));
+            .andExpect(jsonPath("$.submissionUuid").value(DEFAULT_SUBMISSION_UUID))
+            .andExpect(jsonPath("$.startEntryTime").value(DEFAULT_START_ENTRY_TIME.toString()))
+            .andExpect(jsonPath("$.finishedEntryTime").value(DEFAULT_FINISHED_ENTRY_TIME.toString()))
+            .andExpect(jsonPath("$.status").value(DEFAULT_STATUS.toString()));
     }
 
     @Test
@@ -406,7 +428,10 @@ class WarehouseTransactionResourceIT {
             .submissionTime(UPDATED_SUBMISSION_TIME)
             .submissionId(UPDATED_SUBMISSION_ID)
             .deleted(UPDATED_DELETED)
-            .submissionUuid(UPDATED_SUBMISSION_UUID);
+            .submissionUuid(UPDATED_SUBMISSION_UUID)
+            .startEntryTime(UPDATED_START_ENTRY_TIME)
+            .finishedEntryTime(UPDATED_FINISHED_ENTRY_TIME)
+            .status(UPDATED_STATUS);
 
         restWarehouseTransactionMockMvc
             .perform(
@@ -487,14 +512,15 @@ class WarehouseTransactionResourceIT {
         partialUpdatedWarehouseTransaction.setId(warehouseTransaction.getId());
 
         partialUpdatedWarehouseTransaction
-            .name(UPDATED_NAME)
+            .uid(UPDATED_UID)
             .imovUid(UPDATED_IMOV_UID)
-            .transactionDate(UPDATED_TRANSACTION_DATE)
-            .phaseNo(UPDATED_PHASE_NO)
-            .entryType(UPDATED_ENTRY_TYPE)
-            .notes(UPDATED_NOTES)
+            .personName(UPDATED_PERSON_NAME)
+            .submissionTime(UPDATED_SUBMISSION_TIME)
             .submissionId(UPDATED_SUBMISSION_ID)
-            .submissionUuid(UPDATED_SUBMISSION_UUID);
+            .deleted(UPDATED_DELETED)
+            .submissionUuid(UPDATED_SUBMISSION_UUID)
+            .finishedEntryTime(UPDATED_FINISHED_ENTRY_TIME)
+            .status(UPDATED_STATUS);
 
         restWarehouseTransactionMockMvc
             .perform(
@@ -540,7 +566,10 @@ class WarehouseTransactionResourceIT {
             .submissionTime(UPDATED_SUBMISSION_TIME)
             .submissionId(UPDATED_SUBMISSION_ID)
             .deleted(UPDATED_DELETED)
-            .submissionUuid(UPDATED_SUBMISSION_UUID);
+            .submissionUuid(UPDATED_SUBMISSION_UUID)
+            .startEntryTime(UPDATED_START_ENTRY_TIME)
+            .finishedEntryTime(UPDATED_FINISHED_ENTRY_TIME)
+            .status(UPDATED_STATUS);
 
         restWarehouseTransactionMockMvc
             .perform(

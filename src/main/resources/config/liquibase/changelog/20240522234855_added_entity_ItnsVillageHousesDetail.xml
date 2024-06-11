@@ -56,11 +56,11 @@
             <column name="submission_uuid" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
-            <column name="deleted" type="boolean">
-                <constraints nullable="true" />
-            </column>
             <column name="house_uuid" type="varchar(255)">
                 <constraints nullable="true" unique="true" uniqueConstraintName="ux_itns_village_houses_detail__house_uuid" />
+            </column>
+            <column name="deleted" type="boolean">
+                <constraints nullable="true" />
             </column>
             <column name="created_by" type="varchar(50)">
                 <constraints nullable="false" />
@@ -74,7 +74,7 @@
             <column name="last_modified_date" type="${datetimeType}">
                 <constraints nullable="false" />
             </column>
-            <column name="village_data_id" type="bigint">
+            <column name="itns_village_id" type="bigint">
                 <constraints nullable="false" />
             </column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->

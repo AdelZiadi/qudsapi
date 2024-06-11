@@ -43,6 +43,9 @@ import org.springframework.transaction.annotation.Transactional;
 @WithMockUser
 class RefreshTokenResourceIT {
 
+    private static final String DEFAULT_UID = "AAAAAAAAAA";
+    private static final String UPDATED_UID = "BBBBBBBBBB";
+
     private static final String DEFAULT_TOKEN = "AAAAAAAAAA";
     private static final String UPDATED_TOKEN = "BBBBBBBBBB";
 
@@ -82,7 +85,7 @@ class RefreshTokenResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static RefreshToken createEntity(EntityManager em) {
-        RefreshToken refreshToken = new RefreshToken().token(DEFAULT_TOKEN).expiryDate(DEFAULT_EXPIRY_DATE);
+        RefreshToken refreshToken = new RefreshToken().uid(DEFAULT_UID).token(DEFAULT_TOKEN).expiryDate(DEFAULT_EXPIRY_DATE);
         // Add required entity
         User user = UserResourceIT.createEntity(em);
         em.persist(user);
@@ -98,7 +101,7 @@ class RefreshTokenResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static RefreshToken createUpdatedEntity(EntityManager em) {
-        RefreshToken refreshToken = new RefreshToken().token(UPDATED_TOKEN).expiryDate(UPDATED_EXPIRY_DATE);
+        RefreshToken refreshToken = new RefreshToken().uid(UPDATED_UID).token(UPDATED_TOKEN).expiryDate(UPDATED_EXPIRY_DATE);
         // Add required entity
         User user = UserResourceIT.createEntity(em);
         em.persist(user);
@@ -177,6 +180,7 @@ class RefreshTokenResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(refreshToken.getId().intValue())))
+            .andExpect(jsonPath("$.[*].uid").value(hasItem(DEFAULT_UID)))
             .andExpect(jsonPath("$.[*].token").value(hasItem(DEFAULT_TOKEN)))
             .andExpect(jsonPath("$.[*].expiryDate").value(hasItem(DEFAULT_EXPIRY_DATE.toString())));
     }
@@ -210,6 +214,7 @@ class RefreshTokenResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(refreshToken.getId().intValue()))
+            .andExpect(jsonPath("$.uid").value(DEFAULT_UID))
             .andExpect(jsonPath("$.token").value(DEFAULT_TOKEN))
             .andExpect(jsonPath("$.expiryDate").value(DEFAULT_EXPIRY_DATE.toString()));
     }
@@ -233,7 +238,7 @@ class RefreshTokenResourceIT {
         RefreshToken updatedRefreshToken = refreshTokenRepository.findById(refreshToken.getId()).orElseThrow();
         // Disconnect from session so that the updates on updatedRefreshToken are not directly saved in db
         em.detach(updatedRefreshToken);
-        updatedRefreshToken.token(UPDATED_TOKEN).expiryDate(UPDATED_EXPIRY_DATE);
+        updatedRefreshToken.uid(UPDATED_UID).token(UPDATED_TOKEN).expiryDate(UPDATED_EXPIRY_DATE);
 
         restRefreshTokenMockMvc
             .perform(
@@ -313,7 +318,7 @@ class RefreshTokenResourceIT {
         RefreshToken partialUpdatedRefreshToken = new RefreshToken();
         partialUpdatedRefreshToken.setId(refreshToken.getId());
 
-        partialUpdatedRefreshToken.expiryDate(UPDATED_EXPIRY_DATE);
+        partialUpdatedRefreshToken.uid(UPDATED_UID).token(UPDATED_TOKEN).expiryDate(UPDATED_EXPIRY_DATE);
 
         restRefreshTokenMockMvc
             .perform(
@@ -344,7 +349,7 @@ class RefreshTokenResourceIT {
         RefreshToken partialUpdatedRefreshToken = new RefreshToken();
         partialUpdatedRefreshToken.setId(refreshToken.getId());
 
-        partialUpdatedRefreshToken.token(UPDATED_TOKEN).expiryDate(UPDATED_EXPIRY_DATE);
+        partialUpdatedRefreshToken.uid(UPDATED_UID).token(UPDATED_TOKEN).expiryDate(UPDATED_EXPIRY_DATE);
 
         restRefreshTokenMockMvc
             .perform(

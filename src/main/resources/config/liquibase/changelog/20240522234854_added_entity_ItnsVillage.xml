@@ -68,15 +68,6 @@
             <column name="ho_proof" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
-            <column name="start_entry_time" type="${datetimeType}">
-                <constraints nullable="true" />
-            </column>
-            <column name="end_entry_time" type="${datetimeType}">
-                <constraints nullable="true" />
-            </column>
-            <column name="finished_entry_time" type="${datetimeType}">
-                <constraints nullable="true" />
-            </column>
             <column name="ho_proof_url" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
@@ -93,6 +84,15 @@
                 <constraints nullable="true" />
             </column>
             <column name="other_team_no" type="bigint">
+                <constraints nullable="true" />
+            </column>
+            <column name="start_entry_time" type="${datetimeType}">
+                <constraints nullable="true" />
+            </column>
+            <column name="finished_entry_time" type="${datetimeType}">
+                <constraints nullable="true" />
+            </column>
+            <column name="status" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
             <column name="deleted" type="boolean">
@@ -126,10 +126,9 @@
         </createTable>
         <dropDefaultValue tableName="itns_village" columnName="work_day_date" columnDataType="${datetimeType}"/>
         <dropDefaultValue tableName="itns_village" columnName="location_capture_time" columnDataType="${datetimeType}"/>
-        <dropDefaultValue tableName="itns_village" columnName="start_entry_time" columnDataType="${datetimeType}"/>
-        <dropDefaultValue tableName="itns_village" columnName="end_entry_time" columnDataType="${datetimeType}"/>
-        <dropDefaultValue tableName="itns_village" columnName="finished_entry_time" columnDataType="${datetimeType}"/>
         <dropDefaultValue tableName="itns_village" columnName="submission_time" columnDataType="${datetimeType}"/>
+        <dropDefaultValue tableName="itns_village" columnName="start_entry_time" columnDataType="${datetimeType}"/>
+        <dropDefaultValue tableName="itns_village" columnName="finished_entry_time" columnDataType="${datetimeType}"/>
         <dropDefaultValue tableName="itns_village" columnName="created_date" columnDataType="${datetimeType}"/>
         <dropDefaultValue tableName="itns_village" columnName="last_modified_date" columnDataType="${datetimeType}"/>
     </changeSet>

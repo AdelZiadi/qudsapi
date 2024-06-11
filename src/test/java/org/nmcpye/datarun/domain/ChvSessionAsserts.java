@@ -57,8 +57,10 @@ public class ChvSessionAsserts {
             .satisfies(e -> assertThat(e.getSessions()).as("check sessions").isEqualTo(actual.getSessions()))
             .satisfies(e -> assertThat(e.getPeople()).as("check people").isEqualTo(actual.getPeople()))
             .satisfies(e -> assertThat(e.getComment()).as("check comment").isEqualTo(actual.getComment()))
+            .satisfies(e -> assertThat(e.getDeleted()).as("check deleted").isEqualTo(actual.getDeleted()))
             .satisfies(e -> assertThat(e.getStartEntryTime()).as("check startEntryTime").isEqualTo(actual.getStartEntryTime()))
-            .satisfies(e -> assertThat(e.getDeleted()).as("check deleted").isEqualTo(actual.getDeleted()));
+            .satisfies(e -> assertThat(e.getFinishedEntryTime()).as("check finishedEntryTime").isEqualTo(actual.getFinishedEntryTime()))
+            .satisfies(e -> assertThat(e.getStatus()).as("check status").isEqualTo(actual.getStatus()));
     }
 
     /**
@@ -70,6 +72,7 @@ public class ChvSessionAsserts {
     public static void assertChvSessionUpdatableRelationshipsEquals(ChvSession expected, ChvSession actual) {
         assertThat(expected)
             .as("Verify ChvSession relationships")
-            .satisfies(e -> assertThat(e.getTeam()).as("check team").isEqualTo(actual.getTeam()));
+            .satisfies(e -> assertThat(e.getTeam()).as("check team").isEqualTo(actual.getTeam()))
+            .satisfies(e -> assertThat(e.getActivity()).as("check activity").isEqualTo(actual.getActivity()));
     }
 }

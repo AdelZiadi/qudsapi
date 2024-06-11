@@ -1,6 +1,7 @@
 package org.nmcpye.datarun.domain;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.nmcpye.datarun.domain.ActivityTestSamples.*;
 import static org.nmcpye.datarun.domain.ChvSessionTestSamples.*;
 import static org.nmcpye.datarun.domain.TeamTestSamples.*;
 
@@ -33,5 +34,17 @@ class ChvSessionTest {
 
         chvSession.team(null);
         assertThat(chvSession.getTeam()).isNull();
+    }
+
+    @Test
+    void activityTest() throws Exception {
+        ChvSession chvSession = getChvSessionRandomSampleGenerator();
+        Activity activityBack = getActivityRandomSampleGenerator();
+
+        chvSession.setActivity(activityBack);
+        assertThat(chvSession.getActivity()).isEqualTo(activityBack);
+
+        chvSession.activity(null);
+        assertThat(chvSession.getActivity()).isNull();
     }
 }

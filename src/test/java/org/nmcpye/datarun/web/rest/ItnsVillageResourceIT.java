@@ -26,6 +26,7 @@ import org.nmcpye.datarun.domain.ItnsVillage;
 import org.nmcpye.datarun.domain.Team;
 import org.nmcpye.datarun.domain.enumeration.SettlementEnum;
 import org.nmcpye.datarun.domain.enumeration.SurveyTypeEnum;
+import org.nmcpye.datarun.domain.enumeration.SyncableStatus;
 import org.nmcpye.datarun.repository.ItnsVillageRepository;
 import org.nmcpye.datarun.service.ItnsVillageService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -100,15 +101,6 @@ class ItnsVillageResourceIT {
     private static final String DEFAULT_HO_PROOF = "AAAAAAAAAA";
     private static final String UPDATED_HO_PROOF = "BBBBBBBBBB";
 
-    private static final Instant DEFAULT_START_ENTRY_TIME = Instant.ofEpochMilli(0L);
-    private static final Instant UPDATED_START_ENTRY_TIME = Instant.now().truncatedTo(ChronoUnit.MILLIS);
-
-    private static final Instant DEFAULT_END_ENTRY_TIME = Instant.ofEpochMilli(0L);
-    private static final Instant UPDATED_END_ENTRY_TIME = Instant.now().truncatedTo(ChronoUnit.MILLIS);
-
-    private static final Instant DEFAULT_FINISHED_ENTRY_TIME = Instant.ofEpochMilli(0L);
-    private static final Instant UPDATED_FINISHED_ENTRY_TIME = Instant.now().truncatedTo(ChronoUnit.MILLIS);
-
     private static final String DEFAULT_HO_PROOF_URL = "AAAAAAAAAA";
     private static final String UPDATED_HO_PROOF_URL = "BBBBBBBBBB";
 
@@ -126,6 +118,15 @@ class ItnsVillageResourceIT {
 
     private static final Long DEFAULT_OTHER_TEAM_NO = 1L;
     private static final Long UPDATED_OTHER_TEAM_NO = 2L;
+
+    private static final Instant DEFAULT_START_ENTRY_TIME = Instant.ofEpochMilli(0L);
+    private static final Instant UPDATED_START_ENTRY_TIME = Instant.now().truncatedTo(ChronoUnit.MILLIS);
+
+    private static final Instant DEFAULT_FINISHED_ENTRY_TIME = Instant.ofEpochMilli(0L);
+    private static final Instant UPDATED_FINISHED_ENTRY_TIME = Instant.now().truncatedTo(ChronoUnit.MILLIS);
+
+    private static final SyncableStatus DEFAULT_STATUS = SyncableStatus.ACTIVE;
+    private static final SyncableStatus UPDATED_STATUS = SyncableStatus.COMPLETED;
 
     private static final Boolean DEFAULT_DELETED = false;
     private static final Boolean UPDATED_DELETED = true;
@@ -182,15 +183,15 @@ class ItnsVillageResourceIT {
             .locationCaptured(DEFAULT_LOCATION_CAPTURED)
             .locationCaptureTime(DEFAULT_LOCATION_CAPTURE_TIME)
             .hoProof(DEFAULT_HO_PROOF)
-            .startEntryTime(DEFAULT_START_ENTRY_TIME)
-            .endEntryTime(DEFAULT_END_ENTRY_TIME)
-            .finishedEntryTime(DEFAULT_FINISHED_ENTRY_TIME)
             .hoProofUrl(DEFAULT_HO_PROOF_URL)
             .submissionTime(DEFAULT_SUBMISSION_TIME)
             .untargetingOtherSpecify(DEFAULT_UNTARGETING_OTHER_SPECIFY)
             .otherVillageName(DEFAULT_OTHER_VILLAGE_NAME)
             .otherVillageCode(DEFAULT_OTHER_VILLAGE_CODE)
             .otherTeamNo(DEFAULT_OTHER_TEAM_NO)
+            .startEntryTime(DEFAULT_START_ENTRY_TIME)
+            .finishedEntryTime(DEFAULT_FINISHED_ENTRY_TIME)
+            .status(DEFAULT_STATUS)
             .deleted(DEFAULT_DELETED);
         // Add required entity
         Team team;
@@ -241,15 +242,15 @@ class ItnsVillageResourceIT {
             .locationCaptured(UPDATED_LOCATION_CAPTURED)
             .locationCaptureTime(UPDATED_LOCATION_CAPTURE_TIME)
             .hoProof(UPDATED_HO_PROOF)
-            .startEntryTime(UPDATED_START_ENTRY_TIME)
-            .endEntryTime(UPDATED_END_ENTRY_TIME)
-            .finishedEntryTime(UPDATED_FINISHED_ENTRY_TIME)
             .hoProofUrl(UPDATED_HO_PROOF_URL)
             .submissionTime(UPDATED_SUBMISSION_TIME)
             .untargetingOtherSpecify(UPDATED_UNTARGETING_OTHER_SPECIFY)
             .otherVillageName(UPDATED_OTHER_VILLAGE_NAME)
             .otherVillageCode(UPDATED_OTHER_VILLAGE_CODE)
             .otherTeamNo(UPDATED_OTHER_TEAM_NO)
+            .startEntryTime(UPDATED_START_ENTRY_TIME)
+            .finishedEntryTime(UPDATED_FINISHED_ENTRY_TIME)
+            .status(UPDATED_STATUS)
             .deleted(UPDATED_DELETED);
         // Add required entity
         Team team;
@@ -378,15 +379,15 @@ class ItnsVillageResourceIT {
             .andExpect(jsonPath("$.[*].locationCaptured").value(hasItem(DEFAULT_LOCATION_CAPTURED)))
             .andExpect(jsonPath("$.[*].locationCaptureTime").value(hasItem(DEFAULT_LOCATION_CAPTURE_TIME.toString())))
             .andExpect(jsonPath("$.[*].hoProof").value(hasItem(DEFAULT_HO_PROOF)))
-            .andExpect(jsonPath("$.[*].startEntryTime").value(hasItem(DEFAULT_START_ENTRY_TIME.toString())))
-            .andExpect(jsonPath("$.[*].endEntryTime").value(hasItem(DEFAULT_END_ENTRY_TIME.toString())))
-            .andExpect(jsonPath("$.[*].finishedEntryTime").value(hasItem(DEFAULT_FINISHED_ENTRY_TIME.toString())))
             .andExpect(jsonPath("$.[*].hoProofUrl").value(hasItem(DEFAULT_HO_PROOF_URL)))
             .andExpect(jsonPath("$.[*].submissionTime").value(hasItem(DEFAULT_SUBMISSION_TIME.toString())))
             .andExpect(jsonPath("$.[*].untargetingOtherSpecify").value(hasItem(DEFAULT_UNTARGETING_OTHER_SPECIFY)))
             .andExpect(jsonPath("$.[*].otherVillageName").value(hasItem(DEFAULT_OTHER_VILLAGE_NAME)))
             .andExpect(jsonPath("$.[*].otherVillageCode").value(hasItem(DEFAULT_OTHER_VILLAGE_CODE)))
             .andExpect(jsonPath("$.[*].otherTeamNo").value(hasItem(DEFAULT_OTHER_TEAM_NO.intValue())))
+            .andExpect(jsonPath("$.[*].startEntryTime").value(hasItem(DEFAULT_START_ENTRY_TIME.toString())))
+            .andExpect(jsonPath("$.[*].finishedEntryTime").value(hasItem(DEFAULT_FINISHED_ENTRY_TIME.toString())))
+            .andExpect(jsonPath("$.[*].status").value(hasItem(DEFAULT_STATUS.toString())))
             .andExpect(jsonPath("$.[*].deleted").value(hasItem(DEFAULT_DELETED.booleanValue())));
     }
 
@@ -437,15 +438,15 @@ class ItnsVillageResourceIT {
             .andExpect(jsonPath("$.locationCaptured").value(DEFAULT_LOCATION_CAPTURED))
             .andExpect(jsonPath("$.locationCaptureTime").value(DEFAULT_LOCATION_CAPTURE_TIME.toString()))
             .andExpect(jsonPath("$.hoProof").value(DEFAULT_HO_PROOF))
-            .andExpect(jsonPath("$.startEntryTime").value(DEFAULT_START_ENTRY_TIME.toString()))
-            .andExpect(jsonPath("$.endEntryTime").value(DEFAULT_END_ENTRY_TIME.toString()))
-            .andExpect(jsonPath("$.finishedEntryTime").value(DEFAULT_FINISHED_ENTRY_TIME.toString()))
             .andExpect(jsonPath("$.hoProofUrl").value(DEFAULT_HO_PROOF_URL))
             .andExpect(jsonPath("$.submissionTime").value(DEFAULT_SUBMISSION_TIME.toString()))
             .andExpect(jsonPath("$.untargetingOtherSpecify").value(DEFAULT_UNTARGETING_OTHER_SPECIFY))
             .andExpect(jsonPath("$.otherVillageName").value(DEFAULT_OTHER_VILLAGE_NAME))
             .andExpect(jsonPath("$.otherVillageCode").value(DEFAULT_OTHER_VILLAGE_CODE))
             .andExpect(jsonPath("$.otherTeamNo").value(DEFAULT_OTHER_TEAM_NO.intValue()))
+            .andExpect(jsonPath("$.startEntryTime").value(DEFAULT_START_ENTRY_TIME.toString()))
+            .andExpect(jsonPath("$.finishedEntryTime").value(DEFAULT_FINISHED_ENTRY_TIME.toString()))
+            .andExpect(jsonPath("$.status").value(DEFAULT_STATUS.toString()))
             .andExpect(jsonPath("$.deleted").value(DEFAULT_DELETED.booleanValue()));
     }
 
@@ -487,15 +488,15 @@ class ItnsVillageResourceIT {
             .locationCaptured(UPDATED_LOCATION_CAPTURED)
             .locationCaptureTime(UPDATED_LOCATION_CAPTURE_TIME)
             .hoProof(UPDATED_HO_PROOF)
-            .startEntryTime(UPDATED_START_ENTRY_TIME)
-            .endEntryTime(UPDATED_END_ENTRY_TIME)
-            .finishedEntryTime(UPDATED_FINISHED_ENTRY_TIME)
             .hoProofUrl(UPDATED_HO_PROOF_URL)
             .submissionTime(UPDATED_SUBMISSION_TIME)
             .untargetingOtherSpecify(UPDATED_UNTARGETING_OTHER_SPECIFY)
             .otherVillageName(UPDATED_OTHER_VILLAGE_NAME)
             .otherVillageCode(UPDATED_OTHER_VILLAGE_CODE)
             .otherTeamNo(UPDATED_OTHER_TEAM_NO)
+            .startEntryTime(UPDATED_START_ENTRY_TIME)
+            .finishedEntryTime(UPDATED_FINISHED_ENTRY_TIME)
+            .status(UPDATED_STATUS)
             .deleted(UPDATED_DELETED);
 
         restItnsVillageMockMvc
@@ -577,16 +578,17 @@ class ItnsVillageResourceIT {
         partialUpdatedItnsVillage.setId(itnsVillage.getId());
 
         partialUpdatedItnsVillage
-            .name(UPDATED_NAME)
-            .submissionUuid(UPDATED_SUBMISSION_UUID)
-            .otherReasonComment(UPDATED_OTHER_REASON_COMMENT)
+            .uid(UPDATED_UID)
+            .workDayDate(UPDATED_WORK_DAY_DATE)
+            .surveytype(UPDATED_SURVEYTYPE)
             .settlementName(UPDATED_SETTLEMENT_NAME)
-            .locationCaptureTime(UPDATED_LOCATION_CAPTURE_TIME)
-            .hoProof(UPDATED_HO_PROOF)
-            .finishedEntryTime(UPDATED_FINISHED_ENTRY_TIME)
+            .tlCommenet(UPDATED_TL_COMMENET)
+            .timeSpentHours(UPDATED_TIME_SPENT_HOURS)
+            .difficulties(UPDATED_DIFFICULTIES)
             .submissionTime(UPDATED_SUBMISSION_TIME)
-            .untargetingOtherSpecify(UPDATED_UNTARGETING_OTHER_SPECIFY)
-            .otherTeamNo(UPDATED_OTHER_TEAM_NO);
+            .otherVillageCode(UPDATED_OTHER_VILLAGE_CODE)
+            .finishedEntryTime(UPDATED_FINISHED_ENTRY_TIME)
+            .status(UPDATED_STATUS);
 
         restItnsVillageMockMvc
             .perform(
@@ -636,15 +638,15 @@ class ItnsVillageResourceIT {
             .locationCaptured(UPDATED_LOCATION_CAPTURED)
             .locationCaptureTime(UPDATED_LOCATION_CAPTURE_TIME)
             .hoProof(UPDATED_HO_PROOF)
-            .startEntryTime(UPDATED_START_ENTRY_TIME)
-            .endEntryTime(UPDATED_END_ENTRY_TIME)
-            .finishedEntryTime(UPDATED_FINISHED_ENTRY_TIME)
             .hoProofUrl(UPDATED_HO_PROOF_URL)
             .submissionTime(UPDATED_SUBMISSION_TIME)
             .untargetingOtherSpecify(UPDATED_UNTARGETING_OTHER_SPECIFY)
             .otherVillageName(UPDATED_OTHER_VILLAGE_NAME)
             .otherVillageCode(UPDATED_OTHER_VILLAGE_CODE)
             .otherTeamNo(UPDATED_OTHER_TEAM_NO)
+            .startEntryTime(UPDATED_START_ENTRY_TIME)
+            .finishedEntryTime(UPDATED_FINISHED_ENTRY_TIME)
+            .status(UPDATED_STATUS)
             .deleted(UPDATED_DELETED);
 
         restItnsVillageMockMvc

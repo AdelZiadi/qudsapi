@@ -69,9 +69,6 @@ public class ItnsVillageAsserts {
                 e -> assertThat(e.getLocationCaptureTime()).as("check locationCaptureTime").isEqualTo(actual.getLocationCaptureTime())
             )
             .satisfies(e -> assertThat(e.getHoProof()).as("check hoProof").isEqualTo(actual.getHoProof()))
-            .satisfies(e -> assertThat(e.getStartEntryTime()).as("check startEntryTime").isEqualTo(actual.getStartEntryTime()))
-            .satisfies(e -> assertThat(e.getEndEntryTime()).as("check endEntryTime").isEqualTo(actual.getEndEntryTime()))
-            .satisfies(e -> assertThat(e.getFinishedEntryTime()).as("check finishedEntryTime").isEqualTo(actual.getFinishedEntryTime()))
             .satisfies(e -> assertThat(e.getHoProofUrl()).as("check hoProofUrl").isEqualTo(actual.getHoProofUrl()))
             .satisfies(e -> assertThat(e.getSubmissionTime()).as("check submissionTime").isEqualTo(actual.getSubmissionTime()))
             .satisfies(
@@ -83,6 +80,9 @@ public class ItnsVillageAsserts {
             .satisfies(e -> assertThat(e.getOtherVillageName()).as("check otherVillageName").isEqualTo(actual.getOtherVillageName()))
             .satisfies(e -> assertThat(e.getOtherVillageCode()).as("check otherVillageCode").isEqualTo(actual.getOtherVillageCode()))
             .satisfies(e -> assertThat(e.getOtherTeamNo()).as("check otherTeamNo").isEqualTo(actual.getOtherTeamNo()))
+            .satisfies(e -> assertThat(e.getStartEntryTime()).as("check startEntryTime").isEqualTo(actual.getStartEntryTime()))
+            .satisfies(e -> assertThat(e.getFinishedEntryTime()).as("check finishedEntryTime").isEqualTo(actual.getFinishedEntryTime()))
+            .satisfies(e -> assertThat(e.getStatus()).as("check status").isEqualTo(actual.getStatus()))
             .satisfies(e -> assertThat(e.getDeleted()).as("check deleted").isEqualTo(actual.getDeleted()));
     }
 

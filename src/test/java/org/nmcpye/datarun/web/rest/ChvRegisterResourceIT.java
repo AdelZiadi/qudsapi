@@ -22,6 +22,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.nmcpye.datarun.IntegrationTest;
 import org.nmcpye.datarun.domain.ChvRegister;
+import org.nmcpye.datarun.domain.PatientInfo;
 import org.nmcpye.datarun.domain.enumeration.MDetectionType;
 import org.nmcpye.datarun.domain.enumeration.MSeverity;
 import org.nmcpye.datarun.domain.enumeration.MTestResult;
@@ -76,12 +77,6 @@ class ChvRegisterResourceIT {
     private static final String DEFAULT_COMMENT = "AAAAAAAAAA";
     private static final String UPDATED_COMMENT = "BBBBBBBBBB";
 
-    private static final Instant DEFAULT_START_ENTRY_TIME = Instant.ofEpochMilli(0L);
-    private static final Instant UPDATED_START_ENTRY_TIME = Instant.now().truncatedTo(ChronoUnit.MILLIS);
-
-    private static final Boolean DEFAULT_DELETED = false;
-    private static final Boolean UPDATED_DELETED = true;
-
     private static final String ENTITY_API_URL = "/api/chv-registers";
     private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";
 
@@ -125,9 +120,17 @@ class ChvRegisterResourceIT {
             .detectionType(DEFAULT_DETECTION_TYPE)
             .severity(DEFAULT_SEVERITY)
             .treatment(DEFAULT_TREATMENT)
-            .comment(DEFAULT_COMMENT)
-            .startEntryTime(DEFAULT_START_ENTRY_TIME)
-            .deleted(DEFAULT_DELETED);
+            .comment(DEFAULT_COMMENT);
+        // Add required entity
+        PatientInfo patientInfo;
+        if (TestUtil.findAll(em, PatientInfo.class).isEmpty()) {
+            patientInfo = PatientInfoResourceIT.createEntity(em);
+            em.persist(patientInfo);
+            em.flush();
+        } else {
+            patientInfo = TestUtil.findAll(em, PatientInfo.class).get(0);
+        }
+        chvRegister.setPatient(patientInfo);
         return chvRegister;
     }
 
@@ -148,9 +151,17 @@ class ChvRegisterResourceIT {
             .detectionType(UPDATED_DETECTION_TYPE)
             .severity(UPDATED_SEVERITY)
             .treatment(UPDATED_TREATMENT)
-            .comment(UPDATED_COMMENT)
-            .startEntryTime(UPDATED_START_ENTRY_TIME)
-            .deleted(UPDATED_DELETED);
+            .comment(UPDATED_COMMENT);
+        // Add required entity
+        PatientInfo patientInfo;
+        if (TestUtil.findAll(em, PatientInfo.class).isEmpty()) {
+            patientInfo = PatientInfoResourceIT.createUpdatedEntity(em);
+            em.persist(patientInfo);
+            em.flush();
+        } else {
+            patientInfo = TestUtil.findAll(em, PatientInfo.class).get(0);
+        }
+        chvRegister.setPatient(patientInfo);
         return chvRegister;
     }
 
@@ -233,9 +244,7 @@ class ChvRegisterResourceIT {
             .andExpect(jsonPath("$.[*].detectionType").value(hasItem(DEFAULT_DETECTION_TYPE.toString())))
             .andExpect(jsonPath("$.[*].severity").value(hasItem(DEFAULT_SEVERITY.toString())))
             .andExpect(jsonPath("$.[*].treatment").value(hasItem(DEFAULT_TREATMENT.toString())))
-            .andExpect(jsonPath("$.[*].comment").value(hasItem(DEFAULT_COMMENT)))
-            .andExpect(jsonPath("$.[*].startEntryTime").value(hasItem(DEFAULT_START_ENTRY_TIME.toString())))
-            .andExpect(jsonPath("$.[*].deleted").value(hasItem(DEFAULT_DELETED.booleanValue())));
+            .andExpect(jsonPath("$.[*].comment").value(hasItem(DEFAULT_COMMENT)));
     }
 
     @SuppressWarnings({ "unchecked" })
@@ -276,9 +285,7 @@ class ChvRegisterResourceIT {
             .andExpect(jsonPath("$.detectionType").value(DEFAULT_DETECTION_TYPE.toString()))
             .andExpect(jsonPath("$.severity").value(DEFAULT_SEVERITY.toString()))
             .andExpect(jsonPath("$.treatment").value(DEFAULT_TREATMENT.toString()))
-            .andExpect(jsonPath("$.comment").value(DEFAULT_COMMENT))
-            .andExpect(jsonPath("$.startEntryTime").value(DEFAULT_START_ENTRY_TIME.toString()))
-            .andExpect(jsonPath("$.deleted").value(DEFAULT_DELETED.booleanValue()));
+            .andExpect(jsonPath("$.comment").value(DEFAULT_COMMENT));
     }
 
     @Test
@@ -310,9 +317,7 @@ class ChvRegisterResourceIT {
             .detectionType(UPDATED_DETECTION_TYPE)
             .severity(UPDATED_SEVERITY)
             .treatment(UPDATED_TREATMENT)
-            .comment(UPDATED_COMMENT)
-            .startEntryTime(UPDATED_START_ENTRY_TIME)
-            .deleted(UPDATED_DELETED);
+            .comment(UPDATED_COMMENT);
 
         restChvRegisterMockMvc
             .perform(
@@ -392,7 +397,13 @@ class ChvRegisterResourceIT {
         ChvRegister partialUpdatedChvRegister = new ChvRegister();
         partialUpdatedChvRegister.setId(chvRegister.getId());
 
-        partialUpdatedChvRegister.uid(UPDATED_UID).code(UPDATED_CODE).treatment(UPDATED_TREATMENT).startEntryTime(UPDATED_START_ENTRY_TIME);
+        partialUpdatedChvRegister
+            .name(UPDATED_NAME)
+            .visitDate(UPDATED_VISIT_DATE)
+            .pregnant(UPDATED_PREGNANT)
+            .severity(UPDATED_SEVERITY)
+            .treatment(UPDATED_TREATMENT)
+            .comment(UPDATED_COMMENT);
 
         restChvRegisterMockMvc
             .perform(
@@ -433,9 +444,7 @@ class ChvRegisterResourceIT {
             .detectionType(UPDATED_DETECTION_TYPE)
             .severity(UPDATED_SEVERITY)
             .treatment(UPDATED_TREATMENT)
-            .comment(UPDATED_COMMENT)
-            .startEntryTime(UPDATED_START_ENTRY_TIME)
-            .deleted(UPDATED_DELETED);
+            .comment(UPDATED_COMMENT);
 
         restChvRegisterMockMvc
             .perform(

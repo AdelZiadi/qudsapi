@@ -15,41 +15,59 @@ import java.util.Optional;
  */
 @Repository
 public interface PatientInfoRepositoryCustom
-    extends PatientInfoRepository {
+    extends PatientInfoRepositoryWithBagRelationships, PatientInfoRepository {
 
     Optional<PatientInfo> findByUid(String uid);
 
     default Optional<PatientInfo> findOneWithEagerRelationshipsByUser(Long id) {
-        return this.findOneWithToOneRelationshipsByUser(id);
+        return this.fetchBagRelationships(this.findOneWithToOneRelationshipsByUser(id));
     }
 
     default List<PatientInfo> findAllWithEagerRelationshipsByUser() {
-        return this.findAllWithToOneRelationshipsByUser();
+        return this.fetchBagRelationships(this.findAllWithToOneRelationshipsByUser());
     }
 
     default Page<PatientInfo> findAllWithEagerRelationshipsByUser(Pageable pageable) {
-        return this.findAllWithToOneRelationshipsByUser(pageable);
+        return this.fetchBagRelationships(this.findAllWithToOneRelationshipsByUser(pageable));
     }
 
     @Query(
         value = "select patientInfo from PatientInfo patientInfo " +
-            "left join patientInfo.location",
-        countQuery = "select count(patientInfo) from PatientInfo patientInfo"
+            "left join patientInfo.team " +
+            "left join patientInfo.location " +
+            "left join patientInfo.activity " +
+            "WHERE patientInfo.team.userInfo.login = ?#{authentication.name}",
+        countQuery = "select count(patientInfo) from PatientInfo patientInfo " +
+            "WHERE patientInfo.team.userInfo.login = ?#{authentication.name}"
     )
     Page<PatientInfo> findAllByUser(Pageable pageable);
 
     @Query(
         value = "select patientInfo from PatientInfo patientInfo " +
-            "left join fetch patientInfo.location",
-        countQuery = "select count(patientInfo) from PatientInfo patientInfo"
+            "left join fetch patientInfo.team " +
+            "left join fetch patientInfo.location " +
+            "left join fetch patientInfo.activity " +
+            "WHERE patientInfo.team.userInfo.login = ?#{authentication.name}",
+        countQuery = "select count(patientInfo) from PatientInfo patientInfo " +
+            "WHERE patientInfo.team.userInfo.login = ?#{authentication.name}"
     )
     Page<PatientInfo> findAllWithToOneRelationshipsByUser(Pageable pageable);
 
-    @Query("select patientInfo from PatientInfo patientInfo " +
-        "left join fetch patientInfo.location")
+    @Query(
+        "select patientInfo from PatientInfo patientInfo " +
+            "left join fetch patientInfo.team " +
+            "left join fetch patientInfo.location " +
+            "left join fetch patientInfo.activity " +
+            "WHERE patientInfo.team.userInfo.login = ?#{authentication.name}"
+    )
     List<PatientInfo> findAllWithToOneRelationshipsByUser();
 
-    @Query("select patientInfo from PatientInfo patientInfo " +
-        "left join fetch patientInfo.location where patientInfo.id =:id")
+    @Query(
+        "select patientInfo from PatientInfo patientInfo " +
+            "left join fetch patientInfo.team " +
+            "left join fetch patientInfo.location " +
+            "left join fetch patientInfo.activity " +
+            "where patientInfo.id =:id and patientInfo.team.userInfo.login = ?#{authentication.name}"
+    )
     Optional<PatientInfo> findOneWithToOneRelationshipsByUser(@Param("id") Long id);
 }

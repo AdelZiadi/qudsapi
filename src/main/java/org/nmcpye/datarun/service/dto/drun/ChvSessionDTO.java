@@ -40,6 +40,8 @@ public class ChvSessionDTO implements Serializable {
 
     private TeamDTO team;
 
+    private ActivityDTO activity;
+
     public String getUid() {
         return uid;
     }
@@ -165,5 +167,13 @@ public class ChvSessionDTO implements Serializable {
             ", deleted='" + getDeleted() + "'" +
             ", team=" + getTeam() +
             "}";
+    }
+
+    public ActivityDTO getActivity() {
+        return activity;
+    }
+
+    public void setActivity(ActivityDTO activity) {
+        this.activity = activity;
     }
 }

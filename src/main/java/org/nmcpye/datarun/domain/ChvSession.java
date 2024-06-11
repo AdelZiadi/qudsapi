@@ -8,6 +8,7 @@ import java.time.Instant;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.nmcpye.datarun.domain.enumeration.MSessionSubject;
+import org.nmcpye.datarun.domain.enumeration.SyncableStatus;
 import org.springframework.data.domain.Persistable;
 
 /**
@@ -57,11 +58,18 @@ public class ChvSession extends AbstractAuditingEntity<Long> implements Serializ
     @Column(name = "comment")
     private String comment;
 
+    @Column(name = "deleted")
+    private Boolean deleted;
+
     @Column(name = "start_entry_time")
     private Instant startEntryTime;
 
-    @Column(name = "deleted")
-    private Boolean deleted;
+    @Column(name = "finished_entry_time")
+    private Instant finishedEntryTime;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status")
+    private SyncableStatus status;
 
     // Inherited createdBy definition
     // Inherited createdDate definition
@@ -73,6 +81,10 @@ public class ChvSession extends AbstractAuditingEntity<Long> implements Serializ
     @ManyToOne(fetch = FetchType.LAZY)
     @JsonIgnoreProperties(value = { "activity", "operationRoom", "warehouse", "userInfo", "assignments" }, allowSetters = true)
     private Team team;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnoreProperties(value = { "project" }, allowSetters = true)
+    private Activity activity;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -193,6 +205,19 @@ public class ChvSession extends AbstractAuditingEntity<Long> implements Serializ
         this.comment = comment;
     }
 
+    public Boolean getDeleted() {
+        return this.deleted;
+    }
+
+    public ChvSession deleted(Boolean deleted) {
+        this.setDeleted(deleted);
+        return this;
+    }
+
+    public void setDeleted(Boolean deleted) {
+        this.deleted = deleted;
+    }
+
     public Instant getStartEntryTime() {
         return this.startEntryTime;
     }
@@ -206,17 +231,30 @@ public class ChvSession extends AbstractAuditingEntity<Long> implements Serializ
         this.startEntryTime = startEntryTime;
     }
 
-    public Boolean getDeleted() {
-        return this.deleted;
+    public Instant getFinishedEntryTime() {
+        return this.finishedEntryTime;
     }
 
-    public ChvSession deleted(Boolean deleted) {
-        this.setDeleted(deleted);
+    public ChvSession finishedEntryTime(Instant finishedEntryTime) {
+        this.setFinishedEntryTime(finishedEntryTime);
         return this;
     }
 
-    public void setDeleted(Boolean deleted) {
-        this.deleted = deleted;
+    public void setFinishedEntryTime(Instant finishedEntryTime) {
+        this.finishedEntryTime = finishedEntryTime;
+    }
+
+    public SyncableStatus getStatus() {
+        return this.status;
+    }
+
+    public ChvSession status(SyncableStatus status) {
+        this.setStatus(status);
+        return this;
+    }
+
+    public void setStatus(SyncableStatus status) {
+        this.status = status;
     }
 
     // Inherited createdBy methods
@@ -273,6 +311,19 @@ public class ChvSession extends AbstractAuditingEntity<Long> implements Serializ
         return this;
     }
 
+    public Activity getActivity() {
+        return this.activity;
+    }
+
+    public void setActivity(Activity activity) {
+        this.activity = activity;
+    }
+
+    public ChvSession activity(Activity activity) {
+        this.setActivity(activity);
+        return this;
+    }
+
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
 
     @Override
@@ -305,8 +356,10 @@ public class ChvSession extends AbstractAuditingEntity<Long> implements Serializ
             ", sessions=" + getSessions() +
             ", people=" + getPeople() +
             ", comment='" + getComment() + "'" +
-            ", startEntryTime='" + getStartEntryTime() + "'" +
             ", deleted='" + getDeleted() + "'" +
+            ", startEntryTime='" + getStartEntryTime() + "'" +
+            ", finishedEntryTime='" + getFinishedEntryTime() + "'" +
+            ", status='" + getStatus() + "'" +
             ", createdBy='" + getCreatedBy() + "'" +
             ", createdDate='" + getCreatedDate() + "'" +
             ", lastModifiedBy='" + getLastModifiedBy() + "'" +

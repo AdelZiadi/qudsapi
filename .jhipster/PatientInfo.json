@@ -33,6 +33,23 @@
       "fieldValues": "MALE,FEMALE"
     },
     {
+      "fieldName": "startEntryTime",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "finishedEntryTime",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "status",
+      "fieldType": "SyncableStatus",
+      "fieldValues": "ACTIVE,COMPLETED"
+    },
+    {
+      "fieldName": "deleted",
+      "fieldType": "Boolean"
+    },
+    {
       "auditField": true,
       "autoGenerate": true,
       "columnType": "varchar(50)",
@@ -76,6 +93,27 @@
       "relationshipName": "location",
       "relationshipSide": "left",
       "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityField": "code",
+      "otherEntityName": "activity",
+      "relationshipName": "activity",
+      "relationshipSide": "left",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityField": "code",
+      "otherEntityName": "team",
+      "relationshipName": "team",
+      "relationshipSide": "left",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityName": "chvRegister",
+      "otherEntityRelationshipName": "patient",
+      "relationshipName": "chvRegister",
+      "relationshipSide": "right",
+      "relationshipType": "one-to-many"
     }
   ],
   "searchEngine": "no",

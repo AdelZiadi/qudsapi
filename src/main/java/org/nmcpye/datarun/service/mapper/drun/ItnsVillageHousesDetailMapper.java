@@ -12,7 +12,7 @@ import org.nmcpye.datarun.service.dto.drun.*;
  */
 @Mapper(componentModel = "spring")
 public interface ItnsVillageHousesDetailMapper extends EntityMapper<ItnsVillageHousesDetailDTO, ItnsVillageHousesDetail> {
-    @Mapping(target = "villageData", source = "villageData", qualifiedByName = "itnsVillageId")
+    @Mapping(target = "itnsVillage", source = "itnsVillage", qualifiedByName = "itnsVillageId")
     ItnsVillageHousesDetailDTO toDto(ItnsVillageHousesDetail s);
 
     @Named("itnsVillageId")

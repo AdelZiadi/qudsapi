@@ -77,6 +77,19 @@
       "fieldType": "String"
     },
     {
+      "fieldName": "startEntryTime",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "finishedEntryTime",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "status",
+      "fieldType": "SyncableStatus",
+      "fieldValues": "ACTIVE,COMPLETED"
+    },
+    {
       "auditField": true,
       "autoGenerate": true,
       "columnType": "varchar(50)",

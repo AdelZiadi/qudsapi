@@ -44,12 +44,21 @@
       "fieldType": "String"
     },
     {
+      "fieldName": "deleted",
+      "fieldType": "Boolean"
+    },
+    {
       "fieldName": "startEntryTime",
       "fieldType": "Instant"
     },
     {
-      "fieldName": "deleted",
-      "fieldType": "Boolean"
+      "fieldName": "finishedEntryTime",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "status",
+      "fieldType": "SyncableStatus",
+      "fieldValues": "ACTIVE,COMPLETED"
     },
     {
       "auditField": true,
@@ -93,6 +102,13 @@
       "otherEntityField": "code",
       "otherEntityName": "team",
       "relationshipName": "team",
+      "relationshipSide": "left",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityField": "code",
+      "otherEntityName": "activity",
+      "relationshipName": "activity",
       "relationshipSide": "left",
       "relationshipType": "many-to-one"
     }

@@ -72,8 +72,8 @@ public class ItnsVillageHousesDetailAsserts {
             .satisfies(e -> assertThat(e.getItns()).as("check itns").isEqualTo(actual.getItns()))
             .satisfies(e -> assertThat(e.getComment()).as("check comment").isEqualTo(actual.getComment()))
             .satisfies(e -> assertThat(e.getSubmissionUuid()).as("check submissionUuid").isEqualTo(actual.getSubmissionUuid()))
-            .satisfies(e -> assertThat(e.getDeleted()).as("check deleted").isEqualTo(actual.getDeleted()))
-            .satisfies(e -> assertThat(e.getHouseUuid()).as("check houseUuid").isEqualTo(actual.getHouseUuid()));
+            .satisfies(e -> assertThat(e.getHouseUuid()).as("check houseUuid").isEqualTo(actual.getHouseUuid()))
+            .satisfies(e -> assertThat(e.getDeleted()).as("check deleted").isEqualTo(actual.getDeleted()));
     }
 
     /**
@@ -88,6 +88,6 @@ public class ItnsVillageHousesDetailAsserts {
     ) {
         assertThat(expected)
             .as("Verify ItnsVillageHousesDetail relationships")
-            .satisfies(e -> assertThat(e.getVillageData()).as("check villageData").isEqualTo(actual.getVillageData()));
+            .satisfies(e -> assertThat(e.getItnsVillage()).as("check itnsVillage").isEqualTo(actual.getItnsVillage()));
     }
 }

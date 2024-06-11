@@ -7,6 +7,7 @@ import java.io.Serializable;
 import java.time.Instant;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.nmcpye.datarun.domain.enumeration.SyncableStatus;
 import org.springframework.data.domain.Persistable;
 
 /**
@@ -79,6 +80,16 @@ public class WarehouseTransaction extends AbstractAuditingEntity<Long> implement
 
     @Column(name = "submission_uuid")
     private String submissionUuid;
+
+    @Column(name = "start_entry_time")
+    private Instant startEntryTime;
+
+    @Column(name = "finished_entry_time")
+    private Instant finishedEntryTime;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status")
+    private SyncableStatus status;
 
     // Inherited createdBy definition
     // Inherited createdDate definition
@@ -317,6 +328,45 @@ public class WarehouseTransaction extends AbstractAuditingEntity<Long> implement
         this.submissionUuid = submissionUuid;
     }
 
+    public Instant getStartEntryTime() {
+        return this.startEntryTime;
+    }
+
+    public WarehouseTransaction startEntryTime(Instant startEntryTime) {
+        this.setStartEntryTime(startEntryTime);
+        return this;
+    }
+
+    public void setStartEntryTime(Instant startEntryTime) {
+        this.startEntryTime = startEntryTime;
+    }
+
+    public Instant getFinishedEntryTime() {
+        return this.finishedEntryTime;
+    }
+
+    public WarehouseTransaction finishedEntryTime(Instant finishedEntryTime) {
+        this.setFinishedEntryTime(finishedEntryTime);
+        return this;
+    }
+
+    public void setFinishedEntryTime(Instant finishedEntryTime) {
+        this.finishedEntryTime = finishedEntryTime;
+    }
+
+    public SyncableStatus getStatus() {
+        return this.status;
+    }
+
+    public WarehouseTransaction status(SyncableStatus status) {
+        this.setStatus(status);
+        return this;
+    }
+
+    public void setStatus(SyncableStatus status) {
+        this.status = status;
+    }
+
     // Inherited createdBy methods
     public WarehouseTransaction createdBy(String createdBy) {
         this.setCreatedBy(createdBy);
@@ -462,6 +512,9 @@ public class WarehouseTransaction extends AbstractAuditingEntity<Long> implement
             ", submissionId=" + getSubmissionId() +
             ", deleted='" + getDeleted() + "'" +
             ", submissionUuid='" + getSubmissionUuid() + "'" +
+            ", startEntryTime='" + getStartEntryTime() + "'" +
+            ", finishedEntryTime='" + getFinishedEntryTime() + "'" +
+            ", status='" + getStatus() + "'" +
             ", createdBy='" + getCreatedBy() + "'" +
             ", createdDate='" + getCreatedDate() + "'" +
             ", lastModifiedBy='" + getLastModifiedBy() + "'" +

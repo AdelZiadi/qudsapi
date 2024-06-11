@@ -23,6 +23,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.nmcpye.datarun.IntegrationTest;
 import org.nmcpye.datarun.domain.ChvSession;
 import org.nmcpye.datarun.domain.enumeration.MSessionSubject;
+import org.nmcpye.datarun.domain.enumeration.SyncableStatus;
 import org.nmcpye.datarun.repository.ChvSessionRepository;
 import org.nmcpye.datarun.service.ChvSessionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,11 +68,17 @@ class ChvSessionResourceIT {
     private static final String DEFAULT_COMMENT = "AAAAAAAAAA";
     private static final String UPDATED_COMMENT = "BBBBBBBBBB";
 
+    private static final Boolean DEFAULT_DELETED = false;
+    private static final Boolean UPDATED_DELETED = true;
+
     private static final Instant DEFAULT_START_ENTRY_TIME = Instant.ofEpochMilli(0L);
     private static final Instant UPDATED_START_ENTRY_TIME = Instant.now().truncatedTo(ChronoUnit.MILLIS);
 
-    private static final Boolean DEFAULT_DELETED = false;
-    private static final Boolean UPDATED_DELETED = true;
+    private static final Instant DEFAULT_FINISHED_ENTRY_TIME = Instant.ofEpochMilli(0L);
+    private static final Instant UPDATED_FINISHED_ENTRY_TIME = Instant.now().truncatedTo(ChronoUnit.MILLIS);
+
+    private static final SyncableStatus DEFAULT_STATUS = SyncableStatus.ACTIVE;
+    private static final SyncableStatus UPDATED_STATUS = SyncableStatus.COMPLETED;
 
     private static final String ENTITY_API_URL = "/api/chv-sessions";
     private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";
@@ -115,8 +122,10 @@ class ChvSessionResourceIT {
             .sessions(DEFAULT_SESSIONS)
             .people(DEFAULT_PEOPLE)
             .comment(DEFAULT_COMMENT)
+            .deleted(DEFAULT_DELETED)
             .startEntryTime(DEFAULT_START_ENTRY_TIME)
-            .deleted(DEFAULT_DELETED);
+            .finishedEntryTime(DEFAULT_FINISHED_ENTRY_TIME)
+            .status(DEFAULT_STATUS);
         return chvSession;
     }
 
@@ -136,8 +145,10 @@ class ChvSessionResourceIT {
             .sessions(UPDATED_SESSIONS)
             .people(UPDATED_PEOPLE)
             .comment(UPDATED_COMMENT)
+            .deleted(UPDATED_DELETED)
             .startEntryTime(UPDATED_START_ENTRY_TIME)
-            .deleted(UPDATED_DELETED);
+            .finishedEntryTime(UPDATED_FINISHED_ENTRY_TIME)
+            .status(UPDATED_STATUS);
         return chvSession;
     }
 
@@ -251,8 +262,10 @@ class ChvSessionResourceIT {
             .andExpect(jsonPath("$.[*].sessions").value(hasItem(DEFAULT_SESSIONS)))
             .andExpect(jsonPath("$.[*].people").value(hasItem(DEFAULT_PEOPLE)))
             .andExpect(jsonPath("$.[*].comment").value(hasItem(DEFAULT_COMMENT)))
+            .andExpect(jsonPath("$.[*].deleted").value(hasItem(DEFAULT_DELETED.booleanValue())))
             .andExpect(jsonPath("$.[*].startEntryTime").value(hasItem(DEFAULT_START_ENTRY_TIME.toString())))
-            .andExpect(jsonPath("$.[*].deleted").value(hasItem(DEFAULT_DELETED.booleanValue())));
+            .andExpect(jsonPath("$.[*].finishedEntryTime").value(hasItem(DEFAULT_FINISHED_ENTRY_TIME.toString())))
+            .andExpect(jsonPath("$.[*].status").value(hasItem(DEFAULT_STATUS.toString())));
     }
 
     @SuppressWarnings({ "unchecked" })
@@ -292,8 +305,10 @@ class ChvSessionResourceIT {
             .andExpect(jsonPath("$.sessions").value(DEFAULT_SESSIONS))
             .andExpect(jsonPath("$.people").value(DEFAULT_PEOPLE))
             .andExpect(jsonPath("$.comment").value(DEFAULT_COMMENT))
+            .andExpect(jsonPath("$.deleted").value(DEFAULT_DELETED.booleanValue()))
             .andExpect(jsonPath("$.startEntryTime").value(DEFAULT_START_ENTRY_TIME.toString()))
-            .andExpect(jsonPath("$.deleted").value(DEFAULT_DELETED.booleanValue()));
+            .andExpect(jsonPath("$.finishedEntryTime").value(DEFAULT_FINISHED_ENTRY_TIME.toString()))
+            .andExpect(jsonPath("$.status").value(DEFAULT_STATUS.toString()));
     }
 
     @Test
@@ -324,8 +339,10 @@ class ChvSessionResourceIT {
             .sessions(UPDATED_SESSIONS)
             .people(UPDATED_PEOPLE)
             .comment(UPDATED_COMMENT)
+            .deleted(UPDATED_DELETED)
             .startEntryTime(UPDATED_START_ENTRY_TIME)
-            .deleted(UPDATED_DELETED);
+            .finishedEntryTime(UPDATED_FINISHED_ENTRY_TIME)
+            .status(UPDATED_STATUS);
 
         restChvSessionMockMvc
             .perform(
@@ -405,10 +422,13 @@ class ChvSessionResourceIT {
 
         partialUpdatedChvSession
             .uid(UPDATED_UID)
+            .code(UPDATED_CODE)
             .name(UPDATED_NAME)
+            .sessionDate(UPDATED_SESSION_DATE)
+            .sessions(UPDATED_SESSIONS)
             .people(UPDATED_PEOPLE)
-            .startEntryTime(UPDATED_START_ENTRY_TIME)
-            .deleted(UPDATED_DELETED);
+            .deleted(UPDATED_DELETED)
+            .startEntryTime(UPDATED_START_ENTRY_TIME);
 
         restChvSessionMockMvc
             .perform(
@@ -448,8 +468,10 @@ class ChvSessionResourceIT {
             .sessions(UPDATED_SESSIONS)
             .people(UPDATED_PEOPLE)
             .comment(UPDATED_COMMENT)
+            .deleted(UPDATED_DELETED)
             .startEntryTime(UPDATED_START_ENTRY_TIME)
-            .deleted(UPDATED_DELETED);
+            .finishedEntryTime(UPDATED_FINISHED_ENTRY_TIME)
+            .status(UPDATED_STATUS);
 
         restChvSessionMockMvc
             .perform(

@@ -16,5 +16,12 @@
                                  referencedColumnNames="id"
                                  referencedTableName="team"
                                  />
+
+        <addForeignKeyConstraint baseColumnNames="activity_id"
+                                 baseTableName="chv_session"
+                                 constraintName="fk_chv_session__activity_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="activity"
+                                 />
     </changeSet>
 </databaseChangeLog>

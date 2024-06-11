@@ -58,6 +58,11 @@ enum MSessionSubject {
     TRANSMISSION_PREVENTION
 }
 
+enum SyncableStatus {
+    ACTIVE
+    COMPLETED
+}
+
 entity Project
     (
     project
@@ -141,15 +146,15 @@ entity ItnsVillage {
     locationCaptured String
     locationCaptureTime Instant
     hoProof String
-    startEntryTime Instant
-    endEntryTime Instant
-    finishedEntryTime Instant
     hoProofUrl String
     submissionTime Instant
     untargetingOtherSpecify String
     otherVillageName String maxlength(2000)
     otherVillageCode String maxlength(2000)
     otherTeamNo Long
+    startEntryTime Instant
+    finishedEntryTime Instant
+    status SyncableStatus
     deleted Boolean
 }
 
@@ -168,8 +173,8 @@ entity ItnsVillageHousesDetail {
     itns Integer min(0)
     comment String maxlength(2000)
     submissionUuid String
-    deleted Boolean
     houseUuid String unique
+    deleted Boolean
 }
 
 entity ProgressStatus {
@@ -228,6 +233,9 @@ entity WarehouseTransaction {
     submissionId Long
     deleted Boolean
     submissionUuid String
+    startEntryTime Instant
+    finishedEntryTime Instant
+    status SyncableStatus
 }
 
 entity PatientInfo {
@@ -236,6 +244,10 @@ entity PatientInfo {
     name String
     age Integer min(1) max(140)
     gender Gender
+    startEntryTime Instant
+    finishedEntryTime Instant
+    status SyncableStatus
+    deleted Boolean
 }
 
 entity ChvRegister {
@@ -249,8 +261,6 @@ entity ChvRegister {
     severity MSeverity
     treatment MTreatment
     comment String
-    startEntryTime Instant
-    deleted Boolean
 }
 
 entity ChvSession {
@@ -262,8 +272,20 @@ entity ChvSession {
     sessions Integer required
     people Integer required
     comment String
-    startEntryTime Instant
     deleted Boolean
+    startEntryTime Instant
+    finishedEntryTime Instant
+    status SyncableStatus
+}
+
+entity RefreshToken {
+    uid String unique maxlength(11)
+    token String required unique
+    expiryDate Instant
+}
+
+relationship ManyToOne {
+    RefreshToken{user(login) required} to User with builtInEntity
 }
 
 // Define Relationships
@@ -272,15 +294,27 @@ relationship ManyToOne {
 }
 
 relationship ManyToOne {
-    ChvRegister{patient(name)} to PatientInfo
+    PatientInfo {activity (code)} to Activity
 }
 
 relationship ManyToOne {
-    ChvRegister{team(code)} to Team
+    PatientInfo{team(code)} to Team
+}
+
+//relationship ManyToOne {
+//    ChvRegister{patient(name) required} to PatientInfo {chvRegister}
+//}
+
+relationship OneToMany {
+    PatientInfo{chvRegister} to ChvRegister{patient(name) required}
 }
 
 relationship ManyToOne {
     ChvSession{team(code)} to Team
+}
+
+relationship ManyToOne {
+    ChvSession {activity (code)} to Activity
 }
 
 relationship ManyToOne {
@@ -304,7 +338,7 @@ relationship ManyToOne {
 }
 
 relationship ManyToOne {
-    ItnsVillageHousesDetail {villageData required} to ItnsVillage{houseDetail}
+    ItnsVillageHousesDetail {itnsVillage required} to ItnsVillage{houseDetail}
 }
 
 relationship ManyToOne {
@@ -363,7 +397,11 @@ relationship ManyToOne {
     Team{userInfo(login)} to User {team} with builtInEntity
 }
 
+relationship ManyToOne {
+    RefreshToken{user(login) required} to User with builtInEntity
+}
+
 //dto * with mapstruct
 
 service * with serviceImpl
-paginate PatientInfo, ChvRegister, ChvSession, Assignment, Activity, Team, Warehouse, WarehouseTransaction, ItnsVillageHousesDetail, ItnsVillage, VillageLocation with pagination
+paginate RefreshToken, PatientInfo, ChvRegister, ChvSession, Assignment, Activity, Team, Warehouse, WarehouseTransaction, ItnsVillageHousesDetail, ItnsVillage, VillageLocation with pagination

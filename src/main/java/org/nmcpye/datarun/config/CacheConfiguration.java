@@ -71,6 +71,7 @@ public class CacheConfiguration {
             createCache(cm, org.nmcpye.datarun.domain.PatientInfo.class.getName());
             createCache(cm, org.nmcpye.datarun.domain.ChvSession.class.getName());
             createCache(cm, org.nmcpye.datarun.domain.RefreshToken.class.getName());
+            createCache(cm, org.nmcpye.datarun.domain.PatientInfo.class.getName() + ".chvRegisters");
             // jhipster-needle-ehcache-add-entry
         };
     }

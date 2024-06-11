@@ -67,12 +67,6 @@ public class ChvRegister extends AbstractAuditingEntity<Long> implements Seriali
     @Column(name = "comment")
     private String comment;
 
-    @Column(name = "start_entry_time")
-    private Instant startEntryTime;
-
-    @Column(name = "deleted")
-    private Boolean deleted;
-
     // Inherited createdBy definition
     // Inherited createdDate definition
     // Inherited lastModifiedBy definition
@@ -80,13 +74,10 @@ public class ChvRegister extends AbstractAuditingEntity<Long> implements Seriali
     @Transient
     private boolean isPersisted;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JsonIgnoreProperties(value = { "location" }, allowSetters = true)
+    @ManyToOne(optional = false)
+    @NotNull
+    @JsonIgnoreProperties(value = { "location", "activity", "team", "chvRegisters" }, allowSetters = true)
     private PatientInfo patient;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JsonIgnoreProperties(value = { "activity", "operationRoom", "warehouse", "userInfo", "assignments" }, allowSetters = true)
-    private Team team;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -233,32 +224,6 @@ public class ChvRegister extends AbstractAuditingEntity<Long> implements Seriali
         this.comment = comment;
     }
 
-    public Instant getStartEntryTime() {
-        return this.startEntryTime;
-    }
-
-    public ChvRegister startEntryTime(Instant startEntryTime) {
-        this.setStartEntryTime(startEntryTime);
-        return this;
-    }
-
-    public void setStartEntryTime(Instant startEntryTime) {
-        this.startEntryTime = startEntryTime;
-    }
-
-    public Boolean getDeleted() {
-        return this.deleted;
-    }
-
-    public ChvRegister deleted(Boolean deleted) {
-        this.setDeleted(deleted);
-        return this;
-    }
-
-    public void setDeleted(Boolean deleted) {
-        this.deleted = deleted;
-    }
-
     // Inherited createdBy methods
     public ChvRegister createdBy(String createdBy) {
         this.setCreatedBy(createdBy);
@@ -313,19 +278,6 @@ public class ChvRegister extends AbstractAuditingEntity<Long> implements Seriali
         return this;
     }
 
-    public Team getTeam() {
-        return this.team;
-    }
-
-    public void setTeam(Team team) {
-        this.team = team;
-    }
-
-    public ChvRegister team(Team team) {
-        this.setTeam(team);
-        return this;
-    }
-
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
 
     @Override
@@ -360,8 +312,6 @@ public class ChvRegister extends AbstractAuditingEntity<Long> implements Seriali
             ", severity='" + getSeverity() + "'" +
             ", treatment='" + getTreatment() + "'" +
             ", comment='" + getComment() + "'" +
-            ", startEntryTime='" + getStartEntryTime() + "'" +
-            ", deleted='" + getDeleted() + "'" +
             ", createdBy='" + getCreatedBy() + "'" +
             ", createdDate='" + getCreatedDate() + "'" +
             ", lastModifiedBy='" + getLastModifiedBy() + "'" +

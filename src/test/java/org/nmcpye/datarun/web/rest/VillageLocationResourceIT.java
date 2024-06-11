@@ -420,16 +420,16 @@ class VillageLocationResourceIT {
         partialUpdatedVillageLocation.setId(villageLocation.getId());
 
         partialUpdatedVillageLocation
+            .uid(UPDATED_UID)
+            .code(UPDATED_CODE)
             .name(UPDATED_NAME)
-            .mappingStatus(UPDATED_MAPPING_STATUS)
+            .districtCode(UPDATED_DISTRICT_CODE)
             .subdistrictName(UPDATED_SUBDISTRICT_NAME)
             .villageName(UPDATED_VILLAGE_NAME)
-            .subvillageName(UPDATED_SUBVILLAGE_NAME)
             .urbanRuralId(UPDATED_URBAN_RURAL_ID)
-            .pop2004(UPDATED_POP_2004)
-            .pop2022(UPDATED_POP_2022)
-            .latitude(UPDATED_LATITUDE)
-            .level(UPDATED_LEVEL);
+            .urbanRural(UPDATED_URBAN_RURAL)
+            .longitude(UPDATED_LONGITUDE)
+            .ppcCodeGis(UPDATED_PPC_CODE_GIS);
 
         restVillageLocationMockMvc
             .perform(
