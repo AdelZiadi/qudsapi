@@ -27,8 +27,9 @@ public class ItnsVillageHousesDetail extends AbstractAuditingEntity<Long> implem
     @Column(name = "id")
     private Long id;
 
+    @NotNull
     @Size(max = 11)
-    @Column(name = "uid", length = 11, unique = true)
+    @Column(name = "uid", length = 11, nullable = false, unique = true)
     private String uid;
 
     @Column(name = "code", unique = true)
@@ -94,7 +95,7 @@ public class ItnsVillageHousesDetail extends AbstractAuditingEntity<Long> implem
 
     @ManyToOne(optional = false)
     @NotNull
-    @JsonIgnoreProperties(value = { "progressStatus", "team", "assignment", "activity", "houseDetails" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "houseDetails", "progressStatus", "team", "assignment", "activity" }, allowSetters = true)
     private ItnsVillage itnsVillage;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here

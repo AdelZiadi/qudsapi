@@ -22,6 +22,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.nmcpye.datarun.IntegrationTest;
 import org.nmcpye.datarun.domain.Assignment;
+import org.nmcpye.datarun.domain.Team;
 import org.nmcpye.datarun.repository.AssignmentRepository;
 import org.nmcpye.datarun.service.AssignmentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -144,6 +145,16 @@ class AssignmentResourceIT {
             .longitude(DEFAULT_LONGITUDE)
             .latitude(DEFAULT_LATITUDE)
             .startDate(DEFAULT_START_DATE);
+        // Add required entity
+        Team team;
+        if (TestUtil.findAll(em, Team.class).isEmpty()) {
+            team = TeamResourceIT.createEntity(em);
+            em.persist(team);
+            em.flush();
+        } else {
+            team = TestUtil.findAll(em, Team.class).get(0);
+        }
+        assignment.setTeam(team);
         return assignment;
     }
 
@@ -172,6 +183,16 @@ class AssignmentResourceIT {
             .longitude(UPDATED_LONGITUDE)
             .latitude(UPDATED_LATITUDE)
             .startDate(UPDATED_START_DATE);
+        // Add required entity
+        Team team;
+        if (TestUtil.findAll(em, Team.class).isEmpty()) {
+            team = TeamResourceIT.createUpdatedEntity(em);
+            em.persist(team);
+            em.flush();
+        } else {
+            team = TestUtil.findAll(em, Team.class).get(0);
+        }
+        assignment.setTeam(team);
         return assignment;
     }
 
@@ -215,6 +236,22 @@ class AssignmentResourceIT {
 
         // Validate the Assignment in the database
         assertSameRepositoryCount(databaseSizeBeforeCreate);
+    }
+
+    @Test
+    @Transactional
+    void checkUidIsRequired() throws Exception {
+        long databaseSizeBeforeTest = getRepositoryCount();
+        // set the field null
+        assignment.setUid(null);
+
+        // Create the Assignment, which fails.
+
+        restAssignmentMockMvc
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(om.writeValueAsBytes(assignment)))
+            .andExpect(status().isBadRequest());
+
+        assertSameRepositoryCount(databaseSizeBeforeTest);
     }
 
     @Test

@@ -31,8 +31,9 @@ public class PatientInfo extends AbstractAuditingEntity<Long> implements Seriali
     @Column(name = "id")
     private Long id;
 
+    @NotNull
     @Size(max = 11)
-    @Column(name = "uid", length = 11, unique = true)
+    @Column(name = "uid", length = 11, nullable = false, unique = true)
     private String uid;
 
     @Column(name = "code", unique = true)
@@ -70,22 +71,25 @@ public class PatientInfo extends AbstractAuditingEntity<Long> implements Seriali
     @Transient
     private boolean isPersisted;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JsonIgnoreProperties(value = { "activity", "organisationUnit", "team", "warehouse" }, allowSetters = true)
-    private Assignment location;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JsonIgnoreProperties(value = { "project" }, allowSetters = true)
-    private Activity activity;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JsonIgnoreProperties(value = { "activity", "operationRoom", "warehouse", "userInfo", "assignments" }, allowSetters = true)
-    private Team team;
-
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "patient")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     @JsonIgnoreProperties(value = { "patient" }, allowSetters = true)
     private Set<ChvRegister> chvRegisters = new HashSet<>();
+
+    @ManyToOne(optional = false)
+    @NotNull
+    @JsonIgnoreProperties(value = { "activity", "organisationUnit", "team", "warehouse" }, allowSetters = true)
+    private Assignment location;
+
+    @ManyToOne(optional = false)
+    @NotNull
+    @JsonIgnoreProperties(value = { "project" }, allowSetters = true)
+    private Activity activity;
+
+    @ManyToOne(optional = false)
+    @NotNull
+    @JsonIgnoreProperties(value = { "activity", "operationRoom", "warehouse", "userInfo", "assignments" }, allowSetters = true)
+    private Team team;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -260,6 +264,37 @@ public class PatientInfo extends AbstractAuditingEntity<Long> implements Seriali
         return this;
     }
 
+    public Set<ChvRegister> getChvRegisters() {
+        return this.chvRegisters;
+    }
+
+    public void setChvRegisters(Set<ChvRegister> chvRegisters) {
+        if (this.chvRegisters != null) {
+            this.chvRegisters.forEach(i -> i.setPatient(null));
+        }
+        if (chvRegisters != null) {
+            chvRegisters.forEach(i -> i.setPatient(this));
+        }
+        this.chvRegisters = chvRegisters;
+    }
+
+    public PatientInfo chvRegisters(Set<ChvRegister> chvRegisters) {
+        this.setChvRegisters(chvRegisters);
+        return this;
+    }
+
+    public PatientInfo addChvRegister(ChvRegister chvRegister) {
+        this.chvRegisters.add(chvRegister);
+        chvRegister.setPatient(this);
+        return this;
+    }
+
+    public PatientInfo removeChvRegister(ChvRegister chvRegister) {
+        this.chvRegisters.remove(chvRegister);
+        chvRegister.setPatient(null);
+        return this;
+    }
+
     public Assignment getLocation() {
         return this.location;
     }
@@ -296,37 +331,6 @@ public class PatientInfo extends AbstractAuditingEntity<Long> implements Seriali
 
     public PatientInfo team(Team team) {
         this.setTeam(team);
-        return this;
-    }
-
-    public Set<ChvRegister> getChvRegisters() {
-        return this.chvRegisters;
-    }
-
-    public void setChvRegisters(Set<ChvRegister> chvRegisters) {
-        if (this.chvRegisters != null) {
-            this.chvRegisters.forEach(i -> i.setPatient(null));
-        }
-        if (chvRegisters != null) {
-            chvRegisters.forEach(i -> i.setPatient(this));
-        }
-        this.chvRegisters = chvRegisters;
-    }
-
-    public PatientInfo chvRegisters(Set<ChvRegister> chvRegisters) {
-        this.setChvRegisters(chvRegisters);
-        return this;
-    }
-
-    public PatientInfo addChvRegister(ChvRegister chvRegister) {
-        this.chvRegisters.add(chvRegister);
-        chvRegister.setPatient(this);
-        return this;
-    }
-
-    public PatientInfo removeChvRegister(ChvRegister chvRegister) {
-        this.chvRegisters.remove(chvRegister);
-        chvRegister.setPatient(null);
         return this;
     }
 

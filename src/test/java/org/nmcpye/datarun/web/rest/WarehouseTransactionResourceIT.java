@@ -249,6 +249,22 @@ class WarehouseTransactionResourceIT {
 
     @Test
     @Transactional
+    void checkUidIsRequired() throws Exception {
+        long databaseSizeBeforeTest = getRepositoryCount();
+        // set the field null
+        warehouseTransaction.setUid(null);
+
+        // Create the WarehouseTransaction, which fails.
+
+        restWarehouseTransactionMockMvc
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(om.writeValueAsBytes(warehouseTransaction)))
+            .andExpect(status().isBadRequest());
+
+        assertSameRepositoryCount(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
     void checkImovUidIsRequired() throws Exception {
         long databaseSizeBeforeTest = getRepositoryCount();
         // set the field null

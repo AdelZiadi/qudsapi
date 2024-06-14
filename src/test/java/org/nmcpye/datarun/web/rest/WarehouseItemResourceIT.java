@@ -137,6 +137,22 @@ class WarehouseItemResourceIT {
 
     @Test
     @Transactional
+    void checkUidIsRequired() throws Exception {
+        long databaseSizeBeforeTest = getRepositoryCount();
+        // set the field null
+        warehouseItem.setUid(null);
+
+        // Create the WarehouseItem, which fails.
+
+        restWarehouseItemMockMvc
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(om.writeValueAsBytes(warehouseItem)))
+            .andExpect(status().isBadRequest());
+
+        assertSameRepositoryCount(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
     void getAllWarehouseItems() throws Exception {
         // Initialize the database
         warehouseItemRepository.saveAndFlush(warehouseItem);

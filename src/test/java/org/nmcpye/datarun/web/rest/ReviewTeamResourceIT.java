@@ -129,6 +129,22 @@ class ReviewTeamResourceIT {
 
     @Test
     @Transactional
+    void checkUidIsRequired() throws Exception {
+        long databaseSizeBeforeTest = getRepositoryCount();
+        // set the field null
+        reviewTeam.setUid(null);
+
+        // Create the ReviewTeam, which fails.
+
+        restReviewTeamMockMvc
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(om.writeValueAsBytes(reviewTeam)))
+            .andExpect(status().isBadRequest());
+
+        assertSameRepositoryCount(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
     void getAllReviewTeams() throws Exception {
         // Initialize the database
         reviewTeamRepository.saveAndFlush(reviewTeam);

@@ -126,6 +126,22 @@ class ProgressStatusResourceIT {
 
     @Test
     @Transactional
+    void checkUidIsRequired() throws Exception {
+        long databaseSizeBeforeTest = getRepositoryCount();
+        // set the field null
+        progressStatus.setUid(null);
+
+        // Create the ProgressStatus, which fails.
+
+        restProgressStatusMockMvc
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(om.writeValueAsBytes(progressStatus)))
+            .andExpect(status().isBadRequest());
+
+        assertSameRepositoryCount(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
     void getAllProgressStatuses() throws Exception {
         // Initialize the database
         progressStatusRepository.saveAndFlush(progressStatus);

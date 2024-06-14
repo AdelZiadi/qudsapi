@@ -27,8 +27,9 @@ public class Warehouse extends AbstractAuditingEntity<Long> implements Serializa
     @Column(name = "id")
     private Long id;
 
+    @NotNull
     @Size(max = 11)
-    @Column(name = "uid", length = 11, unique = true)
+    @Column(name = "uid", length = 11, nullable = false, unique = true)
     private String uid;
 
     @NotNull

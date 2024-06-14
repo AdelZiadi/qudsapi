@@ -53,7 +53,7 @@ public class PatientInfoRepositoryWithBagRelationshipsImpl
         IntStream.range(0, patientInfos.size()).forEach(index -> order.put(patientInfos.get(index).getId(), index));
         List<PatientInfo> result = entityManager
             .createQuery(
-                "select PatientInfo from PatientInfo patientInfo " +
+                "select patientInfo from PatientInfo patientInfo " +
                     "left join fetch patientInfo.chvRegisters " +
                     "where patientInfo in :patientInfos",
                 PatientInfo.class

@@ -223,6 +223,22 @@ class ItnsVillageHousesDetailResourceIT {
 
     @Test
     @Transactional
+    void checkUidIsRequired() throws Exception {
+        long databaseSizeBeforeTest = getRepositoryCount();
+        // set the field null
+        itnsVillageHousesDetail.setUid(null);
+
+        // Create the ItnsVillageHousesDetail, which fails.
+
+        restItnsVillageHousesDetailMockMvc
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(om.writeValueAsBytes(itnsVillageHousesDetail)))
+            .andExpect(status().isBadRequest());
+
+        assertSameRepositoryCount(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
     void getAllItnsVillageHousesDetails() throws Exception {
         // Initialize the database
         itnsVillageHousesDetailRepository.saveAndFlush(itnsVillageHousesDetail);

@@ -28,8 +28,9 @@ public class WarehouseTransaction extends AbstractAuditingEntity<Long> implement
     @Column(name = "id")
     private Long id;
 
+    @NotNull
     @Size(max = 11)
-    @Column(name = "uid", length = 11, unique = true)
+    @Column(name = "uid", length = 11, nullable = false, unique = true)
     private String uid;
 
     @Column(name = "code")

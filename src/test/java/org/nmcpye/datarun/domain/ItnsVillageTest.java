@@ -30,6 +30,28 @@ class ItnsVillageTest {
     }
 
     @Test
+    void houseDetailTest() throws Exception {
+        ItnsVillage itnsVillage = getItnsVillageRandomSampleGenerator();
+        ItnsVillageHousesDetail itnsVillageHousesDetailBack = getItnsVillageHousesDetailRandomSampleGenerator();
+
+        itnsVillage.addHouseDetail(itnsVillageHousesDetailBack);
+        assertThat(itnsVillage.getHouseDetails()).containsOnly(itnsVillageHousesDetailBack);
+        assertThat(itnsVillageHousesDetailBack.getItnsVillage()).isEqualTo(itnsVillage);
+
+        itnsVillage.removeHouseDetail(itnsVillageHousesDetailBack);
+        assertThat(itnsVillage.getHouseDetails()).doesNotContain(itnsVillageHousesDetailBack);
+        assertThat(itnsVillageHousesDetailBack.getItnsVillage()).isNull();
+
+        itnsVillage.houseDetails(new HashSet<>(Set.of(itnsVillageHousesDetailBack)));
+        assertThat(itnsVillage.getHouseDetails()).containsOnly(itnsVillageHousesDetailBack);
+        assertThat(itnsVillageHousesDetailBack.getItnsVillage()).isEqualTo(itnsVillage);
+
+        itnsVillage.setHouseDetails(new HashSet<>());
+        assertThat(itnsVillage.getHouseDetails()).doesNotContain(itnsVillageHousesDetailBack);
+        assertThat(itnsVillageHousesDetailBack.getItnsVillage()).isNull();
+    }
+
+    @Test
     void progressStatusTest() throws Exception {
         ItnsVillage itnsVillage = getItnsVillageRandomSampleGenerator();
         ProgressStatus progressStatusBack = getProgressStatusRandomSampleGenerator();
@@ -75,27 +97,5 @@ class ItnsVillageTest {
 
         itnsVillage.activity(null);
         assertThat(itnsVillage.getActivity()).isNull();
-    }
-
-    @Test
-    void houseDetailTest() throws Exception {
-        ItnsVillage itnsVillage = getItnsVillageRandomSampleGenerator();
-        ItnsVillageHousesDetail itnsVillageHousesDetailBack = getItnsVillageHousesDetailRandomSampleGenerator();
-
-        itnsVillage.addHouseDetail(itnsVillageHousesDetailBack);
-        assertThat(itnsVillage.getHouseDetails()).containsOnly(itnsVillageHousesDetailBack);
-        assertThat(itnsVillageHousesDetailBack.getItnsVillage()).isEqualTo(itnsVillage);
-
-        itnsVillage.removeHouseDetail(itnsVillageHousesDetailBack);
-        assertThat(itnsVillage.getHouseDetails()).doesNotContain(itnsVillageHousesDetailBack);
-        assertThat(itnsVillageHousesDetailBack.getItnsVillage()).isNull();
-
-        itnsVillage.houseDetails(new HashSet<>(Set.of(itnsVillageHousesDetailBack)));
-        assertThat(itnsVillage.getHouseDetails()).containsOnly(itnsVillageHousesDetailBack);
-        assertThat(itnsVillageHousesDetailBack.getItnsVillage()).isEqualTo(itnsVillage);
-
-        itnsVillage.setHouseDetails(new HashSet<>());
-        assertThat(itnsVillage.getHouseDetails()).doesNotContain(itnsVillageHousesDetailBack);
-        assertThat(itnsVillageHousesDetailBack.getItnsVillage()).isNull();
     }
 }

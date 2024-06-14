@@ -27,8 +27,9 @@ public class Assignment extends AbstractAuditingEntity<Long> implements Serializ
     @Column(name = "id")
     private Long id;
 
+    @NotNull
     @Size(max = 11)
-    @Column(name = "uid", length = 11, unique = true)
+    @Column(name = "uid", length = 11, nullable = false, unique = true)
     private String uid;
 
     @Column(name = "code")
@@ -93,7 +94,8 @@ public class Assignment extends AbstractAuditingEntity<Long> implements Serializ
     @ManyToOne(fetch = FetchType.LAZY)
     private VillageLocation organisationUnit;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(optional = false)
+    @NotNull
     @JsonIgnoreProperties(value = { "activity", "operationRoom", "warehouse", "userInfo", "assignments" }, allowSetters = true)
     private Team team;
 

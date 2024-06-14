@@ -32,8 +32,9 @@ public class ItnsVillage extends AbstractAuditingEntity<Long> implements Seriali
     @Column(name = "id")
     private Long id;
 
+    @NotNull
     @Size(max = 11)
-    @Column(name = "uid", length = 11, unique = true)
+    @Column(name = "uid", length = 11, nullable = false, unique = true)
     private String uid;
 
     @Column(name = "code", unique = true)
@@ -136,6 +137,11 @@ public class ItnsVillage extends AbstractAuditingEntity<Long> implements Seriali
     @Transient
     private boolean isPersisted;
 
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "itnsVillage")
+    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+    @JsonIgnoreProperties(value = { "itnsVillage" }, allowSetters = true)
+    private Set<ItnsVillageHousesDetail> houseDetails = new HashSet<>();
+
     @ManyToOne(fetch = FetchType.LAZY)
     private ProgressStatus progressStatus;
 
@@ -149,14 +155,10 @@ public class ItnsVillage extends AbstractAuditingEntity<Long> implements Seriali
     @JsonIgnoreProperties(value = { "activity", "organisationUnit", "team", "warehouse" }, allowSetters = true)
     private Assignment assignment;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(optional = false)
+    @NotNull
     @JsonIgnoreProperties(value = { "project" }, allowSetters = true)
     private Activity activity;
-
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "itnsVillage")
-    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-    @JsonIgnoreProperties(value = { "itnsVillage" }, allowSetters = true)
-    private Set<ItnsVillageHousesDetail> houseDetails = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -578,6 +580,37 @@ public class ItnsVillage extends AbstractAuditingEntity<Long> implements Seriali
         return this;
     }
 
+    public Set<ItnsVillageHousesDetail> getHouseDetails() {
+        return this.houseDetails;
+    }
+
+    public void setHouseDetails(Set<ItnsVillageHousesDetail> itnsVillageHousesDetails) {
+        if (this.houseDetails != null) {
+            this.houseDetails.forEach(i -> i.setItnsVillage(null));
+        }
+        if (itnsVillageHousesDetails != null) {
+            itnsVillageHousesDetails.forEach(i -> i.setItnsVillage(this));
+        }
+        this.houseDetails = itnsVillageHousesDetails;
+    }
+
+    public ItnsVillage houseDetails(Set<ItnsVillageHousesDetail> itnsVillageHousesDetails) {
+        this.setHouseDetails(itnsVillageHousesDetails);
+        return this;
+    }
+
+    public ItnsVillage addHouseDetail(ItnsVillageHousesDetail itnsVillageHousesDetail) {
+        this.houseDetails.add(itnsVillageHousesDetail);
+        itnsVillageHousesDetail.setItnsVillage(this);
+        return this;
+    }
+
+    public ItnsVillage removeHouseDetail(ItnsVillageHousesDetail itnsVillageHousesDetail) {
+        this.houseDetails.remove(itnsVillageHousesDetail);
+        itnsVillageHousesDetail.setItnsVillage(null);
+        return this;
+    }
+
     public ProgressStatus getProgressStatus() {
         return this.progressStatus;
     }
@@ -627,37 +660,6 @@ public class ItnsVillage extends AbstractAuditingEntity<Long> implements Seriali
 
     public ItnsVillage activity(Activity activity) {
         this.setActivity(activity);
-        return this;
-    }
-
-    public Set<ItnsVillageHousesDetail> getHouseDetails() {
-        return this.houseDetails;
-    }
-
-    public void setHouseDetails(Set<ItnsVillageHousesDetail> itnsVillageHousesDetails) {
-        if (this.houseDetails != null) {
-            this.houseDetails.forEach(i -> i.setItnsVillage(null));
-        }
-        if (itnsVillageHousesDetails != null) {
-            itnsVillageHousesDetails.forEach(i -> i.setItnsVillage(this));
-        }
-        this.houseDetails = itnsVillageHousesDetails;
-    }
-
-    public ItnsVillage houseDetails(Set<ItnsVillageHousesDetail> itnsVillageHousesDetails) {
-        this.setHouseDetails(itnsVillageHousesDetails);
-        return this;
-    }
-
-    public ItnsVillage addHouseDetail(ItnsVillageHousesDetail itnsVillageHousesDetail) {
-        this.houseDetails.add(itnsVillageHousesDetail);
-        itnsVillageHousesDetail.setItnsVillage(this);
-        return this;
-    }
-
-    public ItnsVillage removeHouseDetail(ItnsVillageHousesDetail itnsVillageHousesDetail) {
-        this.houseDetails.remove(itnsVillageHousesDetail);
-        itnsVillageHousesDetail.setItnsVillage(null);
         return this;
     }
 

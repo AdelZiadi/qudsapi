@@ -21,6 +21,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.nmcpye.datarun.IntegrationTest;
+import org.nmcpye.datarun.domain.Activity;
 import org.nmcpye.datarun.domain.Assignment;
 import org.nmcpye.datarun.domain.ItnsVillage;
 import org.nmcpye.datarun.domain.Team;
@@ -213,6 +214,16 @@ class ItnsVillageResourceIT {
             assignment = TestUtil.findAll(em, Assignment.class).get(0);
         }
         itnsVillage.setAssignment(assignment);
+        // Add required entity
+        Activity activity;
+        if (TestUtil.findAll(em, Activity.class).isEmpty()) {
+            activity = ActivityResourceIT.createEntity(em);
+            em.persist(activity);
+            em.flush();
+        } else {
+            activity = TestUtil.findAll(em, Activity.class).get(0);
+        }
+        itnsVillage.setActivity(activity);
         return itnsVillage;
     }
 
@@ -272,6 +283,16 @@ class ItnsVillageResourceIT {
             assignment = TestUtil.findAll(em, Assignment.class).get(0);
         }
         itnsVillage.setAssignment(assignment);
+        // Add required entity
+        Activity activity;
+        if (TestUtil.findAll(em, Activity.class).isEmpty()) {
+            activity = ActivityResourceIT.createUpdatedEntity(em);
+            em.persist(activity);
+            em.flush();
+        } else {
+            activity = TestUtil.findAll(em, Activity.class).get(0);
+        }
+        itnsVillage.setActivity(activity);
         return itnsVillage;
     }
 
@@ -315,6 +336,22 @@ class ItnsVillageResourceIT {
 
         // Validate the ItnsVillage in the database
         assertSameRepositoryCount(databaseSizeBeforeCreate);
+    }
+
+    @Test
+    @Transactional
+    void checkUidIsRequired() throws Exception {
+        long databaseSizeBeforeTest = getRepositoryCount();
+        // set the field null
+        itnsVillage.setUid(null);
+
+        // Create the ItnsVillage, which fails.
+
+        restItnsVillageMockMvc
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(om.writeValueAsBytes(itnsVillage)))
+            .andExpect(status().isBadRequest());
+
+        assertSameRepositoryCount(databaseSizeBeforeTest);
     }
 
     @Test

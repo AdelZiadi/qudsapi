@@ -1,4 +1,12 @@
 // Define Enums
+enum TeamType {
+    ITNS_DISTRIBUTION,
+    ITNS_WAREHOUSE,
+    IRS_DISTRIBUTION,
+    IRS_WAREHOUSE,
+    CHV_PATIENTS
+}
+
 enum EntryTypeEnum {
     DISPENSED
     RETURNED
@@ -86,7 +94,7 @@ entity Activity
 }
 
 entity VillageLocation {
-    uid String unique maxlength(11)
+    uid String required unique maxlength(11)
     code String unique required
     name String
     mappingStatus Integer
@@ -107,7 +115,7 @@ entity VillageLocation {
 }
 
 entity Assignment {
-    uid String unique maxlength(11)
+    uid String required unique maxlength(11)
     code String
     phaseNo Integer
     // fieldCode
@@ -128,7 +136,7 @@ entity Assignment {
 }
 
 entity ItnsVillage {
-    uid String unique maxlength(11)
+    uid String required unique maxlength(11)
     code String unique
     name String
     submissionUuid String unique required
@@ -159,7 +167,7 @@ entity ItnsVillage {
 }
 
 entity ItnsVillageHousesDetail {
-    uid String unique maxlength(11)
+    uid String required unique maxlength(11)
     code String unique
     couponId Long
     name String
@@ -178,30 +186,31 @@ entity ItnsVillageHousesDetail {
 }
 
 entity ProgressStatus {
-    uid String unique maxlength(11)
+    uid String required unique maxlength(11)
     code String unique
     name String
 }
 
 entity ReviewTeam {
-    uid String unique maxlength(11)
+    uid String required unique maxlength(11)
     code String unique
     name String
     user String
 }
 
 entity Team {
-    uid String unique maxlength(11)
+    uid String required unique maxlength(11)
     code String required
     name String
     description String
     mobile String
     workers Integer
     mobility String
+    teamType TeamType
 }
 
 entity Warehouse {
-    uid String unique maxlength(11)
+    uid String required unique maxlength(11)
     code String required
     name String
     description String
@@ -211,14 +220,14 @@ entity Warehouse {
 }
 
 entity WarehouseItem {
-    uid String unique maxlength(11)
+    uid String required unique maxlength(11)
     code String
     name String
     description String
 }
 
 entity WarehouseTransaction {
-    uid String unique maxlength(11)
+    uid String required unique maxlength(11)
     code String
     name String
     imovUid String unique required
@@ -239,7 +248,7 @@ entity WarehouseTransaction {
 }
 
 entity PatientInfo {
-    uid String unique maxlength(11)
+    uid String required unique maxlength(11)
     code String unique
     name String
     age Integer min(1) max(140)
@@ -251,7 +260,7 @@ entity PatientInfo {
 }
 
 entity ChvRegister {
-    uid String unique maxlength(11)
+    uid String required unique maxlength(11)
     code String
     name String
     visitDate Instant required
@@ -264,7 +273,7 @@ entity ChvRegister {
 }
 
 entity ChvSession {
-    uid String unique maxlength(11)
+    uid String required unique maxlength(11)
     code String
     name String
     sessionDate Instant required
@@ -284,41 +293,53 @@ entity RefreshToken {
     expiryDate Instant
 }
 
-relationship ManyToOne {
-    RefreshToken{user(login) required} to User with builtInEntity
+//SystemFormType
+entity TeamFormAccess {
+    uid String required unique maxlength(11)
+    code String
+    name String
+    sessionDate Instant required
+    subject MSessionSubject
+    sessions Integer required
+    people Integer required
+    comment String
+    deleted Boolean
+    startEntryTime Instant
+    finishedEntryTime Instant
+    status SyncableStatus
 }
 
 // Define Relationships
 relationship ManyToOne {
-    PatientInfo{location(code)} to Assignment
+    RefreshToken{user(login) required} to User with builtInEntity
 }
 
 relationship ManyToOne {
-    PatientInfo {activity (code)} to Activity
+    PatientInfo{location(code) required} to Assignment
 }
 
 relationship ManyToOne {
-    PatientInfo{team(code)} to Team
+    PatientInfo {activity (code) required} to Activity
 }
 
-//relationship ManyToOne {
-//    ChvRegister{patient(name) required} to PatientInfo {chvRegister}
-//}
+relationship ManyToOne {
+    PatientInfo{team(code) required} to Team
+}
 
 relationship OneToMany {
     PatientInfo{chvRegister} to ChvRegister{patient(name) required}
 }
 
 relationship ManyToOne {
-    ChvSession{team(code)} to Team
+    ChvSession{team(code) required} to Team
 }
 
 relationship ManyToOne {
-    ChvSession {activity (code)} to Activity
+    ChvSession {activity (code) required} to Activity
 }
 
 relationship ManyToOne {
-    Activity{project(name)} to Project{activity}
+    Activity{project(name) required} to Project{activity}
 }
 
 relationship ManyToOne {
@@ -334,11 +355,11 @@ relationship ManyToOne {
 }
 
 relationship ManyToOne {
-    ItnsVillage {activity (code)} to Activity
+    ItnsVillage {activity (code) required} to Activity
 }
 
-relationship ManyToOne {
-    ItnsVillageHousesDetail {itnsVillage required} to ItnsVillage{houseDetail}
+relationship OneToMany {
+    ItnsVillage{houseDetail} to ItnsVillageHousesDetail {itnsVillage required}
 }
 
 relationship ManyToOne {
@@ -386,7 +407,7 @@ relationship ManyToOne {
 }
 
 relationship ManyToOne {
-    Assignment {team (code)} to Team {assignment}
+    Assignment {team (code) required} to Team {assignment}
 }
 
 relationship ManyToOne {

@@ -21,7 +21,7 @@ import java.util.Optional;
  * REST custom controller for managing {@link WarehouseTransaction}.
  */
 @RestController
-@RequestMapping("/api/custom/warehousesTransactions")
+@RequestMapping("/api/custom/warehouseTransactions")
 public class WarehouseTransactionResourceCustom
     extends AbstractResource<WarehouseTransaction> {
 

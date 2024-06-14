@@ -21,7 +21,10 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.nmcpye.datarun.IntegrationTest;
+import org.nmcpye.datarun.domain.Activity;
+import org.nmcpye.datarun.domain.Assignment;
 import org.nmcpye.datarun.domain.PatientInfo;
+import org.nmcpye.datarun.domain.Team;
 import org.nmcpye.datarun.domain.enumeration.Gender;
 import org.nmcpye.datarun.domain.enumeration.SyncableStatus;
 import org.nmcpye.datarun.repository.PatientInfoRepository;
@@ -114,6 +117,36 @@ class PatientInfoResourceIT {
             .finishedEntryTime(DEFAULT_FINISHED_ENTRY_TIME)
             .status(DEFAULT_STATUS)
             .deleted(DEFAULT_DELETED);
+        // Add required entity
+        Assignment assignment;
+        if (TestUtil.findAll(em, Assignment.class).isEmpty()) {
+            assignment = AssignmentResourceIT.createEntity(em);
+            em.persist(assignment);
+            em.flush();
+        } else {
+            assignment = TestUtil.findAll(em, Assignment.class).get(0);
+        }
+        patientInfo.setLocation(assignment);
+        // Add required entity
+        Activity activity;
+        if (TestUtil.findAll(em, Activity.class).isEmpty()) {
+            activity = ActivityResourceIT.createEntity(em);
+            em.persist(activity);
+            em.flush();
+        } else {
+            activity = TestUtil.findAll(em, Activity.class).get(0);
+        }
+        patientInfo.setActivity(activity);
+        // Add required entity
+        Team team;
+        if (TestUtil.findAll(em, Team.class).isEmpty()) {
+            team = TeamResourceIT.createEntity(em);
+            em.persist(team);
+            em.flush();
+        } else {
+            team = TestUtil.findAll(em, Team.class).get(0);
+        }
+        patientInfo.setTeam(team);
         return patientInfo;
     }
 
@@ -134,6 +167,36 @@ class PatientInfoResourceIT {
             .finishedEntryTime(UPDATED_FINISHED_ENTRY_TIME)
             .status(UPDATED_STATUS)
             .deleted(UPDATED_DELETED);
+        // Add required entity
+        Assignment assignment;
+        if (TestUtil.findAll(em, Assignment.class).isEmpty()) {
+            assignment = AssignmentResourceIT.createUpdatedEntity(em);
+            em.persist(assignment);
+            em.flush();
+        } else {
+            assignment = TestUtil.findAll(em, Assignment.class).get(0);
+        }
+        patientInfo.setLocation(assignment);
+        // Add required entity
+        Activity activity;
+        if (TestUtil.findAll(em, Activity.class).isEmpty()) {
+            activity = ActivityResourceIT.createUpdatedEntity(em);
+            em.persist(activity);
+            em.flush();
+        } else {
+            activity = TestUtil.findAll(em, Activity.class).get(0);
+        }
+        patientInfo.setActivity(activity);
+        // Add required entity
+        Team team;
+        if (TestUtil.findAll(em, Team.class).isEmpty()) {
+            team = TeamResourceIT.createUpdatedEntity(em);
+            em.persist(team);
+            em.flush();
+        } else {
+            team = TestUtil.findAll(em, Team.class).get(0);
+        }
+        patientInfo.setTeam(team);
         return patientInfo;
     }
 
@@ -177,6 +240,22 @@ class PatientInfoResourceIT {
 
         // Validate the PatientInfo in the database
         assertSameRepositoryCount(databaseSizeBeforeCreate);
+    }
+
+    @Test
+    @Transactional
+    void checkUidIsRequired() throws Exception {
+        long databaseSizeBeforeTest = getRepositoryCount();
+        // set the field null
+        patientInfo.setUid(null);
+
+        // Create the PatientInfo, which fails.
+
+        restPatientInfoMockMvc
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(om.writeValueAsBytes(patientInfo)))
+            .andExpect(status().isBadRequest());
+
+        assertSameRepositoryCount(databaseSizeBeforeTest);
     }
 
     @Test

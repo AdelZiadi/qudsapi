@@ -29,6 +29,28 @@ class PatientInfoTest {
     }
 
     @Test
+    void chvRegisterTest() throws Exception {
+        PatientInfo patientInfo = getPatientInfoRandomSampleGenerator();
+        ChvRegister chvRegisterBack = getChvRegisterRandomSampleGenerator();
+
+        patientInfo.addChvRegister(chvRegisterBack);
+        assertThat(patientInfo.getChvRegisters()).containsOnly(chvRegisterBack);
+        assertThat(chvRegisterBack.getPatient()).isEqualTo(patientInfo);
+
+        patientInfo.removeChvRegister(chvRegisterBack);
+        assertThat(patientInfo.getChvRegisters()).doesNotContain(chvRegisterBack);
+        assertThat(chvRegisterBack.getPatient()).isNull();
+
+        patientInfo.chvRegisters(new HashSet<>(Set.of(chvRegisterBack)));
+        assertThat(patientInfo.getChvRegisters()).containsOnly(chvRegisterBack);
+        assertThat(chvRegisterBack.getPatient()).isEqualTo(patientInfo);
+
+        patientInfo.setChvRegisters(new HashSet<>());
+        assertThat(patientInfo.getChvRegisters()).doesNotContain(chvRegisterBack);
+        assertThat(chvRegisterBack.getPatient()).isNull();
+    }
+
+    @Test
     void locationTest() throws Exception {
         PatientInfo patientInfo = getPatientInfoRandomSampleGenerator();
         Assignment assignmentBack = getAssignmentRandomSampleGenerator();
@@ -62,27 +84,5 @@ class PatientInfoTest {
 
         patientInfo.team(null);
         assertThat(patientInfo.getTeam()).isNull();
-    }
-
-    @Test
-    void chvRegisterTest() throws Exception {
-        PatientInfo patientInfo = getPatientInfoRandomSampleGenerator();
-        ChvRegister chvRegisterBack = getChvRegisterRandomSampleGenerator();
-
-        patientInfo.addChvRegister(chvRegisterBack);
-        assertThat(patientInfo.getChvRegisters()).containsOnly(chvRegisterBack);
-        assertThat(chvRegisterBack.getPatient()).isEqualTo(patientInfo);
-
-        patientInfo.removeChvRegister(chvRegisterBack);
-        assertThat(patientInfo.getChvRegisters()).doesNotContain(chvRegisterBack);
-        assertThat(chvRegisterBack.getPatient()).isNull();
-
-        patientInfo.chvRegisters(new HashSet<>(Set.of(chvRegisterBack)));
-        assertThat(patientInfo.getChvRegisters()).containsOnly(chvRegisterBack);
-        assertThat(chvRegisterBack.getPatient()).isEqualTo(patientInfo);
-
-        patientInfo.setChvRegisters(new HashSet<>());
-        assertThat(patientInfo.getChvRegisters()).doesNotContain(chvRegisterBack);
-        assertThat(chvRegisterBack.getPatient()).isNull();
     }
 }

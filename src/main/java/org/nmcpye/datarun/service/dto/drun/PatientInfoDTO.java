@@ -6,6 +6,8 @@ import jakarta.validation.constraints.Size;
 import org.nmcpye.datarun.domain.enumeration.Gender;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -32,6 +34,8 @@ public class PatientInfoDTO implements Serializable {
     private TeamDTO team;
 
     private ActivityDTO activity;
+
+    private List<ChvRegisterDTO> activities = new ArrayList<>();
 
     public String getUid() {
         return uid;
@@ -129,5 +133,13 @@ public class PatientInfoDTO implements Serializable {
 
     public void setActivity(ActivityDTO activity) {
         this.activity = activity;
+    }
+
+    public List<ChvRegisterDTO> getActivities() {
+        return activities;
+    }
+
+    public void setActivities(List<ChvRegisterDTO> activities) {
+        this.activities = activities;
     }
 }

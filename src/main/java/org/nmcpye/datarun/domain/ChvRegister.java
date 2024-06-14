@@ -31,8 +31,9 @@ public class ChvRegister extends AbstractAuditingEntity<Long> implements Seriali
     @Column(name = "id")
     private Long id;
 
+    @NotNull
     @Size(max = 11)
-    @Column(name = "uid", length = 11, unique = true)
+    @Column(name = "uid", length = 11, nullable = false, unique = true)
     private String uid;
 
     @Column(name = "code")
@@ -76,7 +77,7 @@ public class ChvRegister extends AbstractAuditingEntity<Long> implements Seriali
 
     @ManyToOne(optional = false)
     @NotNull
-    @JsonIgnoreProperties(value = { "location", "activity", "team", "chvRegisters" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "chvRegisters", "location", "activity", "team" }, allowSetters = true)
     private PatientInfo patient;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here

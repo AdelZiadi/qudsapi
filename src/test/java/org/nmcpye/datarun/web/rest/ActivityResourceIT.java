@@ -22,6 +22,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.nmcpye.datarun.IntegrationTest;
 import org.nmcpye.datarun.domain.Activity;
+import org.nmcpye.datarun.domain.Project;
 import org.nmcpye.datarun.repository.ActivityRepository;
 import org.nmcpye.datarun.service.ActivityService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -100,6 +101,16 @@ class ActivityResourceIT {
             .startDate(DEFAULT_START_DATE)
             .endDate(DEFAULT_END_DATE)
             .active(DEFAULT_ACTIVE);
+        // Add required entity
+        Project project;
+        if (TestUtil.findAll(em, Project.class).isEmpty()) {
+            project = ProjectResourceIT.createEntity(em);
+            em.persist(project);
+            em.flush();
+        } else {
+            project = TestUtil.findAll(em, Project.class).get(0);
+        }
+        activity.setProject(project);
         return activity;
     }
 
@@ -117,6 +128,16 @@ class ActivityResourceIT {
             .startDate(UPDATED_START_DATE)
             .endDate(UPDATED_END_DATE)
             .active(UPDATED_ACTIVE);
+        // Add required entity
+        Project project;
+        if (TestUtil.findAll(em, Project.class).isEmpty()) {
+            project = ProjectResourceIT.createUpdatedEntity(em);
+            em.persist(project);
+            em.flush();
+        } else {
+            project = TestUtil.findAll(em, Project.class).get(0);
+        }
+        activity.setProject(project);
         return activity;
     }
 

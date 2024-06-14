@@ -15,7 +15,7 @@
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="uid" type="varchar(11)">
-                <constraints nullable="true" unique="true" uniqueConstraintName="ux_patient_info__uid" />
+                <constraints nullable="false" unique="true" uniqueConstraintName="ux_patient_info__uid" />
             </column>
             <column name="code" type="varchar(255)">
                 <constraints nullable="true" unique="true" uniqueConstraintName="ux_patient_info__code" />
@@ -54,13 +54,13 @@
                 <constraints nullable="false" />
             </column>
             <column name="location_id" type="bigint">
-                <constraints nullable="true" />
+                <constraints nullable="false" />
             </column>
             <column name="activity_id" type="bigint">
-                <constraints nullable="true" />
+                <constraints nullable="false" />
             </column>
             <column name="team_id" type="bigint">
-                <constraints nullable="true" />
+                <constraints nullable="false" />
             </column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->
         </createTable>
