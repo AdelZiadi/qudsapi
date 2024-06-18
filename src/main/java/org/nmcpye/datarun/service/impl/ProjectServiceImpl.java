@@ -54,8 +54,8 @@ public class ProjectServiceImpl implements ProjectService {
                 if (project.getName() != null) {
                     existingProject.setName(project.getName());
                 }
-                if (project.getDisplayed() != null) {
-                    existingProject.setDisplayed(project.getDisplayed());
+                if (project.getDisabled() != null) {
+                    existingProject.setDisabled(project.getDisabled());
                 }
                 if (project.getCreatedBy() != null) {
                     existingProject.setCreatedBy(project.getCreatedBy());

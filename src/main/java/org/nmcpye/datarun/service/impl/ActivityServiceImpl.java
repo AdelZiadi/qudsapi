@@ -61,8 +61,11 @@ public class ActivityServiceImpl implements ActivityService {
                 if (activity.getEndDate() != null) {
                     existingActivity.setEndDate(activity.getEndDate());
                 }
-                if (activity.getActive() != null) {
-                    existingActivity.setActive(activity.getActive());
+                if (activity.getDisabled() != null) {
+                    existingActivity.setDisabled(activity.getDisabled());
+                }
+                if (activity.getDeleteClientData() != null) {
+                    existingActivity.setDeleteClientData(activity.getDeleteClientData());
                 }
                 if (activity.getCreatedBy() != null) {
                     existingActivity.setCreatedBy(activity.getCreatedBy());

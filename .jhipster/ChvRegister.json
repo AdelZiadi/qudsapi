@@ -50,7 +50,9 @@
     },
     {
       "fieldName": "comment",
-      "fieldType": "String"
+      "fieldType": "String",
+      "fieldValidateRules": ["maxlength"],
+      "fieldValidateRulesMaxlength": "2000"
     },
     {
       "auditField": true,

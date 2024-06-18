@@ -40,8 +40,8 @@ class ProjectResourceIT {
     private static final String DEFAULT_NAME = "AAAAAAAAAA";
     private static final String UPDATED_NAME = "BBBBBBBBBB";
 
-    private static final Boolean DEFAULT_DISPLAYED = false;
-    private static final Boolean UPDATED_DISPLAYED = true;
+    private static final Boolean DEFAULT_DISABLED = false;
+    private static final Boolean UPDATED_DISABLED = true;
 
     private static final String ENTITY_API_URL = "/api/projects";
     private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";
@@ -70,7 +70,7 @@ class ProjectResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static Project createEntity(EntityManager em) {
-        Project project = new Project().uid(DEFAULT_UID).code(DEFAULT_CODE).name(DEFAULT_NAME).displayed(DEFAULT_DISPLAYED);
+        Project project = new Project().uid(DEFAULT_UID).code(DEFAULT_CODE).name(DEFAULT_NAME).disabled(DEFAULT_DISABLED);
         return project;
     }
 
@@ -81,7 +81,7 @@ class ProjectResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static Project createUpdatedEntity(EntityManager em) {
-        Project project = new Project().uid(UPDATED_UID).code(UPDATED_CODE).name(UPDATED_NAME).displayed(UPDATED_DISPLAYED);
+        Project project = new Project().uid(UPDATED_UID).code(UPDATED_CODE).name(UPDATED_NAME).disabled(UPDATED_DISABLED);
         return project;
     }
 
@@ -142,7 +142,7 @@ class ProjectResourceIT {
             .andExpect(jsonPath("$.[*].uid").value(hasItem(DEFAULT_UID)))
             .andExpect(jsonPath("$.[*].code").value(hasItem(DEFAULT_CODE)))
             .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)))
-            .andExpect(jsonPath("$.[*].displayed").value(hasItem(DEFAULT_DISPLAYED.booleanValue())));
+            .andExpect(jsonPath("$.[*].disabled").value(hasItem(DEFAULT_DISABLED.booleanValue())));
     }
 
     @Test
@@ -160,7 +160,7 @@ class ProjectResourceIT {
             .andExpect(jsonPath("$.uid").value(DEFAULT_UID))
             .andExpect(jsonPath("$.code").value(DEFAULT_CODE))
             .andExpect(jsonPath("$.name").value(DEFAULT_NAME))
-            .andExpect(jsonPath("$.displayed").value(DEFAULT_DISPLAYED.booleanValue()));
+            .andExpect(jsonPath("$.disabled").value(DEFAULT_DISABLED.booleanValue()));
     }
 
     @Test
@@ -182,7 +182,7 @@ class ProjectResourceIT {
         Project updatedProject = projectRepository.findById(project.getId()).orElseThrow();
         // Disconnect from session so that the updates on updatedProject are not directly saved in db
         em.detach(updatedProject);
-        updatedProject.uid(UPDATED_UID).code(UPDATED_CODE).name(UPDATED_NAME).displayed(UPDATED_DISPLAYED);
+        updatedProject.uid(UPDATED_UID).code(UPDATED_CODE).name(UPDATED_NAME).disabled(UPDATED_DISABLED);
 
         restProjectMockMvc
             .perform(
@@ -258,7 +258,7 @@ class ProjectResourceIT {
         Project partialUpdatedProject = new Project();
         partialUpdatedProject.setId(project.getId());
 
-        partialUpdatedProject.uid(UPDATED_UID).displayed(UPDATED_DISPLAYED);
+        partialUpdatedProject.uid(UPDATED_UID).code(UPDATED_CODE).name(UPDATED_NAME);
 
         restProjectMockMvc
             .perform(
@@ -286,7 +286,7 @@ class ProjectResourceIT {
         Project partialUpdatedProject = new Project();
         partialUpdatedProject.setId(project.getId());
 
-        partialUpdatedProject.uid(UPDATED_UID).code(UPDATED_CODE).name(UPDATED_NAME).displayed(UPDATED_DISPLAYED);
+        partialUpdatedProject.uid(UPDATED_UID).code(UPDATED_CODE).name(UPDATED_NAME).disabled(UPDATED_DISABLED);
 
         restProjectMockMvc
             .perform(

@@ -52,7 +52,7 @@ public class ProjectAsserts {
             .satisfies(e -> assertThat(e.getUid()).as("check uid").isEqualTo(actual.getUid()))
             .satisfies(e -> assertThat(e.getCode()).as("check code").isEqualTo(actual.getCode()))
             .satisfies(e -> assertThat(e.getName()).as("check name").isEqualTo(actual.getName()))
-            .satisfies(e -> assertThat(e.getDisplayed()).as("check displayed").isEqualTo(actual.getDisplayed()));
+            .satisfies(e -> assertThat(e.getDisabled()).as("check disabled").isEqualTo(actual.getDisabled()));
     }
 
     /**

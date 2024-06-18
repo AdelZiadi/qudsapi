@@ -71,26 +71,21 @@ enum SyncableStatus {
     COMPLETED
 }
 
-entity Project
-    (
-    project
-    ) {
+entity Project {
     uid String unique maxlength(11)
     code String unique
     name String
-    displayed Boolean
+    disabled Boolean
 }
 
-entity Activity
-    (
-    activity
-    ) {
+entity Activity {
     uid String unique maxlength(11)
     code String unique
     name String
     startDate Instant required
     endDate Instant
-    active Boolean
+    disabled Boolean
+    deleteClientData Boolean
 }
 
 entity VillageLocation {
@@ -206,7 +201,9 @@ entity Team {
     mobile String
     workers Integer
     mobility String
-    teamType TeamType
+    teamType TeamType required,
+    disabled Boolean,
+    deleteClientData Boolean
 }
 
 entity Warehouse {
@@ -269,7 +266,7 @@ entity ChvRegister {
     detectionType MDetectionType
     severity MSeverity
     treatment MTreatment
-    comment String
+    comment String maxlength(2000)
 }
 
 entity ChvSession {

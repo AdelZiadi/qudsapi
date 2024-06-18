@@ -39,8 +39,8 @@ public class Project extends AbstractAuditingEntity<Long> implements Serializabl
     @Column(name = "name")
     private String name;
 
-    @Column(name = "displayed")
-    private Boolean displayed;
+    @Column(name = "disabled")
+    private Boolean disabled;
 
     // Inherited createdBy definition
     // Inherited createdDate definition
@@ -108,17 +108,17 @@ public class Project extends AbstractAuditingEntity<Long> implements Serializabl
         this.name = name;
     }
 
-    public Boolean getDisplayed() {
-        return this.displayed;
+    public Boolean getDisabled() {
+        return this.disabled;
     }
 
-    public Project displayed(Boolean displayed) {
-        this.setDisplayed(displayed);
+    public Project disabled(Boolean disabled) {
+        this.setDisabled(disabled);
         return this;
     }
 
-    public void setDisplayed(Boolean displayed) {
-        this.displayed = displayed;
+    public void setDisabled(Boolean disabled) {
+        this.disabled = disabled;
     }
 
     // Inherited createdBy methods
@@ -220,7 +220,7 @@ public class Project extends AbstractAuditingEntity<Long> implements Serializabl
             ", uid='" + getUid() + "'" +
             ", code='" + getCode() + "'" +
             ", name='" + getName() + "'" +
-            ", displayed='" + getDisplayed() + "'" +
+            ", disabled='" + getDisabled() + "'" +
             ", createdBy='" + getCreatedBy() + "'" +
             ", createdDate='" + getCreatedDate() + "'" +
             ", lastModifiedBy='" + getLastModifiedBy() + "'" +

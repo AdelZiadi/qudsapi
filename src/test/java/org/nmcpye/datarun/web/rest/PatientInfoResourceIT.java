@@ -429,7 +429,7 @@ class PatientInfoResourceIT {
         PatientInfo partialUpdatedPatientInfo = new PatientInfo();
         partialUpdatedPatientInfo.setId(patientInfo.getId());
 
-        partialUpdatedPatientInfo.gender(UPDATED_GENDER).deleted(UPDATED_DELETED);
+        partialUpdatedPatientInfo.uid(UPDATED_UID).code(UPDATED_CODE).name(UPDATED_NAME).gender(UPDATED_GENDER);
 
         restPatientInfoMockMvc
             .perform(

@@ -35,6 +35,15 @@
             <column name="mobility" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
+            <column name="team_type" type="varchar(255)">
+                <constraints nullable="false" />
+            </column>
+            <column name="disabled" type="boolean">
+                <constraints nullable="true" />
+            </column>
+            <column name="delete_client_data" type="boolean">
+                <constraints nullable="true" />
+            </column>
             <column name="created_by" type="varchar(50)">
                 <constraints nullable="false" />
             </column>

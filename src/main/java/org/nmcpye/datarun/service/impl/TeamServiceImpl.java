@@ -67,6 +67,15 @@ public class TeamServiceImpl implements TeamService {
                 if (team.getMobility() != null) {
                     existingTeam.setMobility(team.getMobility());
                 }
+                if (team.getTeamType() != null) {
+                    existingTeam.setTeamType(team.getTeamType());
+                }
+                if (team.getDisabled() != null) {
+                    existingTeam.setDisabled(team.getDisabled());
+                }
+                if (team.getDeleteClientData() != null) {
+                    existingTeam.setDeleteClientData(team.getDeleteClientData());
+                }
                 if (team.getCreatedBy() != null) {
                     existingTeam.setCreatedBy(team.getCreatedBy());
                 }

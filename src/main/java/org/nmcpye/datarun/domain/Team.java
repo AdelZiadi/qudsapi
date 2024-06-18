@@ -9,6 +9,7 @@ import java.util.HashSet;
 import java.util.Set;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.nmcpye.datarun.domain.enumeration.TeamType;
 import org.springframework.data.domain.Persistable;
 
 /**
@@ -52,6 +53,17 @@ public class Team extends AbstractAuditingEntity<Long> implements Serializable, 
 
     @Column(name = "mobility")
     private String mobility;
+
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    @Column(name = "team_type", nullable = false)
+    private TeamType teamType;
+
+    @Column(name = "disabled")
+    private Boolean disabled;
+
+    @Column(name = "delete_client_data")
+    private Boolean deleteClientData;
 
     // Inherited createdBy definition
     // Inherited createdDate definition
@@ -183,6 +195,45 @@ public class Team extends AbstractAuditingEntity<Long> implements Serializable, 
 
     public void setMobility(String mobility) {
         this.mobility = mobility;
+    }
+
+    public TeamType getTeamType() {
+        return this.teamType;
+    }
+
+    public Team teamType(TeamType teamType) {
+        this.setTeamType(teamType);
+        return this;
+    }
+
+    public void setTeamType(TeamType teamType) {
+        this.teamType = teamType;
+    }
+
+    public Boolean getDisabled() {
+        return this.disabled;
+    }
+
+    public Team disabled(Boolean disabled) {
+        this.setDisabled(disabled);
+        return this;
+    }
+
+    public void setDisabled(Boolean disabled) {
+        this.disabled = disabled;
+    }
+
+    public Boolean getDeleteClientData() {
+        return this.deleteClientData;
+    }
+
+    public Team deleteClientData(Boolean deleteClientData) {
+        this.setDeleteClientData(deleteClientData);
+        return this;
+    }
+
+    public void setDeleteClientData(Boolean deleteClientData) {
+        this.deleteClientData = deleteClientData;
     }
 
     // Inherited createdBy methods
@@ -340,6 +391,9 @@ public class Team extends AbstractAuditingEntity<Long> implements Serializable, 
             ", mobile='" + getMobile() + "'" +
             ", workers=" + getWorkers() +
             ", mobility='" + getMobility() + "'" +
+            ", teamType='" + getTeamType() + "'" +
+            ", disabled='" + getDisabled() + "'" +
+            ", deleteClientData='" + getDeleteClientData() + "'" +
             ", createdBy='" + getCreatedBy() + "'" +
             ", createdDate='" + getCreatedDate() + "'" +
             ", lastModifiedBy='" + getLastModifiedBy() + "'" +

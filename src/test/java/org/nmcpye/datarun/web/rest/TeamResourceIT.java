@@ -20,6 +20,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.nmcpye.datarun.IntegrationTest;
 import org.nmcpye.datarun.domain.Team;
+import org.nmcpye.datarun.domain.enumeration.TeamType;
 import org.nmcpye.datarun.repository.TeamRepository;
 import org.nmcpye.datarun.service.TeamService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,6 +62,15 @@ class TeamResourceIT {
     private static final String DEFAULT_MOBILITY = "AAAAAAAAAA";
     private static final String UPDATED_MOBILITY = "BBBBBBBBBB";
 
+    private static final TeamType DEFAULT_TEAM_TYPE = TeamType.ITNS_DISTRIBUTION;
+    private static final TeamType UPDATED_TEAM_TYPE = TeamType.ITNS_WAREHOUSE;
+
+    private static final Boolean DEFAULT_DISABLED = false;
+    private static final Boolean UPDATED_DISABLED = true;
+
+    private static final Boolean DEFAULT_DELETE_CLIENT_DATA = false;
+    private static final Boolean UPDATED_DELETE_CLIENT_DATA = true;
+
     private static final String ENTITY_API_URL = "/api/teams";
     private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";
 
@@ -101,7 +111,10 @@ class TeamResourceIT {
             .description(DEFAULT_DESCRIPTION)
             .mobile(DEFAULT_MOBILE)
             .workers(DEFAULT_WORKERS)
-            .mobility(DEFAULT_MOBILITY);
+            .mobility(DEFAULT_MOBILITY)
+            .teamType(DEFAULT_TEAM_TYPE)
+            .disabled(DEFAULT_DISABLED)
+            .deleteClientData(DEFAULT_DELETE_CLIENT_DATA);
         return team;
     }
 
@@ -119,7 +132,10 @@ class TeamResourceIT {
             .description(UPDATED_DESCRIPTION)
             .mobile(UPDATED_MOBILE)
             .workers(UPDATED_WORKERS)
-            .mobility(UPDATED_MOBILITY);
+            .mobility(UPDATED_MOBILITY)
+            .teamType(UPDATED_TEAM_TYPE)
+            .disabled(UPDATED_DISABLED)
+            .deleteClientData(UPDATED_DELETE_CLIENT_DATA);
         return team;
     }
 
@@ -199,6 +215,22 @@ class TeamResourceIT {
 
     @Test
     @Transactional
+    void checkTeamTypeIsRequired() throws Exception {
+        long databaseSizeBeforeTest = getRepositoryCount();
+        // set the field null
+        team.setTeamType(null);
+
+        // Create the Team, which fails.
+
+        restTeamMockMvc
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(om.writeValueAsBytes(team)))
+            .andExpect(status().isBadRequest());
+
+        assertSameRepositoryCount(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
     void getAllTeams() throws Exception {
         // Initialize the database
         teamRepository.saveAndFlush(team);
@@ -215,7 +247,10 @@ class TeamResourceIT {
             .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION)))
             .andExpect(jsonPath("$.[*].mobile").value(hasItem(DEFAULT_MOBILE)))
             .andExpect(jsonPath("$.[*].workers").value(hasItem(DEFAULT_WORKERS)))
-            .andExpect(jsonPath("$.[*].mobility").value(hasItem(DEFAULT_MOBILITY)));
+            .andExpect(jsonPath("$.[*].mobility").value(hasItem(DEFAULT_MOBILITY)))
+            .andExpect(jsonPath("$.[*].teamType").value(hasItem(DEFAULT_TEAM_TYPE.toString())))
+            .andExpect(jsonPath("$.[*].disabled").value(hasItem(DEFAULT_DISABLED.booleanValue())))
+            .andExpect(jsonPath("$.[*].deleteClientData").value(hasItem(DEFAULT_DELETE_CLIENT_DATA.booleanValue())));
     }
 
     @SuppressWarnings({ "unchecked" })
@@ -253,7 +288,10 @@ class TeamResourceIT {
             .andExpect(jsonPath("$.description").value(DEFAULT_DESCRIPTION))
             .andExpect(jsonPath("$.mobile").value(DEFAULT_MOBILE))
             .andExpect(jsonPath("$.workers").value(DEFAULT_WORKERS))
-            .andExpect(jsonPath("$.mobility").value(DEFAULT_MOBILITY));
+            .andExpect(jsonPath("$.mobility").value(DEFAULT_MOBILITY))
+            .andExpect(jsonPath("$.teamType").value(DEFAULT_TEAM_TYPE.toString()))
+            .andExpect(jsonPath("$.disabled").value(DEFAULT_DISABLED.booleanValue()))
+            .andExpect(jsonPath("$.deleteClientData").value(DEFAULT_DELETE_CLIENT_DATA.booleanValue()));
     }
 
     @Test
@@ -282,7 +320,10 @@ class TeamResourceIT {
             .description(UPDATED_DESCRIPTION)
             .mobile(UPDATED_MOBILE)
             .workers(UPDATED_WORKERS)
-            .mobility(UPDATED_MOBILITY);
+            .mobility(UPDATED_MOBILITY)
+            .teamType(UPDATED_TEAM_TYPE)
+            .disabled(UPDATED_DISABLED)
+            .deleteClientData(UPDATED_DELETE_CLIENT_DATA);
 
         restTeamMockMvc
             .perform(
@@ -358,7 +399,12 @@ class TeamResourceIT {
         Team partialUpdatedTeam = new Team();
         partialUpdatedTeam.setId(team.getId());
 
-        partialUpdatedTeam.code(UPDATED_CODE).description(UPDATED_DESCRIPTION).workers(UPDATED_WORKERS);
+        partialUpdatedTeam
+            .mobile(UPDATED_MOBILE)
+            .workers(UPDATED_WORKERS)
+            .teamType(UPDATED_TEAM_TYPE)
+            .disabled(UPDATED_DISABLED)
+            .deleteClientData(UPDATED_DELETE_CLIENT_DATA);
 
         restTeamMockMvc
             .perform(
@@ -393,7 +439,10 @@ class TeamResourceIT {
             .description(UPDATED_DESCRIPTION)
             .mobile(UPDATED_MOBILE)
             .workers(UPDATED_WORKERS)
-            .mobility(UPDATED_MOBILITY);
+            .mobility(UPDATED_MOBILITY)
+            .teamType(UPDATED_TEAM_TYPE)
+            .disabled(UPDATED_DISABLED)
+            .deleteClientData(UPDATED_DELETE_CLIENT_DATA);
 
         restTeamMockMvc
             .perform(

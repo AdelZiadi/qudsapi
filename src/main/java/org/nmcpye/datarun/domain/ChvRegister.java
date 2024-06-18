@@ -65,7 +65,8 @@ public class ChvRegister extends AbstractAuditingEntity<Long> implements Seriali
     @Column(name = "treatment")
     private MTreatment treatment;
 
-    @Column(name = "comment")
+    @Size(max = 2000)
+    @Column(name = "comment", length = 2000)
     private String comment;
 
     // Inherited createdBy definition

@@ -449,16 +449,12 @@ class AssignmentResourceIT {
 
         partialUpdatedAssignment
             .code(UPDATED_CODE)
-            .phaseNo(UPDATED_PHASE_NO)
-            .districtCode(UPDATED_DISTRICT_CODE)
             .gov(UPDATED_GOV)
             .subdistrict(UPDATED_SUBDISTRICT)
             .subvillage(UPDATED_SUBVILLAGE)
             .name(UPDATED_NAME)
             .dayId(UPDATED_DAY_ID)
-            .itnsPlanned(UPDATED_ITNS_PLANNED)
-            .targetType(UPDATED_TARGET_TYPE)
-            .longitude(UPDATED_LONGITUDE)
+            .population(UPDATED_POPULATION)
             .latitude(UPDATED_LATITUDE);
 
         restAssignmentMockMvc

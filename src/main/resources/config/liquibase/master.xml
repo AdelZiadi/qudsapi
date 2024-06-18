@@ -29,6 +29,7 @@
     <include file="config/liquibase/changelog/20240530121624_added_entity_ChvSession.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/Extended050_Add_Identifiable_properties_to_user.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20240603195621_added_entity_RefreshToken.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240614192303_added_entity_TeamFormAccess.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-changelog - JHipster will add liquibase changelogs here -->
     <include file="config/liquibase/changelog/20240522234851_added_entity_constraints_Activity.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20240522234853_added_entity_constraints_Assignment.xml" relativeToChangelogFile="false"/>

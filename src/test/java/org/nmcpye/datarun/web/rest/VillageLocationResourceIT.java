@@ -442,10 +442,12 @@ class VillageLocationResourceIT {
             .districtCode(UPDATED_DISTRICT_CODE)
             .subdistrictName(UPDATED_SUBDISTRICT_NAME)
             .villageName(UPDATED_VILLAGE_NAME)
+            .subvillageName(UPDATED_SUBVILLAGE_NAME)
             .urbanRuralId(UPDATED_URBAN_RURAL_ID)
             .urbanRural(UPDATED_URBAN_RURAL)
-            .longitude(UPDATED_LONGITUDE)
-            .ppcCodeGis(UPDATED_PPC_CODE_GIS);
+            .pop2004(UPDATED_POP_2004)
+            .ppcCodeGis(UPDATED_PPC_CODE_GIS)
+            .level(UPDATED_LEVEL);
 
         restVillageLocationMockMvc
             .perform(

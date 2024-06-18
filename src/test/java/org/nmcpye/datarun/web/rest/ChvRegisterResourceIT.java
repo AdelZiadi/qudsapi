@@ -414,12 +414,11 @@ class ChvRegisterResourceIT {
         partialUpdatedChvRegister.setId(chvRegister.getId());
 
         partialUpdatedChvRegister
+            .uid(UPDATED_UID)
             .name(UPDATED_NAME)
             .visitDate(UPDATED_VISIT_DATE)
             .pregnant(UPDATED_PREGNANT)
-            .severity(UPDATED_SEVERITY)
-            .treatment(UPDATED_TREATMENT)
-            .comment(UPDATED_COMMENT);
+            .testResult(UPDATED_TEST_RESULT);
 
         restChvRegisterMockMvc
             .perform(

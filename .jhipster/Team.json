@@ -37,6 +37,20 @@
       "fieldType": "String"
     },
     {
+      "fieldName": "teamType",
+      "fieldType": "TeamType",
+      "fieldValidateRules": ["required"],
+      "fieldValues": "ITNS_DISTRIBUTION,ITNS_WAREHOUSE,IRS_DISTRIBUTION,IRS_WAREHOUSE,CHV_PATIENTS"
+    },
+    {
+      "fieldName": "disabled",
+      "fieldType": "Boolean"
+    },
+    {
+      "fieldName": "deleteClientData",
+      "fieldType": "Boolean"
+    },
+    {
       "auditField": true,
       "autoGenerate": true,
       "columnType": "varchar(50)",

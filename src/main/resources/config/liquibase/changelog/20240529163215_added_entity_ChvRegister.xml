@@ -41,7 +41,7 @@
             <column name="treatment" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
-            <column name="comment" type="varchar(255)">
+            <column name="comment" type="varchar(2000)">
                 <constraints nullable="true" />
             </column>
             <column name="created_by" type="varchar(50)">

@@ -286,7 +286,7 @@ class WarehouseItemResourceIT {
         WarehouseItem partialUpdatedWarehouseItem = new WarehouseItem();
         partialUpdatedWarehouseItem.setId(warehouseItem.getId());
 
-        partialUpdatedWarehouseItem.code(UPDATED_CODE).name(UPDATED_NAME);
+        partialUpdatedWarehouseItem.uid(UPDATED_UID).code(UPDATED_CODE).name(UPDATED_NAME);
 
         restWarehouseItemMockMvc
             .perform(

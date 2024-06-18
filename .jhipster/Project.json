@@ -4,7 +4,6 @@
   },
   "applications": "*",
   "enableAudit": true,
-  "entityTableName": "project",
   "fields": [
     {
       "fieldName": "uid",
@@ -22,7 +21,7 @@
       "fieldType": "String"
     },
     {
-      "fieldName": "displayed",
+      "fieldName": "disabled",
       "fieldType": "Boolean"
     },
     {

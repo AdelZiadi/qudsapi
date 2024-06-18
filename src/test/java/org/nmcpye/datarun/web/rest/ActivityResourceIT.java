@@ -58,8 +58,11 @@ class ActivityResourceIT {
     private static final Instant DEFAULT_END_DATE = Instant.ofEpochMilli(0L);
     private static final Instant UPDATED_END_DATE = Instant.now().truncatedTo(ChronoUnit.MILLIS);
 
-    private static final Boolean DEFAULT_ACTIVE = false;
-    private static final Boolean UPDATED_ACTIVE = true;
+    private static final Boolean DEFAULT_DISABLED = false;
+    private static final Boolean UPDATED_DISABLED = true;
+
+    private static final Boolean DEFAULT_DELETE_CLIENT_DATA = false;
+    private static final Boolean UPDATED_DELETE_CLIENT_DATA = true;
 
     private static final String ENTITY_API_URL = "/api/activities";
     private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";
@@ -100,7 +103,8 @@ class ActivityResourceIT {
             .name(DEFAULT_NAME)
             .startDate(DEFAULT_START_DATE)
             .endDate(DEFAULT_END_DATE)
-            .active(DEFAULT_ACTIVE);
+            .disabled(DEFAULT_DISABLED)
+            .deleteClientData(DEFAULT_DELETE_CLIENT_DATA);
         // Add required entity
         Project project;
         if (TestUtil.findAll(em, Project.class).isEmpty()) {
@@ -127,7 +131,8 @@ class ActivityResourceIT {
             .name(UPDATED_NAME)
             .startDate(UPDATED_START_DATE)
             .endDate(UPDATED_END_DATE)
-            .active(UPDATED_ACTIVE);
+            .disabled(UPDATED_DISABLED)
+            .deleteClientData(UPDATED_DELETE_CLIENT_DATA);
         // Add required entity
         Project project;
         if (TestUtil.findAll(em, Project.class).isEmpty()) {
@@ -216,7 +221,8 @@ class ActivityResourceIT {
             .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)))
             .andExpect(jsonPath("$.[*].startDate").value(hasItem(DEFAULT_START_DATE.toString())))
             .andExpect(jsonPath("$.[*].endDate").value(hasItem(DEFAULT_END_DATE.toString())))
-            .andExpect(jsonPath("$.[*].active").value(hasItem(DEFAULT_ACTIVE.booleanValue())));
+            .andExpect(jsonPath("$.[*].disabled").value(hasItem(DEFAULT_DISABLED.booleanValue())))
+            .andExpect(jsonPath("$.[*].deleteClientData").value(hasItem(DEFAULT_DELETE_CLIENT_DATA.booleanValue())));
     }
 
     @SuppressWarnings({ "unchecked" })
@@ -253,7 +259,8 @@ class ActivityResourceIT {
             .andExpect(jsonPath("$.name").value(DEFAULT_NAME))
             .andExpect(jsonPath("$.startDate").value(DEFAULT_START_DATE.toString()))
             .andExpect(jsonPath("$.endDate").value(DEFAULT_END_DATE.toString()))
-            .andExpect(jsonPath("$.active").value(DEFAULT_ACTIVE.booleanValue()));
+            .andExpect(jsonPath("$.disabled").value(DEFAULT_DISABLED.booleanValue()))
+            .andExpect(jsonPath("$.deleteClientData").value(DEFAULT_DELETE_CLIENT_DATA.booleanValue()));
     }
 
     @Test
@@ -281,7 +288,8 @@ class ActivityResourceIT {
             .name(UPDATED_NAME)
             .startDate(UPDATED_START_DATE)
             .endDate(UPDATED_END_DATE)
-            .active(UPDATED_ACTIVE);
+            .disabled(UPDATED_DISABLED)
+            .deleteClientData(UPDATED_DELETE_CLIENT_DATA);
 
         restActivityMockMvc
             .perform(
@@ -359,7 +367,7 @@ class ActivityResourceIT {
         Activity partialUpdatedActivity = new Activity();
         partialUpdatedActivity.setId(activity.getId());
 
-        partialUpdatedActivity.code(UPDATED_CODE).name(UPDATED_NAME);
+        partialUpdatedActivity.uid(UPDATED_UID).deleteClientData(UPDATED_DELETE_CLIENT_DATA);
 
         restActivityMockMvc
             .perform(
@@ -393,7 +401,8 @@ class ActivityResourceIT {
             .name(UPDATED_NAME)
             .startDate(UPDATED_START_DATE)
             .endDate(UPDATED_END_DATE)
-            .active(UPDATED_ACTIVE);
+            .disabled(UPDATED_DISABLED)
+            .deleteClientData(UPDATED_DELETE_CLIENT_DATA);
 
         restActivityMockMvc
             .perform(

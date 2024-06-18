@@ -2,8 +2,7 @@ package org.nmcpye.datarun.web.rest;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
-import static org.mockito.Mockito.*;
-import static org.nmcpye.datarun.domain.ChvSessionAsserts.*;
+import static org.nmcpye.datarun.domain.TeamFormAccessAsserts.*;
 import static org.nmcpye.datarun.web.rest.TestUtil.createUpdateProxyForBean;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -12,39 +11,29 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.persistence.EntityManager;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicLong;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
 import org.nmcpye.datarun.IntegrationTest;
-import org.nmcpye.datarun.domain.Activity;
-import org.nmcpye.datarun.domain.ChvSession;
-import org.nmcpye.datarun.domain.Team;
+import org.nmcpye.datarun.domain.TeamFormAccess;
 import org.nmcpye.datarun.domain.enumeration.MSessionSubject;
 import org.nmcpye.datarun.domain.enumeration.SyncableStatus;
-import org.nmcpye.datarun.repository.ChvSessionRepository;
-import org.nmcpye.datarun.service.ChvSessionService;
+import org.nmcpye.datarun.repository.TeamFormAccessRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- * Integration tests for the {@link ChvSessionResource} REST controller.
+ * Integration tests for the {@link TeamFormAccessResource} REST controller.
  */
 @IntegrationTest
-@ExtendWith(MockitoExtension.class)
 @AutoConfigureMockMvc
 @WithMockUser
-class ChvSessionResourceIT {
+class TeamFormAccessResourceIT {
 
     private static final String DEFAULT_UID = "AAAAAAAAAA";
     private static final String UPDATED_UID = "BBBBBBBBBB";
@@ -82,7 +71,7 @@ class ChvSessionResourceIT {
     private static final SyncableStatus DEFAULT_STATUS = SyncableStatus.ACTIVE;
     private static final SyncableStatus UPDATED_STATUS = SyncableStatus.COMPLETED;
 
-    private static final String ENTITY_API_URL = "/api/chv-sessions";
+    private static final String ENTITY_API_URL = "/api/team-form-accesses";
     private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";
 
     private static Random random = new Random();
@@ -92,21 +81,15 @@ class ChvSessionResourceIT {
     private ObjectMapper om;
 
     @Autowired
-    private ChvSessionRepository chvSessionRepository;
-
-    @Mock
-    private ChvSessionRepository chvSessionRepositoryMock;
-
-    @Mock
-    private ChvSessionService chvSessionServiceMock;
+    private TeamFormAccessRepository teamFormAccessRepository;
 
     @Autowired
     private EntityManager em;
 
     @Autowired
-    private MockMvc restChvSessionMockMvc;
+    private MockMvc restTeamFormAccessMockMvc;
 
-    private ChvSession chvSession;
+    private TeamFormAccess teamFormAccess;
 
     /**
      * Create an entity for this test.
@@ -114,8 +97,8 @@ class ChvSessionResourceIT {
      * This is a static method, as tests for other entities might also need it,
      * if they test an entity which requires the current entity.
      */
-    public static ChvSession createEntity(EntityManager em) {
-        ChvSession chvSession = new ChvSession()
+    public static TeamFormAccess createEntity(EntityManager em) {
+        TeamFormAccess teamFormAccess = new TeamFormAccess()
             .uid(DEFAULT_UID)
             .code(DEFAULT_CODE)
             .name(DEFAULT_NAME)
@@ -128,27 +111,7 @@ class ChvSessionResourceIT {
             .startEntryTime(DEFAULT_START_ENTRY_TIME)
             .finishedEntryTime(DEFAULT_FINISHED_ENTRY_TIME)
             .status(DEFAULT_STATUS);
-        // Add required entity
-        Team team;
-        if (TestUtil.findAll(em, Team.class).isEmpty()) {
-            team = TeamResourceIT.createEntity(em);
-            em.persist(team);
-            em.flush();
-        } else {
-            team = TestUtil.findAll(em, Team.class).get(0);
-        }
-        chvSession.setTeam(team);
-        // Add required entity
-        Activity activity;
-        if (TestUtil.findAll(em, Activity.class).isEmpty()) {
-            activity = ActivityResourceIT.createEntity(em);
-            em.persist(activity);
-            em.flush();
-        } else {
-            activity = TestUtil.findAll(em, Activity.class).get(0);
-        }
-        chvSession.setActivity(activity);
-        return chvSession;
+        return teamFormAccess;
     }
 
     /**
@@ -157,8 +120,8 @@ class ChvSessionResourceIT {
      * This is a static method, as tests for other entities might also need it,
      * if they test an entity which requires the current entity.
      */
-    public static ChvSession createUpdatedEntity(EntityManager em) {
-        ChvSession chvSession = new ChvSession()
+    public static TeamFormAccess createUpdatedEntity(EntityManager em) {
+        TeamFormAccess teamFormAccess = new TeamFormAccess()
             .uid(UPDATED_UID)
             .code(UPDATED_CODE)
             .name(UPDATED_NAME)
@@ -171,68 +134,48 @@ class ChvSessionResourceIT {
             .startEntryTime(UPDATED_START_ENTRY_TIME)
             .finishedEntryTime(UPDATED_FINISHED_ENTRY_TIME)
             .status(UPDATED_STATUS);
-        // Add required entity
-        Team team;
-        if (TestUtil.findAll(em, Team.class).isEmpty()) {
-            team = TeamResourceIT.createUpdatedEntity(em);
-            em.persist(team);
-            em.flush();
-        } else {
-            team = TestUtil.findAll(em, Team.class).get(0);
-        }
-        chvSession.setTeam(team);
-        // Add required entity
-        Activity activity;
-        if (TestUtil.findAll(em, Activity.class).isEmpty()) {
-            activity = ActivityResourceIT.createUpdatedEntity(em);
-            em.persist(activity);
-            em.flush();
-        } else {
-            activity = TestUtil.findAll(em, Activity.class).get(0);
-        }
-        chvSession.setActivity(activity);
-        return chvSession;
+        return teamFormAccess;
     }
 
     @BeforeEach
     public void initTest() {
-        chvSession = createEntity(em);
+        teamFormAccess = createEntity(em);
     }
 
     @Test
     @Transactional
-    void createChvSession() throws Exception {
+    void createTeamFormAccess() throws Exception {
         long databaseSizeBeforeCreate = getRepositoryCount();
-        // Create the ChvSession
-        var returnedChvSession = om.readValue(
-            restChvSessionMockMvc
-                .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(om.writeValueAsBytes(chvSession)))
+        // Create the TeamFormAccess
+        var returnedTeamFormAccess = om.readValue(
+            restTeamFormAccessMockMvc
+                .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(om.writeValueAsBytes(teamFormAccess)))
                 .andExpect(status().isCreated())
                 .andReturn()
                 .getResponse()
                 .getContentAsString(),
-            ChvSession.class
+            TeamFormAccess.class
         );
 
-        // Validate the ChvSession in the database
+        // Validate the TeamFormAccess in the database
         assertIncrementedRepositoryCount(databaseSizeBeforeCreate);
-        assertChvSessionUpdatableFieldsEquals(returnedChvSession, getPersistedChvSession(returnedChvSession));
+        assertTeamFormAccessUpdatableFieldsEquals(returnedTeamFormAccess, getPersistedTeamFormAccess(returnedTeamFormAccess));
     }
 
     @Test
     @Transactional
-    void createChvSessionWithExistingId() throws Exception {
-        // Create the ChvSession with an existing ID
-        chvSession.setId(1L);
+    void createTeamFormAccessWithExistingId() throws Exception {
+        // Create the TeamFormAccess with an existing ID
+        teamFormAccess.setId(1L);
 
         long databaseSizeBeforeCreate = getRepositoryCount();
 
         // An entity with an existing ID cannot be created, so this API call must fail
-        restChvSessionMockMvc
-            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(om.writeValueAsBytes(chvSession)))
+        restTeamFormAccessMockMvc
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(om.writeValueAsBytes(teamFormAccess)))
             .andExpect(status().isBadRequest());
 
-        // Validate the ChvSession in the database
+        // Validate the TeamFormAccess in the database
         assertSameRepositoryCount(databaseSizeBeforeCreate);
     }
 
@@ -241,12 +184,12 @@ class ChvSessionResourceIT {
     void checkUidIsRequired() throws Exception {
         long databaseSizeBeforeTest = getRepositoryCount();
         // set the field null
-        chvSession.setUid(null);
+        teamFormAccess.setUid(null);
 
-        // Create the ChvSession, which fails.
+        // Create the TeamFormAccess, which fails.
 
-        restChvSessionMockMvc
-            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(om.writeValueAsBytes(chvSession)))
+        restTeamFormAccessMockMvc
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(om.writeValueAsBytes(teamFormAccess)))
             .andExpect(status().isBadRequest());
 
         assertSameRepositoryCount(databaseSizeBeforeTest);
@@ -257,12 +200,12 @@ class ChvSessionResourceIT {
     void checkSessionDateIsRequired() throws Exception {
         long databaseSizeBeforeTest = getRepositoryCount();
         // set the field null
-        chvSession.setSessionDate(null);
+        teamFormAccess.setSessionDate(null);
 
-        // Create the ChvSession, which fails.
+        // Create the TeamFormAccess, which fails.
 
-        restChvSessionMockMvc
-            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(om.writeValueAsBytes(chvSession)))
+        restTeamFormAccessMockMvc
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(om.writeValueAsBytes(teamFormAccess)))
             .andExpect(status().isBadRequest());
 
         assertSameRepositoryCount(databaseSizeBeforeTest);
@@ -273,12 +216,12 @@ class ChvSessionResourceIT {
     void checkSessionsIsRequired() throws Exception {
         long databaseSizeBeforeTest = getRepositoryCount();
         // set the field null
-        chvSession.setSessions(null);
+        teamFormAccess.setSessions(null);
 
-        // Create the ChvSession, which fails.
+        // Create the TeamFormAccess, which fails.
 
-        restChvSessionMockMvc
-            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(om.writeValueAsBytes(chvSession)))
+        restTeamFormAccessMockMvc
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(om.writeValueAsBytes(teamFormAccess)))
             .andExpect(status().isBadRequest());
 
         assertSameRepositoryCount(databaseSizeBeforeTest);
@@ -289,12 +232,12 @@ class ChvSessionResourceIT {
     void checkPeopleIsRequired() throws Exception {
         long databaseSizeBeforeTest = getRepositoryCount();
         // set the field null
-        chvSession.setPeople(null);
+        teamFormAccess.setPeople(null);
 
-        // Create the ChvSession, which fails.
+        // Create the TeamFormAccess, which fails.
 
-        restChvSessionMockMvc
-            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(om.writeValueAsBytes(chvSession)))
+        restTeamFormAccessMockMvc
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(om.writeValueAsBytes(teamFormAccess)))
             .andExpect(status().isBadRequest());
 
         assertSameRepositoryCount(databaseSizeBeforeTest);
@@ -302,16 +245,16 @@ class ChvSessionResourceIT {
 
     @Test
     @Transactional
-    void getAllChvSessions() throws Exception {
+    void getAllTeamFormAccesses() throws Exception {
         // Initialize the database
-        chvSessionRepository.saveAndFlush(chvSession);
+        teamFormAccessRepository.saveAndFlush(teamFormAccess);
 
-        // Get all the chvSessionList
-        restChvSessionMockMvc
+        // Get all the teamFormAccessList
+        restTeamFormAccessMockMvc
             .perform(get(ENTITY_API_URL + "?sort=id,desc"))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
-            .andExpect(jsonPath("$.[*].id").value(hasItem(chvSession.getId().intValue())))
+            .andExpect(jsonPath("$.[*].id").value(hasItem(teamFormAccess.getId().intValue())))
             .andExpect(jsonPath("$.[*].uid").value(hasItem(DEFAULT_UID)))
             .andExpect(jsonPath("$.[*].code").value(hasItem(DEFAULT_CODE)))
             .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)))
@@ -326,35 +269,18 @@ class ChvSessionResourceIT {
             .andExpect(jsonPath("$.[*].status").value(hasItem(DEFAULT_STATUS.toString())));
     }
 
-    @SuppressWarnings({ "unchecked" })
-    void getAllChvSessionsWithEagerRelationshipsIsEnabled() throws Exception {
-        when(chvSessionServiceMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
-
-        restChvSessionMockMvc.perform(get(ENTITY_API_URL + "?eagerload=true")).andExpect(status().isOk());
-
-        verify(chvSessionServiceMock, times(1)).findAllWithEagerRelationships(any());
-    }
-
-    @SuppressWarnings({ "unchecked" })
-    void getAllChvSessionsWithEagerRelationshipsIsNotEnabled() throws Exception {
-        when(chvSessionServiceMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
-
-        restChvSessionMockMvc.perform(get(ENTITY_API_URL + "?eagerload=false")).andExpect(status().isOk());
-        verify(chvSessionRepositoryMock, times(1)).findAll(any(Pageable.class));
-    }
-
     @Test
     @Transactional
-    void getChvSession() throws Exception {
+    void getTeamFormAccess() throws Exception {
         // Initialize the database
-        chvSessionRepository.saveAndFlush(chvSession);
+        teamFormAccessRepository.saveAndFlush(teamFormAccess);
 
-        // Get the chvSession
-        restChvSessionMockMvc
-            .perform(get(ENTITY_API_URL_ID, chvSession.getId()))
+        // Get the teamFormAccess
+        restTeamFormAccessMockMvc
+            .perform(get(ENTITY_API_URL_ID, teamFormAccess.getId()))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
-            .andExpect(jsonPath("$.id").value(chvSession.getId().intValue()))
+            .andExpect(jsonPath("$.id").value(teamFormAccess.getId().intValue()))
             .andExpect(jsonPath("$.uid").value(DEFAULT_UID))
             .andExpect(jsonPath("$.code").value(DEFAULT_CODE))
             .andExpect(jsonPath("$.name").value(DEFAULT_NAME))
@@ -371,24 +297,24 @@ class ChvSessionResourceIT {
 
     @Test
     @Transactional
-    void getNonExistingChvSession() throws Exception {
-        // Get the chvSession
-        restChvSessionMockMvc.perform(get(ENTITY_API_URL_ID, Long.MAX_VALUE)).andExpect(status().isNotFound());
+    void getNonExistingTeamFormAccess() throws Exception {
+        // Get the teamFormAccess
+        restTeamFormAccessMockMvc.perform(get(ENTITY_API_URL_ID, Long.MAX_VALUE)).andExpect(status().isNotFound());
     }
 
     @Test
     @Transactional
-    void putExistingChvSession() throws Exception {
+    void putExistingTeamFormAccess() throws Exception {
         // Initialize the database
-        chvSessionRepository.saveAndFlush(chvSession);
+        teamFormAccessRepository.saveAndFlush(teamFormAccess);
 
         long databaseSizeBeforeUpdate = getRepositoryCount();
 
-        // Update the chvSession
-        ChvSession updatedChvSession = chvSessionRepository.findById(chvSession.getId()).orElseThrow();
-        // Disconnect from session so that the updates on updatedChvSession are not directly saved in db
-        em.detach(updatedChvSession);
-        updatedChvSession
+        // Update the teamFormAccess
+        TeamFormAccess updatedTeamFormAccess = teamFormAccessRepository.findById(teamFormAccess.getId()).orElseThrow();
+        // Disconnect from session so that the updates on updatedTeamFormAccess are not directly saved in db
+        em.detach(updatedTeamFormAccess);
+        updatedTeamFormAccess
             .uid(UPDATED_UID)
             .code(UPDATED_CODE)
             .name(UPDATED_NAME)
@@ -402,119 +328,122 @@ class ChvSessionResourceIT {
             .finishedEntryTime(UPDATED_FINISHED_ENTRY_TIME)
             .status(UPDATED_STATUS);
 
-        restChvSessionMockMvc
+        restTeamFormAccessMockMvc
             .perform(
-                put(ENTITY_API_URL_ID, updatedChvSession.getId())
+                put(ENTITY_API_URL_ID, updatedTeamFormAccess.getId())
                     .contentType(MediaType.APPLICATION_JSON)
-                    .content(om.writeValueAsBytes(updatedChvSession))
+                    .content(om.writeValueAsBytes(updatedTeamFormAccess))
             )
             .andExpect(status().isOk());
 
-        // Validate the ChvSession in the database
+        // Validate the TeamFormAccess in the database
         assertSameRepositoryCount(databaseSizeBeforeUpdate);
-        assertPersistedChvSessionToMatchAllProperties(updatedChvSession);
+        assertPersistedTeamFormAccessToMatchAllProperties(updatedTeamFormAccess);
     }
 
     @Test
     @Transactional
-    void putNonExistingChvSession() throws Exception {
+    void putNonExistingTeamFormAccess() throws Exception {
         long databaseSizeBeforeUpdate = getRepositoryCount();
-        chvSession.setId(longCount.incrementAndGet());
+        teamFormAccess.setId(longCount.incrementAndGet());
 
         // If the entity doesn't have an ID, it will throw BadRequestAlertException
-        restChvSessionMockMvc
+        restTeamFormAccessMockMvc
             .perform(
-                put(ENTITY_API_URL_ID, chvSession.getId()).contentType(MediaType.APPLICATION_JSON).content(om.writeValueAsBytes(chvSession))
+                put(ENTITY_API_URL_ID, teamFormAccess.getId())
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(om.writeValueAsBytes(teamFormAccess))
             )
             .andExpect(status().isBadRequest());
 
-        // Validate the ChvSession in the database
+        // Validate the TeamFormAccess in the database
         assertSameRepositoryCount(databaseSizeBeforeUpdate);
     }
 
     @Test
     @Transactional
-    void putWithIdMismatchChvSession() throws Exception {
+    void putWithIdMismatchTeamFormAccess() throws Exception {
         long databaseSizeBeforeUpdate = getRepositoryCount();
-        chvSession.setId(longCount.incrementAndGet());
+        teamFormAccess.setId(longCount.incrementAndGet());
 
         // If url ID doesn't match entity ID, it will throw BadRequestAlertException
-        restChvSessionMockMvc
+        restTeamFormAccessMockMvc
             .perform(
                 put(ENTITY_API_URL_ID, longCount.incrementAndGet())
                     .contentType(MediaType.APPLICATION_JSON)
-                    .content(om.writeValueAsBytes(chvSession))
+                    .content(om.writeValueAsBytes(teamFormAccess))
             )
             .andExpect(status().isBadRequest());
 
-        // Validate the ChvSession in the database
+        // Validate the TeamFormAccess in the database
         assertSameRepositoryCount(databaseSizeBeforeUpdate);
     }
 
     @Test
     @Transactional
-    void putWithMissingIdPathParamChvSession() throws Exception {
+    void putWithMissingIdPathParamTeamFormAccess() throws Exception {
         long databaseSizeBeforeUpdate = getRepositoryCount();
-        chvSession.setId(longCount.incrementAndGet());
+        teamFormAccess.setId(longCount.incrementAndGet());
 
         // If url ID doesn't match entity ID, it will throw BadRequestAlertException
-        restChvSessionMockMvc
-            .perform(put(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(om.writeValueAsBytes(chvSession)))
+        restTeamFormAccessMockMvc
+            .perform(put(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(om.writeValueAsBytes(teamFormAccess)))
             .andExpect(status().isMethodNotAllowed());
 
-        // Validate the ChvSession in the database
+        // Validate the TeamFormAccess in the database
         assertSameRepositoryCount(databaseSizeBeforeUpdate);
     }
 
     @Test
     @Transactional
-    void partialUpdateChvSessionWithPatch() throws Exception {
+    void partialUpdateTeamFormAccessWithPatch() throws Exception {
         // Initialize the database
-        chvSessionRepository.saveAndFlush(chvSession);
+        teamFormAccessRepository.saveAndFlush(teamFormAccess);
 
         long databaseSizeBeforeUpdate = getRepositoryCount();
 
-        // Update the chvSession using partial update
-        ChvSession partialUpdatedChvSession = new ChvSession();
-        partialUpdatedChvSession.setId(chvSession.getId());
+        // Update the teamFormAccess using partial update
+        TeamFormAccess partialUpdatedTeamFormAccess = new TeamFormAccess();
+        partialUpdatedTeamFormAccess.setId(teamFormAccess.getId());
 
-        partialUpdatedChvSession
-            .code(UPDATED_CODE)
-            .subject(UPDATED_SUBJECT)
-            .comment(UPDATED_COMMENT)
+        partialUpdatedTeamFormAccess
+            .uid(UPDATED_UID)
+            .name(UPDATED_NAME)
+            .sessions(UPDATED_SESSIONS)
             .deleted(UPDATED_DELETED)
-            .status(UPDATED_STATUS);
+            .startEntryTime(UPDATED_START_ENTRY_TIME)
+            .finishedEntryTime(UPDATED_FINISHED_ENTRY_TIME);
 
-        restChvSessionMockMvc
+        restTeamFormAccessMockMvc
             .perform(
-                patch(ENTITY_API_URL_ID, partialUpdatedChvSession.getId())
+                patch(ENTITY_API_URL_ID, partialUpdatedTeamFormAccess.getId())
                     .contentType("application/merge-patch+json")
-                    .content(om.writeValueAsBytes(partialUpdatedChvSession))
+                    .content(om.writeValueAsBytes(partialUpdatedTeamFormAccess))
             )
             .andExpect(status().isOk());
 
-        // Validate the ChvSession in the database
+        // Validate the TeamFormAccess in the database
 
         assertSameRepositoryCount(databaseSizeBeforeUpdate);
-        assertChvSessionUpdatableFieldsEquals(
-            createUpdateProxyForBean(partialUpdatedChvSession, chvSession),
-            getPersistedChvSession(chvSession)
+        assertTeamFormAccessUpdatableFieldsEquals(
+            createUpdateProxyForBean(partialUpdatedTeamFormAccess, teamFormAccess),
+            getPersistedTeamFormAccess(teamFormAccess)
         );
     }
 
     @Test
     @Transactional
-    void fullUpdateChvSessionWithPatch() throws Exception {
+    void fullUpdateTeamFormAccessWithPatch() throws Exception {
         // Initialize the database
-        chvSessionRepository.saveAndFlush(chvSession);
+        teamFormAccessRepository.saveAndFlush(teamFormAccess);
 
         long databaseSizeBeforeUpdate = getRepositoryCount();
 
-        // Update the chvSession using partial update
-        ChvSession partialUpdatedChvSession = new ChvSession();
-        partialUpdatedChvSession.setId(chvSession.getId());
+        // Update the teamFormAccess using partial update
+        TeamFormAccess partialUpdatedTeamFormAccess = new TeamFormAccess();
+        partialUpdatedTeamFormAccess.setId(teamFormAccess.getId());
 
-        partialUpdatedChvSession
+        partialUpdatedTeamFormAccess
             .uid(UPDATED_UID)
             .code(UPDATED_CODE)
             .name(UPDATED_NAME)
@@ -528,84 +457,84 @@ class ChvSessionResourceIT {
             .finishedEntryTime(UPDATED_FINISHED_ENTRY_TIME)
             .status(UPDATED_STATUS);
 
-        restChvSessionMockMvc
+        restTeamFormAccessMockMvc
             .perform(
-                patch(ENTITY_API_URL_ID, partialUpdatedChvSession.getId())
+                patch(ENTITY_API_URL_ID, partialUpdatedTeamFormAccess.getId())
                     .contentType("application/merge-patch+json")
-                    .content(om.writeValueAsBytes(partialUpdatedChvSession))
+                    .content(om.writeValueAsBytes(partialUpdatedTeamFormAccess))
             )
             .andExpect(status().isOk());
 
-        // Validate the ChvSession in the database
+        // Validate the TeamFormAccess in the database
 
         assertSameRepositoryCount(databaseSizeBeforeUpdate);
-        assertChvSessionUpdatableFieldsEquals(partialUpdatedChvSession, getPersistedChvSession(partialUpdatedChvSession));
+        assertTeamFormAccessUpdatableFieldsEquals(partialUpdatedTeamFormAccess, getPersistedTeamFormAccess(partialUpdatedTeamFormAccess));
     }
 
     @Test
     @Transactional
-    void patchNonExistingChvSession() throws Exception {
+    void patchNonExistingTeamFormAccess() throws Exception {
         long databaseSizeBeforeUpdate = getRepositoryCount();
-        chvSession.setId(longCount.incrementAndGet());
+        teamFormAccess.setId(longCount.incrementAndGet());
 
         // If the entity doesn't have an ID, it will throw BadRequestAlertException
-        restChvSessionMockMvc
+        restTeamFormAccessMockMvc
             .perform(
-                patch(ENTITY_API_URL_ID, chvSession.getId())
+                patch(ENTITY_API_URL_ID, teamFormAccess.getId())
                     .contentType("application/merge-patch+json")
-                    .content(om.writeValueAsBytes(chvSession))
+                    .content(om.writeValueAsBytes(teamFormAccess))
             )
             .andExpect(status().isBadRequest());
 
-        // Validate the ChvSession in the database
+        // Validate the TeamFormAccess in the database
         assertSameRepositoryCount(databaseSizeBeforeUpdate);
     }
 
     @Test
     @Transactional
-    void patchWithIdMismatchChvSession() throws Exception {
+    void patchWithIdMismatchTeamFormAccess() throws Exception {
         long databaseSizeBeforeUpdate = getRepositoryCount();
-        chvSession.setId(longCount.incrementAndGet());
+        teamFormAccess.setId(longCount.incrementAndGet());
 
         // If url ID doesn't match entity ID, it will throw BadRequestAlertException
-        restChvSessionMockMvc
+        restTeamFormAccessMockMvc
             .perform(
                 patch(ENTITY_API_URL_ID, longCount.incrementAndGet())
                     .contentType("application/merge-patch+json")
-                    .content(om.writeValueAsBytes(chvSession))
+                    .content(om.writeValueAsBytes(teamFormAccess))
             )
             .andExpect(status().isBadRequest());
 
-        // Validate the ChvSession in the database
+        // Validate the TeamFormAccess in the database
         assertSameRepositoryCount(databaseSizeBeforeUpdate);
     }
 
     @Test
     @Transactional
-    void patchWithMissingIdPathParamChvSession() throws Exception {
+    void patchWithMissingIdPathParamTeamFormAccess() throws Exception {
         long databaseSizeBeforeUpdate = getRepositoryCount();
-        chvSession.setId(longCount.incrementAndGet());
+        teamFormAccess.setId(longCount.incrementAndGet());
 
         // If url ID doesn't match entity ID, it will throw BadRequestAlertException
-        restChvSessionMockMvc
-            .perform(patch(ENTITY_API_URL).contentType("application/merge-patch+json").content(om.writeValueAsBytes(chvSession)))
+        restTeamFormAccessMockMvc
+            .perform(patch(ENTITY_API_URL).contentType("application/merge-patch+json").content(om.writeValueAsBytes(teamFormAccess)))
             .andExpect(status().isMethodNotAllowed());
 
-        // Validate the ChvSession in the database
+        // Validate the TeamFormAccess in the database
         assertSameRepositoryCount(databaseSizeBeforeUpdate);
     }
 
     @Test
     @Transactional
-    void deleteChvSession() throws Exception {
+    void deleteTeamFormAccess() throws Exception {
         // Initialize the database
-        chvSessionRepository.saveAndFlush(chvSession);
+        teamFormAccessRepository.saveAndFlush(teamFormAccess);
 
         long databaseSizeBeforeDelete = getRepositoryCount();
 
-        // Delete the chvSession
-        restChvSessionMockMvc
-            .perform(delete(ENTITY_API_URL_ID, chvSession.getId()).accept(MediaType.APPLICATION_JSON))
+        // Delete the teamFormAccess
+        restTeamFormAccessMockMvc
+            .perform(delete(ENTITY_API_URL_ID, teamFormAccess.getId()).accept(MediaType.APPLICATION_JSON))
             .andExpect(status().isNoContent());
 
         // Validate the database contains one less item
@@ -613,7 +542,7 @@ class ChvSessionResourceIT {
     }
 
     protected long getRepositoryCount() {
-        return chvSessionRepository.count();
+        return teamFormAccessRepository.count();
     }
 
     protected void assertIncrementedRepositoryCount(long countBefore) {
@@ -628,15 +557,15 @@ class ChvSessionResourceIT {
         assertThat(countBefore).isEqualTo(getRepositoryCount());
     }
 
-    protected ChvSession getPersistedChvSession(ChvSession chvSession) {
-        return chvSessionRepository.findById(chvSession.getId()).orElseThrow();
+    protected TeamFormAccess getPersistedTeamFormAccess(TeamFormAccess teamFormAccess) {
+        return teamFormAccessRepository.findById(teamFormAccess.getId()).orElseThrow();
     }
 
-    protected void assertPersistedChvSessionToMatchAllProperties(ChvSession expectedChvSession) {
-        assertChvSessionAllPropertiesEquals(expectedChvSession, getPersistedChvSession(expectedChvSession));
+    protected void assertPersistedTeamFormAccessToMatchAllProperties(TeamFormAccess expectedTeamFormAccess) {
+        assertTeamFormAccessAllPropertiesEquals(expectedTeamFormAccess, getPersistedTeamFormAccess(expectedTeamFormAccess));
     }
 
-    protected void assertPersistedChvSessionToMatchUpdatableProperties(ChvSession expectedChvSession) {
-        assertChvSessionAllUpdatablePropertiesEquals(expectedChvSession, getPersistedChvSession(expectedChvSession));
+    protected void assertPersistedTeamFormAccessToMatchUpdatableProperties(TeamFormAccess expectedTeamFormAccess) {
+        assertTeamFormAccessAllUpdatablePropertiesEquals(expectedTeamFormAccess, getPersistedTeamFormAccess(expectedTeamFormAccess));
     }
 }

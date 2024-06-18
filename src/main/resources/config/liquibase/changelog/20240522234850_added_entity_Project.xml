@@ -23,7 +23,7 @@
             <column name="name" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
-            <column name="displayed" type="boolean">
+            <column name="disabled" type="boolean">
                 <constraints nullable="true" />
             </column>
             <column name="created_by" type="varchar(50)">

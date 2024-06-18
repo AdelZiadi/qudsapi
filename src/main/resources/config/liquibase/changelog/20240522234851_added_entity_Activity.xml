@@ -29,7 +29,10 @@
             <column name="end_date" type="${datetimeType}">
                 <constraints nullable="true" />
             </column>
-            <column name="active" type="boolean">
+            <column name="disabled" type="boolean">
+                <constraints nullable="true" />
+            </column>
+            <column name="delete_client_data" type="boolean">
                 <constraints nullable="true" />
             </column>
             <column name="created_by" type="varchar(50)">

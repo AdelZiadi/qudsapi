@@ -54,7 +54,8 @@ public class ActivityAsserts {
             .satisfies(e -> assertThat(e.getName()).as("check name").isEqualTo(actual.getName()))
             .satisfies(e -> assertThat(e.getStartDate()).as("check startDate").isEqualTo(actual.getStartDate()))
             .satisfies(e -> assertThat(e.getEndDate()).as("check endDate").isEqualTo(actual.getEndDate()))
-            .satisfies(e -> assertThat(e.getActive()).as("check active").isEqualTo(actual.getActive()));
+            .satisfies(e -> assertThat(e.getDisabled()).as("check disabled").isEqualTo(actual.getDisabled()))
+            .satisfies(e -> assertThat(e.getDeleteClientData()).as("check deleteClientData").isEqualTo(actual.getDeleteClientData()));
     }
 
     /**

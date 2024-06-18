@@ -44,8 +44,11 @@ public class Activity extends AbstractAuditingEntity<Long> implements Serializab
     @Column(name = "end_date")
     private Instant endDate;
 
-    @Column(name = "active")
-    private Boolean active;
+    @Column(name = "disabled")
+    private Boolean disabled;
+
+    @Column(name = "delete_client_data")
+    private Boolean deleteClientData;
 
     // Inherited createdBy definition
     // Inherited createdDate definition
@@ -139,17 +142,30 @@ public class Activity extends AbstractAuditingEntity<Long> implements Serializab
         this.endDate = endDate;
     }
 
-    public Boolean getActive() {
-        return this.active;
+    public Boolean getDisabled() {
+        return this.disabled;
     }
 
-    public Activity active(Boolean active) {
-        this.setActive(active);
+    public Activity disabled(Boolean disabled) {
+        this.setDisabled(disabled);
         return this;
     }
 
-    public void setActive(Boolean active) {
-        this.active = active;
+    public void setDisabled(Boolean disabled) {
+        this.disabled = disabled;
+    }
+
+    public Boolean getDeleteClientData() {
+        return this.deleteClientData;
+    }
+
+    public Activity deleteClientData(Boolean deleteClientData) {
+        this.setDeleteClientData(deleteClientData);
+        return this;
+    }
+
+    public void setDeleteClientData(Boolean deleteClientData) {
+        this.deleteClientData = deleteClientData;
     }
 
     // Inherited createdBy methods
@@ -235,7 +251,8 @@ public class Activity extends AbstractAuditingEntity<Long> implements Serializab
             ", name='" + getName() + "'" +
             ", startDate='" + getStartDate() + "'" +
             ", endDate='" + getEndDate() + "'" +
-            ", active='" + getActive() + "'" +
+            ", disabled='" + getDisabled() + "'" +
+            ", deleteClientData='" + getDeleteClientData() + "'" +
             ", createdBy='" + getCreatedBy() + "'" +
             ", createdDate='" + getCreatedDate() + "'" +
             ", lastModifiedBy='" + getLastModifiedBy() + "'" +
