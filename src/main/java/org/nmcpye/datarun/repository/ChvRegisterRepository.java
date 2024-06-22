@@ -27,14 +27,18 @@ public interface ChvRegisterRepository extends JpaRepository<ChvRegister, Long> 
     }
 
     @Query(
-        value = "select chvRegister from ChvRegister chvRegister left join fetch chvRegister.patient",
+        value = "select chvRegister from ChvRegister chvRegister left join fetch chvRegister.location left join fetch chvRegister.activity left join fetch chvRegister.team",
         countQuery = "select count(chvRegister) from ChvRegister chvRegister"
     )
     Page<ChvRegister> findAllWithToOneRelationships(Pageable pageable);
 
-    @Query("select chvRegister from ChvRegister chvRegister left join fetch chvRegister.patient")
+    @Query(
+        "select chvRegister from ChvRegister chvRegister left join fetch chvRegister.location left join fetch chvRegister.activity left join fetch chvRegister.team"
+    )
     List<ChvRegister> findAllWithToOneRelationships();
 
-    @Query("select chvRegister from ChvRegister chvRegister left join fetch chvRegister.patient where chvRegister.id =:id")
+    @Query(
+        "select chvRegister from ChvRegister chvRegister left join fetch chvRegister.location left join fetch chvRegister.activity left join fetch chvRegister.team where chvRegister.id =:id"
+    )
     Optional<ChvRegister> findOneWithToOneRelationships(@Param("id") Long id);
 }

@@ -11,7 +11,6 @@
     <property name="datetimeType" value="datetime" dbms="postgresql"/>
 
     <include file="config/liquibase/changelog/00000000000000_initial_schema.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20240521125524_added_entity_MVillagesLocations.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20240522234850_added_entity_Project.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20240522234851_added_entity_Activity.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20240522234852_added_entity_VillageLocation.xml" relativeToChangelogFile="false"/>
@@ -24,12 +23,11 @@
     <include file="config/liquibase/changelog/20240522234859_added_entity_Warehouse.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20240522234900_added_entity_WarehouseItem.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20240522234901_added_entity_WarehouseTransaction.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20240529163215_added_entity_ChvRegister.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20240529163217_added_entity_PatientInfo.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20240530121624_added_entity_ChvSession.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/Extended050_Add_Identifiable_properties_to_user.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20240603195621_added_entity_RefreshToken.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20240614192303_added_entity_TeamFormAccess.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240622031226_added_entity_ChvRegister.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-changelog - JHipster will add liquibase changelogs here -->
     <include file="config/liquibase/changelog/20240522234851_added_entity_constraints_Activity.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20240522234853_added_entity_constraints_Assignment.xml" relativeToChangelogFile="false"/>
@@ -38,10 +36,9 @@
     <include file="config/liquibase/changelog/20240522234858_added_entity_constraints_Team.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20240522234859_added_entity_constraints_Warehouse.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20240522234901_added_entity_constraints_WarehouseTransaction.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20240529163215_added_entity_constraints_ChvRegister.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20240529163217_added_entity_constraints_PatientInfo.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20240530121624_added_entity_constraints_ChvSession.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20240603195621_added_entity_constraints_RefreshToken.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240622031226_added_entity_constraints_ChvRegister.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-constraints-changelog - JHipster will add liquibase constraints changelogs here -->
     <include file="config/liquibase/changelog/20240518020044_added_entity_EntityAuditEvent.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-incremental-changelog - JHipster will add incremental liquibase changelogs here -->

@@ -1,8 +1,10 @@
 package org.nmcpye.datarun.domain;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.nmcpye.datarun.domain.ActivityTestSamples.*;
+import static org.nmcpye.datarun.domain.AssignmentTestSamples.*;
 import static org.nmcpye.datarun.domain.ChvRegisterTestSamples.*;
-import static org.nmcpye.datarun.domain.PatientInfoTestSamples.*;
+import static org.nmcpye.datarun.domain.TeamTestSamples.*;
 
 import org.junit.jupiter.api.Test;
 import org.nmcpye.datarun.web.rest.TestUtil;
@@ -24,14 +26,38 @@ class ChvRegisterTest {
     }
 
     @Test
-    void patientTest() throws Exception {
+    void locationTest() throws Exception {
         ChvRegister chvRegister = getChvRegisterRandomSampleGenerator();
-        PatientInfo patientInfoBack = getPatientInfoRandomSampleGenerator();
+        Assignment assignmentBack = getAssignmentRandomSampleGenerator();
 
-        chvRegister.setPatient(patientInfoBack);
-        assertThat(chvRegister.getPatient()).isEqualTo(patientInfoBack);
+        chvRegister.setLocation(assignmentBack);
+        assertThat(chvRegister.getLocation()).isEqualTo(assignmentBack);
 
-        chvRegister.patient(null);
-        assertThat(chvRegister.getPatient()).isNull();
+        chvRegister.location(null);
+        assertThat(chvRegister.getLocation()).isNull();
+    }
+
+    @Test
+    void activityTest() throws Exception {
+        ChvRegister chvRegister = getChvRegisterRandomSampleGenerator();
+        Activity activityBack = getActivityRandomSampleGenerator();
+
+        chvRegister.setActivity(activityBack);
+        assertThat(chvRegister.getActivity()).isEqualTo(activityBack);
+
+        chvRegister.activity(null);
+        assertThat(chvRegister.getActivity()).isNull();
+    }
+
+    @Test
+    void teamTest() throws Exception {
+        ChvRegister chvRegister = getChvRegisterRandomSampleGenerator();
+        Team teamBack = getTeamRandomSampleGenerator();
+
+        chvRegister.setTeam(teamBack);
+        assertThat(chvRegister.getTeam()).isEqualTo(teamBack);
+
+        chvRegister.team(null);
+        assertThat(chvRegister.getTeam()).isNull();
     }
 }

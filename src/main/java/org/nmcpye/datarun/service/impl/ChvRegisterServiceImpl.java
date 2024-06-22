@@ -55,6 +55,12 @@ public class ChvRegisterServiceImpl implements ChvRegisterService {
                 if (chvRegister.getName() != null) {
                     existingChvRegister.setName(chvRegister.getName());
                 }
+                if (chvRegister.getAge() != null) {
+                    existingChvRegister.setAge(chvRegister.getAge());
+                }
+                if (chvRegister.getGender() != null) {
+                    existingChvRegister.setGender(chvRegister.getGender());
+                }
                 if (chvRegister.getVisitDate() != null) {
                     existingChvRegister.setVisitDate(chvRegister.getVisitDate());
                 }
@@ -73,8 +79,20 @@ public class ChvRegisterServiceImpl implements ChvRegisterService {
                 if (chvRegister.getTreatment() != null) {
                     existingChvRegister.setTreatment(chvRegister.getTreatment());
                 }
+                if (chvRegister.getDeleted() != null) {
+                    existingChvRegister.setDeleted(chvRegister.getDeleted());
+                }
+                if (chvRegister.getStartEntryTime() != null) {
+                    existingChvRegister.setStartEntryTime(chvRegister.getStartEntryTime());
+                }
+                if (chvRegister.getFinishedEntryTime() != null) {
+                    existingChvRegister.setFinishedEntryTime(chvRegister.getFinishedEntryTime());
+                }
                 if (chvRegister.getComment() != null) {
                     existingChvRegister.setComment(chvRegister.getComment());
+                }
+                if (chvRegister.getStatus() != null) {
+                    existingChvRegister.setStatus(chvRegister.getStatus());
                 }
                 if (chvRegister.getCreatedBy() != null) {
                     existingChvRegister.setCreatedBy(chvRegister.getCreatedBy());

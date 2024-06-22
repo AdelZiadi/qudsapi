@@ -7,6 +7,8 @@ import org.nmcpye.datarun.utils.CodeGenerator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Primary;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -34,5 +36,16 @@ public class ChvRegisterServiceCustomImpl
         }
         log.debug("Request to save ChvRegister : {}", chvRegister);
         return chvRegisterRepository.save(chvRegister);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Page<ChvRegister> findAll(Pageable pageable) {
+        log.debug("Request to get all ChvRegister");
+        return chvRegisterRepository.findAllByUser(pageable);
+    }
+
+    public Page<ChvRegister> findAllWithEagerRelationships(Pageable pageable) {
+        return chvRegisterRepository.findAllWithEagerRelationshipsByUser(pageable);
     }
 }

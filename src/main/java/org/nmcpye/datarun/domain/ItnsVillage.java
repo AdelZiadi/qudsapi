@@ -123,12 +123,13 @@ public class ItnsVillage extends AbstractAuditingEntity<Long> implements Seriali
     @Column(name = "finished_entry_time")
     private Instant finishedEntryTime;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "status")
-    private SyncableStatus status;
-
     @Column(name = "deleted")
     private Boolean deleted;
+
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status", nullable = false)
+    private SyncableStatus status;
 
     // Inherited createdBy definition
     // Inherited createdDate definition
@@ -513,19 +514,6 @@ public class ItnsVillage extends AbstractAuditingEntity<Long> implements Seriali
         this.finishedEntryTime = finishedEntryTime;
     }
 
-    public SyncableStatus getStatus() {
-        return this.status;
-    }
-
-    public ItnsVillage status(SyncableStatus status) {
-        this.setStatus(status);
-        return this;
-    }
-
-    public void setStatus(SyncableStatus status) {
-        this.status = status;
-    }
-
     public Boolean getDeleted() {
         return this.deleted;
     }
@@ -537,6 +525,19 @@ public class ItnsVillage extends AbstractAuditingEntity<Long> implements Seriali
 
     public void setDeleted(Boolean deleted) {
         this.deleted = deleted;
+    }
+
+    public SyncableStatus getStatus() {
+        return this.status;
+    }
+
+    public ItnsVillage status(SyncableStatus status) {
+        this.setStatus(status);
+        return this;
+    }
+
+    public void setStatus(SyncableStatus status) {
+        this.status = status;
     }
 
     // Inherited createdBy methods
@@ -713,8 +714,8 @@ public class ItnsVillage extends AbstractAuditingEntity<Long> implements Seriali
             ", otherTeamNo=" + getOtherTeamNo() +
             ", startEntryTime='" + getStartEntryTime() + "'" +
             ", finishedEntryTime='" + getFinishedEntryTime() + "'" +
-            ", status='" + getStatus() + "'" +
             ", deleted='" + getDeleted() + "'" +
+            ", status='" + getStatus() + "'" +
             ", createdBy='" + getCreatedBy() + "'" +
             ", createdDate='" + getCreatedDate() + "'" +
             ", lastModifiedBy='" + getLastModifiedBy() + "'" +

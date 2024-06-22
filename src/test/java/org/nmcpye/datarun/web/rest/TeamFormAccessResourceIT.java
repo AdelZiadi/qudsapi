@@ -408,11 +408,10 @@ class TeamFormAccessResourceIT {
 
         partialUpdatedTeamFormAccess
             .uid(UPDATED_UID)
-            .name(UPDATED_NAME)
+            .code(UPDATED_CODE)
             .sessions(UPDATED_SESSIONS)
-            .deleted(UPDATED_DELETED)
-            .startEntryTime(UPDATED_START_ENTRY_TIME)
-            .finishedEntryTime(UPDATED_FINISHED_ENTRY_TIME);
+            .people(UPDATED_PEOPLE)
+            .comment(UPDATED_COMMENT);
 
         restTeamFormAccessMockMvc
             .perform(

@@ -1,11 +1,9 @@
 package org.nmcpye.datarun.service.dto.drun;
 
+import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import org.nmcpye.datarun.domain.enumeration.MDetectionType;
-import org.nmcpye.datarun.domain.enumeration.MSeverity;
-import org.nmcpye.datarun.domain.enumeration.MTestResult;
-import org.nmcpye.datarun.domain.enumeration.MTreatment;
+import org.nmcpye.datarun.domain.enumeration.*;
 
 import java.io.Serializable;
 import java.time.Instant;
@@ -43,7 +41,17 @@ public class ChvRegisterDTO implements Serializable {
 
     private Boolean deleted;
 
-    private PatientInfoDTO patient;
+    @Max(value = 140)
+    private Integer age;
+
+    private Gender gender;
+
+    private AssignmentDTO location;
+
+    private TeamDTO team;
+
+    private ActivityDTO activity;
+
 
     public String getUid() {
         return uid;
@@ -141,14 +149,6 @@ public class ChvRegisterDTO implements Serializable {
         this.deleted = deleted;
     }
 
-    public PatientInfoDTO getPatient() {
-        return patient;
-    }
-
-    public void setPatient(PatientInfoDTO patient) {
-        this.patient = patient;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -170,6 +170,46 @@ public class ChvRegisterDTO implements Serializable {
         return Objects.hash(this.uid);
     }
 
+    public Integer getAge() {
+        return age;
+    }
+
+    public void setAge(Integer age) {
+        this.age = age;
+    }
+
+    public Gender getGender() {
+        return gender;
+    }
+
+    public void setGender(Gender gender) {
+        this.gender = gender;
+    }
+
+    public AssignmentDTO getLocation() {
+        return location;
+    }
+
+    public void setLocation(AssignmentDTO location) {
+        this.location = location;
+    }
+
+    public TeamDTO getTeam() {
+        return team;
+    }
+
+    public void setTeam(TeamDTO team) {
+        this.team = team;
+    }
+
+    public ActivityDTO getActivity() {
+        return activity;
+    }
+
+    public void setActivity(ActivityDTO activity) {
+        this.activity = activity;
+    }
+
     // prettier-ignore
     @Override
     public String toString() {
@@ -186,7 +226,6 @@ public class ChvRegisterDTO implements Serializable {
             ", comment='" + getComment() + "'" +
             ", startEntryTime='" + getStartEntryTime() + "'" +
             ", deleted='" + getDeleted() + "'" +
-            ", patient=" + getPatient() +
             "}";
     }
 }

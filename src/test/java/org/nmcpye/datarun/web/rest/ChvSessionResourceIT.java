@@ -302,6 +302,22 @@ class ChvSessionResourceIT {
 
     @Test
     @Transactional
+    void checkStatusIsRequired() throws Exception {
+        long databaseSizeBeforeTest = getRepositoryCount();
+        // set the field null
+        chvSession.setStatus(null);
+
+        // Create the ChvSession, which fails.
+
+        restChvSessionMockMvc
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(om.writeValueAsBytes(chvSession)))
+            .andExpect(status().isBadRequest());
+
+        assertSameRepositoryCount(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
     void getAllChvSessions() throws Exception {
         // Initialize the database
         chvSessionRepository.saveAndFlush(chvSession);
@@ -479,11 +495,12 @@ class ChvSessionResourceIT {
         partialUpdatedChvSession.setId(chvSession.getId());
 
         partialUpdatedChvSession
+            .uid(UPDATED_UID)
             .code(UPDATED_CODE)
-            .subject(UPDATED_SUBJECT)
-            .comment(UPDATED_COMMENT)
-            .deleted(UPDATED_DELETED)
-            .status(UPDATED_STATUS);
+            .sessionDate(UPDATED_SESSION_DATE)
+            .sessions(UPDATED_SESSIONS)
+            .people(UPDATED_PEOPLE)
+            .deleted(UPDATED_DELETED);
 
         restChvSessionMockMvc
             .perform(

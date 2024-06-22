@@ -12,18 +12,26 @@ import org.nmcpye.datarun.service.dto.drun.*;
  */
 @Mapper(componentModel = "spring")
 public interface ChvRegisterMapper extends EntityMapper<ChvRegisterDTO, ChvRegister> {
-    @Mapping(target = "patient", source = "patient", qualifiedByName = "patientInfoName")
+    @Mapping(target = "location", source = "location", qualifiedByName = "assignmentCode")
+    @Mapping(target = "team", source = "team", qualifiedByName = "teamCode")
+    @Mapping(target = "activity", source = "activity", qualifiedByName = "activityCode")
     ChvRegisterDTO toDto(ChvRegister s);
 
-    @Named("patientInfoName")
+    @Named("assignmentCode")
     @BeanMapping(ignoreByDefault = true)
     @Mapping(target = "uid", source = "uid")
-    @Mapping(target = "name", source = "name")
-    PatientInfoDTO toDtoPatientInfoName(PatientInfo patientInfo);
+    @Mapping(target = "code", source = "code")
+    AssignmentDTO toDtoAssignmentCode(Assignment assignment);
 
     @Named("teamCode")
     @BeanMapping(ignoreByDefault = true)
     @Mapping(target = "uid", source = "uid")
     @Mapping(target = "code", source = "code")
     TeamDTO toDtoTeamCode(Team team);
+
+    @Named("activityCode")
+    @BeanMapping(ignoreByDefault = true)
+    @Mapping(target = "uid", source = "uid")
+    @Mapping(target = "code", source = "code")
+    ActivityDTO toDtoActivityCode(Activity activity);
 }

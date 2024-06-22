@@ -124,11 +124,11 @@ public class ItnsVillageServiceImpl implements ItnsVillageService {
                 if (itnsVillage.getFinishedEntryTime() != null) {
                     existingItnsVillage.setFinishedEntryTime(itnsVillage.getFinishedEntryTime());
                 }
-                if (itnsVillage.getStatus() != null) {
-                    existingItnsVillage.setStatus(itnsVillage.getStatus());
-                }
                 if (itnsVillage.getDeleted() != null) {
                     existingItnsVillage.setDeleted(itnsVillage.getDeleted());
+                }
+                if (itnsVillage.getStatus() != null) {
+                    existingItnsVillage.setStatus(itnsVillage.getStatus());
                 }
                 if (itnsVillage.getCreatedBy() != null) {
                     existingItnsVillage.setCreatedBy(itnsVillage.getCreatedBy());

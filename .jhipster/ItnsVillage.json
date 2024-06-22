@@ -131,13 +131,14 @@
       "fieldType": "Instant"
     },
     {
-      "fieldName": "status",
-      "fieldType": "SyncableStatus",
-      "fieldValues": "ACTIVE,COMPLETED"
-    },
-    {
       "fieldName": "deleted",
       "fieldType": "Boolean"
+    },
+    {
+      "fieldName": "status",
+      "fieldType": "SyncableStatus",
+      "fieldValidateRules": ["required"],
+      "fieldValues": "ACTIVE,COMPLETED"
     },
     {
       "auditField": true,

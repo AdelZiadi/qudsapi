@@ -58,6 +58,7 @@
     {
       "fieldName": "status",
       "fieldType": "SyncableStatus",
+      "fieldValidateRules": ["required"],
       "fieldValues": "ACTIVE,COMPLETED"
     },
     {

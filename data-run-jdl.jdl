@@ -157,8 +157,8 @@ entity ItnsVillage {
     otherTeamNo Long
     startEntryTime Instant
     finishedEntryTime Instant
-    status SyncableStatus
     deleted Boolean
+    status SyncableStatus required
 }
 
 entity ItnsVillageHousesDetail {
@@ -241,13 +241,13 @@ entity WarehouseTransaction {
     submissionUuid String
     startEntryTime Instant
     finishedEntryTime Instant
-    status SyncableStatus
+    status SyncableStatus required
 }
 
 entity ChvRegister {
     uid String required unique maxlength(11)
     code String
-    name String
+    name String required
     age Integer
     gender Gender
     visitDate Instant required
@@ -256,7 +256,11 @@ entity ChvRegister {
     detectionType MDetectionType
     severity MSeverity
     treatment MTreatment
+    deleted Boolean
+    startEntryTime Instant
+    finishedEntryTime Instant
     comment String maxlength(2000)
+    status SyncableStatus required
 }
 
 entity ChvSession {
@@ -271,7 +275,7 @@ entity ChvSession {
     deleted Boolean
     startEntryTime Instant
     finishedEntryTime Instant
-    status SyncableStatus
+    status SyncableStatus required required
 }
 
 entity RefreshToken {

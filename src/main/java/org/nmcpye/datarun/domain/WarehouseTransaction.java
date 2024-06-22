@@ -88,8 +88,9 @@ public class WarehouseTransaction extends AbstractAuditingEntity<Long> implement
     @Column(name = "finished_entry_time")
     private Instant finishedEntryTime;
 
+    @NotNull
     @Enumerated(EnumType.STRING)
-    @Column(name = "status")
+    @Column(name = "status", nullable = false)
     private SyncableStatus status;
 
     // Inherited createdBy definition

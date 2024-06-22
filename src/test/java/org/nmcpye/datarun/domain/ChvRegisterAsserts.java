@@ -52,13 +52,19 @@ public class ChvRegisterAsserts {
             .satisfies(e -> assertThat(e.getUid()).as("check uid").isEqualTo(actual.getUid()))
             .satisfies(e -> assertThat(e.getCode()).as("check code").isEqualTo(actual.getCode()))
             .satisfies(e -> assertThat(e.getName()).as("check name").isEqualTo(actual.getName()))
+            .satisfies(e -> assertThat(e.getAge()).as("check age").isEqualTo(actual.getAge()))
+            .satisfies(e -> assertThat(e.getGender()).as("check gender").isEqualTo(actual.getGender()))
             .satisfies(e -> assertThat(e.getVisitDate()).as("check visitDate").isEqualTo(actual.getVisitDate()))
             .satisfies(e -> assertThat(e.getPregnant()).as("check pregnant").isEqualTo(actual.getPregnant()))
             .satisfies(e -> assertThat(e.getTestResult()).as("check testResult").isEqualTo(actual.getTestResult()))
             .satisfies(e -> assertThat(e.getDetectionType()).as("check detectionType").isEqualTo(actual.getDetectionType()))
             .satisfies(e -> assertThat(e.getSeverity()).as("check severity").isEqualTo(actual.getSeverity()))
             .satisfies(e -> assertThat(e.getTreatment()).as("check treatment").isEqualTo(actual.getTreatment()))
-            .satisfies(e -> assertThat(e.getComment()).as("check comment").isEqualTo(actual.getComment()));
+            .satisfies(e -> assertThat(e.getDeleted()).as("check deleted").isEqualTo(actual.getDeleted()))
+            .satisfies(e -> assertThat(e.getStartEntryTime()).as("check startEntryTime").isEqualTo(actual.getStartEntryTime()))
+            .satisfies(e -> assertThat(e.getFinishedEntryTime()).as("check finishedEntryTime").isEqualTo(actual.getFinishedEntryTime()))
+            .satisfies(e -> assertThat(e.getComment()).as("check comment").isEqualTo(actual.getComment()))
+            .satisfies(e -> assertThat(e.getStatus()).as("check status").isEqualTo(actual.getStatus()));
     }
 
     /**
@@ -70,6 +76,8 @@ public class ChvRegisterAsserts {
     public static void assertChvRegisterUpdatableRelationshipsEquals(ChvRegister expected, ChvRegister actual) {
         assertThat(expected)
             .as("Verify ChvRegister relationships")
-            .satisfies(e -> assertThat(e.getPatient()).as("check patient").isEqualTo(actual.getPatient()));
+            .satisfies(e -> assertThat(e.getLocation()).as("check location").isEqualTo(actual.getLocation()))
+            .satisfies(e -> assertThat(e.getActivity()).as("check activity").isEqualTo(actual.getActivity()))
+            .satisfies(e -> assertThat(e.getTeam()).as("check team").isEqualTo(actual.getTeam()));
     }
 }

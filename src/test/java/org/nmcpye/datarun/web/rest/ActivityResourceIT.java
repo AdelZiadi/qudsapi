@@ -367,7 +367,7 @@ class ActivityResourceIT {
         Activity partialUpdatedActivity = new Activity();
         partialUpdatedActivity.setId(activity.getId());
 
-        partialUpdatedActivity.uid(UPDATED_UID).deleteClientData(UPDATED_DELETE_CLIENT_DATA);
+        partialUpdatedActivity.uid(UPDATED_UID).startDate(UPDATED_START_DATE).endDate(UPDATED_END_DATE);
 
         restActivityMockMvc
             .perform(

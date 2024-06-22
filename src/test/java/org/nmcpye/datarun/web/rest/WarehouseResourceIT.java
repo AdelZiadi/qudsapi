@@ -360,6 +360,8 @@ class WarehouseResourceIT {
         Warehouse partialUpdatedWarehouse = new Warehouse();
         partialUpdatedWarehouse.setId(warehouse.getId());
 
+        partialUpdatedWarehouse.code(UPDATED_CODE).description(UPDATED_DESCRIPTION);
+
         restWarehouseMockMvc
             .perform(
                 patch(ENTITY_API_URL_ID, partialUpdatedWarehouse.getId())

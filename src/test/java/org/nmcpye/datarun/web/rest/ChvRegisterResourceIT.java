@@ -21,12 +21,16 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.nmcpye.datarun.IntegrationTest;
+import org.nmcpye.datarun.domain.Activity;
+import org.nmcpye.datarun.domain.Assignment;
 import org.nmcpye.datarun.domain.ChvRegister;
-import org.nmcpye.datarun.domain.PatientInfo;
+import org.nmcpye.datarun.domain.Team;
+import org.nmcpye.datarun.domain.enumeration.Gender;
 import org.nmcpye.datarun.domain.enumeration.MDetectionType;
 import org.nmcpye.datarun.domain.enumeration.MSeverity;
 import org.nmcpye.datarun.domain.enumeration.MTestResult;
 import org.nmcpye.datarun.domain.enumeration.MTreatment;
+import org.nmcpye.datarun.domain.enumeration.SyncableStatus;
 import org.nmcpye.datarun.repository.ChvRegisterRepository;
 import org.nmcpye.datarun.service.ChvRegisterService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,6 +60,12 @@ class ChvRegisterResourceIT {
     private static final String DEFAULT_NAME = "AAAAAAAAAA";
     private static final String UPDATED_NAME = "BBBBBBBBBB";
 
+    private static final Integer DEFAULT_AGE = 1;
+    private static final Integer UPDATED_AGE = 2;
+
+    private static final Gender DEFAULT_GENDER = Gender.MALE;
+    private static final Gender UPDATED_GENDER = Gender.FEMALE;
+
     private static final Instant DEFAULT_VISIT_DATE = Instant.ofEpochMilli(0L);
     private static final Instant UPDATED_VISIT_DATE = Instant.now().truncatedTo(ChronoUnit.MILLIS);
 
@@ -74,8 +84,20 @@ class ChvRegisterResourceIT {
     private static final MTreatment DEFAULT_TREATMENT = MTreatment.TREATED;
     private static final MTreatment UPDATED_TREATMENT = MTreatment.FIRSTDOSE;
 
+    private static final Boolean DEFAULT_DELETED = false;
+    private static final Boolean UPDATED_DELETED = true;
+
+    private static final Instant DEFAULT_START_ENTRY_TIME = Instant.ofEpochMilli(0L);
+    private static final Instant UPDATED_START_ENTRY_TIME = Instant.now().truncatedTo(ChronoUnit.MILLIS);
+
+    private static final Instant DEFAULT_FINISHED_ENTRY_TIME = Instant.ofEpochMilli(0L);
+    private static final Instant UPDATED_FINISHED_ENTRY_TIME = Instant.now().truncatedTo(ChronoUnit.MILLIS);
+
     private static final String DEFAULT_COMMENT = "AAAAAAAAAA";
     private static final String UPDATED_COMMENT = "BBBBBBBBBB";
+
+    private static final SyncableStatus DEFAULT_STATUS = SyncableStatus.ACTIVE;
+    private static final SyncableStatus UPDATED_STATUS = SyncableStatus.COMPLETED;
 
     private static final String ENTITY_API_URL = "/api/chv-registers";
     private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";
@@ -114,23 +136,49 @@ class ChvRegisterResourceIT {
             .uid(DEFAULT_UID)
             .code(DEFAULT_CODE)
             .name(DEFAULT_NAME)
+            .age(DEFAULT_AGE)
+            .gender(DEFAULT_GENDER)
             .visitDate(DEFAULT_VISIT_DATE)
             .pregnant(DEFAULT_PREGNANT)
             .testResult(DEFAULT_TEST_RESULT)
             .detectionType(DEFAULT_DETECTION_TYPE)
             .severity(DEFAULT_SEVERITY)
             .treatment(DEFAULT_TREATMENT)
-            .comment(DEFAULT_COMMENT);
+            .deleted(DEFAULT_DELETED)
+            .startEntryTime(DEFAULT_START_ENTRY_TIME)
+            .finishedEntryTime(DEFAULT_FINISHED_ENTRY_TIME)
+            .comment(DEFAULT_COMMENT)
+            .status(DEFAULT_STATUS);
         // Add required entity
-        PatientInfo patientInfo;
-        if (TestUtil.findAll(em, PatientInfo.class).isEmpty()) {
-            patientInfo = PatientInfoResourceIT.createEntity(em);
-            em.persist(patientInfo);
+        Assignment assignment;
+        if (TestUtil.findAll(em, Assignment.class).isEmpty()) {
+            assignment = AssignmentResourceIT.createEntity(em);
+            em.persist(assignment);
             em.flush();
         } else {
-            patientInfo = TestUtil.findAll(em, PatientInfo.class).get(0);
+            assignment = TestUtil.findAll(em, Assignment.class).get(0);
         }
-        chvRegister.setPatient(patientInfo);
+        chvRegister.setLocation(assignment);
+        // Add required entity
+        Activity activity;
+        if (TestUtil.findAll(em, Activity.class).isEmpty()) {
+            activity = ActivityResourceIT.createEntity(em);
+            em.persist(activity);
+            em.flush();
+        } else {
+            activity = TestUtil.findAll(em, Activity.class).get(0);
+        }
+        chvRegister.setActivity(activity);
+        // Add required entity
+        Team team;
+        if (TestUtil.findAll(em, Team.class).isEmpty()) {
+            team = TeamResourceIT.createEntity(em);
+            em.persist(team);
+            em.flush();
+        } else {
+            team = TestUtil.findAll(em, Team.class).get(0);
+        }
+        chvRegister.setTeam(team);
         return chvRegister;
     }
 
@@ -145,23 +193,49 @@ class ChvRegisterResourceIT {
             .uid(UPDATED_UID)
             .code(UPDATED_CODE)
             .name(UPDATED_NAME)
+            .age(UPDATED_AGE)
+            .gender(UPDATED_GENDER)
             .visitDate(UPDATED_VISIT_DATE)
             .pregnant(UPDATED_PREGNANT)
             .testResult(UPDATED_TEST_RESULT)
             .detectionType(UPDATED_DETECTION_TYPE)
             .severity(UPDATED_SEVERITY)
             .treatment(UPDATED_TREATMENT)
-            .comment(UPDATED_COMMENT);
+            .deleted(UPDATED_DELETED)
+            .startEntryTime(UPDATED_START_ENTRY_TIME)
+            .finishedEntryTime(UPDATED_FINISHED_ENTRY_TIME)
+            .comment(UPDATED_COMMENT)
+            .status(UPDATED_STATUS);
         // Add required entity
-        PatientInfo patientInfo;
-        if (TestUtil.findAll(em, PatientInfo.class).isEmpty()) {
-            patientInfo = PatientInfoResourceIT.createUpdatedEntity(em);
-            em.persist(patientInfo);
+        Assignment assignment;
+        if (TestUtil.findAll(em, Assignment.class).isEmpty()) {
+            assignment = AssignmentResourceIT.createUpdatedEntity(em);
+            em.persist(assignment);
             em.flush();
         } else {
-            patientInfo = TestUtil.findAll(em, PatientInfo.class).get(0);
+            assignment = TestUtil.findAll(em, Assignment.class).get(0);
         }
-        chvRegister.setPatient(patientInfo);
+        chvRegister.setLocation(assignment);
+        // Add required entity
+        Activity activity;
+        if (TestUtil.findAll(em, Activity.class).isEmpty()) {
+            activity = ActivityResourceIT.createUpdatedEntity(em);
+            em.persist(activity);
+            em.flush();
+        } else {
+            activity = TestUtil.findAll(em, Activity.class).get(0);
+        }
+        chvRegister.setActivity(activity);
+        // Add required entity
+        Team team;
+        if (TestUtil.findAll(em, Team.class).isEmpty()) {
+            team = TeamResourceIT.createUpdatedEntity(em);
+            em.persist(team);
+            em.flush();
+        } else {
+            team = TestUtil.findAll(em, Team.class).get(0);
+        }
+        chvRegister.setTeam(team);
         return chvRegister;
     }
 
@@ -225,10 +299,42 @@ class ChvRegisterResourceIT {
 
     @Test
     @Transactional
+    void checkNameIsRequired() throws Exception {
+        long databaseSizeBeforeTest = getRepositoryCount();
+        // set the field null
+        chvRegister.setName(null);
+
+        // Create the ChvRegister, which fails.
+
+        restChvRegisterMockMvc
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(om.writeValueAsBytes(chvRegister)))
+            .andExpect(status().isBadRequest());
+
+        assertSameRepositoryCount(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
     void checkVisitDateIsRequired() throws Exception {
         long databaseSizeBeforeTest = getRepositoryCount();
         // set the field null
         chvRegister.setVisitDate(null);
+
+        // Create the ChvRegister, which fails.
+
+        restChvRegisterMockMvc
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(om.writeValueAsBytes(chvRegister)))
+            .andExpect(status().isBadRequest());
+
+        assertSameRepositoryCount(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
+    void checkStatusIsRequired() throws Exception {
+        long databaseSizeBeforeTest = getRepositoryCount();
+        // set the field null
+        chvRegister.setStatus(null);
 
         // Create the ChvRegister, which fails.
 
@@ -254,13 +360,19 @@ class ChvRegisterResourceIT {
             .andExpect(jsonPath("$.[*].uid").value(hasItem(DEFAULT_UID)))
             .andExpect(jsonPath("$.[*].code").value(hasItem(DEFAULT_CODE)))
             .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)))
+            .andExpect(jsonPath("$.[*].age").value(hasItem(DEFAULT_AGE)))
+            .andExpect(jsonPath("$.[*].gender").value(hasItem(DEFAULT_GENDER.toString())))
             .andExpect(jsonPath("$.[*].visitDate").value(hasItem(DEFAULT_VISIT_DATE.toString())))
             .andExpect(jsonPath("$.[*].pregnant").value(hasItem(DEFAULT_PREGNANT.booleanValue())))
             .andExpect(jsonPath("$.[*].testResult").value(hasItem(DEFAULT_TEST_RESULT.toString())))
             .andExpect(jsonPath("$.[*].detectionType").value(hasItem(DEFAULT_DETECTION_TYPE.toString())))
             .andExpect(jsonPath("$.[*].severity").value(hasItem(DEFAULT_SEVERITY.toString())))
             .andExpect(jsonPath("$.[*].treatment").value(hasItem(DEFAULT_TREATMENT.toString())))
-            .andExpect(jsonPath("$.[*].comment").value(hasItem(DEFAULT_COMMENT)));
+            .andExpect(jsonPath("$.[*].deleted").value(hasItem(DEFAULT_DELETED.booleanValue())))
+            .andExpect(jsonPath("$.[*].startEntryTime").value(hasItem(DEFAULT_START_ENTRY_TIME.toString())))
+            .andExpect(jsonPath("$.[*].finishedEntryTime").value(hasItem(DEFAULT_FINISHED_ENTRY_TIME.toString())))
+            .andExpect(jsonPath("$.[*].comment").value(hasItem(DEFAULT_COMMENT)))
+            .andExpect(jsonPath("$.[*].status").value(hasItem(DEFAULT_STATUS.toString())));
     }
 
     @SuppressWarnings({ "unchecked" })
@@ -295,13 +407,19 @@ class ChvRegisterResourceIT {
             .andExpect(jsonPath("$.uid").value(DEFAULT_UID))
             .andExpect(jsonPath("$.code").value(DEFAULT_CODE))
             .andExpect(jsonPath("$.name").value(DEFAULT_NAME))
+            .andExpect(jsonPath("$.age").value(DEFAULT_AGE))
+            .andExpect(jsonPath("$.gender").value(DEFAULT_GENDER.toString()))
             .andExpect(jsonPath("$.visitDate").value(DEFAULT_VISIT_DATE.toString()))
             .andExpect(jsonPath("$.pregnant").value(DEFAULT_PREGNANT.booleanValue()))
             .andExpect(jsonPath("$.testResult").value(DEFAULT_TEST_RESULT.toString()))
             .andExpect(jsonPath("$.detectionType").value(DEFAULT_DETECTION_TYPE.toString()))
             .andExpect(jsonPath("$.severity").value(DEFAULT_SEVERITY.toString()))
             .andExpect(jsonPath("$.treatment").value(DEFAULT_TREATMENT.toString()))
-            .andExpect(jsonPath("$.comment").value(DEFAULT_COMMENT));
+            .andExpect(jsonPath("$.deleted").value(DEFAULT_DELETED.booleanValue()))
+            .andExpect(jsonPath("$.startEntryTime").value(DEFAULT_START_ENTRY_TIME.toString()))
+            .andExpect(jsonPath("$.finishedEntryTime").value(DEFAULT_FINISHED_ENTRY_TIME.toString()))
+            .andExpect(jsonPath("$.comment").value(DEFAULT_COMMENT))
+            .andExpect(jsonPath("$.status").value(DEFAULT_STATUS.toString()));
     }
 
     @Test
@@ -327,13 +445,19 @@ class ChvRegisterResourceIT {
             .uid(UPDATED_UID)
             .code(UPDATED_CODE)
             .name(UPDATED_NAME)
+            .age(UPDATED_AGE)
+            .gender(UPDATED_GENDER)
             .visitDate(UPDATED_VISIT_DATE)
             .pregnant(UPDATED_PREGNANT)
             .testResult(UPDATED_TEST_RESULT)
             .detectionType(UPDATED_DETECTION_TYPE)
             .severity(UPDATED_SEVERITY)
             .treatment(UPDATED_TREATMENT)
-            .comment(UPDATED_COMMENT);
+            .deleted(UPDATED_DELETED)
+            .startEntryTime(UPDATED_START_ENTRY_TIME)
+            .finishedEntryTime(UPDATED_FINISHED_ENTRY_TIME)
+            .comment(UPDATED_COMMENT)
+            .status(UPDATED_STATUS);
 
         restChvRegisterMockMvc
             .perform(
@@ -414,11 +538,13 @@ class ChvRegisterResourceIT {
         partialUpdatedChvRegister.setId(chvRegister.getId());
 
         partialUpdatedChvRegister
-            .uid(UPDATED_UID)
-            .name(UPDATED_NAME)
-            .visitDate(UPDATED_VISIT_DATE)
-            .pregnant(UPDATED_PREGNANT)
-            .testResult(UPDATED_TEST_RESULT);
+            .code(UPDATED_CODE)
+            .gender(UPDATED_GENDER)
+            .detectionType(UPDATED_DETECTION_TYPE)
+            .deleted(UPDATED_DELETED)
+            .startEntryTime(UPDATED_START_ENTRY_TIME)
+            .finishedEntryTime(UPDATED_FINISHED_ENTRY_TIME)
+            .status(UPDATED_STATUS);
 
         restChvRegisterMockMvc
             .perform(
@@ -453,13 +579,19 @@ class ChvRegisterResourceIT {
             .uid(UPDATED_UID)
             .code(UPDATED_CODE)
             .name(UPDATED_NAME)
+            .age(UPDATED_AGE)
+            .gender(UPDATED_GENDER)
             .visitDate(UPDATED_VISIT_DATE)
             .pregnant(UPDATED_PREGNANT)
             .testResult(UPDATED_TEST_RESULT)
             .detectionType(UPDATED_DETECTION_TYPE)
             .severity(UPDATED_SEVERITY)
             .treatment(UPDATED_TREATMENT)
-            .comment(UPDATED_COMMENT);
+            .deleted(UPDATED_DELETED)
+            .startEntryTime(UPDATED_START_ENTRY_TIME)
+            .finishedEntryTime(UPDATED_FINISHED_ENTRY_TIME)
+            .comment(UPDATED_COMMENT)
+            .status(UPDATED_STATUS);
 
         restChvRegisterMockMvc
             .perform(

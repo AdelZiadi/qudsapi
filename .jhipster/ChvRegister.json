@@ -1,6 +1,6 @@
 {
   "annotations": {
-    "changelogDate": "20240529163215"
+    "changelogDate": "20240622031226"
   },
   "applications": "*",
   "enableAudit": true,
@@ -17,7 +17,17 @@
     },
     {
       "fieldName": "name",
-      "fieldType": "String"
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "age",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "gender",
+      "fieldType": "Gender",
+      "fieldValues": "MALE,FEMALE"
     },
     {
       "fieldName": "visitDate",
@@ -49,10 +59,28 @@
       "fieldValues": "TREATED,FIRSTDOSE,REFERAL"
     },
     {
+      "fieldName": "deleted",
+      "fieldType": "Boolean"
+    },
+    {
+      "fieldName": "startEntryTime",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "finishedEntryTime",
+      "fieldType": "Instant"
+    },
+    {
       "fieldName": "comment",
       "fieldType": "String",
       "fieldValidateRules": ["maxlength"],
       "fieldValidateRulesMaxlength": "2000"
+    },
+    {
+      "fieldName": "status",
+      "fieldType": "SyncableStatus",
+      "fieldValidateRules": ["required"],
+      "fieldValues": "ACTIVE,COMPLETED"
     },
     {
       "auditField": true,
@@ -93,11 +121,26 @@
   "pagination": "pagination",
   "relationships": [
     {
-      "otherEntityField": "name",
-      "otherEntityName": "patientInfo",
-      "otherEntityRelationshipName": "chvRegister",
-      "relationshipName": "patient",
-      "relationshipSide": "right",
+      "otherEntityField": "code",
+      "otherEntityName": "assignment",
+      "relationshipName": "location",
+      "relationshipSide": "left",
+      "relationshipType": "many-to-one",
+      "relationshipValidateRules": "required"
+    },
+    {
+      "otherEntityField": "code",
+      "otherEntityName": "activity",
+      "relationshipName": "activity",
+      "relationshipSide": "left",
+      "relationshipType": "many-to-one",
+      "relationshipValidateRules": "required"
+    },
+    {
+      "otherEntityField": "code",
+      "otherEntityName": "team",
+      "relationshipName": "team",
+      "relationshipSide": "left",
       "relationshipType": "many-to-one",
       "relationshipValidateRules": "required"
     }

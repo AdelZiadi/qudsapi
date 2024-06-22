@@ -329,6 +329,22 @@ class WarehouseTransactionResourceIT {
 
     @Test
     @Transactional
+    void checkStatusIsRequired() throws Exception {
+        long databaseSizeBeforeTest = getRepositoryCount();
+        // set the field null
+        warehouseTransaction.setStatus(null);
+
+        // Create the WarehouseTransaction, which fails.
+
+        restWarehouseTransactionMockMvc
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(om.writeValueAsBytes(warehouseTransaction)))
+            .andExpect(status().isBadRequest());
+
+        assertSameRepositoryCount(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
     void getAllWarehouseTransactions() throws Exception {
         // Initialize the database
         warehouseTransactionRepository.saveAndFlush(warehouseTransaction);
@@ -528,13 +544,15 @@ class WarehouseTransactionResourceIT {
         partialUpdatedWarehouseTransaction.setId(warehouseTransaction.getId());
 
         partialUpdatedWarehouseTransaction
-            .uid(UPDATED_UID)
             .code(UPDATED_CODE)
             .name(UPDATED_NAME)
             .transactionDate(UPDATED_TRANSACTION_DATE)
+            .phaseNo(UPDATED_PHASE_NO)
+            .entryType(UPDATED_ENTRY_TYPE)
             .quantity(UPDATED_QUANTITY)
-            .submissionUuid(UPDATED_SUBMISSION_UUID)
-            .startEntryTime(UPDATED_START_ENTRY_TIME);
+            .personName(UPDATED_PERSON_NAME)
+            .workDayId(UPDATED_WORK_DAY_ID)
+            .submissionTime(UPDATED_SUBMISSION_TIME);
 
         restWarehouseTransactionMockMvc
             .perform(

@@ -126,11 +126,11 @@ class ItnsVillageResourceIT {
     private static final Instant DEFAULT_FINISHED_ENTRY_TIME = Instant.ofEpochMilli(0L);
     private static final Instant UPDATED_FINISHED_ENTRY_TIME = Instant.now().truncatedTo(ChronoUnit.MILLIS);
 
-    private static final SyncableStatus DEFAULT_STATUS = SyncableStatus.ACTIVE;
-    private static final SyncableStatus UPDATED_STATUS = SyncableStatus.COMPLETED;
-
     private static final Boolean DEFAULT_DELETED = false;
     private static final Boolean UPDATED_DELETED = true;
+
+    private static final SyncableStatus DEFAULT_STATUS = SyncableStatus.ACTIVE;
+    private static final SyncableStatus UPDATED_STATUS = SyncableStatus.COMPLETED;
 
     private static final String ENTITY_API_URL = "/api/itns-villages";
     private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";
@@ -192,8 +192,8 @@ class ItnsVillageResourceIT {
             .otherTeamNo(DEFAULT_OTHER_TEAM_NO)
             .startEntryTime(DEFAULT_START_ENTRY_TIME)
             .finishedEntryTime(DEFAULT_FINISHED_ENTRY_TIME)
-            .status(DEFAULT_STATUS)
-            .deleted(DEFAULT_DELETED);
+            .deleted(DEFAULT_DELETED)
+            .status(DEFAULT_STATUS);
         // Add required entity
         Team team;
         if (TestUtil.findAll(em, Team.class).isEmpty()) {
@@ -261,8 +261,8 @@ class ItnsVillageResourceIT {
             .otherTeamNo(UPDATED_OTHER_TEAM_NO)
             .startEntryTime(UPDATED_START_ENTRY_TIME)
             .finishedEntryTime(UPDATED_FINISHED_ENTRY_TIME)
-            .status(UPDATED_STATUS)
-            .deleted(UPDATED_DELETED);
+            .deleted(UPDATED_DELETED)
+            .status(UPDATED_STATUS);
         // Add required entity
         Team team;
         if (TestUtil.findAll(em, Team.class).isEmpty()) {
@@ -388,6 +388,22 @@ class ItnsVillageResourceIT {
 
     @Test
     @Transactional
+    void checkStatusIsRequired() throws Exception {
+        long databaseSizeBeforeTest = getRepositoryCount();
+        // set the field null
+        itnsVillage.setStatus(null);
+
+        // Create the ItnsVillage, which fails.
+
+        restItnsVillageMockMvc
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(om.writeValueAsBytes(itnsVillage)))
+            .andExpect(status().isBadRequest());
+
+        assertSameRepositoryCount(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
     void getAllItnsVillages() throws Exception {
         // Initialize the database
         itnsVillageRepository.saveAndFlush(itnsVillage);
@@ -424,8 +440,8 @@ class ItnsVillageResourceIT {
             .andExpect(jsonPath("$.[*].otherTeamNo").value(hasItem(DEFAULT_OTHER_TEAM_NO.intValue())))
             .andExpect(jsonPath("$.[*].startEntryTime").value(hasItem(DEFAULT_START_ENTRY_TIME.toString())))
             .andExpect(jsonPath("$.[*].finishedEntryTime").value(hasItem(DEFAULT_FINISHED_ENTRY_TIME.toString())))
-            .andExpect(jsonPath("$.[*].status").value(hasItem(DEFAULT_STATUS.toString())))
-            .andExpect(jsonPath("$.[*].deleted").value(hasItem(DEFAULT_DELETED.booleanValue())));
+            .andExpect(jsonPath("$.[*].deleted").value(hasItem(DEFAULT_DELETED.booleanValue())))
+            .andExpect(jsonPath("$.[*].status").value(hasItem(DEFAULT_STATUS.toString())));
     }
 
     @SuppressWarnings({ "unchecked" })
@@ -483,8 +499,8 @@ class ItnsVillageResourceIT {
             .andExpect(jsonPath("$.otherTeamNo").value(DEFAULT_OTHER_TEAM_NO.intValue()))
             .andExpect(jsonPath("$.startEntryTime").value(DEFAULT_START_ENTRY_TIME.toString()))
             .andExpect(jsonPath("$.finishedEntryTime").value(DEFAULT_FINISHED_ENTRY_TIME.toString()))
-            .andExpect(jsonPath("$.status").value(DEFAULT_STATUS.toString()))
-            .andExpect(jsonPath("$.deleted").value(DEFAULT_DELETED.booleanValue()));
+            .andExpect(jsonPath("$.deleted").value(DEFAULT_DELETED.booleanValue()))
+            .andExpect(jsonPath("$.status").value(DEFAULT_STATUS.toString()));
     }
 
     @Test
@@ -533,8 +549,8 @@ class ItnsVillageResourceIT {
             .otherTeamNo(UPDATED_OTHER_TEAM_NO)
             .startEntryTime(UPDATED_START_ENTRY_TIME)
             .finishedEntryTime(UPDATED_FINISHED_ENTRY_TIME)
-            .status(UPDATED_STATUS)
-            .deleted(UPDATED_DELETED);
+            .deleted(UPDATED_DELETED)
+            .status(UPDATED_STATUS);
 
         restItnsVillageMockMvc
             .perform(
@@ -616,20 +632,22 @@ class ItnsVillageResourceIT {
 
         partialUpdatedItnsVillage
             .code(UPDATED_CODE)
+            .name(UPDATED_NAME)
+            .submissionUuid(UPDATED_SUBMISSION_UUID)
             .submissionId(UPDATED_SUBMISSION_ID)
-            .surveytype(UPDATED_SURVEYTYPE)
             .otherReasonComment(UPDATED_OTHER_REASON_COMMENT)
-            .reasonNotcomplete(UPDATED_REASON_NOTCOMPLETE)
+            .settlement(UPDATED_SETTLEMENT)
             .settlementName(UPDATED_SETTLEMENT_NAME)
             .tlCommenet(UPDATED_TL_COMMENET)
             .timeSpentHours(UPDATED_TIME_SPENT_HOURS)
-            .timeSpentMinutes(UPDATED_TIME_SPENT_MINUTES)
-            .locationCaptureTime(UPDATED_LOCATION_CAPTURE_TIME)
-            .otherVillageCode(UPDATED_OTHER_VILLAGE_CODE)
-            .otherTeamNo(UPDATED_OTHER_TEAM_NO)
-            .startEntryTime(UPDATED_START_ENTRY_TIME)
+            .hoProof(UPDATED_HO_PROOF)
+            .hoProofUrl(UPDATED_HO_PROOF_URL)
+            .submissionTime(UPDATED_SUBMISSION_TIME)
+            .untargetingOtherSpecify(UPDATED_UNTARGETING_OTHER_SPECIFY)
+            .otherVillageName(UPDATED_OTHER_VILLAGE_NAME)
             .finishedEntryTime(UPDATED_FINISHED_ENTRY_TIME)
-            .deleted(UPDATED_DELETED);
+            .deleted(UPDATED_DELETED)
+            .status(UPDATED_STATUS);
 
         restItnsVillageMockMvc
             .perform(
@@ -687,8 +705,8 @@ class ItnsVillageResourceIT {
             .otherTeamNo(UPDATED_OTHER_TEAM_NO)
             .startEntryTime(UPDATED_START_ENTRY_TIME)
             .finishedEntryTime(UPDATED_FINISHED_ENTRY_TIME)
-            .status(UPDATED_STATUS)
-            .deleted(UPDATED_DELETED);
+            .deleted(UPDATED_DELETED)
+            .status(UPDATED_STATUS);
 
         restItnsVillageMockMvc
             .perform(

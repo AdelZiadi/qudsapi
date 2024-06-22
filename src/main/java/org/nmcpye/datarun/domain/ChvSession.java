@@ -68,8 +68,9 @@ public class ChvSession extends AbstractAuditingEntity<Long> implements Serializ
     @Column(name = "finished_entry_time")
     private Instant finishedEntryTime;
 
+    @NotNull
     @Enumerated(EnumType.STRING)
-    @Column(name = "status")
+    @Column(name = "status", nullable = false)
     private SyncableStatus status;
 
     // Inherited createdBy definition
