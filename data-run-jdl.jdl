@@ -244,22 +244,12 @@ entity WarehouseTransaction {
     status SyncableStatus
 }
 
-entity PatientInfo {
-    uid String required unique maxlength(11)
-    code String unique
-    name String
-    age Integer min(1) max(140)
-    gender Gender
-    startEntryTime Instant
-    finishedEntryTime Instant
-    status SyncableStatus
-    deleted Boolean
-}
-
 entity ChvRegister {
     uid String required unique maxlength(11)
     code String
     name String
+    age Integer
+    gender Gender
     visitDate Instant required
     pregnant Boolean
     testResult MTestResult
@@ -312,20 +302,17 @@ relationship ManyToOne {
 }
 
 relationship ManyToOne {
-    PatientInfo{location(code) required} to Assignment
+    ChvRegister{location(code) required} to Assignment
 }
 
 relationship ManyToOne {
-    PatientInfo {activity (code) required} to Activity
+    ChvRegister {activity (code) required} to Activity
 }
 
 relationship ManyToOne {
-    PatientInfo{team(code) required} to Team
+    ChvRegister{team(code) required} to Team
 }
 
-relationship OneToMany {
-    PatientInfo{chvRegister} to ChvRegister{patient(name) required}
-}
 
 relationship ManyToOne {
     ChvSession{team(code) required} to Team
@@ -422,4 +409,4 @@ relationship ManyToOne {
 //dto * with mapstruct
 
 service * with serviceImpl
-paginate RefreshToken, PatientInfo, ChvRegister, ChvSession, Assignment, Activity, Team, Warehouse, WarehouseTransaction, ItnsVillageHousesDetail, ItnsVillage, VillageLocation with pagination
+paginate RefreshToken, ChvRegister, ChvSession, Assignment, Activity, Team, Warehouse, WarehouseTransaction, ItnsVillageHousesDetail, ItnsVillage, VillageLocation with pagination
