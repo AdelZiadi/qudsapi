@@ -39,7 +39,7 @@ public class DataRunSecurityConfig {
 
     @Bean
     @Order(2)
-    public SecurityFilterChain filterChain(HttpSecurity http, MvcRequestMatcher.Builder mvc) throws Exception {
+    public SecurityFilterChain filterChain(HttpSecurity http, MvcRequestMatcher.Builder mvc, AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
         http
             .cors(withDefaults())
             .csrf(csrf -> csrf.disable())
@@ -75,7 +75,10 @@ public class DataRunSecurityConfig {
                         .authenticationEntryPoint(new BearerTokenAuthenticationEntryPoint())
                         .accessDeniedHandler(new BearerTokenAccessDeniedHandler())
             )
-            .oauth2ResourceServer(oauth2 -> oauth2.jwt(withDefaults()));
+            .oauth2ResourceServer(oauth2 -> oauth2.jwt(withDefaults())).addFilterBefore(
+                new CustomBasicAuthenticationFilter
+                    (authenticationManagerBuilder.getObject()), UsernamePasswordAuthenticationFilter.class)
+            .httpBasic(Customizer.withDefaults());
         return http.build();
     }
 
@@ -96,45 +99,45 @@ public class DataRunSecurityConfig {
 //        return new DaoAuthenticationProvider();
 //    }
 
-    @Bean
-    @Order(1)
-    public SecurityFilterChain basicFilterChain(
-        HttpSecurity http, MvcRequestMatcher.Builder mvc,
-        AuthenticationManagerBuilder authenticationManagerBuilder
-
-    ) throws Exception {
-        http
-            .cors(withDefaults())
-            .csrf(csrf -> csrf.disable())
-            .authorizeHttpRequests(
-                authz ->
-                    authz
-                        .requestMatchers(mvc.pattern(HttpMethod.POST, "/api/authenticate")).permitAll()
-                        .requestMatchers(mvc.pattern(HttpMethod.GET, "/api/authenticate")).permitAll()
-
-                        // Data Run Added
-                        // For basic Auth (Basic username:password) in header
-                        .requestMatchers(mvc.pattern(HttpMethod.POST, "/api/custom/authenticateBasic")).permitAll()
-                        .requestMatchers(mvc.pattern(HttpMethod.GET, "/api/custom/authenticateBasic")).permitAll()
-                        .requestMatchers(mvc.pattern("/api/custom/**")).authenticated()
-                        .requestMatchers(mvc.pattern("/api/register")).permitAll()
-                        .requestMatchers(mvc.pattern("/api/activate")).permitAll()
-                        .requestMatchers(mvc.pattern("/api/account/reset-password/init")).permitAll()
-                        .requestMatchers(mvc.pattern("/api/account/reset-password/finish")).permitAll()
-                        .requestMatchers(mvc.pattern("/api/admin/**")).hasAuthority(AuthoritiesConstants.ADMIN)
-                        .requestMatchers(mvc.pattern("/api/**")).authenticated()
-                        .requestMatchers(mvc.pattern("/v3/api-docs/**")).hasAuthority(AuthoritiesConstants.ADMIN)
-                        .requestMatchers(mvc.pattern("/management/health")).permitAll()
-                        .requestMatchers(mvc.pattern("/management/health/**")).permitAll()
-                        .requestMatchers(mvc.pattern("/management/info")).permitAll()
-                        .requestMatchers(mvc.pattern("/management/prometheus")).permitAll()
-                        .requestMatchers(mvc.pattern("/management/**")).hasAuthority(AuthoritiesConstants.ADMIN)
-            )
-            .addFilterBefore(
-                new CustomBasicAuthenticationFilter
-                    (authenticationManagerBuilder.getObject()), UsernamePasswordAuthenticationFilter.class)
-            .httpBasic(Customizer.withDefaults());
-        return http.build();
-    }
+//    @Bean
+//    @Order(1)
+//    public SecurityFilterChain basicFilterChain(
+//        HttpSecurity http, MvcRequestMatcher.Builder mvc,
+//        AuthenticationManagerBuilder authenticationManagerBuilder
+//
+//    ) throws Exception {
+//        http
+//            .cors(withDefaults())
+//            .csrf(csrf -> csrf.disable())
+//            .authorizeHttpRequests(
+//                authz ->
+//                    authz
+//                        .requestMatchers(mvc.pattern(HttpMethod.POST, "/api/authenticate")).permitAll()
+//                        .requestMatchers(mvc.pattern(HttpMethod.GET, "/api/authenticate")).permitAll()
+//
+//                        // Data Run Added
+//                        // For basic Auth (Basic username:password) in header
+//                        .requestMatchers(mvc.pattern(HttpMethod.POST, "/api/custom/authenticateBasic")).permitAll()
+//                        .requestMatchers(mvc.pattern(HttpMethod.GET, "/api/custom/authenticateBasic")).permitAll()
+//                        .requestMatchers(mvc.pattern("/api/custom/**")).authenticated()
+//                        .requestMatchers(mvc.pattern("/api/register")).permitAll()
+//                        .requestMatchers(mvc.pattern("/api/activate")).permitAll()
+//                        .requestMatchers(mvc.pattern("/api/account/reset-password/init")).permitAll()
+//                        .requestMatchers(mvc.pattern("/api/account/reset-password/finish")).permitAll()
+//                        .requestMatchers(mvc.pattern("/api/admin/**")).hasAuthority(AuthoritiesConstants.ADMIN)
+//                        .requestMatchers(mvc.pattern("/api/**")).authenticated()
+//                        .requestMatchers(mvc.pattern("/v3/api-docs/**")).hasAuthority(AuthoritiesConstants.ADMIN)
+//                        .requestMatchers(mvc.pattern("/management/health")).permitAll()
+//                        .requestMatchers(mvc.pattern("/management/health/**")).permitAll()
+//                        .requestMatchers(mvc.pattern("/management/info")).permitAll()
+//                        .requestMatchers(mvc.pattern("/management/prometheus")).permitAll()
+//                        .requestMatchers(mvc.pattern("/management/**")).hasAuthority(AuthoritiesConstants.ADMIN)
+//            )
+//            .addFilterBefore(
+//                new CustomBasicAuthenticationFilter
+//                    (authenticationManagerBuilder.getObject()), UsernamePasswordAuthenticationFilter.class)
+//            .httpBasic(Customizer.withDefaults());
+//        return http.build();
+//    }
 
 }
