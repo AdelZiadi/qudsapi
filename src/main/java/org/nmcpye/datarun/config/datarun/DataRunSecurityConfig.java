@@ -109,6 +109,9 @@ public class DataRunSecurityConfig {
             .authorizeHttpRequests(
                 authz ->
                     authz
+                        .requestMatchers(mvc.pattern(HttpMethod.POST, "/api/authenticate")).permitAll()
+                        .requestMatchers(mvc.pattern(HttpMethod.GET, "/api/authenticate")).permitAll()
+
                         // Data Run Added
                         // For basic Auth (Basic username:password) in header
                         .requestMatchers(mvc.pattern(HttpMethod.POST, "/api/custom/authenticateBasic")).permitAll()

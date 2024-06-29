@@ -13,7 +13,7 @@ import org.springframework.stereotype.Repository;
  * Spring Data JPA repository for the ItnsVillage entity.
  */
 @Repository
-public interface ItnsVillageRepository extends JpaRepository<ItnsVillage, Long> {
+public interface    ItnsVillageRepository extends JpaRepository<ItnsVillage, Long> {
     default Optional<ItnsVillage> findOneWithEagerRelationships(Long id) {
         return this.findOneWithToOneRelationships(id);
     }
