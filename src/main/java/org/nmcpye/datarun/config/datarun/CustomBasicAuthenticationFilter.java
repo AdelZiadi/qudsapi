@@ -28,9 +28,6 @@ public class CustomBasicAuthenticationFilter extends BasicAuthenticationFilter {
             String[] tokens = extractAndDecodeHeader(header);
             assert tokens.length == 2;
 
-//            String username = obtainUsername(header);
-//            String password = obtainPassword(header);
-
             String username = tokens[0];
             String password = tokens[1];
 
@@ -49,10 +46,7 @@ public class CustomBasicAuthenticationFilter extends BasicAuthenticationFilter {
 
     protected String obtainUsername(String header) {
         String encodedUserPassword = header.replace("Basic ", "");
-        String decodedUserPassword =
-            new String(Base64.getDecoder()
-                .decode(encodedUserPassword),
-                StandardCharsets.UTF_8);
+        String decodedUserPassword = new String(Base64.getDecoder().decode(encodedUserPassword), StandardCharsets.UTF_8);
         int delim = decodedUserPassword.indexOf(":");
 
         if (delim == -1) {
@@ -63,32 +57,23 @@ public class CustomBasicAuthenticationFilter extends BasicAuthenticationFilter {
 
     protected String obtainPassword(String header) {
         String encodedUserPassword = header.replace("Basic ", "");
-        String decodedUserPassword =
-            new String(Base64.getDecoder()
-                .decode(encodedUserPassword),
-                StandardCharsets.UTF_8);
+        String decodedUserPassword = new String(Base64.getDecoder().decode(encodedUserPassword), StandardCharsets.UTF_8);
         int delim = decodedUserPassword.indexOf(":");
 
         if (delim == -1) {
             throw new RuntimeException("Invalid basic authentication token");
         }
-        return decodedUserPassword.substring(0, delim);
+        return decodedUserPassword.substring(delim + 1);
     }
 
     private String[] extractAndDecodeHeader(String header) throws IOException {
         String encodedUserPassword = header.replace("Basic ", "");
-        String decodedUserPassword =
-            new String(Base64.getDecoder()
-                .decode(encodedUserPassword),
-                StandardCharsets.UTF_8);
-//            if (values.length != 2) {
-//                // throw exception
-//            }
+        String decodedUserPassword = new String(Base64.getDecoder().decode(encodedUserPassword), StandardCharsets.UTF_8);
         return decodedUserPassword.split(":");
     }
 
     private String[] extractAndDecodeHeader_(String header) throws IOException {
-        byte[] base64Token = header.substring(6).getBytes("UTF-8");
+        byte[] base64Token = header.substring(6).getBytes(StandardCharsets.UTF_8);
         byte[] decoded;
         try {
             decoded = Base64.getDecoder().decode(base64Token);
@@ -96,13 +81,12 @@ public class CustomBasicAuthenticationFilter extends BasicAuthenticationFilter {
             throw new RuntimeException("Failed to decode basic authentication token");
         }
 
-        String token = new String(decoded, "UTF-8");
+        String token = new String(decoded, StandardCharsets.UTF_8);
         int delim = token.indexOf(":");
 
         if (delim == -1) {
             throw new RuntimeException("Invalid basic authentication token");
         }
-        return new String[] { token.substring(0, delim), token.substring(delim + 1) };
+        return new String[]{token.substring(0, delim), token.substring(delim + 1)};
     }
 }
-

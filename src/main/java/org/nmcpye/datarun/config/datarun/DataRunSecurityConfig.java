@@ -22,8 +22,8 @@ import tech.jhipster.config.JHipsterProperties;
 
 import static org.springframework.security.config.Customizer.withDefaults;
 
-@Configuration
-@EnableMethodSecurity(securedEnabled = true)
+//@Configuration
+//@EnableMethodSecurity(securedEnabled = true)
 public class DataRunSecurityConfig {
 
     private final JHipsterProperties jHipsterProperties;
@@ -39,7 +39,8 @@ public class DataRunSecurityConfig {
 
     @Bean
     @Order(2)
-    public SecurityFilterChain filterChain(HttpSecurity http, MvcRequestMatcher.Builder mvc, AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
+    public SecurityFilterChain filterChain(HttpSecurity http, MvcRequestMatcher.Builder mvc,
+                                           AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
         http
             .cors(withDefaults())
             .csrf(csrf -> csrf.disable())
