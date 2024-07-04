@@ -1,14 +1,15 @@
 package org.nmcpye.datarun.web.rest;
 
 import org.nmcpye.datarun.domain.ChvSession;
-import org.nmcpye.datarun.repository.ChvSessionRepositoryCustom;
-import org.nmcpye.datarun.service.ChvSessionServiceCustom;
+import org.nmcpye.datarun.drun.repository.ChvSessionRepositoryCustom;
+import org.nmcpye.datarun.drun.service.ChvSessionServiceCustom;
 import org.nmcpye.datarun.web.rest.common.AbstractResource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * REST Custom controller for managing {@link ChvSession}.
@@ -25,6 +26,7 @@ public class ChvSessionResourceCustom extends AbstractResource<ChvSession> {
 
     public ChvSessionResourceCustom(ChvSessionServiceCustom chvSessionService,
                                     ChvSessionRepositoryCustom chvSessionRepository) {
+        super(chvSessionService, chvSessionRepository);
         this.chvSessionService = chvSessionService;
         this.chvSessionRepository = chvSessionRepository;
     }

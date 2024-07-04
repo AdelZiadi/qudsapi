@@ -55,6 +55,9 @@ public class ChvRegisterServiceImpl implements ChvRegisterService {
                 if (chvRegister.getName() != null) {
                     existingChvRegister.setName(chvRegister.getName());
                 }
+                if (chvRegister.getLocationName() != null) {
+                    existingChvRegister.setLocationName(chvRegister.getLocationName());
+                }
                 if (chvRegister.getAge() != null) {
                     existingChvRegister.setAge(chvRegister.getAge());
                 }

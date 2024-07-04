@@ -1,14 +1,15 @@
 package org.nmcpye.datarun.web.rest;
 
 import org.nmcpye.datarun.domain.ChvRegister;
-import org.nmcpye.datarun.repository.ChvRegisterRepositoryCustom;
-import org.nmcpye.datarun.service.ChvRegisterServiceCustom;
+import org.nmcpye.datarun.drun.repository.ChvRegisterRepositoryCustom;
+import org.nmcpye.datarun.drun.service.ChvRegisterServiceCustom;
 import org.nmcpye.datarun.web.rest.common.AbstractResource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * REST controller for managing {@link ChvRegister}.
@@ -26,6 +27,7 @@ public class ChvRegisterResourceCustom
 
     public ChvRegisterResourceCustom(ChvRegisterServiceCustom chvRegisterService,
                                      ChvRegisterRepositoryCustom chvRegisterRepository) {
+        super(chvRegisterService, chvRegisterRepository);
         this.chvRegisterService = chvRegisterService;
         this.chvRegisterRepository = chvRegisterRepository;
     }
@@ -33,9 +35,9 @@ public class ChvRegisterResourceCustom
     @Override
     protected Page<ChvRegister> getList(Pageable pageable, boolean eagerload) {
         if (eagerload) {
-            return chvRegisterService.findAllWithEagerRelationships(pageable);
+            return identifiableService.findAllWithEagerRelationships(pageable);
         } else {
-            return chvRegisterService.findAll(pageable);
+            return identifiableService.findAll(pageable);
         }
     }
 

@@ -1,8 +1,8 @@
 package org.nmcpye.datarun.web.rest;
 
 import org.nmcpye.datarun.domain.WarehouseTransaction;
-import org.nmcpye.datarun.repository.WarehouseTransactionRepositoryCustom;
-import org.nmcpye.datarun.service.WarehouseTransactionServiceCustom;
+import org.nmcpye.datarun.drun.repository.WarehouseTransactionRepositoryCustom;
+import org.nmcpye.datarun.drun.service.WarehouseTransactionServiceCustom;
 import org.nmcpye.datarun.web.rest.common.AbstractResource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,6 +35,7 @@ public class WarehouseTransactionResourceCustom
         WarehouseTransactionServiceCustom warehouseTransactionService,
         WarehouseTransactionRepositoryCustom warehouseTransactionRepository
     ) {
+        super(warehouseTransactionService, warehouseTransactionRepository);
         this.warehouseTransactionService = warehouseTransactionService;
         this.warehouseTransactionRepository = warehouseTransactionRepository;
     }

@@ -1,12 +1,13 @@
 package org.nmcpye.datarun.web.rest;
 
 import org.nmcpye.datarun.domain.ProgressStatus;
-import org.nmcpye.datarun.repository.ProgressStatusRepositoryCustom;
-import org.nmcpye.datarun.service.ProgressStatusServiceCustom;
+import org.nmcpye.datarun.drun.repository.ProgressStatusRepositoryCustom;
+import org.nmcpye.datarun.drun.service.ProgressStatusServiceCustom;
 import org.nmcpye.datarun.web.rest.common.AbstractResource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * REST controller for managing {@link ProgressStatus}.
@@ -22,6 +23,7 @@ public class ProgressStatusResourceCustom
 
     public ProgressStatusResourceCustom(ProgressStatusServiceCustom progressStatusService,
                                         ProgressStatusRepositoryCustom progressStatusRepository) {
+        super(progressStatusService, progressStatusRepository);
         this.progressStatusService = progressStatusService;
         this.progressStatusRepository = progressStatusRepository;
     }

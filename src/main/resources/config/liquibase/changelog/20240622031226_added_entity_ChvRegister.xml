@@ -23,6 +23,9 @@
             <column name="name" type="varchar(255)">
                 <constraints nullable="false" />
             </column>
+            <column name="location_name" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
             <column name="age" type="integer">
                 <constraints nullable="true" />
             </column>
@@ -75,7 +78,7 @@
                 <constraints nullable="false" />
             </column>
             <column name="location_id" type="bigint">
-                <constraints nullable="false" />
+                <constraints nullable="true" />
             </column>
             <column name="activity_id" type="bigint">
                 <constraints nullable="false" />

@@ -45,6 +45,9 @@ public class ChvRegister extends AbstractAuditingEntity<Long> implements Seriali
     @Column(name = "name", nullable = false)
     private String name;
 
+    @Column(name = "location_name")
+    private String locationName;
+
     @Column(name = "age")
     private Integer age;
 
@@ -100,8 +103,7 @@ public class ChvRegister extends AbstractAuditingEntity<Long> implements Seriali
     @Transient
     private boolean isPersisted;
 
-    @ManyToOne(optional = false)
-    @NotNull
+    @ManyToOne(fetch = FetchType.LAZY)
     @JsonIgnoreProperties(value = { "activity", "organisationUnit", "team", "warehouse" }, allowSetters = true)
     private Assignment location;
 
@@ -167,6 +169,19 @@ public class ChvRegister extends AbstractAuditingEntity<Long> implements Seriali
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getLocationName() {
+        return this.locationName;
+    }
+
+    public ChvRegister locationName(String locationName) {
+        this.setLocationName(locationName);
+        return this;
+    }
+
+    public void setLocationName(String locationName) {
+        this.locationName = locationName;
     }
 
     public Integer getAge() {
@@ -445,6 +460,7 @@ public class ChvRegister extends AbstractAuditingEntity<Long> implements Seriali
             ", uid='" + getUid() + "'" +
             ", code='" + getCode() + "'" +
             ", name='" + getName() + "'" +
+            ", locationName='" + getLocationName() + "'" +
             ", age=" + getAge() +
             ", gender='" + getGender() + "'" +
             ", visitDate='" + getVisitDate() + "'" +

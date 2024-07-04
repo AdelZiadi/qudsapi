@@ -22,7 +22,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.nmcpye.datarun.IntegrationTest;
 import org.nmcpye.datarun.domain.Activity;
-import org.nmcpye.datarun.domain.Assignment;
 import org.nmcpye.datarun.domain.ChvRegister;
 import org.nmcpye.datarun.domain.Team;
 import org.nmcpye.datarun.domain.enumeration.Gender;
@@ -59,6 +58,9 @@ class ChvRegisterResourceIT {
 
     private static final String DEFAULT_NAME = "AAAAAAAAAA";
     private static final String UPDATED_NAME = "BBBBBBBBBB";
+
+    private static final String DEFAULT_LOCATION_NAME = "AAAAAAAAAA";
+    private static final String UPDATED_LOCATION_NAME = "BBBBBBBBBB";
 
     private static final Integer DEFAULT_AGE = 1;
     private static final Integer UPDATED_AGE = 2;
@@ -136,6 +138,7 @@ class ChvRegisterResourceIT {
             .uid(DEFAULT_UID)
             .code(DEFAULT_CODE)
             .name(DEFAULT_NAME)
+            .locationName(DEFAULT_LOCATION_NAME)
             .age(DEFAULT_AGE)
             .gender(DEFAULT_GENDER)
             .visitDate(DEFAULT_VISIT_DATE)
@@ -149,16 +152,6 @@ class ChvRegisterResourceIT {
             .finishedEntryTime(DEFAULT_FINISHED_ENTRY_TIME)
             .comment(DEFAULT_COMMENT)
             .status(DEFAULT_STATUS);
-        // Add required entity
-        Assignment assignment;
-        if (TestUtil.findAll(em, Assignment.class).isEmpty()) {
-            assignment = AssignmentResourceIT.createEntity(em);
-            em.persist(assignment);
-            em.flush();
-        } else {
-            assignment = TestUtil.findAll(em, Assignment.class).get(0);
-        }
-        chvRegister.setLocation(assignment);
         // Add required entity
         Activity activity;
         if (TestUtil.findAll(em, Activity.class).isEmpty()) {
@@ -193,6 +186,7 @@ class ChvRegisterResourceIT {
             .uid(UPDATED_UID)
             .code(UPDATED_CODE)
             .name(UPDATED_NAME)
+            .locationName(UPDATED_LOCATION_NAME)
             .age(UPDATED_AGE)
             .gender(UPDATED_GENDER)
             .visitDate(UPDATED_VISIT_DATE)
@@ -206,16 +200,6 @@ class ChvRegisterResourceIT {
             .finishedEntryTime(UPDATED_FINISHED_ENTRY_TIME)
             .comment(UPDATED_COMMENT)
             .status(UPDATED_STATUS);
-        // Add required entity
-        Assignment assignment;
-        if (TestUtil.findAll(em, Assignment.class).isEmpty()) {
-            assignment = AssignmentResourceIT.createUpdatedEntity(em);
-            em.persist(assignment);
-            em.flush();
-        } else {
-            assignment = TestUtil.findAll(em, Assignment.class).get(0);
-        }
-        chvRegister.setLocation(assignment);
         // Add required entity
         Activity activity;
         if (TestUtil.findAll(em, Activity.class).isEmpty()) {
@@ -360,6 +344,7 @@ class ChvRegisterResourceIT {
             .andExpect(jsonPath("$.[*].uid").value(hasItem(DEFAULT_UID)))
             .andExpect(jsonPath("$.[*].code").value(hasItem(DEFAULT_CODE)))
             .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)))
+            .andExpect(jsonPath("$.[*].locationName").value(hasItem(DEFAULT_LOCATION_NAME)))
             .andExpect(jsonPath("$.[*].age").value(hasItem(DEFAULT_AGE)))
             .andExpect(jsonPath("$.[*].gender").value(hasItem(DEFAULT_GENDER.toString())))
             .andExpect(jsonPath("$.[*].visitDate").value(hasItem(DEFAULT_VISIT_DATE.toString())))
@@ -407,6 +392,7 @@ class ChvRegisterResourceIT {
             .andExpect(jsonPath("$.uid").value(DEFAULT_UID))
             .andExpect(jsonPath("$.code").value(DEFAULT_CODE))
             .andExpect(jsonPath("$.name").value(DEFAULT_NAME))
+            .andExpect(jsonPath("$.locationName").value(DEFAULT_LOCATION_NAME))
             .andExpect(jsonPath("$.age").value(DEFAULT_AGE))
             .andExpect(jsonPath("$.gender").value(DEFAULT_GENDER.toString()))
             .andExpect(jsonPath("$.visitDate").value(DEFAULT_VISIT_DATE.toString()))
@@ -445,6 +431,7 @@ class ChvRegisterResourceIT {
             .uid(UPDATED_UID)
             .code(UPDATED_CODE)
             .name(UPDATED_NAME)
+            .locationName(UPDATED_LOCATION_NAME)
             .age(UPDATED_AGE)
             .gender(UPDATED_GENDER)
             .visitDate(UPDATED_VISIT_DATE)
@@ -538,12 +525,15 @@ class ChvRegisterResourceIT {
         partialUpdatedChvRegister.setId(chvRegister.getId());
 
         partialUpdatedChvRegister
+            .uid(UPDATED_UID)
             .code(UPDATED_CODE)
-            .gender(UPDATED_GENDER)
+            .locationName(UPDATED_LOCATION_NAME)
+            .age(UPDATED_AGE)
+            .pregnant(UPDATED_PREGNANT)
+            .testResult(UPDATED_TEST_RESULT)
             .detectionType(UPDATED_DETECTION_TYPE)
             .deleted(UPDATED_DELETED)
             .startEntryTime(UPDATED_START_ENTRY_TIME)
-            .finishedEntryTime(UPDATED_FINISHED_ENTRY_TIME)
             .status(UPDATED_STATUS);
 
         restChvRegisterMockMvc
@@ -579,6 +569,7 @@ class ChvRegisterResourceIT {
             .uid(UPDATED_UID)
             .code(UPDATED_CODE)
             .name(UPDATED_NAME)
+            .locationName(UPDATED_LOCATION_NAME)
             .age(UPDATED_AGE)
             .gender(UPDATED_GENDER)
             .visitDate(UPDATED_VISIT_DATE)

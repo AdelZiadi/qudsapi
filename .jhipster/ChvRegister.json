@@ -21,6 +21,10 @@
       "fieldValidateRules": ["required"]
     },
     {
+      "fieldName": "locationName",
+      "fieldType": "String"
+    },
+    {
       "fieldName": "age",
       "fieldType": "Integer"
     },
@@ -125,8 +129,7 @@
       "otherEntityName": "assignment",
       "relationshipName": "location",
       "relationshipSide": "left",
-      "relationshipType": "many-to-one",
-      "relationshipValidateRules": "required"
+      "relationshipType": "many-to-one"
     },
     {
       "otherEntityField": "code",

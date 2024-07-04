@@ -16,6 +16,7 @@ import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.nmcpye.datarun.config.Constants;
+import org.nmcpye.datarun.domain.common.IdentifiableObject;
 
 /**
  * A user.
@@ -103,6 +104,11 @@ public class User extends AbstractAuditingEntity<Long> implements Serializable {
 
     public void setUid(String uid) {
         this.uid = uid;
+    }
+
+    @Override
+    public User setIsPersisted() {
+        return null;
     }
 
     public Long getId() {

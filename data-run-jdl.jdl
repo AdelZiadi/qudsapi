@@ -248,6 +248,7 @@ entity ChvRegister {
     uid String required unique maxlength(11)
     code String
     name String required
+    locationName String
     age Integer
     gender Gender
     visitDate Instant required
@@ -306,7 +307,7 @@ relationship ManyToOne {
 }
 
 relationship ManyToOne {
-    ChvRegister{location(code) required} to Assignment
+    ChvRegister{location(code)} to Assignment
 }
 
 relationship ManyToOne {

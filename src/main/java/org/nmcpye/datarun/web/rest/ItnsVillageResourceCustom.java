@@ -1,8 +1,8 @@
 package org.nmcpye.datarun.web.rest;
 
 import org.nmcpye.datarun.domain.ItnsVillage;
-import org.nmcpye.datarun.repository.ItnsVillageRepositoryCustom;
-import org.nmcpye.datarun.service.ItnsVillageServiceCustom;
+import org.nmcpye.datarun.drun.repository.ItnsVillageRepositoryCustom;
+import org.nmcpye.datarun.drun.service.ItnsVillageServiceCustom;
 import org.nmcpye.datarun.web.rest.common.AbstractResource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,6 +33,7 @@ public class ItnsVillageResourceCustom
 
     public ItnsVillageResourceCustom(ItnsVillageServiceCustom itnsVillageService,
                                      ItnsVillageRepositoryCustom itnsVillageRepository) {
+        super(itnsVillageService, itnsVillageRepository);
         this.itnsVillageService = itnsVillageService;
         this.itnsVillageRepository = itnsVillageRepository;
     }

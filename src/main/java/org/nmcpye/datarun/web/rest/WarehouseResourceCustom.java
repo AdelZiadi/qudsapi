@@ -1,8 +1,8 @@
 package org.nmcpye.datarun.web.rest;
 
 import org.nmcpye.datarun.domain.Warehouse;
-import org.nmcpye.datarun.repository.WarehouseRepositoryCustom;
-import org.nmcpye.datarun.service.WarehouseServiceCustom;
+import org.nmcpye.datarun.drun.repository.WarehouseRepositoryCustom;
+import org.nmcpye.datarun.drun.service.WarehouseServiceCustom;
 import org.nmcpye.datarun.web.rest.common.AbstractResource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,7 +32,7 @@ public class WarehouseResourceCustom extends AbstractResource<Warehouse> {
 
     public WarehouseResourceCustom(WarehouseServiceCustom warehouseService,
                                    WarehouseRepositoryCustom warehouseRepository) {
-//        super(warehouseService, warehouseRepository);
+        super(warehouseService, warehouseRepository);
         this.warehouseService = warehouseService;
         this.warehouseRepository = warehouseRepository;
     }

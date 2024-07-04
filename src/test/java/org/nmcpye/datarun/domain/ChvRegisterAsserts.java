@@ -52,6 +52,7 @@ public class ChvRegisterAsserts {
             .satisfies(e -> assertThat(e.getUid()).as("check uid").isEqualTo(actual.getUid()))
             .satisfies(e -> assertThat(e.getCode()).as("check code").isEqualTo(actual.getCode()))
             .satisfies(e -> assertThat(e.getName()).as("check name").isEqualTo(actual.getName()))
+            .satisfies(e -> assertThat(e.getLocationName()).as("check locationName").isEqualTo(actual.getLocationName()))
             .satisfies(e -> assertThat(e.getAge()).as("check age").isEqualTo(actual.getAge()))
             .satisfies(e -> assertThat(e.getGender()).as("check gender").isEqualTo(actual.getGender()))
             .satisfies(e -> assertThat(e.getVisitDate()).as("check visitDate").isEqualTo(actual.getVisitDate()))
