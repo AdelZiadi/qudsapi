@@ -1,6 +1,7 @@
 package org.nmcpye.datarun.drun.service;
 
 import jakarta.persistence.EntityNotFoundException;
+import java.util.Optional;
 import org.nmcpye.datarun.domain.common.IdentifiableObject;
 import org.nmcpye.datarun.drun.repository.IdentifiableRepository;
 import org.nmcpye.datarun.utils.CodeGenerator;
@@ -10,14 +11,12 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Optional;
-
 @Transactional
-public abstract class IdentifiableServiceImpl<T extends IdentifiableObject>
-    implements IdentifiableService<T> {
+public abstract class IdentifiableServiceImpl<T extends IdentifiableObject> implements IdentifiableService<T> {
+
     private final Logger log = LoggerFactory.getLogger(IdentifiableServiceImpl.class);
 
-    final protected IdentifiableRepository<T, Long> repository;
+    protected final IdentifiableRepository<T, Long> repository;
 
     public IdentifiableServiceImpl(IdentifiableRepository<T, Long> repository) {
         this.repository = repository;
@@ -43,7 +42,6 @@ public abstract class IdentifiableServiceImpl<T extends IdentifiableObject>
         return repository.findByUid(uid);
     }
 
-
     @Override
     public void deleteByUid(String uid) {
         repository.findByUid(uid).ifPresent(repository::delete);
@@ -57,17 +55,16 @@ public abstract class IdentifiableServiceImpl<T extends IdentifiableObject>
     @SuppressWarnings("unchecked")
     @Override
     public T update(T object) {
-        Optional<T> existingEntity = repository.findByUid(object.getUid());
-        if (existingEntity.isPresent()) {
-            log.debug("Request to update T : {}", object);
-//            T updatedEntity = existingEntity.get();
-            object.setId(existingEntity.get().getId());
-            // Update fields
-            object.setIsPersisted();
-            return saveWithRelations(object);
-        } else {
-            throw new EntityNotFoundException("Entity not found with UID: " + object.getUid());
-        }
+        T existingEntity = repository
+            .findByUid(object.getUid())
+            .orElseThrow(() -> new EntityNotFoundException("Entity not found with UID: " + object.getUid()));
+
+        log.debug("Request to update T : {}", object);
+        //            T updatedEntity = existingEntity.get();
+        object.setId(existingEntity.getId());
+        // Update fields
+        object.setIsPersisted();
+        return saveWithRelations(object);
     }
 
     @Override
@@ -94,4 +91,3 @@ public abstract class IdentifiableServiceImpl<T extends IdentifiableObject>
         repository.deleteById(id);
     }
 }
-
