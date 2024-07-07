@@ -5,7 +5,6 @@ services:
     image: postgres:16.2
     volumes:
       - ./dataRunApi_backup.dump:/docker-entrypoint-initdb.d/dataRunApi_backup.dump
-      - postgis_data:/var/lib/postgresql/data
     environment:
       - POSTGRES_USER=dataRunApi
       - POSTGRES_PASSWORD=dataRunApi
@@ -29,5 +28,3 @@ services:
       pg_restore -U dataRunApi -d dataRunApi /docker-entrypoint-initdb.d/dataRunApi_backup.dump;
       wait $$pid;
       "
-volumes:
-  postgis_data:
