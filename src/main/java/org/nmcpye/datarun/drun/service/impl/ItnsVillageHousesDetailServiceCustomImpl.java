@@ -29,6 +29,11 @@ public class ItnsVillageHousesDetailServiceCustomImpl
     }
 
     @Override
+    public boolean existsByUid(String uid) {
+        return itnsVillageHousesDetailRepository.findByUid(uid).isPresent();
+    }
+
+    @Override
     public Optional<ItnsVillageHousesDetail> findByUid(String uid) {
         return itnsVillageHousesDetailRepository.findByUid(uid);
     }

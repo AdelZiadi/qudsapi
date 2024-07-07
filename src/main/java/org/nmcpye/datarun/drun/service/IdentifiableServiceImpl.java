@@ -1,5 +1,6 @@
 package org.nmcpye.datarun.drun.service;
 
+import jakarta.persistence.EntityNotFoundException;
 import org.nmcpye.datarun.domain.common.IdentifiableObject;
 import org.nmcpye.datarun.drun.repository.IdentifiableRepository;
 import org.nmcpye.datarun.utils.CodeGenerator;
@@ -11,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
+@Transactional
 public abstract class IdentifiableServiceImpl<T extends IdentifiableObject>
     implements IdentifiableService<T> {
     private final Logger log = LoggerFactory.getLogger(IdentifiableServiceImpl.class);
@@ -19,6 +21,20 @@ public abstract class IdentifiableServiceImpl<T extends IdentifiableObject>
 
     public IdentifiableServiceImpl(IdentifiableRepository<T, Long> repository) {
         this.repository = repository;
+    }
+
+    @Override
+    public T saveWithRelations(T object) {
+        log.debug("Request to save T With Relations, saveWithRelations not implement will perform a normal save: {}", object);
+        if (object.getUid() == null || object.getUid().isEmpty()) {
+            object.setUid(CodeGenerator.generateUid());
+        }
+        return repository.save(object);
+    }
+
+    @Override
+    public boolean existsByUid(String uid) {
+        return repository.findByUid(uid).isPresent();
     }
 
     @Override
@@ -35,18 +51,23 @@ public abstract class IdentifiableServiceImpl<T extends IdentifiableObject>
 
     @Override
     public T save(T object) {
-        log.debug("Request to save T : {}", object);
-        if (object.getUid() == null || object.getUid().isEmpty()) {
-            object.setUid(CodeGenerator.generateUid());
-        }
-        return repository.save(object);
+        return saveWithRelations(object);
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public T update(T object) {
-        log.debug("Request to update T : {}", object);
-        object.setIsPersisted();
-        return repository.save(object);
+        Optional<T> existingEntity = repository.findByUid(object.getUid());
+        if (existingEntity.isPresent()) {
+            log.debug("Request to update T : {}", object);
+//            T updatedEntity = existingEntity.get();
+            object.setId(existingEntity.get().getId());
+            // Update fields
+            object.setIsPersisted();
+            return saveWithRelations(object);
+        } else {
+            throw new EntityNotFoundException("Entity not found with UID: " + object.getUid());
+        }
     }
 
     @Override

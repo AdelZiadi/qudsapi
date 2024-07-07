@@ -33,6 +33,11 @@ public class ProgressStatusServiceCustomImpl
     }
 
     @Override
+    public boolean existsByUid(String uid) {
+        return progressStatusRepository.findByUid(uid).isPresent();
+    }
+
+    @Override
     public Optional<ProgressStatus> findByUid(String uid) {
         return progressStatusRepository.findByUid(uid);
     }

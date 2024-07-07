@@ -32,6 +32,11 @@ public class ProjectServiceCustomImpl
     }
 
     @Override
+    public boolean existsByUid(String uid) {
+        return projectRepository.findByUid(uid).isPresent();
+    }
+
+    @Override
     public Optional<Project> findByUid(String uid) {
         return projectRepository.findByUid(uid);
     }

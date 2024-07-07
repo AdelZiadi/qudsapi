@@ -1,5 +1,6 @@
 package org.nmcpye.datarun.drun.service;
 
+import org.nmcpye.datarun.domain.ChvRegister;
 import org.nmcpye.datarun.domain.common.IdentifiableObject;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -7,6 +8,13 @@ import org.springframework.data.domain.Pageable;
 import java.util.Optional;
 
 public interface IdentifiableService<T extends IdentifiableObject> {
+
+    default T saveWithRelations(T object) {
+        return save(object);
+    }
+
+    boolean existsByUid(String uid);
+
     Optional<T> findByUid(String uid);
 
     void deleteByUid(String uid);

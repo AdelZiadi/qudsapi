@@ -1,8 +1,11 @@
 package org.nmcpye.datarun.domain.common;
 
-import org.nmcpye.datarun.domain.ItnsVillage;
+public interface IdentifiableObject<ID extends Number> {
 
-public interface IdentifiableObject {
+    void setId(ID id);
+
+    ID getId();
+
     /**
      * @return external unique ID of the object as used in the RESTful API
      */
