@@ -6,9 +6,9 @@ services:
     volumes:
       - ./dataRunApi_backup.dump:/docker-entrypoint-initdb.d/dataRunApi_backup.dump
     environment:
-      - POSTGRES_USER=dataRunApi
-      - POSTGRES_PASSWORD=dataRunApi
-      - POSTGRES_HOST_AUTH_METHOD=trust
+      - POSTGRES_USER=${DATABASE_USER}
+      - POSTGRES_PASSWORD=${DATABASE_PASSWORD}
+      - POSTGRES_DB=${DATABASE_NAME}
     healthcheck:
       test: ['CMD-SHELL', 'pg_isready -U $${POSTGRES_USER}']
       interval: 5s
