@@ -2,6 +2,8 @@
 name: datarunapi
 services:
   app:
+    env_file:
+      - .env
     image: datarunapi
     environment:
       - _JAVA_OPTIONS=-Xmx512m -Xms256m
