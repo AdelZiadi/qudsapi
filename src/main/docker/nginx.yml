@@ -9,19 +9,10 @@ services:
     ports:
       - "80:80"
       - "443:443"
-    depends_on:
-        app:
-            condition: service_healthy
-        postgresql:
-            condition: service_healthy
-
   certbot:
-    image: certbot/certbot
-    volumes:
-      - /etc/letsencrypt:/etc/letsencrypt
-      - /var/www/certbot:/var/www/certbot
-    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do sleep 6h & wait $${!}; certbot renew; done;'"
+      image: certbot/certbot
+      volumes:
+          - /etc/letsencrypt:/etc/letsencrypt
+          - /var/www/certbot:/var/www/certbot
+      entrypoint: "/bin/sh -c 'trap exit TERM; while :; do sleep 6h & wait $${!}; certbot renew; done;'"
 
-networks:
-    default:
-        driver: bridge
