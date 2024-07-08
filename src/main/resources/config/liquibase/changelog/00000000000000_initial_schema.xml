@@ -19,6 +19,9 @@
             <column name="id" type="bigint">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
+            <column name="uid" type="varchar(11)">
+                <constraints nullable="true" unique="true" uniqueConstraintName="ux_user__uid" />
+            </column>
             <column name="login" type="varchar(50)">
                 <constraints unique="true" nullable="false" uniqueConstraintName="ux_user_login"/>
             </column>
@@ -91,6 +94,7 @@
                   tableName="app_user"
                   usePreparedStatements="true">
             <column name="id" type="numeric"/>
+            <column name="uid" type="string"/>
             <column name="activated" type="boolean"/>
             <column name="created_date" type="timestamp"/>
         </loadData>
