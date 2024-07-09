@@ -30,11 +30,11 @@ services:
     extends:
       file: ./postgresql.yml
       service: postgresql
-#  nginx:
-#    extends:
-#      file: ./nginx.yml
-#      service: nginx
-#  certbot:
-#    extends:
-#      file: ./certbot.yml
-#      service: certbot
+  nginx:
+    extends:
+      file: ./nginx.yml
+      service: nginx
+  certbot:
+    extends:
+      file: ./certbot.yml
+      service: certbot
