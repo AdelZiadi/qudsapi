@@ -5,6 +5,7 @@ services:
     env_file:
       - .env
     image: datarunapi
+    container_name: datarunapi-app-1
     environment:
       - _JAVA_OPTIONS=-Xmx512m -Xms256m
       - SPRING_PROFILES_ACTIVE=prod,api-docs
@@ -29,11 +30,11 @@ services:
     extends:
       file: ./postgresql.yml
       service: postgresql
-  nginx:
-    extends:
-      file: ./nginx.yml
-      service: nginx
-  certbot:
-    extends:
-      file: ./certbot.yml
-      service: certbot
+#  nginx:
+#    extends:
+#      file: ./nginx.yml
+#      service: nginx
+#  certbot:
+#    extends:
+#      file: ./certbot.yml
+#      service: certbot

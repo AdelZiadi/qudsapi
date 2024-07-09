@@ -2,6 +2,7 @@ name: datarunapi
 services:
   certbot:
     image: certbot/certbot
+    container_name: certbot
     volumes:
       - /etc/letsencrypt:/etc/letsencrypt
       - /var/www/certbot:/var/www/certbot
