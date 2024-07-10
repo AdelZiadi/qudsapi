@@ -17,13 +17,13 @@ services:
       retries: 10
     ports:
       - 5432:5432
-#    command: >
-#      bash -c "
-#      docker-entrypoint.sh postgres &
-#      pid=$$!;
-#      while ! pg_isready -U dataRunApi; do
-#        sleep 1;
-#      done;
-#      pg_restore -U dataRunApi -d dataRunApi /docker-entrypoint-initdb.d/dataRunApi_backup.dump;
-#      wait $$pid;
-#      "
+    command: >
+      bash -c "
+      docker-entrypoint.sh postgres &
+      pid=$$!;
+      while ! pg_isready -U dataRunApi; do
+        sleep 1;
+      done;
+      pg_restore -U dataRunApi -d dataRunApi /docker-entrypoint-initdb.d/dataRunApi_backup.dump;
+      wait $$pid;
+      "
