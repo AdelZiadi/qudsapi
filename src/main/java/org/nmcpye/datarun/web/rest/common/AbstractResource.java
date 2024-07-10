@@ -3,7 +3,6 @@ package org.nmcpye.datarun.web.rest.common;
 import org.nmcpye.datarun.domain.common.IdentifiableObject;
 import org.nmcpye.datarun.drun.service.IdentifiableService;
 import org.nmcpye.datarun.service.dto.drun.SaveSummary;
-import org.nmcpye.datarun.service.dto.drun.SaveSummaryDTO;
 import org.nmcpye.datarun.web.rest.ChvRegisterResourceCustom;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,11 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import java.net.URISyntaxException;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 @RequestMapping("/api/custom")
 public abstract class AbstractResource<T extends IdentifiableObject> {

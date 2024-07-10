@@ -34,7 +34,3 @@ services:
     extends:
       file: ./nginx.yml
       service: nginx
-#  certbot:
-#    extends:
-#      file: ./certbot.yml
-#      service: certbot

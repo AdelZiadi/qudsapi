@@ -3,7 +3,7 @@ package org.nmcpye.datarun.service.dto.drun;
 import java.util.List;
 import java.util.Map;
 
-public class SaveSummaryDTO {
+public class SaveSummaryOld {
     private List<String> successfulUids;
     private Map<String, String> failedUids; // Key is UID, value is error message
 

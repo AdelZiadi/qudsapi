@@ -15,7 +15,7 @@ import org.nmcpye.datarun.drun.repository.ChvRegisterRepositoryCustom;
 import org.nmcpye.datarun.drun.repository.TeamRepositoryCustom;
 import org.nmcpye.datarun.drun.service.ChvRegisterServiceCustom;
 import org.nmcpye.datarun.drun.service.IdentifiableServiceImpl;
-import org.nmcpye.datarun.service.dto.drun.SaveSummaryDTO;
+import org.nmcpye.datarun.service.dto.drun.SaveSummaryOld;
 import org.nmcpye.datarun.service.impl.ChvRegisterServiceImpl;
 import org.nmcpye.datarun.utils.CodeGenerator;
 import org.slf4j.Logger;
@@ -49,22 +49,25 @@ public class ChvRegisterServiceCustomImpl extends IdentifiableServiceImpl<ChvReg
         this.teamRepository = teamRepository;
     }
 
-    public SaveSummaryDTO saveWithReferences(ChvRegister chvRegister) {
-        SaveSummaryDTO summaryDTO = new SaveSummaryDTO();
+    public SaveSummaryOld saveWithReferences(ChvRegister chvRegister) {
+        SaveSummaryOld summaryDTO = new SaveSummaryOld();
 
         try {
             Activity activity = activityRepository
                 .findByUid(chvRegister.getActivity().getUid())
                 .orElseThrow(() -> new EntityNotFoundException("Activity not found: " + chvRegister.getActivity().getUid()));
-            Assignment location = locationRepository
-                .findByUid(chvRegister.getLocation().getUid())
-                .orElseThrow(() -> new EntityNotFoundException("Location not found: " + chvRegister.getLocation().getUid()));
+            if(chvRegister.getLocation() != null) {
+                Assignment location = locationRepository
+                    .findByUid(chvRegister.getLocation().getUid())
+                    .orElseThrow(() -> new EntityNotFoundException("Location not found: " + chvRegister.getLocation().getUid()));
+                chvRegister.setLocation(location);
+            }
             Team team = teamRepository
                 .findByUid(chvRegister.getTeam().getUid())
                 .orElseThrow(() -> new EntityNotFoundException("Team not found: " + chvRegister.getTeam().getUid()));
 
             chvRegister.setActivity(activity);
-            chvRegister.setLocation(location);
+
             chvRegister.setTeam(team);
 
             if (chvRegister.getUid() != null && !chvRegister.getUid().isEmpty()) {
