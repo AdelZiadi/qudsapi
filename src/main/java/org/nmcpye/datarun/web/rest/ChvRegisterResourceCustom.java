@@ -36,9 +36,10 @@ public class ChvRegisterResourceCustom
     @Override
     protected Page<ChvRegister> getList(Pageable pageable, boolean eagerload) {
         if (eagerload) {
-            return identifiableService.findAllWithEagerRelationships(pageable);
+            var faa = chvRegisterService.findAllWithEagerRelationships(pageable);
+            return  faa;
         } else {
-            return identifiableService.findAll(pageable);
+            return chvRegisterService.findAll(pageable);
         }
     }
 
