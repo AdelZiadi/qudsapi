@@ -56,16 +56,15 @@ public class ChvRegisterServiceCustomImpl extends IdentifiableServiceImpl<ChvReg
             Activity activity = activityRepository
                 .findByUid(chvRegister.getActivity().getUid())
                 .orElseThrow(() -> new EntityNotFoundException("Activity not found: " + chvRegister.getActivity().getUid()));
+            Team team = teamRepository
+                .findByUid(chvRegister.getTeam().getUid())
+                .orElseThrow(() -> new EntityNotFoundException("Team not found: " + chvRegister.getTeam().getUid()));
             if(chvRegister.getLocation() != null) {
                 Assignment location = locationRepository
                     .findByUid(chvRegister.getLocation().getUid())
                     .orElseThrow(() -> new EntityNotFoundException("Location not found: " + chvRegister.getLocation().getUid()));
                 chvRegister.setLocation(location);
             }
-            Team team = teamRepository
-                .findByUid(chvRegister.getTeam().getUid())
-                .orElseThrow(() -> new EntityNotFoundException("Team not found: " + chvRegister.getTeam().getUid()));
-
             chvRegister.setActivity(activity);
 
             chvRegister.setTeam(team);
@@ -98,15 +97,17 @@ public class ChvRegisterServiceCustomImpl extends IdentifiableServiceImpl<ChvReg
         Activity activity = activityRepository
             .findByUid(chvRegister.getActivity().getUid())
             .orElseThrow(() -> new EntityNotFoundException("Activity not found: " + chvRegister.getActivity().getUid()));
-        Assignment location = locationRepository
-            .findByUid(chvRegister.getLocation().getUid())
-            .orElseThrow(() -> new EntityNotFoundException("Location not found: " + chvRegister.getLocation().getUid()));
         Team team = teamRepository
             .findByUid(chvRegister.getTeam().getUid())
             .orElseThrow(() -> new EntityNotFoundException("Team not found: " + chvRegister.getTeam().getUid()));
-
+       if(chvRegister.getLocation() != null) {
+           Assignment location = locationRepository
+               .findByUid(chvRegister.getLocation().getUid())
+               .orElseThrow(() -> new EntityNotFoundException("Location not found: " + chvRegister.getLocation().getUid()));
+           chvRegister.setLocation(location);
+       }
         chvRegister.setActivity(activity);
-        chvRegister.setLocation(location);
+
         chvRegister.setTeam(team);
 
         if (chvRegister.getUid() == null || chvRegister.getUid().isEmpty()) {
