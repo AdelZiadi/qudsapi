@@ -13,7 +13,7 @@ services:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://postgresql:5432/${DATABASE_NAME}
       - SPRING_LIQUIBASE_URL=jdbc:postgresql://postgresql:5432/${DATABASE_NAME}
     ports:
-      - nginx:8080:8080
+      - 8080:8080
     healthcheck:
       test:
         - CMD

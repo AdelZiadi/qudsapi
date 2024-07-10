@@ -16,7 +16,7 @@ services:
       timeout: 5s
       retries: 10
     ports:
-      - nginx:5432:5432
+      - 5432:5432
     command: >
       bash -c "
       docker-entrypoint.sh postgres &
