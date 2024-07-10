@@ -1,9 +1,16 @@
 package org.nmcpye.datarun.drun.service.impl;
 
+import jakarta.persistence.EntityNotFoundException;
+import org.nmcpye.datarun.domain.Activity;
+import org.nmcpye.datarun.domain.Assignment;
 import org.nmcpye.datarun.domain.ChvSession;
+import org.nmcpye.datarun.domain.Team;
+import org.nmcpye.datarun.drun.repository.ActivityRepositoryCustom;
 import org.nmcpye.datarun.drun.repository.ChvSessionRepositoryCustom;
-import org.nmcpye.datarun.drun.service.IdentifiableServiceImpl;
+import org.nmcpye.datarun.drun.repository.TeamRepositoryCustom;
 import org.nmcpye.datarun.drun.service.ChvSessionServiceCustom;
+import org.nmcpye.datarun.drun.service.IdentifiableServiceImpl;
+import org.nmcpye.datarun.utils.CodeGenerator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Primary;
@@ -22,11 +29,36 @@ public class ChvSessionServiceCustomImpl
     private final Logger log = LoggerFactory.getLogger(ChvSessionServiceCustomImpl.class);
 
     private final ChvSessionRepositoryCustom chvSessionRepository;
+    private final ActivityRepositoryCustom activityRepository;
+    private final TeamRepositoryCustom teamRepository;
 
-
-    public ChvSessionServiceCustomImpl(ChvSessionRepositoryCustom chvSessionRepository) {
+    public ChvSessionServiceCustomImpl(ChvSessionRepositoryCustom chvSessionRepository,
+        ActivityRepositoryCustom activityRepository,
+        TeamRepositoryCustom teamRepository) {
         super(chvSessionRepository);
         this.chvSessionRepository = chvSessionRepository;
+        this.activityRepository = activityRepository;
+        this.teamRepository = teamRepository;
+    }
+
+    @Override
+    public ChvSession saveWithRelations(ChvSession chvSession) {
+        Activity activity = activityRepository
+            .findByUid(chvSession.getActivity().getUid())
+            .orElseThrow(() -> new EntityNotFoundException("Activity not found: " + chvSession.getActivity().getUid()));
+        Team team = teamRepository
+            .findByUid(chvSession.getTeam().getUid())
+            .orElseThrow(() -> new EntityNotFoundException("Team not found: " + chvSession.getTeam().getUid()));
+
+        chvSession.setActivity(activity);
+
+        chvSession.setTeam(team);
+
+        if (chvSession.getUid() == null || chvSession.getUid().isEmpty()) {
+            chvSession.setUid(CodeGenerator.generateUid());
+        }
+
+        return repository.save(chvSession);
     }
 
     @Override
