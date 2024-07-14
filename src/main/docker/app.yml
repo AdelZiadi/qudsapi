@@ -7,7 +7,7 @@ services:
     image: datarunapi
     container_name: datarunapi-app
     environment:
-      - _JAVA_OPTIONS=-Xmx512m -Xms256m
+      - _JAVA_OPTIONS=-Xmx800m -Xms256m
       - SPRING_PROFILES_ACTIVE=prod,api-docs
       - MANAGEMENT_PROMETHEUS_METRICS_EXPORT_ENABLED=true
       - SPRING_DATASOURCE_URL=jdbc:postgresql://postgresql:${DATABASE_PORT}/${DATABASE_NAME}
