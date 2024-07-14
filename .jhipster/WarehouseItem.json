@@ -58,6 +58,7 @@
       "readonly": true
     }
   ],
+  "incrementalChangelog": false,
   "name": "WarehouseItem",
   "relationships": [],
   "searchEngine": "no",

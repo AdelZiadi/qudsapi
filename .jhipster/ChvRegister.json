@@ -121,6 +121,7 @@
       "readonly": true
     }
   ],
+  "incrementalChangelog": false,
   "name": "ChvRegister",
   "pagination": "pagination",
   "relationships": [

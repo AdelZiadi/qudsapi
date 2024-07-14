@@ -55,6 +55,7 @@
       "readonly": true
     }
   ],
+  "incrementalChangelog": false,
   "name": "ProgressStatus",
   "relationships": [],
   "searchEngine": "no",

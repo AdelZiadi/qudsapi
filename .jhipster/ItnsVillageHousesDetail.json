@@ -126,6 +126,7 @@
       "readonly": true
     }
   ],
+  "incrementalChangelog": false,
   "name": "ItnsVillageHousesDetail",
   "pagination": "pagination",
   "relationships": [

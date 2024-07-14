@@ -496,11 +496,12 @@ class ChvSessionResourceIT {
 
         partialUpdatedChvSession
             .uid(UPDATED_UID)
-            .code(UPDATED_CODE)
-            .sessionDate(UPDATED_SESSION_DATE)
-            .sessions(UPDATED_SESSIONS)
+            .name(UPDATED_NAME)
             .people(UPDATED_PEOPLE)
-            .deleted(UPDATED_DELETED);
+            .deleted(UPDATED_DELETED)
+            .startEntryTime(UPDATED_START_ENTRY_TIME)
+            .finishedEntryTime(UPDATED_FINISHED_ENTRY_TIME)
+            .status(UPDATED_STATUS);
 
         restChvSessionMockMvc
             .perform(

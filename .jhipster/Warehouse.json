@@ -71,6 +71,7 @@
       "readonly": true
     }
   ],
+  "incrementalChangelog": false,
   "name": "Warehouse",
   "pagination": "pagination",
   "relationships": [

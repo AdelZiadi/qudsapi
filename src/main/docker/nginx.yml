@@ -1,4 +1,4 @@
-name: datarunapi
+#name: datarunapi
 services:
   nginx:
     image: nginx

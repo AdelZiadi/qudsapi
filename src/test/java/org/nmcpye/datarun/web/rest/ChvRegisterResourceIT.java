@@ -524,17 +524,7 @@ class ChvRegisterResourceIT {
         ChvRegister partialUpdatedChvRegister = new ChvRegister();
         partialUpdatedChvRegister.setId(chvRegister.getId());
 
-        partialUpdatedChvRegister
-            .uid(UPDATED_UID)
-            .code(UPDATED_CODE)
-            .locationName(UPDATED_LOCATION_NAME)
-            .age(UPDATED_AGE)
-            .pregnant(UPDATED_PREGNANT)
-            .testResult(UPDATED_TEST_RESULT)
-            .detectionType(UPDATED_DETECTION_TYPE)
-            .deleted(UPDATED_DELETED)
-            .startEntryTime(UPDATED_START_ENTRY_TIME)
-            .status(UPDATED_STATUS);
+        partialUpdatedChvRegister.uid(UPDATED_UID).code(UPDATED_CODE).testResult(UPDATED_TEST_RESULT).severity(UPDATED_SEVERITY);
 
         restChvRegisterMockMvc
             .perform(

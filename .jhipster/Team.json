@@ -85,6 +85,7 @@
       "readonly": true
     }
   ],
+  "incrementalChangelog": false,
   "name": "Team",
   "pagination": "pagination",
   "relationships": [

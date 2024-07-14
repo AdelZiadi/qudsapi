@@ -175,6 +175,7 @@
       "readonly": true
     }
   ],
+  "incrementalChangelog": false,
   "name": "ItnsVillage",
   "pagination": "pagination",
   "relationships": [

@@ -318,7 +318,7 @@ class RefreshTokenResourceIT {
         RefreshToken partialUpdatedRefreshToken = new RefreshToken();
         partialUpdatedRefreshToken.setId(refreshToken.getId());
 
-        partialUpdatedRefreshToken.expiryDate(UPDATED_EXPIRY_DATE);
+        partialUpdatedRefreshToken.uid(UPDATED_UID).token(UPDATED_TOKEN);
 
         restRefreshTokenMockMvc
             .perform(

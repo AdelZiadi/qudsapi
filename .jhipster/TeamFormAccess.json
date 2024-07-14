@@ -60,6 +60,7 @@
       "fieldValues": "ACTIVE,COMPLETED"
     }
   ],
+  "incrementalChangelog": false,
   "name": "TeamFormAccess",
   "relationships": [],
   "searchEngine": "no",

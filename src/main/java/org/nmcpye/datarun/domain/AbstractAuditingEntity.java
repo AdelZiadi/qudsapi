@@ -4,11 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.Column;
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.MappedSuperclass;
-
 import java.io.Serializable;
 import java.time.Instant;
-
-import jakarta.validation.constraints.Size;
 import org.nmcpye.datarun.audit.EntityAuditEventListener;
 import org.nmcpye.datarun.domain.common.IdentifiableObject;
 import org.springframework.data.annotation.CreatedBy;
@@ -77,5 +74,4 @@ public abstract class AbstractAuditingEntity<T extends Number> implements Identi
     public void setLastModifiedDate(Instant lastModifiedDate) {
         this.lastModifiedDate = lastModifiedDate;
     }
-    // Data Run
 }

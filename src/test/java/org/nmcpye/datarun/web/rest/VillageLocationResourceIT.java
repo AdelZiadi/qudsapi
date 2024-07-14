@@ -436,14 +436,14 @@ class VillageLocationResourceIT {
         partialUpdatedVillageLocation.setId(villageLocation.getId());
 
         partialUpdatedVillageLocation
-            .code(UPDATED_CODE)
+            .name(UPDATED_NAME)
             .mappingStatus(UPDATED_MAPPING_STATUS)
-            .districtCode(UPDATED_DISTRICT_CODE)
+            .subdistrictName(UPDATED_SUBDISTRICT_NAME)
+            .villageName(UPDATED_VILLAGE_NAME)
             .subvillageName(UPDATED_SUBVILLAGE_NAME)
             .urbanRuralId(UPDATED_URBAN_RURAL_ID)
-            .settlement(UPDATED_SETTLEMENT)
+            .pop2004(UPDATED_POP_2004)
             .pop2022(UPDATED_POP_2022)
-            .longitude(UPDATED_LONGITUDE)
             .latitude(UPDATED_LATITUDE)
             .level(UPDATED_LEVEL);
 

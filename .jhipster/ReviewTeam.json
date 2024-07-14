@@ -59,6 +59,7 @@
       "readonly": true
     }
   ],
+  "incrementalChangelog": false,
   "name": "ReviewTeam",
   "relationships": [],
   "searchEngine": "no",

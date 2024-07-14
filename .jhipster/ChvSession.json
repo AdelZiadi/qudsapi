@@ -96,6 +96,7 @@
       "readonly": true
     }
   ],
+  "incrementalChangelog": false,
   "name": "ChvSession",
   "pagination": "pagination",
   "relationships": [

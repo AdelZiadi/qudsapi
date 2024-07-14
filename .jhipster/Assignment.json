@@ -110,6 +110,7 @@
       "readonly": true
     }
   ],
+  "incrementalChangelog": false,
   "name": "Assignment",
   "pagination": "pagination",
   "relationships": [

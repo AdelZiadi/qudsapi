@@ -406,12 +406,7 @@ class TeamFormAccessResourceIT {
         TeamFormAccess partialUpdatedTeamFormAccess = new TeamFormAccess();
         partialUpdatedTeamFormAccess.setId(teamFormAccess.getId());
 
-        partialUpdatedTeamFormAccess
-            .uid(UPDATED_UID)
-            .code(UPDATED_CODE)
-            .sessions(UPDATED_SESSIONS)
-            .people(UPDATED_PEOPLE)
-            .comment(UPDATED_COMMENT);
+        partialUpdatedTeamFormAccess.uid(UPDATED_UID).startEntryTime(UPDATED_START_ENTRY_TIME);
 
         restTeamFormAccessMockMvc
             .perform(

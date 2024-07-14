@@ -1,17 +1,13 @@
 package org.nmcpye.datarun.service.dto;
 
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
-import org.nmcpye.datarun.config.Constants;
-import org.nmcpye.datarun.domain.Authority;
-import org.nmcpye.datarun.domain.User;
-
+import jakarta.validation.constraints.*;
 import java.io.Serializable;
 import java.time.Instant;
 import java.util.Set;
 import java.util.stream.Collectors;
+import org.nmcpye.datarun.config.Constants;
+import org.nmcpye.datarun.domain.Authority;
+import org.nmcpye.datarun.domain.User;
 
 /**
  * A DTO representing a user, with his authorities.
