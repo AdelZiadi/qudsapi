@@ -18,14 +18,14 @@ services:
       timeout: 5s
       retries: 10
     ports:
-      - ${DATABASE_PORT}:${DATABASE_PORT}
+      - ${DATABASE_PORT}:5432
     command: >
       bash -c "
       docker-entrypoint.sh postgres &
       pid=$$!;
-      while ! pg_isready -U dataRunApi; do
+      while ! pg_isready -U ${DATABASE_USER}; do
         sleep 1;
       done;
-      pg_restore -U dataRunApi -d dataRunApi /docker-entrypoint-initdb.d/dataRunApi_backup.dump;
+      pg_restore -U ${DATABASE_USER} -d ${DATABASE_NAME} /docker-entrypoint-initdb.d/dataRunApi_backup.dump;
       wait $$pid;
       "
