@@ -1,5 +1,6 @@
 package org.nmcpye.datarun.web.rest.common;
 
+import jakarta.validation.Valid;
 import org.nmcpye.datarun.domain.common.IdentifiableObject;
 import org.nmcpye.datarun.drun.service.IdentifiableService;
 import org.nmcpye.datarun.service.dto.drun.SaveSummary;
@@ -71,56 +72,8 @@ public abstract class AbstractResource<T extends IdentifiableObject> {
         }
     }
 
-//    @PostMapping("/list")
-//    public ResponseEntity<SaveSummaryDTO> createMany(@RequestBody List<T> entities) {
-//        SaveSummaryDTO summaryDTO = new SaveSummaryDTO();
-//        List<String> successfulUids = entities.stream()
-//            .map(entity -> {
-//                try {
-//                    identifiableService.save(entity);
-//                    return entity.getUid();
-//                } catch (Exception e) {
-//                    return null;
-//                }
-//            })
-//            .filter(uid -> uid != null)
-//            .collect(Collectors.toList());
-//
-//        Map<String, String> failedUids = entities.stream()
-//            .filter(entity -> !successfulUids.contains(entity.getUid()))
-//            .collect(Collectors.toMap(IdentifiableObject::getUid, entity -> "Failed to save entity"));
-//
-//        summaryDTO.setSuccessfulUids(successfulUids);
-//        summaryDTO.setFailedUids(failedUids);
-//
-//        return ResponseEntity.ok(summaryDTO);
-//    }
-
-//    /**
-//     * {@code POST  /chv-registers} : Create a new chvRegister.
-//     *
-//     * @param object the object to create.
-//     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new object, or with status {@code 400 (Bad Request)} if the object has already an ID.
-//     */
-//    @PostMapping("")
-//    public ResponseEntity<SaveSummaryDTO> createOne(@RequestBody T object) {
-//        SaveSummaryDTO summaryDTO = new SaveSummaryDTO();
-//        try {
-//            identifiableService.save(object);
-//            summaryDTO.setSuccessfulUids(List.of(object.getUid()));
-//            summaryDTO.setFailedUids(new HashMap<>());
-//        } catch (Exception e) {
-//            summaryDTO.setSuccessfulUids(List.of());
-//            Map<String, String> failedUids = new HashMap<>();
-//            failedUids.put(object.getUid(), e.getMessage());
-//            summaryDTO.setFailedUids(failedUids);
-//        }
-//
-//        return ResponseEntity.ok(summaryDTO);
-//    }
-
     @PostMapping("/bulk")
-    public ResponseEntity<SaveSummary> saveAll(@RequestBody List<T> entities) {
+    public ResponseEntity<SaveSummary> saveAll(@Valid @RequestBody List<T> entities) {
         SaveSummary summary = new SaveSummary();
         for (T entity : entities) {
             try {
@@ -133,8 +86,6 @@ public abstract class AbstractResource<T extends IdentifiableObject> {
                 }
             } catch (Exception e) {
                 summary.getFailed().put(entity.getUid(), e.getMessage());
-                // Log the exception with stack trace
-                e.printStackTrace();
             }
         }
         return ResponseEntity.ok(summary);
@@ -142,7 +93,7 @@ public abstract class AbstractResource<T extends IdentifiableObject> {
 
 
     @PostMapping
-    public ResponseEntity<SaveSummary> saveOne(@RequestBody T entity) {
+    public ResponseEntity<SaveSummary> saveOne(@Valid @RequestBody T entity) {
         SaveSummary summary = new SaveSummary();
         try {
             if (identifiableService.existsByUid(entity.getUid())) {
